@@ -1,17 +1,13 @@
-Registry Interface 2 Source Distribution
-========================================
+Relational Registry/RegTAP Source Distribution
+==============================================
 
 What's what?
 
-* RegistryInterface2.html -- the document source code.  This is what you
+* RegTAP.html -- the document source code.  This is what you
   should be editing
 * makeutyles.xslt -- the XSLT to generate utypes from VOResource input; there's
 	a wrapper around this in the Makefile (this is included in the standard)
-* RegistryInterface-1.0.xsd -- the small schema defining ri:Resource (this
-	is included in the standard)
-* VORegistry-1.0.xsd -- the schema for the registry extension describing
-	registries (this is included in the standard)
-* RegistryInterface2-fmt.html -- the formatted document.  This will be
+* RegTAP-fmt.html -- the formatted document.  This will be
   overwritten, so DO NOT edit this.  To rebuild it, say "make" (provided
   you have the necessary dependencies, cf. below)
 * Makefile -- document date, version, and status are defined in there.

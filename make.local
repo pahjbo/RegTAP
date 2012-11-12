@@ -1,0 +1,16 @@
+###### utype generation (not required for document build)
+# Path to the XML Schema files in XSDFILES
+DOCPATH=~/gavo/trunk/schemata
+# VOResource XML Schema files
+XSDFILES=VOResource-v1.0.xsd VODataService-v1.1.xsd StandardsRegExt-1.0.xsd\
+	VORegistry-v1.0.xsd SSA-v1.0.xsd ConeSearch-v1.0.xsd SIA-v1.0.xsd\
+-	TAPRegExt-v1.0.xsd
+XSLTPROC=xsltproc
+
+utypes.txt: makeutypes.xslt
+	$(XSLTPROC) --path $(DOCPATH) $< $(XSDFILES) | sort | uniq > $@
+
+localinstall:
+	scp RegistryInterface2-fmt.html alnilam:/var/www/docs/ridraft/index.html
+	scp RegistryInterface-arch.png alnilam:/var/www/docs/ridraft/
+

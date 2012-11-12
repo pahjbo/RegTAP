@@ -12,7 +12,7 @@
 # You most likely want the hyphenation patterns for fop (the PDF
 # formatter), too.  Presumably for licensing reasons, you have to 
 # get them manually from http://offo.sourceforge.net.  Drop them
-# into your working directory as fop-hyph.jar.
+# into /usr/share/fop/fop-hyph.jar (that's FOPHYPH below)
 #
 # Edit your source as $(STDNAME).html; available targets then are:
 #
@@ -22,6 +22,9 @@
 # * package: package the docs, css, all pngs and whatever is in
 #   PACKAGE_EXTRAS into an aptly-named zip that expands into a
 #   nicely-named subdirectory.
+# * biblio: remake the bibliography (this is never done automatically).
+#   Unless you try the experimental includebibliography PI, you have
+#   to manually insert the result into your HTML.
 #
 # Contact for this Makefile: Markus Demleitner (gavo@ari.uni-heidelberg.de)
 #
@@ -29,30 +32,27 @@
 #
 # The base name of the files (a sensible abbreviation of your standard's 
 # title; this is case sensitive)
-STDNAME=RegistryInterface2
+STDNAME=RegTAP
 # The current version
-DOCVERSION=2.0
+DOCVERSION=1.0
 # YYYYMMDD of the current release
-DOCDATE=20120720
+DOCDATE=20121112
 # One of NOTE, WD, PR, REC
 PUBSTATUS=WD
 # Extra files that need to end up in the final package
 # (pngs are included automatically)
-PACKAGE_EXTRAS=VORegistry-1.0.xsd RegistryInterface-1.0.xsd
+PACKAGE_EXTRAS=
 
 
 # You probably want to configure your system so the following works
 # Basically, RESOLVERJAR must eventally point to a jar of apache
 # xml commons resolver, and SAXONJAR to a jar containing saxon-b
 #
-# This stuff should work for Debian, except you'll need to download
-# fop-hyph.jar into ivoadoc,
-# see http://offo.sourceforge.net/hyphenation/fop-stable/installation.html
-#
 # For Debian Squeeze, you need to install the backported fop to make
 # this work.
 
 CATALOG=ivoadoc/xmlcatalog/catalog.xml
+FOPHYPH=/usr/share/fop/fop-hyph.jar
 
 JARROOT=/usr/share/java
 RESOLVERJAR=$(JARROOT)/xml-commons-resolver-1.1.jar
@@ -63,12 +63,15 @@ SAXON=java -cp $(RESOLVERJAR):$(SAXONJAR) \
 	-novw -r org.apache.xml.resolver.tools.CatalogResolver\
 	-x org.apache.xml.resolver.tools.ResolvingXMLReader\
 	-y org.apache.xml.resolver.tools.ResolvingXMLReader
+BIBTEX=bibtex
+SED=sed
 
 # TODO: make fop use our custom catalog
-FOP=FOP_HYPHENATION_PATH=./fop-hyph.jar fop -catalog
+FOP=FOP_HYPHENATION_PATH=$(FOPHYPH) fop -catalog
 
 HTMLSTYLE=ivoadoc/ivoarestructure.xslt
 FOSTYLE=ivoadoc/ivoa-fo.xsl
+CITEEXSTYLE=ivoadoc/extractcite.xslt
 
 # You should not need to edit anything below this line
 
@@ -90,8 +93,21 @@ endif
 %.pdf: %.fo
 	$(FOP) -pdf $@ -fo $<
 
+# this is for BibTex
+%.aux: %.html
+	$(SAXON) -o:$@ -xsl:$(CITEEXSTYLE) -s:$< 
+
+%.bbl: %.aux
+	$(BIBTEX) $<
+	$(SED) -f ivoadoc/detex.sed $@ > $@.tmp
+	mv $@.tmp $@
 
 default: $(STDNAME)-fmt.html
+
+cleanbbl:
+	rm -f $(STDNAME).bbl
+
+biblio: cleanbbl $(STDNAME).bbl
 
 package: $(STDNAME)-fmt.html $(STDNAME).pdf
 	rm -rf -- $(versionedName)
@@ -110,19 +126,4 @@ clean:
 	rm -f $(STDNAME).pdf
 	rm -r $(PUBSTATUS)-$(STDNAME)*.zip
 
-
-###### utype generation (not required for document build)
-# Path to the XML Schema files in XSDFILES
-DOCPATH=~/gavo/trunk/schemata
-# VOResource XML Schema files
-XSDFILES=VOResource-v1.0.xsd VODataService-v1.1.xsd StandardsRegExt-1.0.xsd\
-	VORegistry-v1.0.xsd SSA-v1.0.xsd ConeSearch-v1.0.xsd SIA-v1.0.xsd\
-	TAPRegExt-v1.0.xsd
-XSLTPROC=xsltproc
-
-utypes.txt: makeutypes.xslt
-	$(XSLTPROC) --path $(DOCPATH) $< $(XSDFILES) | sort | uniq > $@
-
-localinstall:
-	scp RegistryInterface2-fmt.html alnilam:/var/www/docs/ridraft/index.html
-	scp RegistryInterface-arch.png alnilam:/var/www/docs/ridraft/
+-include make.local
