@@ -15,7 +15,7 @@ ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
 
 <style xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="text/css" xml:space="preserve">
 
-span.TODO {
+.TODO {
   background-color: #FF0000;
 }
 
@@ -1043,10 +1043,9 @@ use the <code>ivo_nocasematch</code> function to search in
 <div class="section"><h2><a id="stctables"><span class="secnum">6. </span>STC Coverage Tables</a></h2>
 
 <p class="TODO">I don't insist to keep this in, but since (a) it's
-"optional", (b) I don't have a better place for it now, I'm keeping
-it in, and (c) it's actually reasonably simple, I'm keeping it in for
-now.  If you strongly feel it should be dropped after having a look at
-it, just drop it.</p>
+"optional", (b) I don't have a better place for it now, and (c) it's
+actually reasonably simple, I'm keeping it in for now.  If you strongly
+feel it should be dropped after having a look at it, just drop it.</p>
 
 <p>VOResource records can contain coverage information expressed
 according to the IOVA data model for Space-Time Coordinates <a href="#ref_STC">[STC]</a>.  The complete data model is far too large and
@@ -1059,12 +1058,13 @@ which do not intersect with the region of interest.</p>
 <p>This section defines a set of tables giving, for each resource and
 STC axis, zero or more intervals covered by the data.  For the spatial
 coverate, these intervals are actually bounding boxes.   While ADQL
-would actually support more sophisticated regions, using these for
-coverage is not straightforward; one reason is that the natural
-candidate for a coverage column type, POLYGON, cannot easily represent
-the entire sky or similarly large coverages.  Also, in data discovery
-the actual shape of the covered regions is probably not usually
-important.</p>
+would support defining and querying more sophisticated regions, using
+these for coverage is not straightforward; one reason is that the
+natural candidate for a coverage column type, POLYGON, cannot easily
+represent the entire sky or similarly large coverages, which means
+ingestors would have to employ fairly advanced spherical geometry to
+split such large regions up.  Also, in data discovery the actual shape
+of the covered regions is probably not usually important.</p>
 
 <p>To make queries feasible, the STC coverage tables have fixed STC
 metadata, viz,</p>
@@ -1138,6 +1138,9 @@ shapes is acceptable.  For example, clients should not expect that
 <p>Registry records SHOULD be written to be either AllSky, elementary
 ADQL-compatible regions (i.e., circles and polygons), or simple unions 
 of elementary ADQL-compatible regions.</p>
+
+<p class="TODO">The stc_spatial table reflects the first attempt; this
+will be fixed when is implementation in DaCHS is updated.</p>
 
 <!-- GENERATED: maketable.sh rr.stc_spatial -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>

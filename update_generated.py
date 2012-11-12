@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Update all generated sections in RegistryInterface2.html
+# Update all generated sections in RegTAP.html
 #
 # Generarated sections are between <!-- GENERATED: <command> -->
 # and <!-- /GENERATED -->.  They are supposed to contain the output of
@@ -12,14 +12,14 @@
 #
 # Why no processing instruction or the like?  Well, I didn't want
 # some XML processor execute arbitrary commands.  This script, at least,
-# will only be used on RegistryInterface2.html, and even there probably
+# will only be used on RegTAP.html, and even there probably
 # not.
 
 import re
 import subprocess
 import sys
 
-S_NAME = "RegistryInterface2.html" # and don't you dare make that generic...
+S_NAME = "RegTAP.html" # and don't you dare make that generic...
 
 def ExecError(Exception):
 	def __init__(self, command, stderr):
