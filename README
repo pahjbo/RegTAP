@@ -1,0 +1,30 @@
+Registry Interface 2 Source Distribution
+========================================
+
+What's what?
+
+* RegistryInterface2.html -- the document source code.  This is what you
+  should be editing
+* makeutyles.xslt -- the XSLT to generate utypes from VOResource input; there's
+	a wrapper around this in the Makefile (this is included in the standard)
+* RegistryInterface-1.0.xsd -- the small schema defining ri:Resource (this
+	is included in the standard)
+* VORegistry-1.0.xsd -- the schema for the registry extension describing
+	registries (this is included in the standard)
+* RegistryInterface2-fmt.html -- the formatted document.  This will be
+  overwritten, so DO NOT edit this.  To rebuild it, say "make" (provided
+  you have the necessary dependencies, cf. below)
+* Makefile -- document date, version, and status are defined in there.
+	This may also need some adaptation if your build environment is
+  not a Debian squeeze box; common targets are RegistryInterface2.pdf and
+  package.
+* check_examples.py -- runs the embedded examples and complains if
+  the TAP server errors out or returns an empty response.  Not needed
+  to build the document, see embeeded comments for details.
+* gettables.sh, maketable.sh -- get tables embedded in RegistryInterface2.html
+	from the TAP_SCHEMA.  You need to set TAP_ACCESS_URL for them to work,
+	and you only need to do that if the RR schema has actually changed.
+
+
+See the comment at the top of Makefile for instructions on how to set up
+things so they should work.

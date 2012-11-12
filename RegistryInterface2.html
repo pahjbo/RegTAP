@@ -1,0 +1,2060 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- this source is meant to be processed with Paul Harrison's
+ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head xmlns:h="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" profile="http://www.w3.org/1999/xhtml/vocab">
+<title>Registry Interfaces</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="author" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
+<meta name="maintainedBy" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
+
+<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_a.css"/>
+<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_wd.css"/>
+<link rel="stylesheet" type="text/css" href="./ivoadoc/XMLPrint.css"/>
+<link rel="stylesheet" type="text/css" href="./ivoadoc/ivoa-extras.css"/>
+
+<style type="text/css" xml:space="preserve">
+
+span.TODO {
+  background-color: #FF0000;
+}
+
+code {
+  font-weight:normal;
+}
+
+.results tr td {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+table.results {
+	empty-cells: show;
+	border-style: none;
+	border-spacing: 0px;
+}
+
+th.thVertical {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	margin-bottom: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	margin: 0px 0px 0px 0px;
+	position: relative;
+}
+
+.results td {
+	padding-left: 4px;
+	padding-right: 40px;
+	border-collapse: collapse;
+	border:2px solid white;
+}
+
+tr.even {
+	padding-top:4px;
+	padding-bottom:4px;
+	background: #EEEEFF;
+}
+
+</style>
+</head>
+<body>
+<div class="head">
+<div id="titlehead" style="position:relative;height:170px;width: 500px">
+  <div id="logo" style="position:absolute;width:300px;height:169px;left: 10px;top: 0px;">
+    <img src="http://www.ivoa.net/pub/images/IVOA_wb_300.jpg" alt="IVOA logo"/>
+  </div>
+  <div id="logo-title" style="position:absolute;width:200px;height:115px;left: 300px;top: 5px;">
+    <p>
+      <b>
+        <i>
+          <span style="font-size: 14pt; color: #005A9C;"> I</span>
+        </i>
+      </b>
+      <i>
+        <span style="font-size: 14pt; color: #005A9C;">nternational</span>
+      </i>
+    </p>
+    <p>
+      <b>
+        <i>
+          <span style="font-size: 14pt; color: #005A9C;padding-left:30px">V</span>
+        </i>
+      </b>
+      <i>
+        <span style="font-size: 14pt; color: #005A9C;">irtual</span>
+      </i>
+    </p>
+    <p>
+      <b>
+        <i>
+          <span style="font-size: 14pt; color: #005A9C;padding-left:30px">O</span>
+        </i>
+      </b>
+      <i>
+        <span style="font-size: 14pt; color: #005A9C;">bservatory</span>
+      </i>
+    </p>
+    <p>
+      <b>
+        <i>
+          <span style="font-size: 14pt; color: #005A9C;">A</span>
+        </i>
+      </b>
+      <i>
+        <span style="font-size: 14pt; color: #005A9C;">lliance</span>
+      </i>
+    </p>
+  </div>
+</div>
+
+<h1>IVOA Registry Interfaces<br clear="none"/>
+Version <span class="docversion"/></h1>
+<h2 class="subtitle">Filled in automatically</h2>
+
+<dl><dt>Working Group:</dt><dd>
+		<a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/IvoaResReg"
+		shape="rect">Registry WG</a></dd>
+<dt>This version:</dt>
+<dd><a href="" class="currentlink">filled in automatically</a></dd>
+<dt><b>Latest version:</b></dt>
+	    <dd><a href="http://www.ivoa.net/Documents/RegistryInterface/" shape="rect">http://www.ivoa.net/Documents/RegistryInterface/</a></dd>
+	  <dt>Previous versions:</dt>
+	    <dd><a href="http://www.ivoa.net/Documents/RegistryInterface/20091104" shape="rect">IVOA Registry Interfaces 1.0, IVOA Recommendation 2009 November 4</a></dd>
+<dt>Authors:</dt>
+<dd>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner" shape="rect">Markus Demleitner</a><br clear="none"/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison" shape="rect">Paul Harrison</a><br clear="none"/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene" shape="rect">Gretchen Greene</a><br clear="none"/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower" shape="rect">Theresa Dower</a><br clear="none"/>
+      and the authors of the Registry Interfaces specification version 1 
+      <a href="#ref_RI1">[RI1]</a>.
+</dd>
+</dl>
+<hr/>
+
+<h2>Abstract</h2>
+
+<p>Registries provide a mechanism with which VO applications can discover and
+select resources&#8212;e.g. data and services&#8212;that are 
+relevant for a particular
+scientific problem. This specification defines two interfaces that support
+interactions between applications and registries as well as between the
+registries themselves. It is based on a general, distributed model composed of
+so-called searchable and publishing registries. The specification has two main
+components: an interface for searching and an interface for harvesting. 
+Harvesting is supported through the existing Open Archives Initiative 
+Protocol for Metadata Harvesting, whereas searching is performed using the IVOA
+Table Access Protocol together with a specification of a set of tables
+comprising a useful subset of the information contained in the registry
+records.  Finally, this specification details the metadata used to describe
+registries themselves.</p>
+
+<h2>Status of this Document</h2>
+
+<p id="statusdecl"></p>
+
+<p><em>A list of</em> <span style="background: transparent">
+<a href="http://www.ivoa.net/Documents/" shape="rect"><i>current IVOA
+Recommendations and other technical documents</i></a></span><em> can be
+found at http://www.ivoa.net/Documents/.</em></p>
+
+<h2 class="prologue-heading-western">Acknowledgments</h2>
+
+<p>Sections 2 and 4 of this document have largely been taken from 
+the previous version
+of the Registry Interfaces standard <a href="#ref_RI1">[RI1]</a>.</p>
+
+<p>This document has been developed in part with support from the German
+Astronomical Virtual Observatory (BMBF Bewilligungsnummer 05A08VHA).</p>
+
+<h2 class="prologue-heading-western">Conformance-related definitions</h2>
+
+<p>The words "MUST ", "SHOULD", "MAY", "RECOMMENDED", and "OPTIONAL" (in upper or
+lower case) used in this document are to be interpreted as described in the
+IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
+
+
+<h2>Contents</h2>
+<?toc?>
+
+</div><!-- class="head" -->
+
+<div class="body">
+
+<div class="section"><h2><a id="introduction" shape="rect"/><span class="secnum">1. </span>Introduction</h2>
+
+<p>In the Virtual Observatory (VO), registries provide a means for
+discovering useful resources, i.e., data and services.  This discovery
+takes place by searching within structured descriptions of resources,
+the resource records.  To make discovery efficient, a registry typically
+keeps some internal representation of all resource records available
+within the VO.</p>
+
+<p>However, the resources records themselves and the data providers that
+maintain them are distributed. Since the VO contains multiple
+registries, the registry service itself is distributed.  Thus,
+there is a clear need for common mechanisms for registry communication
+and interaction.</p>
+
+<p>This document describes the standard interfaces that enable
+interoperable registries.  Through these interfaces, registry
+builders have a common way of sharing resource descriptions with users,
+applications, and other registries.  Client applications can be built
+according to this specification and be able to discover and retrieve
+descriptions from any compliant registry.</p>
+
+<p>This specification does not preclude a registry operator from
+providing additional value-added interfaces and capabilities. In
+particular, they are free to build interactive, end-user interfaces in
+any way that best serves their target community.  It is a design goal of
+this specification, though, that different registries operating on the
+same set of registry records will return identical responses for some
+defined subset of possible queries.</p>
+
+<div class="section"><h3><a id="arch">
+Registry Architecture and Definitions</a></h3>
+
+<p>A <em>registry</em> is first a repository of structured descriptions of
+resources. In the VO, a <em>resource</em> is defined by the IVOA
+Recommendation, "Resource Metadata for the Virtual Observatory" <a
+href="#ref_RMI">[RMI]</a>:</p>
+
+<blockquote>
+<p>A resource is a general term referring to a VO element that can be
+described in terms of who curates or maintains it and which can be
+given a name and a unique identifier. Just about anything can be a
+resource: it can be an abstract idea, such as sky coverage or an
+instrumental setup, or it can be fairly concrete, like an organization
+or a data collection.</p>
+</blockquote>
+
+<p>Organizations, data collections, and services can be considered as
+classes of resources. The most important type of resource to
+applications is a service that actually does something. The
+A registry, then, is "a service for which the response is a
+structured description of resources" <a href="#ref_RMI">[RMI]</a>.</p>
+
+<p>This specification is based on the general IVOA model for registries
+<a href="#ref_Plante2003">[Plante2003]</a>, which builds on the <a
+href="#ref_RMI">[RMI]</a>'s
+model for resources. In the registry model, the VO environment features
+different types of registries that serve different functions. The
+primary distinction is between publishing registries and searchable
+ones. A secondary distinction is full versus partial.</p>
+
+<p>A <em>searchable registry</em> is one that allows users and
+client applications to search for resource records using selection
+criteria against the metadata contained in the records. The purpose of
+this type of registry is to aggregate descriptions of many resources
+distributed across the network. By providing a single place to locate
+data and services, applications are saved from having to visit many
+different sites to just to determine which ones are relevant to the
+scientific problem at hand. A searchable registry gathers its
+descriptions from across the network through a process called
+<em>harvesting</em>.</p>
+
+<p>A <em>publishing registry</em> is one that simply exposes its
+resource descriptions to the VO environment in a way that allows those
+descriptions to be harvested. The contents of these registries tend to
+be limited to resources maintained by one or a few providers and thus
+are local in nature; for example, a data center will run its own
+publishing registry to expose all the resources it maintains to the VO
+environment. Since the purpose is simply publishing and not to serve
+users and applications directly, it is not necessary to support full
+searching capabilities. This simplifies the requirements for a
+publishing registry: not only does it not need to support the general
+search interface, the storage and management of the records can be
+simpler. While a searchable registry in practice will necessitate the
+use of a database system, a simple publishing registry may get by
+storing its records as flat files on disk.</p>
+
+<p>Note that some registries can play both roles; that is, a searchable
+registry may also publish its own resource descriptions.</p>
+
+<p>A secondary distinction is full versus local. A <em>full
+registry</em> is one that attempts to contain records of all resources
+known to the VO.  Several such registries exist, run by various VO
+projects.  A <em>local registry</em>, on the other hand, contains
+only a subset of known resources.</p>
+
+<p>As mentioned above, harvesting is the mechanism by which a registry
+can collect resource records from other registries. It is used by full
+registries to aggregate resource records from many publishing
+registries. It can also be used to synchronize two registries to ensure
+that they have the same contents. Harvesting, in this specification, is
+modeled as a pull operation between two registries. The term
+<em>harvester</em> refers to the registry that wishes to receive
+records (usually a searchable registry); it sends its request to the
+<em>harvestee</em> (usually a publishing registry), which responds
+with the records.  Harvesting is a much simpler process than search and
+retrieval.  Consequently, two different protocols are  employed for the
+two types of registry operations.</p>
+
+</div> <!-- subsection arch -->
+
+<div class="section">
+<h3><a id="rolewithinivoa">The Registry Interface within the VO Architecture</a></h3>
+
+<div class="figure">
+<img src="RegistryInterface-arch.png" alt="RegistryInterface within the VO architecture" width="95%" align="center"/>
+<p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
+diagram with the Registry Interface specification (RI) and
+the related standards marked up.</p>
+</div>
+
+<p>This specification directly relates to other VO standards in the
+following ways:</p>
+
+<dl>
+<dt>VOResource, v1.03 <a href="#ref_VOR" shape="rect">[VOR]</a></dt>
+<dd>VOResource sets the foundation for a formal definition of the data
+model for resource records via its schema definition.  This document
+refers to concepts laid down there via the utypes given here.</dd>
+
+
+<dt>VODataService, v1.1 <a href="#ref_VODS" shape="rect">[VODS]</a></dt>
+<dd>VODataService extends the VOResource data model by important
+concepts, like tablesets, and it introduces several new resource types
+(data services, data collections).  These concepts are reflected in
+the database schema defined for searchable registries.</dd>
+
+<dt>Other Registry Extensions</dt>
+<dd>Registry extensions (including this document) are VO standards
+defining how special types of resources are described.  Most aspects
+introduced by them are reflected in the <code>res_detail</code> table using
+utypes algorithmically generated from the XML schema documents given by
+these standards.  This document should not in general need updates
+for registry extension updates.  Still, in particular with a view to the
+caveat in <a href="#vorutypes">VOResource Utypes</a>, we note the
+version current as of this specification: SimpleDALRegExt 1.0,
+StandardsRegExt 1.0, TAPRegExt 1.0.</dd>
+
+<dt>TAP, v1.0 <a href="#ref_TAP" shape="rect">[TAP]</a></dt>
+<dd>TAP is used as the transport protocol for the queries and results in
+the interface to searchable registries.  It also allows discovering
+local additions to the registry relations via TAP's metadata publishing
+mechanisms.</dd>
+</dl>
+
+<dt>IVOA Identifiers, v1.12</dt>
+<dd>IVOA identifiers are something like the primary keys to the VO
+registry.  Also, the notion of an authority as laid down in IVOA
+Identifiers plays an important role as publishing registries can be
+viewed as a realization of a set of authorities.</dd>
+
+<p>This standard also relates to other IVOA standards:</p>
+
+<dl>
+<dt>utypes</dt>
+<dd>To link columns and tables in the relational resource model to
+entities defined in VOResource and ancillary specifications, we employ
+utypes.  These utypes are generated by running the XSLT style sheet
+given in <a href="#appA">Appendix A</a> on the XML schema documents
+shipped with the relevant standards.</dd>
+</dl>
+
+</div> <!-- subsection rolewithinivoa -->
+</div> <!-- section introduction -->
+
+
+<div class="section">
+<h2><a id="harvesting">The IOVA Harvesting Interface</a></h2>
+
+<p>The harvesting interface allows the retrieval of complete VOResource 
+records from registries supporting harvesting.  Publishing registries
+MUST support the IVOA harvesting interface, searchable registries SHOULD
+do so.</p>
+
+<div class="section">
+<h3><a id="oaipmh">The OAI Protocol for Metadata Harvesting</a></h3>
+
+<p>The IVOA harvesting interface is built on the standard 
+Protocol for Metadata Harvesting developed by the Open Archives
+Initiative, OAI-PMH <a href="#ref_OAI">[OAI]</a>.  Version 2.0 
+Registry Interfaces drops support of the SOAP variant of OAI-PMH defined
+in Version 1.0 of this specification.</p>
+
+<p>While for details we refer to <a href="#ref_OAI">[OAI]</a>, in the
+following we give a brief overview of OAI-PMH that should be sufficient
+to understand the protocol's role within the Registry Interface
+architecture.</p>
+
+<p>The OAI-PMH v2.0 specification defines:</p>
+<ul>
+<li>the meaning and behavior of the six harvesting operations, referred
+to as verbs,</li>
+<li>the meaning of the input arguments for each operation, and</li>
+<li>the XML Schema used to encode response messages.</li>
+</ul>
+
+<p>The six standard operations laid down in OAI-PMH are:</p>
+
+<dl>
+<dt>Identify</dt>
+<dd>provides a description of the registry</dd>
+
+<dt>ListIdentifiers</dt>
+<dd>returns a list of identifiers for the resource records held by the
+registry, possibly restricted to records changed within a certain time
+span or to those belonging to a certain set..</dd>
+
+<dt>ListRecords</dt>
+<dd>returns complete resource records in the registry, possibly
+restricted to records changed within a certain time span or to those
+belonging to a certain set.</dd>
+
+<dt>GetRecord</dt>
+<dd>returns a single resource description matching a given
+identifier.</dd>
+
+<dt>ListMetadataFormats</dt>
+<dd>returns a list of supported formats that the registry can use to
+encode resource descriptions upon a harvester's request.</dd>
+
+<dt>ListSets</dt>
+<dd>returns a list of set names supported by the registry that
+harvesters can request in order to get back a subset of the descriptions
+held by the registry.</dd>
+</dl>
+
+<p>The ListRecords and GetRecord operations return the actual resource
+description records held by the registry. These descriptions are encoded in XML
+and wrapped in a general-purpose envelope defined by the OAI-PMH XML
+Schema (with the namespace <code>http://www.openarchives.org/OAI/2.0</code>).</p>
+
+<p>Through the operations' arguments, OAI-PMH provides a number of useful
+features:</p>
+
+<ul>
+<li>Support for multiple return formats. As suggested by the
+<code>ListMetadataFormats</code>  operation, a harvester can request the formats
+available for encoding returned resource descriptions.</li>
+
+<li>Harvesting by date. The <code>ListIdentifiers</code>  and
+<code>ListRecords</code>  operations both support <code>from</code>  and
+<code>until</code>  date arguments which restrict the response to records
+changed withing the given, possibly half-open, interval.</li>
+
+<li>Harvesting by category. The <code>ListIdentifiers</code>  and
+<code>ListRecords</code> 
+operations both support a set argument for retrieving resources that are
+grouped in a particular category. Resource records may belong to
+multiple sets.</li>
+
+<li>Marking records as deleted. Registries may mark records as deleted
+so that harvesters may remove access to them from their applications.
+Registries may permanently remove deleted resources that have been
+marked deleted for more than six months.</li>
+
+<li>Support for resumption tokens. If a request results in returning a
+very large number of records, the registry can choose to split the
+results over several calls; this is done by passing a resumption token
+back to the harvester. The harvester uses it to retrieve the next set of
+matching results.</li>
+
+</ul>
+
+<p>It is important to note that the OAI-PMH interface is not intended
+to be a general search interface. The filtering capabilities described
+above are just enough to support intelligent harvesting between
+registries. Most end-user applications will use the search interface
+described below.</p>
+
+<p>In addition to basic OAI-PMH compliance, this specification defines
+an additional set of OAI-PMH-compliant requirements and recommendations
+special to OAI-PMH's use within the VO that are described in the
+remaining subsections.</p>
+
+</div> <!-- subsection oaipmh -->
+
+<div class="section">
+<h3><a id="metadataformats">Metadata Formats for Resource Descriptions</a></h3>
+
+<p>All IVOA registries that support the Harvesting Interface must support two
+standard metadata formats: the OAI Dublin Core format (mandated by the base
+OAI-PMH standard) and the IVOA VOResource metadata format
+<a href="#ref_VOR">[VOR]</a>.</p>
+
+<p>The VOResource metadata format has the metadata prefix name
+<code>ivo_vor</code>, which can be used wherever <a href="#ref_OAI">[OAI]</a>
+allows a metadata prefix name.  The format uses the VOResource core
+XML Schema with the namespace
+<code>http://www.ivoa.net/xml/VOResource/v1.0</code> (recommended
+namespace prefix <code>vr:</code>) along with any legal
+extension of this schema to encode the resource descriptions within the
+OAI-PMH metadata tag from the OAI XML Schema (namespace
+<code>http://www.openarchives.org/OAI/2.0</code>, recommended
+namespace prefix <code>oai:</code>). The format is specifically
+represented by an element called <code>Resource</code> from the
+<code>http://www.ivoa.net/xml/RegistryInterface/v1.0</code> namespace
+(recommended namespace prefix <code>ri:</code>) as the sole child
+of the <code>oai:metadata</code> element. The registry interface schema
+is defined by this standard and is given in <a href="#appC">Appendix
+C</a>.  The <code>ri:Resource</code>
+element must include an <code>xsi:type</code> attribute that assigns the
+element's type to <code>vr:Resource</code> or one of its legal
+extensions.</p>
+
+<p>If and when the VOResource schema evolves to a new version, this
+standard must be updated accordingly. Thus, this definition is locked to
+particular version of the VOResource, so saying that a registry is
+compliant with vX.X of this document implies a specific version of
+VOResource.</p>
+
+<p>It is strongly recommended that all QName values of
+<code>xsi:type</code> attributes within the VOResource record use XML
+namespace prefixes as recommended in <a href="#ref_VOR">[VOR]</a> or the
+VOResource extensions.  Minor version changes are not in general
+reflected in the recommended prefixes&#8212;e.g., both VODataService 1.0
+and VODataService 1.1 use <code>vs:</code>.  If you must deliver OAI-PMH
+decuments containing resource records written to different versions of a
+registry extension, override the prefix bindings on the element level if
+at all possible.</p>
+
+<p>The OAI Dublin Core format, with the metadata prefix of
+<code>oai_dc</code>, is
+defined by the OAI-PMH base standard and must be supported by all
+OAI-PMH compliant registries.  <span class="TODO">TODO: write out that
+mapping, it should largely be straightforward.</span></p>
+
+<p>Harvestable registries may support other metadata formats. The
+<code>ListMetadataFormats</code>  must list all names for formats supported by the registry;
+even though they are mandatory, this list must include
+<code>ivo_vor</code> and <code>oai_dc</code>.</p>
+
+</div> <!-- subsection metadataformats -->
+
+<div class="section">
+<h3><a id="oaiidentifiers">Identifiers in OAI Messages</a></h3>
+
+<p>In accordance with the OAI-PMH standard, an OAI-PMH XML envelope that
+contains a resource description must include a globally unique URI that
+identifies that resource record. This identifier must be the IVOA
+identifier used to identify the resource being described as given in
+its <code>vr:identifier</code> child element.</p>
+
+<p>This specification does not follow the recommendation of the OAI-PMH
+standard with regard to record identifiers. OAI-PMH makes a distinction
+between the resource record containing resource metadata and the
+resource itself; thus, it recommends that the identifier in the OAI
+envelope be different from the resource identifier. In particular, the
+former is the choice of the publishing registry. This allows one to
+distinguish resource descriptions of the same resource from different
+registries, which in principle could be different.</p>
+
+<p>In the VO, because it is intended that resource descriptions of the
+same resource from different registries should not differ (apart from
+possible additions of <code>vr:validationLevel</code> elements), there
+is not a strong need to distinguish between the resource and the
+resource description. By making the resource and resource record
+identifiers the same, it makes it much easier to retrieve the record for
+a single resource via <code>GetRecord</code> , regardless of which
+registry is being queried.  Otherwise&#8212;when the registry chooses
+the record identifier&#8212;a client will not a priori know the record
+identifier for a particular resource, and so it is left to call
+<code>ListRecords</code>  and search through the metadata of all the
+records itself to find the one of interest. In contrast, IVOA
+identifiers are intended to be a cross-application way of referring to a
+resource, and thus when a client wants only a single specific resource
+record, it is very likely that it would know the resource identifier
+when making a call to the <code>GetRecord</code> operation.</p>
+
+</div> <!-- subsection oaiidentifiers -->
+
+<div class="section">
+<h3><a id="oairequired">Required Records</a></h3>
+
+<p>This section describes the records that a harvestable IVOA Registry
+must include among those it emits via the OAI-PMH operations.</p>
+
+<p>The harvestable registry MUST return one record that describes the
+registry itself as a whole, and the <code>ivo_vor</code>  format MUST be
+supported for this record. This record is included in the
+<code>Identify</code> operation response.  When encoded using the
+<code>ivo_vor</code> format, the returned <code>ri:Resource</code>
+element must be of the type <code>vg:Registry</code> from the VORegistry
+schema (namespace <code>http://www.ivoa.net/xml/VORegistry/v1.0</code>;
+recommended namespace prefix <code>vg:</code>; see <a
+href="#appA">Appendix A</a>). The record MUST include
+a <code>vg:managedAuthority</code> for every authority identifier that
+originated at that registry.</p>
+
+<p>Before adding an authority to the list of a registry's managed
+authorities, the registry operator must verify no other registry claims
+to manage that authority.  In other words: Within the whole VO, the
+relation mapping registries to authorities must be invertible. This
+allows determining the originating registry just from the authority part
+of a record's identifier.  This specification does not provide technical
+safeguards to ensure the invertibility of the managed authority
+relation.</p>
+
+<p>The harvestable registry must be able to return exactly one record in
+<code>ivo_vor</code>  for each authority identifier listed as a
+<code>vg:managedAuthority</code> in the <code>vg:Registry</code> record
+that describes that registry. When encoded in the <code>ivo_vor</code>
+format, the type of these elements must be <code>vg:Authority</code>.</p>
+
+</div> <!-- subsection oairequired -->
+
+<div class="section">
+<h3><a id="oaiidentify">The Identify Operation</a></h3>
+
+<p>The <code>Identify</code>  operation describes the harvestable registry as a whole.
+The response from this operation must include all information required
+by the OAI-PMH standard. In particular, it must include an
+<code>oai:baseURL</code> element that must refer to the base URL to the
+harvesting interface endpoint.  The <code>Identify</code>  response must include an
+<code>oai:description</code> element containing a single
+<code>ri:Resource</code> element with an <code>xsi:type</code> attribute
+that sets the element's type to <code>vg:Registry</code>. The content of
+<code>vg:Registry</code> type must be the registry description of the
+harvestable registry itself.</p>
+
+</div> <!-- subsection oaiidentify -->
+
+
+<div class="section">
+<h3><a id="supportedsets">IVOA Supported Sets</a></h3>
+
+<p>Sets, as defined in the OAI-PMH standard, are "an optional construct
+for grouping items for the purpose of selective harvesting" (see the
+<a href="#ref_OAI">[OAI]</a>, section 2.6). Harvestable IVOA registries are free
+to define any number of custom sets for categorizing records. The
+OAI-PMH standard allows a record to be a member of multiple sets.</p>
+
+<p>This specification defines one reserved set name with a special
+meaning; future versions of this specification may define additional set
+names.  These reserved set names will all start with the characters
+<code>ivo_</code>; implementors should not define their own set names
+that begin with this string. While support for sets is optional to be
+compliant with the OAI-PMH standard, a harvestable registry must support
+the set with the reserved name <code>ivo_managed</code> to be compliant
+with this specification.</p>
+
+<p>The <code>ivo_managed</code> set refers to all records that originate from the
+queried registry. That is, those records that were harvested from other
+registries are excluded. The IVOA Resource identifiers given in the
+records must have an authority identifier that matches on one of the
+<code>vg:managedAuthority</code> values in the <code>vg:Registry</code>
+record for that registry.  Full searchable registries may use this set
+to avoid getting duplicate records when harvesting from many
+registries.</p>
+
+</div> <!-- subsection supportedsets -->
+
+</div> <!-- section harvesting -->
+
+
+<div class="section">
+<h2><a id="searching">Searching the Registry</a></h2>
+
+<p>The interface to searching a registry employs a database schema
+consisting of about a dozen tables, the relational data model for the
+registry.  It is derived from the VOResource schema and its extensions.</p>
+
+<p>The relational registry can be part of any TAP service.  Support for
+the searchable registry is indicated by adding a TapRegExt
+<code>tr:dataModel</code> element as described in <a
+href="#ref_TRE">[TRE]</a> to the TAP
+with the value service's <code>tr:capability</code> element.
+The ivo-id for the data model is
+<code>ivo://ivoa.net/std/RegistryInterface#vor</code>, its name 
+<code>Registry 1.0</code>.  Support for additional
+tables giving STC coverage information for resources is indicated by
+declaring a data model with the ivo-id
+<code>ivo://ivoa.net/std/RegistryInterface#stc</code> and the name
+<code>Registry STC 1.0</code>.</p>
+
+<div class="section">
+<h3><a id="rrdesign">Design considerations</a></h3>
+<p>In the design of the tables, the goal has been to preserve as much of
+VOResource and its extensions, including the element names, as possible.
+An overriding consideration has been, however, to make natural joins
+between the tables behave usefully, i.e., to actually combine rows
+relevant to the same entity (i.e., resource, table, capability, etc.).
+To disambiguate column names that name the same concept on different
+entities (name, description, etc.) and would therefore interfere with
+the natural join, a shortened tag for the source object
+is prepended to the name.  Thus, <code>description</code> from a resource
+becomes <code>res_description</code>, whereas the same element from a
+capability becomes <code>cap_description</code>.</p>
+
+<p>Furthermore, camel-case identifiers have been converted to
+underscore-separated ones (thus, <code>standardId</code>  becomes
+<code>standard_id</code>) to have all-lowercase column names; this saves
+potential headache if users choose to reference the columns using SQL
+delimited identifiers.  Dashes in VOResource attribute names are
+converted to underscores, too, with the exception of
+<code>ivo-id</code>, which is just rendered <code>ivoid</code>.</p>
+
+</div> <!-- subsection rrdesign -->
+
+<div class="section">
+<h3><a id="casenorm">Note on case normalization</a></h3>
+
+<p>ADQL has no operators for case-insensitive matching of strings.
+To allow for robust and straightforward queries nevertheless, most
+columns containing values not usually intended for display are required to be
+converted to lower case in the table below.</p>
+
+<p>This conversion MUST cover all ASCII letters, i.e., A through Z.  
+The conversion SHOULD take place according to
+algorithm R2 in section 3.13, "Default Case Algorithms" of 
+<a href="#ref_UC">[UC]</a>.  In practice, non-ASCII characters are not expected
+to occur in columns for which lowercasing is required.</p>
+
+<p>Analogously, case-insensitive comparisons as required by some of the
+user-defined functions for the relational registry MUST compare
+the ASCII letters without regard for case.  They SHOULD compare according
+to D144 in <a href="#ref_UC">[UC]</a>.</p>
+
+</div> <!-- casenorm -->
+
+
+<div class="section">
+<h3><a id="vorutypes">VOResource Utypes</a></h3>
+
+<p>The VOResources utypes are generated from the XML schema files
+for VOResource and its extensions.  We follow the approach outlined in
+<a href="ref_STCVOT">[STCVOT]</a>, which means that utypes are basically
+XPaths within instance documents, starting from designated root
+elements.  Designated root elements within VOResource are instances of
+<code>vr:Resource</code> and its derived types, instances of
+<code>vr:Capability</code> and its derived types, and instances of
+<code>vr:Interface</code> and its derived types.</p>
+
+<p>An XSLT stylesheet producing utypes together with the short
+documentation strings in the XSD is given in <a href="#appB">Appendix
+B</a>.  Note that due to limitations of XSLT version 1, the complexity
+of XML schema, as well as considerations of implementation simplicity,
+this stylesheet is not completely general (see also comments in the
+file). Future VOResource extensions could break it if, e.g., they were
+to inherit from types derived from <code>vr:Resource</code> in a
+different file.  As given here, the stylesheet produces the desired
+results for the versions of VOResource and its extensions given in 
+section <span class="xref">rolewithinivoa</span>.</p>
+
+</div><!-- subsection vorutypes -->
+
+
+<div class="section">
+<h3><a id="vortables">VOResource Tables</a></h3>
+
+<p>In the following table descriptions, names and utypes of tables and
+columns are normative and MUST be used as given, and all-lowercase.
+Descriptions are not normative.  Registry operators MAY provide
+additional columns in their tables, but they MUST provide all columns
+given in this specification.</p>
+
+<p>All table descriptions start out with brief remarks on the
+relationship of the table to the VOResource XML data model.  Then, the
+columns are described in using some of the TAP_SCHEMA columns. For each
+table, recommendations on explicit primary and foreign keys as well as
+indexed columns are given, where it is understood that primary and
+foreign keys are already indexed in order to allow efficient joins;
+these parts are not normative, but operators should ensure decent
+performance for queries assuming the presence of the given indices and
+relationships.  Finally, the lowercasing requirements
+(normative) are given.</p>
+
+
+<p>The following tables make up the data model
+<code>ivo://ivoa.net/std/RegistryInterface#vor</code>:</p>
+
+<!-- GENERATED: gettables.sh -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
+present in this registry.</td></tr>
+<tr class="even"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+creators, contacts, publishers.</td></tr>
+<tr><td>rr.subject<br/>vor:resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
+resource.</td></tr>
+<tr class="even"><td>rr.capability<br/>vor:capability</td><td> Descriptions of what a resource does and how to use it
+(context-specific behavior and interfaces)</td></tr>
+<tr><td>rr.res_schema<br/>vor:resource.tableset.schema</td><td> A detailed description of a logically-related set of tables related
+to the resource.</td></tr>
+<tr class="even"><td>rr.res_table<br/>vor:resource.tableset.schema.table</td><td> A description of one a table pertaining to the resource.</td></tr>
+<tr><td>rr.table_column<br/>vor:resource.tableset.schema.table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="even"><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
+capability. The pairs refer to a resource if cap_index is NULL, to the
+referenced capability otherwise.</td></tr>
+<tr><td>rr.interface<br/>vor:capability.interface</td><td> Interfaces of capabilities; this gives you where to actually use a
+certain capability.</td></tr>
+<tr class="even"><td>rr.relationship<br/>vor:resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
+<tr><td>rr.intf_param<br/>interface.param</td><td> A description of a input parameter that can be provided as a
+name=value argument to the service.</td></tr>
+<tr class="even"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
+<tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
+This will typically be associated with the creation or availability
+(i.e., most recent release or version) of the resource. Use the role
+attribute to clarify.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<div class="section">
+<h4><a id="table_resource">The resource Table</a></h4>
+
+<p>The <code>ivoa.resource</code> table contains most atomic 
+members of <code>vr:Resource</code> and the common derived types
+that have a 1:1 relationship to the resource itself.  Some less-used members
+of derived types are handled through the <code>res_detail</code> table
+(see <span class="xref">table_res_detail</span>).
+The contentlevel, waveband, and rights members are 1:n but still appear here.
+If there are multiple values, concatenate them with 
+hash characters (#).  Use the <code>ivo_hashlist_has</code>
+ADQL extension function to check for the presence of a single value.
+This convention saves on tables while not complicating common queries
+significantly.</p>
+
+<p>The <code>vr:source</code> element is folded into the record proper;
+its content is available in the <code>source_value</code> column, the
+format&#8212;for which <code>bibcode</code> is the most interesting
+value&#8212;is available from <code>source_format</code>.</p>
+
+<p>Deleted records should not be kept in the <code>resource</code>
+table.  Since all other tables in the relational registry should keep a
+foreign key on the <code>ivoid</code> column, this implies that deleted
+records leave no traces in the relational registry.</p>
+
+<!-- GENERATED: maketable.sh rr.resource -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="even"><td>res_type <br/>vor:resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like Service, Organization, etc)</td></tr>
+<tr><td>created <br/>vor:resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="even"><td>short_name <br/>vor:resource.shortName</td><td>adql:VARCHAR(*)</td><td>a short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr><td>res_title <br/>vor:resource.title</td><td>adql:VARCHAR(*)</td><td>the full name given to the resource</td></tr>
+<tr class="even"><td>updated <br/>vor:resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr><td>content_level <br/>vor:resource.content.contentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
+<tr class="even"><td>res_description <br/>vor:resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr><td>reference_url <br/>vor:resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="even"><td>creator_seq <br/>vor:resource.creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
+<tr><td>content_type <br/>vor:resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
+<tr class="even"><td>source_format <br/>vor:resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr><td>source_value <br/>vor:resource.content.source</td><td>adql:VARCHAR(*)</td><td>a bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="even"><td>version <br/>vor:resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr><td>region_of_regard <br/>vor:resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="even"><td>waveband <br/>vor:resource.coverage.waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with</td></tr>
+<tr><td>footprint_ivoid <br/>vor:resource.coverage.footprint.ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the service describing the capability referred to by this element.</td></tr>
+<tr class="even"><td>footprint_url <br/>vor:resource.coverage.footprint</td><td>adql:VARCHAR(*)</td><td>A URL of a footprint service for retrieving precise and up-to-date description of coverage</td></tr>
+<tr><td>rights <br/>vor:resource.rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<tr class="even"><td>facility <br/>vor:resource.facility</td><td>adql:VARCHAR(*)</td><td>The observatory or facility used to collect the data contained or managed by this resource.</td></tr>
+<tr><td>instrument <br/>vor:resource.instrument</td><td>adql:VARCHAR(*)</td><td>The Instrument used to collect the data contained or managed by a resource.</td></tr>
+<tr class="even"><td>data_url <br/>vor:resource.accessURL</td><td>adql:VARCHAR(*)</td><td>For data collections, the URL that can be used to download the data contained in this data collection. For service access URLs see the interface table.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>This table should have the <code>ivoid</code> column explicitely set
+as its primary key.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>res_type</code>, <code>contentlevel</code>,
+<code>content_type</code>, <code>source_format</code>,
+<code>waveband</code>, <code>footprint_ivoid</code>.
+Clients are advised to query the <code>res_description</code> and
+<code>res_title</code>  columns
+using the the <code>ivo_hasword</code> function.</p>
+
+</div> <!-- subsubsection table_resource -->
+
+<div class="section">
+<h4><a id="table_res_role">The res_role Table</a></h4>
+
+<p>This table subsumes the contact, publisher and creator members of the
+VOResource data model.  They have been combined into a single table to
+reduce the total number of tables.  The actual role is given in the
+<code>base_utype</code> column that can be used to obtain full utypes
+for the columns by concatenating the column name with the value in this
+column.  An exception are <code>role_name</code> and
+<code>role_ivoid</code>; strip the leading <code>role_</code> before
+concatenation for them.</p>
+
+<p>Not all columns are available for each role type in VOResource.  For
+example, contacts have no logo, and creators no telephone members.
+Unavailable metadata MUST be represented with NULL values in the
+corresponding columns.</p>
+
+<p>Note that, due to current practice in the VO, it is not easy to
+predict what <code>role_name</code> will contain; it could be a single
+name in some format (full first name, initials in front or behind, or
+even a project name), but it could as well be a full author list.  Thus,
+when matching against <code>role_names</code>, you will have to use
+rather lenient regular expressions.  Changing this situation would
+probably require a change in the VOResource schema.</p>
+
+<!-- GENERATED: maketable.sh rr.res_role -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>role_name <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
+<tr><td>role_ivoid <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
+<tr class="even"><td>address <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
+<tr><td>email <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
+<tr class="even"><td>telephone <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
+<tr><td>logo <br/>N/A</td><td>adql:VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
+<tr class="even"><td>base_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The utype of the role played by this entity; this is typically vor:resource.curation.contact, vor:resource.curation.publisher, or vor:resource.curation.creator</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+the <code>resource</code> table.  It is recommended to maintain indexes
+on at least the <code>role_name</code> column, ideally in a way that
+supports regular expressions.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>role_ivoid</code>,
+<code>base_utype</code>.
+Clients are advised query the remaining columns, in particular
+<code>role_name</code>,
+case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
+
+</div> <!-- subsubsection table_res_role -->
+
+
+<div class="section">
+<h4><a id="table_subject">The subject Table</a></h4>
+
+<p>Since subject queries are expected to be frequent and perform relatively
+complex checks (e.g., resulting from thesaurus queries in the clients), the
+subjects are kept in a separate table rather than being hash-joined like other
+string-like 1:n members of resource.</p>
+
+<!-- GENERATED: maketable.sh rr.subject -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>subject <br/>vor:resource.content.subject</td><td>adql:VARCHAR(*)</td><td>topics, object types, or other descriptive keywords about the resource.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code>  column should be an explicit foreign key into
+<code>resource</code>.  It is recommended to index the
+<code>subject</code> column, preferably in a way that allows to process
+case-insensitive and pattern queries using the index.</p>
+
+<p>The <code>ivoid</code> column MUST be lowercased during
+ingestion.  Clients are advised query the <code>subject</code> column
+case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
+
+</div> <!-- subsubsection table_subject -->
+
+
+<div class="section">
+<h4><a id="table_capability">The capability Table</a></h4>
+
+<p>The capability table describes the capabilities of a resource; it only
+contains the members of the base type <code>vr:Capability</code>.
+Members of derived types are kept in the <code>res_detail</code> table
+(see <span class="xref">table_res_detail</span>).</p>
+
+<p>The table has an
+integer-typed column <code>cap_index</code> to disambiguate multiple
+capabilities on a single resource.  Operators are free to choose the
+actual values as convenient, although it is recommended to just
+enumerate the capabilities in their physical sequence per-resource.</p>
+
+<!-- GENERATED: maketable.sh rr.capability -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource</td></tr>
+<tr><td>cap_type <br/>vor:capability.type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
+<tr class="even"><td>cap_description <br/>vor:capability.description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
+<tr><td>standard_id <br/>vor:Capability.standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+</div> <!-- subsubsection table_capability -->
+
+<p>This table should have an explicit primary key made up of
+<code>ivoid</code> and <code>cap_index</code>.
+The <code>ivoid</code> column should be
+an explicit foreign key into <code>resource</code>.
+It is recommended to maintain an index on at least the 
+<code>cap_type</code> and <code>standard_id</code> columns.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>cap_type</code>, <code>standard_id</code>.
+Clients are advised to query the <code>cap_description</code> column
+using the the <code>ivo_hasword</code> function.</p>
+
+
+<div class="section">
+<h4><a id="table_res_schema">The res_schema Table</a></h4>
+
+<p>The <code>res_schema</code> table corresponds to VODataService's
+<code>schema</code> element.  It has been renamed to avoid clashes with
+the SQL reserved word <code>SCHEMA</code>.</p>
+
+<p>The table has an integer-typed column <code>schema_index</code>
+to disambiguate multiple schema elements on a single resource.
+Operators are free to choose the actual values as convenient, although
+it is recommended to just enumerate the schema elements in their
+physical sequence per-resource.</p>
+
+
+<!-- GENERATED: maketable.sh rr.res_schema -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
+<tr><td>schema_description <br/>vor:resource.tableset.schema.description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
+<tr class="even"><td>schema_name <br/>vor:resource.tableset.schema.name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
+<tr><td>schema_title <br/>vor:resource.tableset.schema.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
+<tr class="even"><td>schema_utype <br/>vor:resource.tableset.schema.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>This table should have an explicit primary key made up of
+<code>ivoid</code> and <code>schema_index</code>.  The
+<code>ivoid</code>  column should be an explicit foreign key into
+<code>resource</code>.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>schema_name</code>, <code>schema_utype</code>.
+Clients are advised to query the <code>schema_description</code> 
+and <code>schema_title</code> columns
+using the the <code>ivo_hasword</code> function.</p>
+
+
+</div> <!-- subsubsection table_res_schema -->
+
+
+<div class="section">
+<h4><a id="table_res_table">The res_table Table</a></h4>
+
+<p>The <code>res_table</code> table models VODataService's
+<code>table</code> element.  It has been renamed to avoid name clashes
+with the SQL reserved word <code>TABLE</code>.</p>
+
+<p>The table contains an integer-typed column <code>table_index</code> to
+disambiguate multiple tables on a single resource.  Operators are free to
+choose the actual values as convenient, although it is recommended to just
+enumerate the tables in their physical sequence per-resource (but not per
+schema&#8212;<code>table_index</code> MUST be unique within a resource.</p>
+
+<!-- GENERATED: maketable.sh rr.res_table -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>Index of the schema this table belongs to, if it belongs to a schema.</td></tr>
+<tr><td>table_description <br/>vor:resource.tableset.schema.table.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
+<tr class="even"><td>table_name <br/>vor:resource.tableset.schema.table.name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to sufficiently uniquely distinguish it in a query.</td></tr>
+<tr><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
+<tr class="even"><td>table_title <br/>vor:resource.tableset.schema.table.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
+<tr><td>table_type <br/>vor:resource.tableset.schema.table.type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
+<tr class="even"><td>table_utype <br/>vor:resource.tableset.schema.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>This table should have an explicit primary key made up of
+<code>ivoid</code> and <code>table_index</code>.  The pair
+<code>ivoid</code>, <code>schema_index</code>  should be an explicit
+foreign key into <code>res_schema</code>.  It is recommended to
+maintain an index on at least the <code>table_description</code>
+column, ideally one suited for queries with <code>ivo_hasword</code>.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>table_name</code>, <code>table_type</code>,
+<code>table_utype</code>.
+Clients are advised to query the <code>table_description</code>
+and <code>table_title</code>  columns
+using the the <code>ivo_hasword</code> function.</p>
+
+
+</div> <!-- subsubsection table_res_table -->
+
+
+
+
+<div class="section">
+<h4><a id="table_table_column">The table_column Table</a></h4>
+
+<p>The <code>table_column</code>  table models the content of VOResource's
+<code>column</code> element.  The table has been renamed to avoid
+a name clash with the SQL reserved word column.</p>
+
+<p>Since it is expected that queries for column properties will be
+fairly common in advanced queries, it is the column table that has the
+unprefixed versions of common member names (name, description, ucd,
+utype, etc).</p>
+
+<p>The <code>flag</code> column contains a concatenation of all values
+of a <code>column</code> element's <code>flag</code> children, separated
+by has characters.  Use the <code>ivo_hashlist_has</code> function in
+queries against <code>flag</code>.</p>
+
+<p>The <code>table_column</code> table also includes information from
+VODataService's data type concept.  VODataService 1.1 includes several type
+systems (VOTable, ADQL, Simple).  The
+<code>typesystem</code> column gives this type service as in the
+<code>xsi:type</code> attribute, with the VODataService XML prefix fixed
+to vs.</p>
+
+<!-- GENERATED: maketable.sh rr.table_column -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
+<tr><td>description <br/>vor:resource.tableset.schema.table.column.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
+<tr class="even"><td>name <br/>vor:resource.tableset.schema.table.column.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
+<tr><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="even"><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
+<tr><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="even"><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>comma-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
+<tr class="even"><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="even"><td>extended_type <br/>vor:interface.param.dataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
+<tr><td>arraysize <br/>vor:resource.tableset.schema.table.column.dataType.arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value</td></tr>
+<tr class="even"><td>delim <br/>vor:interface.param.dataType.delim</td><td>adql:VARCHAR(*)</td><td>the string that is used to delimit elements of an array value when arraysize is not '1'</td></tr>
+<tr><td>type_system <br/>vor:resource.tableset.schema.table.column.dataType.type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:vs:TAPType..</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The pair <code>ivoid</code>, <code>table_index</code> should be an
+explicit foreign key into <code>res_table</code>.  It is recommended to
+maintain an index on at least the <code>description</code>,
+<code>name</code>, <code>ucd</code>, and <code>utype</code> columns,
+where the index on <code>description</code> should ideally be suited for
+queries using <code>ivo_hasword</code>.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>name</code>, <code>ucd</code>,
+<code>utype</code>, <code>datatype</code>, <code>type_system</code>.
+Clients are advised to query the <code>description</code>
+column using the the <code>ivo_hasword</code> function.</p>
+
+
+</div> <!-- subsubsection table_table_column  -->
+
+<div class="section">
+<h4><a id="table_interface">The interface Table</a></h4>
+
+<p>The <code>interface</code> table subsumes both the
+<code>vr:Interface</code> and <code>vr:accessURL</code> types from
+VOResource.  The fact that we integrated <code>accessURL</code>  into
+the <code>interface</code>  table means that an interface in the
+relational registry can only have one access URL, where in VOResource it
+can have many.  In practice, this particular VOResource capability has
+not been used by registry record authors.  Since access URLs are
+probably the item most queried for, it seems warranted to save one
+indirection when querying for them.</p>
+
+<p>If interfaces with multiple access URLs should become necessary in
+the future, we propose a slight denormalization by creating mulitple
+interfaces with one access URL each within the registry's ingestion
+logic.</p>
+
+<p>The table contains an
+integer-typed column <code>intf_index</code> to disambiguate multiple
+interfaces on a single capability.  Operators are free to choose the
+actual values as convenient, although it is recommended to just
+enumerate the interfaces in their physical sequence per capability.</p>
+
+
+<!-- GENERATED: maketable.sh rr.interface -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
+<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
+<tr class="even"><td>intf_type <br/>vor:interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (Web-Browser, ParamHTTP, etc).</td></tr>
+<tr><td>intf_role <br/>vor:interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability"s standardID attribute.</td></tr>
+<tr class="even"><td>std_version <br/>vor:interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element. If the standardID is not provided, the meaning of this attribute is undefined.</td></tr>
+<tr><td>query_type <br/>vor:interface.queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
+<tr class="even"><td>result_type <br/>vor:interface.resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
+<tr><td>wsdl_url <br/>vor:interface.wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If not provided, the location is assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<tr class="even"><td>url_use <br/>vor:interface.accessURL.use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL, a full URL, or a URL to a directory that will produce a listing of files.</td></tr>
+<tr><td>access_url <br/>vor:interface.accessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>This table should have the triple <code>ivoid</code>,
+<code>cap_index</code>, and <code>intf_index</code> as an explicit
+primary key.  The pair <code>ivoid</code>, <code>cap_index</code> should
+be an explicit foreign key into <code>capability</code>.
+It is recommended to maintain an index on at least the 
+<code>intf_type</code> column.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>intf_type</code>, <code>intf_role</code>,
+<code>std_version</code>, <code>query_type</code>,
+<code>result_type</code>, <code>url_use</code>.</p>
+
+</div> <!-- subsubsection table_interface -->
+
+<div class="section">
+<h4><a id="table_intf_param">The intf_param Table</a></h4>
+
+<p>The <code>intf_param</code> table is related to
+<code>table_column</code>, but the differences between the two are
+significant enough to warrant a special table for the parameters to
+interfaces.  Since common column names are used where applicable, the
+two tables are not supposed to be (naturally) joined.</p>
+
+<!-- GENERATED: maketable.sh rr.intf_param -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
+<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
+<tr class="even"><td>description <br/>vor:resource.tableset.schema.table.column.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
+<tr><td>name <br/>vor:resource.tableset.schema.table.column.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
+<tr class="even"><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
+<tr class="even"><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>comma-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr class="even"><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
+<tr><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="even"><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr><td>extended_type <br/>vor:interface.param.dataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
+<tr class="even"><td>form <br/>vor:interface.param</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The triple triple
+<code>ivoid</code>, <code>cap_index</code>, and <code>intf_index</code>
+should be an explicit foreign key into <code>interface</code>.  It is recommended to
+maintain an index on at least the <code>description</code>, <code>name</code>,
+<code>ucd</code>, and <code>utype</code> columns.</p>
+
+<p>See section <span class="xref">table_table_column</span> for
+requirements on lowercasing or column values.</p>
+</div> <!-- subsubsection table_intf_param -->
+
+
+<div class="section">
+<h4><a id="table_relationship">The relationship Table</a></h4>
+
+<p>The relationship element is a slight denormalization of the
+<code>vr:Relationship</code> type: Whereas in VOResource, a single
+relationship element can take several IVORNs, in the relational model,
+the pairs are stored directly.  It is straightforward to translate
+between the two representations in the database ingestor.</p>
+
+<!-- GENERATED: maketable.sh rr.relationship -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>relationship_type <br/>vor:resource.content.relationship.relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
+<tr><td>related_id <br/>vor:resource.content.relationship.relatedResource.ivoId</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
+<tr class="even"><td>related_name <br/>vor:resource.content.relationship.relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The
+<code>ivoid</code> column should be an explicit foreign key into the
+<code>resoure</code> table.  You should index at least the
+<code>related_id</code> column.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>relationship_type</code>,
+<code>related_id</code>.</p>
+
+</div> <!-- subsubsection table_relationship -->
+
+<div class="section">
+<h4><a id="table_validation">The validation Table</a></h4>
+
+<p>The <code>validation</code> subsumes the
+<code>vr:validationLevel</code> members of both <code>vr:Resource</code>
+and <code>vr:Capability</code>.  Therefore, the utypes of the columns
+depend on the concrete row and are not given in the table metadata.</p>
+
+<p>If the <code>cap_index</code> column in <code>NULL</code> the
+validation comprises the entire resource.  Otherwise, only the
+referenced capability has been validated.</p>
+
+<!-- GENERATED: maketable.sh rr.validation -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>validated_by <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
+<tr><td>level <br/>N/A</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The
+<code>ivoid</code> should be an explicit foreign key into <code>resource</code>.
+Note, however, that <code>ivoid</code>, <code>cap_index</code> is
+<em>not</em> a foreign key into <code>capability</code> since
+<code>cap_index</code> may be <code>NULL</code> (in case the validation
+addresses the entire resource).</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>validated_by</code>,
+<code>related_id</code>.</p>
+</div> <!-- subsubsection table_validation -->
+
+
+<div class="section">
+<h4><a id="table_res_date">The res_date Table</a></h4>
+
+<p>The <code>res_date</code> table contains information gathered from
+<code>vr:Curation</code>'s date children.</p>
+
+<!-- GENERATED: maketable.sh rr.res_date -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>date_value <br/>vor:resource.curation.date</td><td>adql:VARCHAR(*)</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
+<tr><td>value_role <br/>vor:resource.curation.date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>value_role</code>.</p>
+</div> <!-- subsubsection table_res_date -->
+
+<div class="section">
+<h4><a id="table_res_detail">The res_detail Table</a></h4>
+
+<p>The <code>res_detail</code> table is a fallback for less-used simple
+metadata.  Conceptually, it stores triples of resource entities, utypes,
+and values, where resource entities can be resource records themselves
+or capabilities.  Thus, arbitrary metadata that is either atomic or
+consists of lists of atoms can be represented.</p>
+
+<p>This is intended in particular as an easy fallback for new VOResource
+extensions.  As long as the metadata that needs to be represented in the
+relational registry is simple enough, no changes to the schema defined
+here will be neccessary.  Instead, the extension itself simply defines
+new utypes to be added in <code>res_detail</code>.</p>
+
+<p>Some complex metadata&#8212;<code>tr:languageFeature</code> or
+<code>vstd:key</code> being examples&#8212;cannot be kept in this table.
+If a representation of such information in the relational registry is
+required, this standard will need to be changed.</p>
+
+<p>Here is a list of utypes from various standards that registry
+operators MUST put into <code>res_details</code>; the source column
+contains the schema location relative to
+<code>http://ivoa.net/xml/</code></p>
+
+<table frame="all" rules="cols">
+<tr><th>Utype</th><th>Source</th></tr>
+<tr><td>vor:capability.maxRecords</td><td>(various)</td></tr>
+<tr><td>vor:capability.testQuery</td><td>(various)</td></tr>
+
+<tr><td>vor:capability.imageServiceType</td><td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxQueryRegionSize.lat</td><td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxQueryRegionSize.long</td><td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxImageExtent.lat</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxImageExtent.long</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxImageSize.lat</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxImageSize.long</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxFileSize</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.maxSR</td>
+<td>SIA/v1.0</td></tr>
+<tr><td>vor:capability.verbosity</td>
+<td>SIA/v1.0</td></tr>
+
+<tr><td>vor:capability.testQuery.pos.lat</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.pos.long</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.size.lat</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.size.long</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.extras</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.verb</td>
+<td>SIA/v1.0, SSA/v1.0</td></tr>
+
+<tr><td>vor:capability.complianceLevel</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.dataSource</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.creationType</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.maxSearchRadius</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.defaultMaxRecords</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.maxAperture</td>
+<td>SSA/v1.0</td></tr>
+<tr><td>vor:capability.testQuery</td>
+<td>SSA/v1.0</td></tr>
+
+<tr><td>vor:capability.testQuery.ra</td>
+<td>ConeSearch/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.dec</td>
+<td>ConeSearch/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.sr</td>
+<td>ConeSearch/v1.0</td></tr>
+<tr><td>vor:capability.testQuery.catalog</td>
+<td>ConeSearch/v1.0</td></tr>
+
+<tr><td>vor:capability.dataModel</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.dataModel.ivoId</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.outputFormat.mime</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.outputFormat.ivoId</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.retentionPeriod.default</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.executionDuration.hard</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.executionDuration.default</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.outputLimit.hard</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.outputLimit.default</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.uploadLimit.hard</td>
+<td>TAPRegExt/v1.0</td></tr>
+<tr><td>vor:capability.uploadLimit.default</td>
+<td>TAPRegExt/v1.0</td></tr>
+
+<tr><td>vor:resource.endorsedVersion</td>
+<td>StandardsRegExt/v1.0</td></tr>
+<tr><td>vor:resource.deprecated</td>
+<td>StandardsRegExt/v1.0</td></tr>
+
+<tr><td>vor:resource.managingOrg</td>
+<td>VORegistry/v1.0</td></tr>
+<tr><td>vor:resource.managedAuthority</td>
+<td>VORegistry/v1.0</td></tr>
+<tr><td>vor:resource.full</td>
+<td>VORegistry/v1.0</td></tr>
+</table>
+
+<p>Note that VOStandard <code>status</code>  and <code>use</code>
+attributes cannot be represented here; their values are not accessible
+in the relational registry.</p>
+
+<!-- GENERATED: maketable.sh rr.res_detail -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; if NULL the utype-value pair describes a member of the entire resource.</td></tr>
+<tr><td>detail_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>utype of the member</td></tr>
+<tr class="even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(atomic) value of the member</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>.  It is recommended to maintain an index on
+at least the columns
+<code>detail_utype</code> and <code>detail_value</code>.</p>
+
+<p>The following columns MUST be lowercased during ingestion:
+<code>ivoid</code>, <code>detail_utype</code>.  Clients are advised to
+use the <code>ivo_nocasematch</code> function to search in
+<code>detail_value</code> if the values have textual content.</p>
+</div> <!-- subsubsection table_res_detail -->
+
+</div> <!-- subsection vortables -->
+
+
+<div class="section">
+<h3><a id="stctables">STC Coverage Tables</a></h3>
+
+<p>VOResource records can contain coverage information expressed
+according to the IOVA data model for Space-Time Coordinates <a
+href="#ref_STC">[STC]</a>.  The complete data model is far too large and
+complex for a relational representation.  However, a rough indication of
+the regions in time, space, and the electromagnetic spectrum covered by
+a resource is sufficient for many registry purposes, in particular
+focusing queries to a smaller subset of resources by weeding out ones
+which do not intersect with the region of interest.</p>
+
+<p>To make queries feasible, the STC coverage tables have fixed STC
+metadata, viz,</p>
+
+<ul>
+<li>spatial: equatorial ra and dec, reference frame ICRS.
+Since we employ ADQL regions, units are degrees</li>
+<li>temporal: MJD values (i.e., days) in Terrestial Time</li>
+<li>spectral: wavelength in meter</li>
+<li>redshift: STC's OPTICAL doppler definition (i.e., Δλ/λ)</li>
+</ul>
+
+<p>While it is expected to rarely matter at the level of precision the
+registry aims for, the reference position SHOULD be the solar system
+barycenter, except for time, which SHOULD be given for the geocenter.</p>
+
+<p>Resource registry authors SHOULD provide their metadata in these
+standard forms, but registry ingestors SHOULD make a best effort to
+transform STC metadata given in other forms.</p>
+
+<p>The utypes used here are taken from the STC data model, formed
+according to the rules in <a href="#ref_STCVOT">[STCVOT]</a>.</p>
+
+<p>With these conventions, the following tables make up the data model
+<code>ivo://ivoa.net/std/RegistryInterface#stc</code>:</p>
+
+<!-- GENERATED: gettables.sh stc -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>rr.stc_spatial<br/>stc:AstroCoordArea.Region</td><td> The spatial coverage of resources; the total coverage is (a subset
+of) the union of all regions given for a resource. All coordinates are
+in ICRS. There is no notion of how tight the given regions are.</td></tr>
+<tr class="even"><td>rr.stc_temporal<br/>stc:AstroCoordArea.TimeInterval</td><td> The temporal coverage of resources, given as one or more intervals;
+the total coverage is (a subset of) the union of all intervals given
+for a resource. All times are understood as MJD in the TT time scale.</td></tr>
+<tr><td>rr.stc_spectral<br/>stc:AstroCoordArea.SpectralInterval</td><td> The spectral coverage of resources, given as one or more intervals;
+the total coverage is (a subset of) the union of all intervals given
+for a resource. All spectral values are understood as given as
+wavelength in meters; they are supposed to express wavelength at the
+barycenter of the solar system (which means instrument values should
+be close enough to work).</td></tr>
+<tr class="even"><td>rr.stc_redshift<br/>stc:AstroCoordArea.SpectralInterval</td><td> The redshift coverage of resources, given as one or more intervals;
+the total coverage is (a subset of) the union of all intervals given
+for a resource. Redshifts here are understood as delta lambda/lamda.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>In the following table descriptions, names and utypes of tables and
+columns are normative and MUST be used as given, and all-lowercase.
+Descriptions are not normative.  Registry operators MAY provide
+additional columns in their tables, but they MUST provide all columns
+given in this specification.  All values of the <code>ivoid</code>
+column must be lowercased on ingestion.</p>
+
+
+
+<div class="section">
+<h4><a id="table_stc_spatial">The stc_spatial Table</a></h4>
+
+<p>The <code>stc_spatial</code> table links IVORNs with ADQL geometry
+objects.  These will typically be polygons, but implementors are free to
+use any database representation as long as the ADQL
+<code>CONTAINS</code>  and <code>INTERSECTS</code> functions remain
+applicable to the <code>area_covered</code> column.</p>
+
+<p>The STC data model allows intersections and differences of STC
+regions, which in themselves are significantly more powerful than ADQL
+regions.  While arbitrarily good approximations of the resulting shapes
+using a union of polygons are possible, best-effort conversion of STC
+shapes is acceptable.  For example, clients should not expect that 
+"holes" in regions are preserved.</p>
+
+<p>Registry records SHOULD be written to be either AllSky, elementary
+ADQL-compatible regions (i.e., circles and polygons), or simple unions 
+of elementary ADQL-compatible regions.</p>
+
+<!-- GENERATED: maketable.sh rr.stc_spatial -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>area_covered <br/>stc:AstroCoordArea.Region</td><td>adql:REGION</td><td>An ADQL region the resource has information for.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>. 
+It is recommended to maintain an index on 
+the <code>area_covered</code> column.</p>
+
+
+</div> <!-- subsubsection table_stc_spatial -->
+
+<div class="section">
+<h4><a id="table_stc_temporal">The stc_temporal Table</a></h4>
+
+<p>Temporal coverage is given by associating one or more time intervals
+to an IVORN.  Both start and end are mandatory, i.e., there are no
+half-open intervals.  All times are given in days in the MJD epoch.
+While it should rarely matter, we note that times are supposed to be in
+TT in the geocenter.</p>
+
+
+<!-- GENERATED: maketable.sh rr.stc_temporal -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>time_start <br/>stc:AstroCoordArea.TimeInterval.StartTime</td><td>adql:REAL</td><td>Lower limit of a time interval covered by the resource.</td></tr>
+<tr><td>time_end <br/>stc:AstroCoordArea.TimeInterval.EndTime</td><td>adql:REAL</td><td>Upper limit of a time interval covered by the resource.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>. 
+It is recommended to maintain an index on 
+both the <code>time_start</code> and <code>time_end</code> columns.</p>
+
+
+</div> <!-- subsubsection table_stc_temporal -->
+
+<div class="section">
+<h4><a id="table_stc_spectral">The stc_spectral Table</a></h4>
+
+<p>The <code>stc_spectral</code> table is constructed analoguous to
+<code>stc_temporal</code>, i.e., each resource has one or more
+associated intervals, for which both upper and lower limit is mandatory.
+The limits are given as wavelengths in meters, for the reference
+position in the barycenter of the solar system.</p>
+
+<!-- GENERATED: maketable.sh rr.stc_spectral -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>spectral_start <br/>stc:AstroCoordArea.SpectralInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a spectral interval covered by the resource.</td></tr>
+<tr><td>spectral_end <br/>stc:AstroCoordArea.SpectralInterval.HiLimit</td><td>adql:REAL</td><td>Upper limit of a spectral interval covered by the resource.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>. 
+It is recommended to maintain an index on 
+both the <code>spectral_start</code> and <code>spectral_end</code> columns.</p>
+
+
+</div> <!-- subsubsection table_stc_spectral -->
+
+<div class="section">
+<h4><a id="table_redshift">The stc_redshift Table</a></h4>
+
+<p>As <code>stc_temporal</code> and <code>stc_spectral</code>, the
+<code>stc_redshift</code> table associates resources with intervals of
+values, in this case with redshifts, given as Δλ/λ (the STC data model's
+OPTICAL definition).</p>
+
+<!-- GENERATED: maketable.sh rr.stc_redshift -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>redshift_start <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a redshift interval covered by the resource.</td></tr>
+<tr><td>redshift_end <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Upper limit of a redshift interval covered by the resource.</td></tr>
+</tbody></table></div>
+<!-- /GENERATED -->
+
+<p>The <code>ivoid</code> column should be an explicit foreign key into
+<code>resource</code>. 
+It is recommended to maintain an index on 
+both the <code>time_start</code> and <code>time_end</code> columns.</p>
+
+</div> <!-- subsubsection table_redshift -->
+</div> <!-- subsection stctables -->
+
+
+<div class="section">
+<h3><a id="adqludf">ADQL User Defined Functions</a></h3>
+
+<p>TAP Servers implementing the 
+<code>ivo://ivoa.net/std/RegistryInterface#vor</code> data model MUST 
+implement the following three functions in their ADQL 2.0 language:</p>
+
+<dl>
+<dt><code>ivo_nocasematch(value VARCHAR(*), pattern VARCHAR(*))->INTEGER</code></dt>
+<dd>
+The function returns 1 if <code>pattern</code>  matches
+<code>value</code> , 0 otherwise.
+<code>pattern</code>  is defined as for the SQL LIKE operator, but the
+match is performed case-insensitively.
+</dd>
+<dt><code>ivo_hasword(haystack VARCHAR(*), needle VARCHAR(*)) -> INTEGER</code></dt>
+<dd>The function takes two strings and returns 1 if the second is
+contained in the first one in a "word" sense, i.e., delimited by
+non-letter characters or the beginning or end of the string, where case
+is ignored.
+Additionally, servers MAY employ techniques to improve recall, in
+particular stemming.  Registry clients should expect different results
+from different servers when using <code>ivo_hasword</code> </dd>
+<dt><code>ivo_hashlist_has(haslist VARCHAR(*), item VARCHAR(*))->INTEGER</code></dt>
+<dd>The function takes two strings; the first is a list of words not
+containing the hash sign (#), concatenated by hash signs, the second is
+a word not containing the hash sign.  It returns 1 if, compared
+case-insensitively, the second argument is in the list of words coded in
+the first argument.  The behaviour for second
+arguments containing a hash signs is undefined.</dd>
+</dl>
+
+</div><!-- subsection adqludf -->
+
+<div class="section">
+<h3><a id="sample_queries">Common Queries to the Relational Registry</a></h3>
+
+<p>This section contains sample queries to the relational registry,
+mostly contributed as use cases by various members of the IVOA Registry
+working group.  They are intended as an aid in designing relational
+registry queries, in particular for users new to the data model.</p>
+
+<dl>
+<dt>Find all TAP services; return their accessURLs</dt>
+<dd>
+<pre class="querysample">
+SELECT ivoid, access_url 
+FROM rr.capability
+NATURAL JOIN rr.interface
+WHERE standard_id='ivo://ivoa.net/std/tap'
+</pre>
+
+<p>Other <code>standard_id</code>s relevant include:</p>
+
+<ul>
+<li><code>ivo://ivoa.net/std/registry</code> for OAI-PMH services,</li>
+<li><code>ivo://ivoa.net/std/sia</code> for SIA services,</li>
+<li><code>ivo://ivoa.net/std/conesearch</code> for SCS services,
+and</li>
+<li><code>ivo://ivoa.net/std/ssa</code> for SSA services.</li>
+</ul>
+</dd>
+
+<dt>Find all SIA services that might have spiral galaxies</dt>
+<dd><p>This is somewhat tricky since it is probably hard to image a part
+of the sky guaranteed not to have some, possibly distant, spiral galaxy
+in it.  However, translating the intention into "find all SIA services
+that mention spiral in either the subject, the description, or the
+title", the query would become:</p>
+
+<pre class="samplequery">
+SELECT ivoid, access_url 
+FROM rr.capability 
+  NATURAL JOIN rr.resource
+  NATURAL JOIN rr.interface
+  NATURAL JOIN rr.subject
+WHERE standard_id='ivo://ivoa.net/std/sia'
+  AND (
+    1=ivo_nocasematch(subject, '%spiral%')
+    OR 1=ivo_hasword(res_description, 'spiral')
+    OR 1=ivo_hasword(res_title, 'spiral'))
+</pre>
+</dd>
+
+<dt>Find all SIA services that provides infrared images</dt>
+<dd>
+<pre class="samplequery">
+SELECT ivoid, access_url 
+FROM rr.capability 
+  NATURAL JOIN rr.resource
+  NATURAL JOIN rr.interface
+WHERE standard_id='ivo://ivoa.net/std/sia'
+  AND 1=ivo_hashlist_has('Infrared', waveband)
+</pre>
+</dd>
+
+<dt>Find all searchable catalogs that provide a column containing
+redshift</dt>
+<dd>
+<pre class="samplequery">
+SELECT ivoid, access_url 
+FROM rr.capability 
+  NATURAL JOIN rr.table_column
+  NATURAL JOIN rr.interface 
+WHERE standard_id='ivo://ivoa.net/std/conesearch'
+  AND ucd='src.redshift'
+</pre>
+</dd>
+
+<dt>Find all the resources published by a certain authority</dt>
+<dd>
+<pre class="samplequery">
+SELECT ivoid 
+FROM rr.resource
+WHERE ivoid LIKE 'ivo://org.gavo.dc%'
+</pre>
+
+<dt>What registry records are there from a given publisher?</dt>
+<pre class="samplequery">
+SELECT ivoid 
+FROM rr.resource
+  NATURAL JOIN rr.res_role
+WHERE 1=ivo_nocasematch(role_name, '%gavo%')
+  AND base_utype='vor:resource.curation.publisher'
+</pre>
+<p>or</p>
+<pre class="samplequery">
+SELECT ivoid 
+FROM rr.resource
+  NATURAL JOIN rr.res_role
+WHERE role_ivoid='ivo://ned.ipac/NED'
+  AND base_utype='vor:resource.curation.publisher'
+</pre>
+</dd>
+
+
+<dt>What registry records are there originating from registry X?</dt>
+<dd>
+<p>This is using the CDS registry as an example. Note how this query
+builds conditions on values in <code>res_detail</code>:</p>
+<pre class="samplequery">
+SELECT ivoid FROM rr.resource
+RIGHT OUTER JOIN (
+  SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
+  WHERE detail_utype='vor:capability.managedAuthority' 
+    AND ivoid='ivo://CDS.VizieR/registry') 
+  AS authpatterns
+ON (resource.ivoid LIKE authpatterns.pat)
+</pre>
+</dd>
+
+
+
+<dt>Find all TAP endpoints offering the relational registry</dt>
+<dd>
+<pre class="samplequery">
+SELECT access_url
+FROM rr.interface
+NATURAL JOIN rr.capability
+NATURAL JOIN rr.res_detail
+WHERE standard_id='ivo://ivoa.net/std/TAP'
+  AND detail_utype='vor:capability.datamodel.ivoid'
+  AND detail_value='ivo://ivoa.net/std/RegistryInterface#vor'
+</pre>
+</dd>
+
+<dt>Find all TAP services exposing a table with certain features</dt>
+<dd>
+<p>"Certain features" could be "have some word in their description
+and having a column with a certain UCD".  Then, a query could look like
+this:</p>
+<pre class="samplequery">
+SELECT ivoid, access_url, name, ucd, description
+FROM rr.capability 
+  NATURAL JOIN rr.interface
+  NATURAL JOIN rr.table_column
+  NATURAL JOIN rr.res_table
+WHERE standard_id='ivo://ivoa.net/std/TAP'
+  AND 1=ivo_hasword(table_description, 'quasar')
+  AND ucd='phot.mag;em.opt.V'
+</pre>
+</dd>
+
+<dt>Find all SSAP services that provide theoretical spectra</dt>
+<dd>
+<pre class="samplequery">
+SELECT access_url 
+FROM rr.res_detail 
+  NATURAL JOIN rr.capability 
+  NATURAL JOIN rr.interface 
+WHERE detail_utype='vor:capability.dataSource' 
+  AND standard_id='ivo://ivoa.net/std/SSA'
+  AND detail_value='theory'
+</pre>
+</dd>
+
+
+<dt>Find all ConeSearch services that provide stellar distance information</dt>
+<dd>
+<pre class="samplequery">
+SELECT access_url, name, ucd, description
+FROM rr.capability 
+  NATURAL JOIN rr.interface
+  NATURAL JOIN rr.table_column
+WHERE standard_id='ivo://ivoa.net/std/conesearch'
+  AND ucd LIKE 'pos.parallax%'  
+</pre>
+
+<p>Since there are multiple UCDs that might fit the concept of "stellar
+distance", one might need to give multiple UCDs here.</p>
+</dd>
+
+
+<dt>The service at X is down, who can fix it?</dt>
+<dd>
+<pre class="samplequery">
+SELECT DISTINCT email 
+FROM rr.res_role 
+  NATURAL JOIN rr.interface 
+WHERE access_url='http://broken-service/path/to/svc'
+</pre>
+</dd>
+
+</dl>
+
+
+</div><!-- subsection sample_queries -->
+</div><!-- section searching -->
+
+
+<div class="section">
+<h2><a id="regreg">Registering Registries</a></h2>
+
+<p>This specification defines a VOResource extension schema called
+VORegistry that can be used to specifically describe a registry and its
+support for the registry interface described in this document. These
+descriptions can be stored as resource records in registries. The schema
+is also used to register a naming authority&#8212;a publisher who
+claims ownership of an authority identifier from which IVOA identifiers
+may be created. A publishing registry is said to exclusively manage a
+naming authority on behalf of the owning publisher; this means that only
+that registry may publish records with IVOA identifiers using that
+authority identifier.  The full VORegistry syntax definition expressed
+in XML Schema is listed in Appendix <span class="TODO">TODO</span>.</p>
+
+<div class="section">
+<h3><a id="vgnsp">The Schema Namespace and Location</a></h3>
+
+<p>The VORegistry schema namespace is
+<code>http://www.ivoa.net/xml/VORegistry/v1.0</code>.
+As with the core VOResource Schema, the namespace URI has been chosen to
+allow it to be resolved as a URL to the XML Schema document that defines the
+VORegistry schema. Applications may assume that the namespace URI is so
+resolvable. In particular, it is recommended the namespace URI be given as the
+location for the VORegistry schema within the
+<code>xsi:schemaLocation</code> attribute.  The recommended prefix for
+this namespace is <code>vg:</code>.</p>
+
+</div> <!-- subsection vgnsp -->
+
+
+<div class="section">
+<h3><a id="authres">The Authority Resource Extension and the Publishing Process</a></h3>
+
+<p>The <code>vg:Authority</code> type extends the core
+<code>vr:Resource</code> type to specifically describe the ownership of
+an authority identifier by a publishing organisation.</p>
+
+<?schemadef href="../VORegistry-1.0.xsd" defn="Authority"?>
+
+<p>The IVOA identifier of a <code>vg:Authority</code> record provided
+via the <code>vr:identifier</code> element must have an empty resource
+key component as defined in <a href="#ref_VOID">[VOID]</a>.  The
+authority identifier component of the record's identifier is the one
+that is the subject of the record itself.</p>
+
+<p>The meaning of a <code>vg:Authority</code> record is that the
+organisation referenced in the <code>vg:managingOrg</code> element has
+the sole right to create (in collaboration with a publishing registry)
+and register resource descriptions using the authority identifier given
+by the <code>vr:identifier</code> element.</p>
+
+<p>Before a publisher can create resource descriptions using a new
+authority identifier, it must first register its claim to the authority
+identifier by creating a <code>vg:Authority</code> record. Before the
+publishing registry commits the record for export, it must first search
+a full registry to determine if a <code>vg:Authority</code> with
+this identifier already exists; if it does, the publishing of the new
+<code>vg:Authority</code> record must fail. When a registry creates a
+<code>vg:Authority</code> record, it is said that the registry manages
+the associated authority identifier (on behalf of the owning publisher)
+because only that registry may create records with identifiers using
+that authority identifier.</p>
+
+</div> <!-- subsection authres -->
+
+<div class="section">
+<h3><a id="resext">Describing Registries with the Registry Resource Extension</a></h3>
+
+<p>The <code>vg:Registry</code> type extends the core
+<code>vr:Service</code> type to specifically
+describe registries that are compliant with this standard.</p>
+
+<?schemadef href="../VORegistry-1.0.xsd" defn="Registry"?>
+
+<p>If the <code>vg:full</code> element is set to <code>true</code>, the
+registry is obligated to accept all valid resource records it harvests
+from other registries in accordance with the OAI-PMH specification.</p>
+
+<p>The <code>vg:managedAuthority</code> element applies specifically to registries in their
+role as publishers of records. When a publishing registry claims to manage an
+authority identifier, it has created a <code>vg:Authority</code> resource record
+for that authority identifier.</p>
+
+<p>As a subclass of <code>vr:Service</code>, the
+<code>vg:Registry</code> type uses <code>vr:capability</code>
+elements to describe its support for the interfaces described in this specification.
+In particular, the VORegistry schema defines two extensions of the
+VOResource's <code>vr:Capability</code> type: one to describe 
+the support for the searching interface and one to describe the
+deprecated version 1.0 harvesting interface
+Both extension types extension types extend from an
+intermediate restriction on <code>vr:Capability</code> called
+<code>vg:RegCapRestriction</code> to
+force the value of the standardID attribute to be
+<code>ivo://ivoa.net/std/Registry</code>:</p>
+
+<?schemadef href="../VORegistry-1.0.xsd" defn="RegCapRestriction"?>
+
+<p>As an abstract type, the <code>vg:RegCapRestriction</code> type cannot 
+be used directly
+on its own within a resource description; one of the non-abstract extensions of
+this intermediate type must be used instead.</p>
+
+<p>The <code>vr:Capability</code> extension types are used by applying
+the <code>xsi:type</code> attribute to the <code>vr:capability</code>
+element (see also <a href="#ref_VOR">[VOR]</a>, section 2.2.2).  A version 2
+registry should, in general, provide a harvesting capability and the
+three mandatory VOSI capabilities <a href="#ref_VOSI">[VOSI]</a>.</p>
+
+</div><!-- subsection resext -->
+
+
+<div class="section">
+<h3><a id="vgsearch">The Searching Capability</a></h3>
+
+<p>The search capability (<code>vg:Search</code>) is no longer used, and
+clients use will search for TAP services supporting the registry data
+model to locate the search endpoints.  It is retained in the schema to
+avoid a disruptive schema change just to remove an element.</p>
+
+</div><!-- subsection vgsearch -->
+
+
+<div class="section">
+<h3><a id="vgharvest">The Harvesting Capability</a></h3>
+<p>A registry declares itself to be a harvestable registry by including a
+<code>vr:capability</code> element with an <code>xsi:type</code> 
+attribute set to <code>vg:Harvest</code>.</p>
+
+<?schemadef href="../VORegistry-1.0.xsd" defn="Harvest"?>
+
+<?schemadef href="../VORegistry-1.0.xsd" defn="OAIHTTP"?>
+
+<p>A <code>vr:capability</code> element of type <code>vg:Harvest</code>
+must include at least one <code>vr:interface</code> element with an
+<code>xsi:type</code> attribute set to <code>vg:OAIHTTP</code> and the
+<code>role</code> attribute set to <code>std</code>. If the
+<code>vr:capability</code> element is used to simultaneously describe
+support for other versions of this Registry Interface standard, then the
+<code>vr:interface</code> element describing support for this version
+must include the version attribute set to <code>2.0</code>. The
+<code>vr:accessURL</code> element must be set to the base URL for the
+OAI-PMH interface.</p>
+
+<p>The <code>vg:OAISOAP</code> extension of <code>vr:WebService</code>
+was used by Registry Interfaces 1.0 and is no longer part of this
+specification.</p>
+
+</div><!-- subsection vgharvest -->
+
+</div><!-- section regreg -->
+
+<div class="appendices">
+<div class="section"><h2><a id="appA" shape="rect"/><span class="secnum">Appendix A. </span>The VORegistry Schema</h2>
+
+<?incxml href="../VORegistry-1.0.xsd"?>
+
+</div>  <!-- section appA -->
+
+
+<div class="section"><h2><a id="appB" shape="rect"/><span class="secnum">Appendix B. </span>A Stylesheet Generating Utypes</h2>
+
+<?incxml href="../makeutypes.xslt"?>
+
+</div>  <!-- section appB -->
+
+<div class="section"><h2><a id="appC" shape="rect"/><span
+class="secnum">Appendix C. </span>The RegistryInterface Schema</h2>
+
+<?incxml href="../RegistryInterface-1.0.xsd"?>
+
+</div>  <!-- section appC -->
+
+
+<div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
+
+<p>For pre-REC-1.0 changes, see <a href="#ref_RI1">[RI1]</a>.</p>
+
+<div class="section"><h2><a id="changes-1.0">Changes from Version 1.0</a></h2>
+
+<ul>
+<li>Removed the entire section 2, specifically the SOAP-based services
+based on "ADQL 1.0" and XQuery.</li>
+<li>Added the section on the TAP-based search and the table structure of the relational registry.</li>
+<li>Dropped the requirement on registries to not deliver any records that are OAI-PMH deleted when no temporal constraint is given.</li>
+</ul>
+
+</div><!-- changes-1.0 -->
+</div><!-- changes -->
+
+</div> <!-- appendices -->
+<div class="section-nonum"><h2><a id="references" shape="rect"/><span class="secnum"/>References</h2>
+
+<ul class="references">
+<li id="ref_ADQL">[ADQL], Osuna, P. and Ortiz, I. (eds), 2008: <a href="http://www.ivoa.net/Documents/latest/ADQL.html" shape="rect">IVOA Astronomical Data Query Language</a>, Version 2.0, IVOA Recommendation</li>
+<li id="ref_IVORN">[IVORN], Plante, R. (ed), 2007: <a href="http://www.ivoa.net/Documents/REC/Identifiers/Identifiers-20070302.html">IVOA Identifiers</a>, Version 1.12, IVOA Recommendation</li>
+<li id="ref_OAI">[OAI] Lagoze, C, van de Sompel, H., Nelson, M., Warner, S. (eds), 2002: <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html">The Open Archives Initiative Protocol for Metadata Harvesting</a>, Document Version 2008-12-07T20:42:00Z</li>
+<li id="ref_OT">[ObsCore] Tody, D., Micol, A., Durand, D., and Louys, M. (eds.), 2011: <a href="http://www.ivoa.net/Documents/ObsCore/index.html">Observation Data Model Core Components and its Implementation in the Table Access Protocol</a>, Version 1.0, IVOA Recommendation</li>
+<li id="ref_Plante2003">Plante, R., Greene, G., Hanisch, R., McGlynn, T., O'Mullane, W., and Williamson, R., 2003: <a href="http://www.adass.org/adass/proceedings/adass03/O7-1/">Resource Registries for the Virtual Observatory</a>, in ASP Conf. Ser., Vol. 314 Astronomical Data Analysis Software and Systems XIII, eds. F. Ochsenbein, M. Allen, and D. Egret, 585 </li>
+<li id="ref_REGWG">[REGWG] Various: <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/IvoaResReg" shape="rect">Registry Working Group home page</a>.</li>
+<li id="ref_RFC2119">[RFC2119] Bradner S., 1997: <a href="http://www.ietf.org/rfc/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a>, IETF RFC 2119</li>
+<li id="ref_RI1">[RI1] Benson, K., Plante, R. (eds), 2008: <a href="http://www.ivoa.net/Documents/RegistryInterface/20091104/" shape="rect">IVOA Registry Interfaces</a>, Version 1.0, IVOA Recommendation</li>
+<li id="ref_RMI">[RMI] Hanisch, R. (ed.), 2007: <a href="http://www.ivoa.net/Documents/latest/RM.html">Resource Metadata for the Virtual Observatory</a>, Versin 1.12, IVOA Recommendation</li>
+<li id="ref_STC">[STC] Rots, A. (ed), <a href="http://www.ivoa.net/Documents/latest/STC.html">Space-Time Coordinate Metadata for the Virtual Observatory</a>, Version 1.33, IVOA Recommendation</li>
+<li id="ref_STCVOT">[STCVOT] Demleitner, M. (ed), 2010: <a href="http://www.ivoa.net/Documents/Notes/VOTableSTC/">Referencing STC in VOTable</a>, Version 2.0, IVOA Note 18 June 2010</li>
+<li id="ref_TAP">[TAP] Dowler, P., Rixon, G., Tody, D. (eds), 2010: <a href="http://www.ivoa.net/Documents/TAP/20100327/REC-TAP-1.0.html" shape="rect">Table Access Protocol</a>, Version 1.0, IVOA Recommendation</li>
+<li id="ref_TRE">[TRE] Demleitner, M. (ed), 2012: <a href="http://www.ivoa.net/Documents/TAPRegExt/index.html">TAPRegExt: a VOResource Schema Extension for Describing TAP Services</a>, Version 1.0, IVOA Proposed Recommendation 8 May 2012</li>
+<li id="ref_UC">[UC] The Unicode Consortium, 2012: <a href="http://www.unicode.org/versions/Unicode6.1.0/">The Unicode Standard, Version 6.1 Core Specification</a></li>
+<li id="ref_VODS">[VODS] Plante, R. (ed), 2010, <a href="http://www.ivoa.net/Documents/VODataService/">VODataService: a VOResource Schema Extension for Describing Collections and Services</a>, Version 1.1, IVOA Recommendation</li>
+<li id="ref_VOID">[VOID] Plante, R. (ed), 2007: <a href="http://www.ivoa.net/Documents/latest/IDs.html">IVOA Identifiers</a>, Version 1.12, IVOA Recommendation</li>
+<li id="ref_VOR">[VOR] Plante, R. (ed.), 2008: <a href="http://www.ivoa.net/Documents/REC/ReR/VOResource-20080222.html" shape="rect">VOResource: an XML Encoding Schema for Resource Metadata</a>, Version 1.03, IVOA Recommendation</li>
+<li id="ref_VOSI">[VOSI] Graham, M., Plante, R., Rixon, G. (eds), 2011: <a href="http://www.ivoa.net/Documents/VOSI" shape="rect">IVOA Support Interfaces</a> Version 1.0, IVOA Recommendation</li>
+</ul>
+</div> <!-- references -->
+
+</div><!-- class="body" --></body></html>
+<!-- vi: enc=utf-8:sw=2:et:sta
+-->
