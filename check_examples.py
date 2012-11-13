@@ -1,5 +1,5 @@
 """
-Run all examples given in RegistryInterface2.html and shout if any
+Run all examples given in RegTAP.html and shout if any
 of them raises an error or returns no records.
 
 This requires the GAVO VOTable package (http://soft.g-vo.org).
@@ -36,11 +36,11 @@ class ExampleChecker(StartEndHandler):
 			print "Error message:", job.getErrorFromServer()[:1000]
 	
 	def _end_dt(self, name, attrs, content):
-		self.lastDT = content
+		self.lastDT = content.replace("\n", " ")
 
 
 def main():
-	with open("RegistryInterface2.html") as f:
+	with open("RegTAP.html") as f:
 		ExampleChecker().parse(f)
 
 if __name__=="__main__":

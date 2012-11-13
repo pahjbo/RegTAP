@@ -14,3 +14,5 @@ localinstall:
 	scp RegistryInterface2-fmt.html alnilam:/var/www/docs/ridraft/index.html
 	scp RegistryInterface-arch.png alnilam:/var/www/docs/ridraft/
 
+check_examples:
+	TAP_ACCESS_URL=http://dc.g-vo.org/tap python check_examples.py

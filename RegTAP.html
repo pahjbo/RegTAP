@@ -19,6 +19,10 @@ ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
   background-color: #FF0000;
 }
 
+div.ignorefornow {
+  color: #aaaaaa;
+}
+
 code {
   font-weight:normal;
 }
@@ -139,11 +143,12 @@ Version <span class="docversion"/></h1>
 <h2>Abstract</h2>
 
 <p>Registries provide a mechanism with which VO applications can discover and
-select resources&#8212;e.g. data and services&#8212;that are relevant for a
+select resources&#8212;first and foremost data and services&#8212;that 
+are relevant for a
 particular scientific problem. This specification defines  an interface for
 searching this resource metadata by specifying a set of tables comprising a
 useful subset of the information contained in the registry records as well as
-their contents in terms of the XML VOResource data model.  It is expected
+the table's data content in terms of the XML VOResource data model.  It is expected
 that this table set is queried by applications and users through the
 IVOA Table Access Protocol TAP.</p>
 
@@ -178,25 +183,34 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 <div class="section"><h2><a id="intro">Introduction</a></h2>
 
 <p>In the Virtual Observatory (VO), registries provide a means for
-discovering useful resources, i.e., data and services.  This discovery
-takes place by searching within structured descriptions of resources,
-the resource records.  To make discovery efficient, a registry typically
-keeps some internal representation of all resource records available
-within the VO.</p>
+discovering useful resources, i.e., data and services.  Individual
+publishers offer the descriptions for their resources ("resource
+records") in publishing registries.  The protocol spoken by the
+publishing registries, OAI-PMH, is not suitable for data discovery, and
+of course, having to query dozens or, potentially, hundreds of
+publishing registries for data discovery is not very efficient.</p>
 
-<p>This document describes a common representation of the most useful
-aspects of the VO's resource metadata interchange representation, the
-VOResource XML format <cite>std:VOR</cite>.  This common representation
-takes the form of a set of tables and an exact specification of how to
-fill these tables from VOResource-serialized metadata records.</p>
+<p>To enable efficient data discovery, there are services harvesting the
+resource records from the publishing registries and offering interfaces
+more suitable for querying to their users.  Within the VO, the Registry
+Interfaces specification <cite>std:RI1</cite> defined such an interface;
+for a number of reasons, an update of this interface specification is
+desirable.</p>
 
-<p>Together with IVOA's Table Access Protocol <cite>std:TAP</cite>, this
-allows to search the Registry using the standard Astronomical Data Query
-Language <cite>std:ADQL</cite>.  Client applications can be built
-according to this specification and be able to discover and retrieve
-descriptions from any compliant registry, whereas advanced users can
-build complex queries as integrated parts of data discovery processes,
-using tools they already know.</p>
+<p>This document provides such an updated specifiation, aimed towards
+usage with current VO standards, in particular TAP <cite>std:TAP</cite>
+and ADQL <cite>std:ADQL</cite>.  It follows the model of ObsCore
+<cite>std:OBSCORE</cite> of defining a representation of a data model
+within a relational data base.  In this case, the data model is a
+simplification of the VO's resource metadata interchange representation,
+the VOResource XML format <cite>std:VOR</cite>.  The simplification
+yields 14 tables.  This specification gives the table metadata together
+with rules for how to fill these tables from VOResource-serialized
+metadata records.</p>
+
+<p>This architecture allows client applications to perform "canned"
+queries on behalf of their user as well as complex queries formulated
+directly by advanced users, using tools they already know.</p>
 
 <p>It is a design goal of this specification that different registries
 operating on the same set of registry records will return identical
@@ -207,7 +221,7 @@ responses for most queries.</p>
 <h3><a id="rolewithinivoa">The Relational Registry within the VO Architecture</a></h3>
 
 <div class="figure">
-<img src="RelationalTAP-arch.png" alt="The Relational Registry within the VO architecture" width="95%" align="center"/>
+<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" width="95%" align="center"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
 diagram with the Relational Registry specification (RegTAP) and
 the related standards marked up.</p>
@@ -225,12 +239,13 @@ refers to concepts laid down there via the utypes given here.</dd>
 
 <dt>VODataService, v1.1 <cite>std:VODS11</cite></dt>
 <dd>VODataService extends the VOResource data model by important
-concepts, like tablesets, and it introduces several new resource types
-(data services, data collections).  These concepts are reflected in
-the database schema defined for searchable registries.</dd>
+concepts and resource types (tablesets, data services, data
+collections).  These concepts and types are reflected in the database
+schema.  Again utypes on the tables and columns link this specification
+and VODataService.</dd>
 
 <dt>Other Registry Extensions</dt>
-<dd>Registry extensions (including this document) are VO standards
+<dd>Registry extensions are VO standards
 defining how special types of resources are described.  Most aspects
 introduced by them are reflected in the <code>res_detail</code> table using
 utypes algorithmically generated from the XML schema documents given by
@@ -240,7 +255,7 @@ caveat in <a href="#vorutypes">VOResource Utypes</a>, we note the
 version current as of this specification: SimpleDALRegExt 1.0
 <cite>std:DALREGEXT</cite>,
 StandardsRegExt 1.0 <cite>std:STDREGEXT</cite>, TAPRegExt 1.0
-<cite>std:TAPREGEXT</cite>.</dd>
+<cite>std:TAPREGEXT</cite>, Registry Interfaces 1.0 <cite>std:RI1</cite>.</dd>
 
 <dt>TAP, v1.0 <cite>std:TAP</cite></dt>
 <dd>TAP is used as the transport protocol for the queries and results.
@@ -273,19 +288,6 @@ shipped with the relevant standards.</dd>
 
 <div class="section">
 <h2><a id="design">Design Considerations</a></h2>
-
-<p>The interface to searching a registry employs a database schema
-consisting of about a dozen tables, the relational data model for the
-registry.  It is derived from the VOResource schema and its extensions.</p>
-
-<p>The relational registry can be part of any TAP service.  Support for
-the searchable registry is indicated by adding a TapRegExt
-<code>tr:dataModel</code> element as described in <a
-href="#ref_TRE">[TRE]</a> to the TAP
-with the value service's <code>tr:capability</code> element.
-The ivo-id for the data model is
-<code>ivo://ivoa.net/std/RegistryInterface#vor</code>, its name 
-<code>Registry 1.0</code>.</p>
 
 <p>In the design of the tables, the goal has been to preserve as much of
 VOResource and its extensions, including the element names, as possible.
@@ -356,30 +358,56 @@ section <span class="xref">rolewithinivoa</span>.</p>
 
 </div><!-- subsection vorutypes -->
 
+<div class="section">
+<h2><a id="registration">Discovering Relational Registries</a></h2>
+
+<p>The relational registry can be part of any TAP service.  The presence
+of the tables discussed here is indicated by declaring support for the
+data model <code>Registry 1.0</code> with the IVORN
+<code>ivo://ivoa.net/std/RegTAP#vor</code> in the service's
+capabilities (see <cite>std:TAPREGEXT</cite>).  Technically, this
+entails adding</p>
+
+<pre><![CDATA[
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#vor">Registry 1.0</dataModel>
+]]></pre>
+
+<p>as a child of the capability element with the type
+<code>{http://www.ivoa.net/xml/TAPRegExt/v1.0}TableAccess</code>.</p>
+
+<p>A client that knows the access URL of one relational
+registry can thus discover all other services exposing one. The <a
+href="#example-findregtap">"Find all TAP endpoints offering the
+relational registry"</a> example below shows one query that does
+this.</p>
+
+</div><!-- subsection registration -->
 
 <div class="section">
 <h2><a id="vortables">VOResource Tables</a></h2>
 
 <p>In the following table descriptions, names and utypes of tables and
 columns are normative and MUST be used as given, and all-lowercase.
-Descriptions are not normative.  Registry operators MAY provide
-additional columns in their tables, but they MUST provide all columns
-given in this specification.</p>
+Descriptions are not normative (as given, they usually are taken from
+the schema files of VOResource and its extensions with slight
+redaction).  Registry operators MAY provide additional columns in their
+tables, but they MUST provide all columns given in this
+specification.</p>
 
 <p>All table descriptions start out with brief remarks on the
 relationship of the table to the VOResource XML data model.  Then, the
-columns are described in using some of the TAP_SCHEMA columns. For each
+columns are described in a selection of TAP_SCHEMA metadata. For each
 table, recommendations on explicit primary and foreign keys as well as
 indexed columns are given, where it is understood that primary and
 foreign keys are already indexed in order to allow efficient joins;
 these parts are not normative, but operators should ensure decent
 performance for queries assuming the presence of the given indices and
-relationships.  Finally, the lowercasing requirements
+relationships.  Finally, lowercasing requirements
 (normative) are given.</p>
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegistryInterface#vor</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP#vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
@@ -425,7 +453,7 @@ ADQL extension function to check for the presence of a single value.
 This convention saves on tables while not complicating common queries
 significantly.</p>
 
-<p>The <code>vr:source</code> element is folded into the record proper;
+<p>The <code>vr:source</code> element is folded into the main record
 its content is available in the <code>source_value</code> column, the
 format&#8212;for which <code>bibcode</code> is the most interesting
 value&#8212;is available from <code>source_format</code>.</p>
@@ -496,7 +524,8 @@ predict what <code>role_name</code> will contain; it could be a single
 name in some format (full first name, initials in front or behind, or
 even a project name), but it could as well be a full author list.  Thus,
 when matching against <code>role_names</code>, you will have to use
-rather lenient regular expressions.  Changing this situation would
+rather lenient regular expressions.  Changing this, admittedly
+regrettable, situation would
 probably require a change in the VOResource schema.</p>
 
 <!-- GENERATED: maketable.sh rr.res_role -->
@@ -519,7 +548,7 @@ supports regular expressions.</p>
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>role_ivoid</code>,
 <code>base_utype</code>.
-Clients are advised query the remaining columns, in particular
+Clients are advised to query the remaining columns, in particular
 <code>role_name</code>,
 case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 
@@ -586,7 +615,7 @@ It is recommended to maintain an index on at least the
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>cap_type</code>, <code>standard_id</code>.
 Clients are advised to query the <code>cap_description</code> column
-using the the <code>ivo_hasword</code> function.</p>
+using the <code>ivo_hasword</code> function.</p>
 
 </div> <!-- subsection table_capability -->
 
@@ -641,7 +670,7 @@ with the SQL reserved word <code>TABLE</code>.</p>
 disambiguate multiple tables on a single resource.  Operators are free to
 choose the actual values as convenient, although it is recommended to just
 enumerate the tables in their physical sequence per-resource (but not per
-schema&#8212;<code>table_index</code> MUST be unique within a resource.</p>
+schema&#8212;<code>table_index</code> MUST be unique within a resource).</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
@@ -680,7 +709,7 @@ using the the <code>ivo_hasword</code> function.</p>
 
 <p>The <code>table_column</code>  table models the content of VOResource's
 <code>column</code> element.  The table has been renamed to avoid
-a name clash with the SQL reserved word column.</p>
+a name clash with the SQL reserved word <code>COLUMN</code>.</p>
 
 <p>Since it is expected that queries for column properties will be
 fairly common in advanced queries, it is the column table that has the
@@ -689,15 +718,17 @@ utype, etc).</p>
 
 <p>The <code>flag</code> column contains a concatenation of all values
 of a <code>column</code> element's <code>flag</code> children, separated
-by has characters.  Use the <code>ivo_hashlist_has</code> function in
+by hash characters.  Use the <code>ivo_hashlist_has</code> function in
 queries against <code>flag</code>.</p>
 
 <p>The <code>table_column</code> table also includes information from
 VODataService's data type concept.  VODataService 1.1 includes several type
 systems (VOTable, ADQL, Simple).  The
-<code>typesystem</code> column gives this type service as in the
-<code>xsi:type</code> attribute, with the VODataService XML prefix fixed
-to vs.</p>
+<code>typesystem</code> column contains the value of the column's 
+<code>datatype</code> child, with the VODataService XML prefix fixed
+to vs; hence, this column will contain one of NULL,
+<code>vs:TAPType</code>,
+<code>vs:SimpleDataType</code>, and <code>vs:VOTableType</code>.</p>
 
 <!-- GENERATED: maketable.sh rr.table_column -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
@@ -722,8 +753,8 @@ to vs.</p>
 explicit foreign key into <code>res_table</code>.  It is recommended to
 maintain an index on at least the <code>description</code>,
 <code>name</code>, <code>ucd</code>, and <code>utype</code> columns,
-where the index on <code>description</code> should ideally be suited for
-queries using <code>ivo_hasword</code>.</p>
+where the index on <code>description</code> should ideally be able
+to handle queries using <code>ivo_hasword</code>.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>name</code>, <code>ucd</code>,
@@ -739,7 +770,7 @@ column using the the <code>ivo_hasword</code> function.</p>
 
 <p>The <code>interface</code> table subsumes both the
 <code>vr:Interface</code> and <code>vr:accessURL</code> types from
-VOResource.  The fact that we integrated <code>accessURL</code>  into
+VOResource.  The integration of <code>accessURL</code>  into
 the <code>interface</code>  table means that an interface in the
 relational registry can only have one access URL, where in VOResource it
 can have many.  In practice, this particular VOResource capability has
@@ -747,7 +778,7 @@ not been used by registry record authors.  Since access URLs are
 probably the item most queried for, it seems warranted to save one
 indirection when querying for them.</p>
 
-<p>If interfaces with multiple access URLs should become necessary in
+<p>Should interfaces with multiple access URLs become necessary in
 the future, we propose a slight denormalization by creating mulitple
 interfaces with one access URL each within the registry's ingestion
 logic.</p>
@@ -791,11 +822,13 @@ It is recommended to maintain an index on at least the
 <div class="section">
 <h3><a id="table_intf_param">The intf_param Table</a></h3>
 
-<p>The <code>intf_param</code> table is related to
+<p>The <code>intf_param</code> table keeps information on the parameters
+avalailable on interfaces.  It is therefore closely related to
 <code>table_column</code>, but the differences between the two are
-significant enough to warrant a special table for the parameters to
-interfaces.  Since common column names are used where applicable, the
-two tables are not supposed to be (naturally) joined.</p>
+significant enough to warrant a separation between the two tables.
+Since the names of common column attributes are used where applicable in
+both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
+joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
@@ -911,10 +944,10 @@ addresses the entire resource).</p>
 <h3><a id="table_res_detail">The res_detail Table</a></h3>
 
 <p>The <code>res_detail</code> table is a fallback for less-used simple
-metadata.  Conceptually, it stores triples of resource entities, utypes,
+metadata.  Conceptually, it stores triples of resource entity references, utypes,
 and values, where resource entities can be resource records themselves
-or capabilities.  Thus, arbitrary metadata that is either atomic or
-consists of lists of atoms can be represented.</p>
+or capabilities.  Thus, metadata with values that are either
+atomic or sets of atoms can be represented in this table.</p>
 
 <p>This is intended in particular as an easy fallback for new VOResource
 extensions.  As long as the metadata that needs to be represented in the
@@ -1054,17 +1087,16 @@ use the <code>ivo_nocasematch</code> function to search in
 </div> <!-- section vortables -->
 
 
-<div class="section">
+<div class="section ignorefornow">
 <h2><a id="stctables">STC Coverage Tables</a></h2>
 
-<p class="TODO">I don't insist to keep this in, but since (a) it's
-"optional", (b) I don't have a better place for it now, and (c) it's
-actually reasonably simple, I'm keeping it in for now.  If you strongly
-feel it should be dropped after having a look at it, just drop it.</p>
+<p class="TODO">I don't insist on keeping this in; It's here until I
+either find a better place for it or until people feel it can stay in on
+grounds that it's reasonable and optional.</p>
 
 <p>VOResource records can contain coverage information expressed
-according to the IOVA data model for Space-Time Coordinates <a
-href="#ref_STC">[STC]</a>.  The complete data model is far too large and
+according to the IOVA data model for Space-Time Coordinates 
+<cite>std:STC</cite>.  The complete data model is far too large and
 complex for a relational representation.  However, a rough indication of
 the regions in time, space, and the electromagnetic spectrum covered by
 a resource is sufficient for many registry purposes, in particular
@@ -1105,7 +1137,7 @@ transform STC metadata given in other forms.</p>
 according to the rules in <a href="#ref_STCVOT">[STCVOT]</a>.</p>
 
 <p>Services providing the following tables should declare support for
-the data model <code>ivo://ivoa.net/std/RegistryInterface#stc</code> in
+the data model <code>ivo://ivoa.net/std/RegTAP#stc</code> in
 their TAP capabilities:</p>
 
 <!-- GENERATED: gettables.sh stc -->
@@ -1250,7 +1282,7 @@ both the <code>time_start</code> and <code>time_end</code> columns.</p>
 <h2><a id="adqludf">ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegistryInterface#vor</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP#vor</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1277,6 +1309,10 @@ case-insensitively, the second argument is in the list of words coded in
 the first argument.  The behaviour for second
 arguments containing a hash signs is undefined.</dd>
 </dl>
+
+<p>Reference implementations of the three functions for the PostgreSQL
+data base system are given in Appendix <span
+class="xref">appPGDefs</span>.</p>
 
 </div><!-- section adqludf -->
 
@@ -1338,7 +1374,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND 1=ivo_hashlist_has('Infrared', waveband)
+  AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
 </dd>
 
@@ -1376,7 +1412,7 @@ WHERE 1=ivo_nocasematch(role_name, '%gavo%')
 SELECT ivoid 
 FROM rr.resource
   NATURAL JOIN rr.res_role
-WHERE role_ivoid='ivo://ned.ipac/NED'
+WHERE role_ivoid='ivo://ned.ipac/ned'
   AND base_utype='vor:resource.curation.publisher'
 </pre>
 </dd>
@@ -1390,8 +1426,8 @@ builds conditions on values in <code>res_detail</code>:</p>
 SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
   SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
-  WHERE detail_utype='vor:capability.managedAuthority' 
-    AND ivoid='ivo://CDS.VizieR/registry') 
+  WHERE detail_utype='vor:capability.managedauthority' 
+    AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
 ON (resource.ivoid LIKE authpatterns.pat)
 </pre>
@@ -1399,16 +1435,17 @@ ON (resource.ivoid LIKE authpatterns.pat)
 
 
 
-<dt>Find all TAP endpoints offering the relational registry</dt>
+<dt><a id="example-findregtap"></a>Find all TAP endpoints offering 
+the relational registry</dt>
 <dd>
 <pre class="samplequery">
 SELECT access_url
 FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
-WHERE standard_id='ivo://ivoa.net/std/TAP'
+WHERE standard_id='ivo://ivoa.net/std/tap'
   AND detail_utype='vor:capability.datamodel.ivoid'
-  AND detail_value='ivo://ivoa.net/std/RegistryInterface#vor'
+  AND detail_value='ivo://ivoa.net/std/regtap#vor'
 </pre>
 </dd>
 
@@ -1423,9 +1460,9 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
-WHERE standard_id='ivo://ivoa.net/std/TAP'
+WHERE standard_id='ivo://ivoa.net/std/tap'
   AND 1=ivo_hasword(table_description, 'quasar')
-  AND ucd='phot.mag;em.opt.V'
+  AND ucd='phot.mag;em.opt.v'
 </pre>
 </dd>
 
@@ -1436,8 +1473,8 @@ SELECT access_url
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
-WHERE detail_utype='vor:capability.dataSource' 
-  AND standard_id='ivo://ivoa.net/std/SSA'
+WHERE detail_utype='vor:capability.datasource' 
+  AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
 </dd>
@@ -1465,7 +1502,7 @@ distance", one might need to give multiple UCDs here.</p>
 SELECT DISTINCT email 
 FROM rr.res_role 
   NATURAL JOIN rr.interface 
-WHERE access_url='http://broken-service/path/to/svc'
+WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 </pre>
 </dd>
 
@@ -1483,6 +1520,52 @@ WHERE access_url='http://broken-service/path/to/svc'
 
 </div>  <!-- section appA -->
 
+<div class="section"><h2><a id="appPGDefs">The Extra UDFs in
+PL/pgSQL</a></h2>
+
+<p>What follows are implementations of the three user defined functions
+specificed in section <span class="xref">adqludf</span> in the dialect
+the PostgreSQL server uses for SQL procedures, PL/pgSQL.  For more
+details on PostgreSQL, see, e.g., <cite>doc:Postgres92</cite>.</p>
+
+<pre><![CDATA[
+CREATE OR REPLACE FUNCTION ivo_hasword(haystack TEXT, needle TEXT)
+RETURNS INTEGER AS $func$
+BEGIN
+	IF to_tsvector(haystack) @@ plainto_tsquery(needle) THEN
+		RETURN 1;
+	ELSE
+		RETURN 0;
+	END IF;
+END;
+$func$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ivo_hashlist_has(hashlist TEXT, item TEXT)
+RETURNS INTEGER AS $func$
+BEGIN
+	-- postgres can't RE-escape a user string; hence, we'll have
+	-- to work on the hashlist
+	IF lower(item) = ANY(string_to_array(lower(hashlist), '#')) THEN
+		RETURN 1;
+	ELSE
+		RETURN 0;
+	END IF;
+END;
+$func$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ivo_nocasematch(value TEXT, pattern TEXT)
+RETURNS INTEGER AS $func$
+BEGIN
+	IF value ILIKE pattern THEN
+		RETURN 1;
+	ELSE
+		RETURN 0;
+	END IF;
+END;
+$func$ LANGUAGE plpgsql;
+]]></pre>
+
+</div> <!-- section appPGDefs -->
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
 
 <p>No previous versions so far.</p>
