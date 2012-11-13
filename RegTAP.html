@@ -428,7 +428,7 @@ referenced capability otherwise.</td></tr>
 <tr><td>rr.interface<br/>vor:capability.interface</td><td> Interfaces of capabilities; this gives you where to actually use a
 certain capability.</td></tr>
 <tr class="even"><td>rr.relationship<br/>vor:resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
-<tr><td>rr.intf_param<br/>interface.param</td><td> A description of a input parameter that can be provided as a
+<tr><td>rr.intf_param<br/>vor:interface.param</td><td> A description of a input parameter that can be provided as a
 name=value argument to the service.</td></tr>
 <tr class="even"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
 <tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
@@ -1087,7 +1087,8 @@ use the <code>ivo_nocasematch</code> function to search in
 </div> <!-- section vortables -->
 
 
-<div class="section ignorefornow">
+<div class="ignorefornow">
+<div class="section">
 <h2><a id="stctables">STC Coverage Tables</a></h2>
 
 <p class="TODO">I don't insist on keeping this in; It's here until I
@@ -1193,7 +1194,10 @@ will be fixed when is implementation in DaCHS is updated.</p>
 
 <!-- GENERATED: maketable.sh rr.stc_spatial -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>area_covered <br/>stc:AstroCoordArea.Region</td><td>adql:REGION</td><td>An ADQL region the resource has information for.</td></tr>
+<tr class="even"><td>ra_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C1</td><td>adql:REAL</td><td>A left edge of a bounding box on the sky the resource covers.</td></tr>
+<tr><td>ra_max <br/>stc:AstroCoordArea.Position2VecInterval.HiLimit2Vec.C1</td><td>adql:REAL</td><td>An right edge of a bounding box on the sky the resource covers.</td></tr>
+<tr class="even"><td>de_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C2</td><td>adql:REAL</td><td>A lower edge of a bounding box on the sky the resource covers.</td></tr>
+<tr><td>de_max <br/>stc:AstroCoordArea.Position2VecInterval.HiLimit2Vec.C2</td><td>adql:REAL</td><td>An upper edge of a bounding box on the sky the resource covers.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1276,6 +1280,7 @@ both the <code>time_start</code> and <code>time_end</code> columns.</p>
 
 </div> <!-- subsection table_redshift -->
 </div> <!-- section stctables -->
+</div> <!-- class ignorefornow -->
 
 
 <div class="section">
