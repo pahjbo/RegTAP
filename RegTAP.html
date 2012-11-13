@@ -1105,16 +1105,7 @@ focusing queries to a smaller subset of resources by weeding out ones
 which do not intersect with the region of interest.</p>
 
 <p>This section defines a set of tables giving, for each resource and
-STC axis, zero or more intervals covered by the data.  For the spatial
-coverate, these intervals are actually bounding boxes.   While ADQL
-would support defining and querying more sophisticated regions, using
-these for coverage is not straightforward; one reason is that the
-natural candidate for a coverage column type, POLYGON, cannot easily
-represent the entire sky or similarly large coverages, which means
-ingestors would have to employ fairly advanced spherical geometry to
-split such large regions up.  Also, in data discovery the actual shape
-of the covered regions is probably not usually important.</p>
-
+STC axis, zero or more intervals covered by the data.</p> 
 <p>To make queries feasible, the STC coverage tables have fixed STC
 metadata, viz,</p>
 
@@ -1172,25 +1163,30 @@ column must be lowercased on ingestion.</p>
 <div class="section">
 <h3><a id="table_stc_spatial">The stc_spatial Table</a></h3>
 
-<p>The <code>stc_spatial</code> table links IVORNs with ADQL geometry
-objects.  These will typically be polygons, but implementors are free to
-use any database representation as long as the ADQL
-<code>CONTAINS</code>  and <code>INTERSECTS</code> functions remain
-applicable to the <code>area_covered</code> column.</p>
+<p>The <code>stc_spatial</code> table links IVORNs with zero or more
+bounding boxes, understood as intervals in Right Ascension and and
+Declination (note that this means the bounding lines in latitude are
+not great circles).  This is an admittedly rough model, but since in
+principle, a service can define arbitrarily many such patches, any
+desired accuracy can be obtained.  However, since the these items are
+given for discovery purposes, to weed out irrelevant
+services in all-VO query, and similar tasks, a fairly sketchy
+specification of coverage should be sufficient.</p>
 
-<p>The STC data model allows intersections and differences of STC
-regions, which in themselves are significantly more powerful than ADQL
-regions.  While arbitrarily good approximations of the resulting shapes
-using a union of polygons are possible, best-effort conversion of STC
-shapes is acceptable.  For example, clients should not expect that 
-"holes" in regions are preserved.</p>
+<p>While ADQL would support defining and querying more sophisticated
+regions, using these for coverage is not straightforward; one reason is
+that the natural candidate for a coverage column type, POLYGON, cannot
+easily represent the entire sky or similarly large coverages, which
+means ingestors would have to employ fairly advanced spherical geometry
+to split such large regions up.  Also, in data discovery the actual
+shape of the covered regions is probably not usually important.</p>
 
-<p>Registry records SHOULD be written to be either AllSky, elementary
-ADQL-compatible regions (i.e., circles and polygons), or simple unions 
-of elementary ADQL-compatible regions.</p>
-
-<p class="TODO">The stc_spatial table reflects the first attempt; this
-will be fixed when is implementation in DaCHS is updated.</p>
+<p>Currently, fully general STC specifications are allowed in registry
+records.  It is not expected that many registries will sensibly support
+a significant part of the constructs possible and the transformations
+involved.  For interoperability, resource record authors should give
+spherical position intervals in ICRS exclusively.  A short IVOA note
+will discuss the recommended format of coverage declaration.</p>
 
 <!-- GENERATED: maketable.sh rr.stc_spatial -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
