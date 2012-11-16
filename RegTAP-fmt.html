@@ -408,31 +408,31 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP#vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
-present in this registry.</td></tr>
-<tr class="even"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
-creators, contacts, publishers.</td></tr>
-<tr><td>rr.subject<br/>vor:resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
-resource.</td></tr>
-<tr class="even"><td>rr.capability<br/>vor:capability</td><td> Descriptions of what a resource does and how to use it
-(context-specific behavior and interfaces)</td></tr>
-<tr><td>rr.res_schema<br/>vor:resource.tableset.schema</td><td> A detailed description of a logically-related set of tables related
-to the resource.</td></tr>
-<tr class="even"><td>rr.res_table<br/>vor:resource.tableset.schema.table</td><td> A description of one a table pertaining to the resource.</td></tr>
-<tr><td>rr.table_column<br/>vor:resource.tableset.schema.table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
-<tr class="even"><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
-capability. The pairs refer to a resource if cap_index is NULL, to the
-referenced capability otherwise.</td></tr>
-<tr><td>rr.interface<br/>vor:capability.interface</td><td> Interfaces of capabilities; this gives you where to actually use a
-certain capability.</td></tr>
-<tr class="even"><td>rr.relationship<br/>vor:resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
-<tr><td>rr.intf_param<br/>vor:interface.param</td><td> A description of a input parameter that can be provided as a
-name=value argument to the service.</td></tr>
-<tr class="even"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
-<tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
 This will typically be associated with the creation or availability
 (i.e., most recent release or version) of the resource. Use the role
 attribute to clarify.</td></tr>
+<tr class="even"><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
+present in this registry.</td></tr>
+<tr><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+creators, contacts, publishers.</td></tr>
+<tr class="even"><td>rr.subject<br/>vor:resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
+resource.</td></tr>
+<tr><td>rr.capability<br/>vor:capability</td><td> Descriptions of what a resource does and how to use it
+(context-specific behavior and interfaces)</td></tr>
+<tr class="even"><td>rr.res_schema<br/>vor:resource.tableset.schema</td><td> A detailed description of a logically-related set of tables related
+to the resource.</td></tr>
+<tr><td>rr.res_table<br/>vor:resource.tableset.schema.table</td><td> A description of one a table pertaining to the resource.</td></tr>
+<tr class="even"><td>rr.table_column<br/>vor:resource.tableset.schema.table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
+capability. The pairs refer to a resource if cap_index is NULL, to the
+referenced capability otherwise.</td></tr>
+<tr class="even"><td>rr.interface<br/>vor:capability.interface</td><td> Interfaces of capabilities; this gives you where to actually use a
+certain capability.</td></tr>
+<tr><td>rr.relationship<br/>vor:resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
+<tr class="even"><td>rr.intf_param<br/>vor:interface.param</td><td> A description of a input parameter that can be provided as a
+name=value argument to the service.</td></tr>
+<tr><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -729,7 +729,7 @@ to vs; hence, this column will contain one of NULL,
 <tr><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr class="even"><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
 <tr><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr class="even"><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>comma-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr class="even"><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
 <tr><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
 <tr class="even"><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
 <tr><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
@@ -828,12 +828,12 @@ joined.</p>
 <tr class="even"><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
 <tr class="even"><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>comma-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
 <tr class="even"><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
 <tr><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
 <tr class="even"><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
 <tr><td>extended_type <br/>vor:interface.param.dataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr class="even"><td>form <br/>vor:interface.param</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+<tr class="even"><td>use <br/>vor:interface.param.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
