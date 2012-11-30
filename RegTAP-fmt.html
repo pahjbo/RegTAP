@@ -179,7 +179,7 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#vorutypes"><span class="secnum">4. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">5. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">6. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">6.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">6.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">6.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">6.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">6.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">6.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">6.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">6.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">6.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">6.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">6.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">6.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">6.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">7. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">8. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#changes"><span class="secnum">C. </span>Changes from Previous Versions</a></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#changes"><span class="secnum">C. </span>Changes from Previous Versions</a></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -335,7 +335,49 @@ to D144 in <a href="#ref_UC">[UC]</a>.</p>
 </div> <!-- casenorm -->
 
 
-<div class="section"><h2><a id="vorutypes"><span class="secnum">4. </span>VOResource Utypes</a></h2>
+<div class="section"><h2><a id="qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></h2>
+<p>VOResource and its extensions make use of XML QNames in attribute
+values, most prominently in <code>xsi:type</code>.  The standard
+representation of these QNames in XML instance documents makes use of an
+abbreviated notation using prefixes declared using the xmlns mechanism
+as discussed in <cite>[<a href="#std:XMLNS">std:XMLNS</a>]</cite>.  Within an ADQL database, no
+standard mechanism exists that could provide a similar mapping of URLs
+and abbreviations.  The correct way to handle this problem would thus be
+to have full QNames in the database (e.g.,
+<code>{http://www.ivoa.net/xml/ConeSearch/v1.0}ConeSearch</code> for the
+canonical <code>cs:ConeSearch</code>).  This, of course, would make for
+excessively tedious and error-prone querying.</p>
+
+<p>For various reasons, VOResource authors have always been encouraged
+to use a set of "standard" prefixes.  This allows an easy and, to users,
+unsurprising exit from the problem of the missing xmlns declarations:
+For the representation of QNames within the database, these standard
+prefixes are now mandatory. Future VOResource extensions define their
+mandatory prefixes themselves.</p>  
+
+<p>Following the existing practice, minor version changes are not in
+general reflected in the recommended prefixes—e.g., both VODataService
+1.0 and VODataService 1.1 use <code>vs:</code>.  For reference, here is
+a table of XML namespaces and prefixes for namespaces that might be
+encountered in VOResource documents:</p>
+
+<table>
+<tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
+<tr><td>ri</td><td>http://www.ivoa.net/xml/RegistryInterface/v1.0</td></tr>
+<tr><td>vg</td><td>http://www.ivoa.net/xml/VORegistry/v1.0</td></tr>
+<tr><td>vr</td><td>http://www.ivoa.net/xml/VOResource/v1.0</td></tr>
+<tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.0</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.1</td></tr>
+<tr><td>cs</td><td>http://www.ivoa.net/xml/ConeSearch/v1.0</td></tr>
+<tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
+<tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
+<tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
+<tr><td>vstd</td><td>http://www.ivoa.net/xml/StandardsRegExt/v1.0</td></tr>
+</table>
+</div>
+
+<div class="section"><h2><a id="vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></h2>
 
 <p>The VOResources utypes are generated from the XML schema files
 for VOResource and its extensions.  We follow the approach outlined in
@@ -359,7 +401,7 @@ section <span class="xref"><a href="#rolewithinivoa">1.1</a></span>.</p>
 
 </div><!-- subsection vorutypes -->
 
-<div class="section"><h2><a id="registration"><span class="secnum">5. </span>Discovering Relational Registries</a></h2>
+<div class="section"><h2><a id="registration"><span class="secnum">6. </span>Discovering Relational Registries</a></h2>
 
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
@@ -382,7 +424,7 @@ this.</p>
 
 </div><!-- subsection registration -->
 
-<div class="section"><h2><a id="vortables"><span class="secnum">6. </span>VOResource Tables</a></h2>
+<div class="section"><h2><a id="vortables"><span class="secnum">7. </span>VOResource Tables</a></h2>
 
 <p>In the following table descriptions, names and utypes of tables and
 columns are normative and MUST be used as given, and all-lowercase.
@@ -436,13 +478,13 @@ name=value argument to the service.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
-<div class="section"><h3><a id="table_resource"><span class="secnum">6.1. </span>The resource Table</a></h3>
+<div class="section"><h3><a id="table_resource"><span class="secnum">7.1. </span>The resource Table</a></h3>
 
 <p>The <code>ivoa.resource</code> table contains most atomic 
 members of <code>vr:Resource</code> and the common derived types
 that have a 1:1 relationship to the resource itself.  Some less-used members
 of derived types are handled through the <code>res_detail</code> table
-(see <span class="xref"><a href="#table_res_detail">6.13</a></span>).
+(see <span class="xref"><a href="#table_res_detail">7.13</a></span>).
 The contentlevel, waveband, and rights members are 1:n but still appear here.
 If there are multiple values, concatenate them with 
 hash characters (#).  Use the <code>ivo_hashlist_has</code>
@@ -499,7 +541,7 @@ using the the <code>ivo_hasword</code> function.</p>
 
 </div> <!-- subsection table_resource -->
 
-<div class="section"><h3><a id="table_res_role"><span class="secnum">6.2. </span>The res_role Table</a></h3>
+<div class="section"><h3><a id="table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></h3>
 
 <p>This table subsumes the contact, publisher and creator members of the
 VOResource data model.  They have been combined into a single table to
@@ -551,7 +593,7 @@ case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 </div> <!-- subsection table_res_role -->
 
 
-<div class="section"><h3><a id="table_subject"><span class="secnum">6.3. </span>The subject Table</a></h3>
+<div class="section"><h3><a id="table_subject"><span class="secnum">7.3. </span>The subject Table</a></h3>
 
 <p>Since subject queries are expected to be frequent and perform relatively
 complex checks (e.g., resulting from thesaurus queries in the clients), the
@@ -576,12 +618,12 @@ case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 </div> <!-- subsection table_subject -->
 
 
-<div class="section"><h3><a id="table_capability"><span class="secnum">6.4. </span>The capability Table</a></h3>
+<div class="section"><h3><a id="table_capability"><span class="secnum">7.4. </span>The capability Table</a></h3>
 
 <p>The capability table describes the capabilities of a resource; it only
 contains the members of the base type <code>vr:Capability</code>.
 Members of derived types are kept in the <code>res_detail</code> table
-(see <span class="xref"><a href="#table_res_detail">6.13</a></span>).</p>
+(see <span class="xref"><a href="#table_res_detail">7.13</a></span>).</p>
 
 <p>The table has an
 integer-typed column <code>cap_index</code> to disambiguate multiple
@@ -614,7 +656,7 @@ using the <code>ivo_hasword</code> function.</p>
 </div> <!-- subsection table_capability -->
 
 
-<div class="section"><h3><a id="table_res_schema"><span class="secnum">6.5. </span>The res_schema Table</a></h3>
+<div class="section"><h3><a id="table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></h3>
 
 <p>The <code>res_schema</code> table corresponds to VODataService's
 <code>schema</code> element.  It has been renamed to avoid clashes with
@@ -652,7 +694,7 @@ using the the <code>ivo_hasword</code> function.</p>
 </div> <!-- subsection table_res_schema -->
 
 
-<div class="section"><h3><a id="table_res_table"><span class="secnum">6.6. </span>The res_table Table</a></h3>
+<div class="section"><h3><a id="table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></h3>
 
 <p>The <code>res_table</code> table models VODataService's
 <code>table</code> element.  It has been renamed to avoid name clashes
@@ -696,7 +738,7 @@ using the the <code>ivo_hasword</code> function.</p>
 
 
 
-<div class="section"><h3><a id="table_table_column"><span class="secnum">6.7. </span>The table_column Table</a></h3>
+<div class="section"><h3><a id="table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></h3>
 
 <p>The <code>table_column</code>  table models the content of VOResource's
 <code>column</code> element.  The table has been renamed to avoid
@@ -756,7 +798,7 @@ column using the the <code>ivo_hasword</code> function.</p>
 
 </div> <!-- subsection table_table_column  -->
 
-<div class="section"><h3><a id="table_interface"><span class="secnum">6.8. </span>The interface Table</a></h3>
+<div class="section"><h3><a id="table_interface"><span class="secnum">7.8. </span>The interface Table</a></h3>
 
 <p>The <code>interface</code> table subsumes both the
 <code>vr:Interface</code> and <code>vr:accessURL</code> types from
@@ -809,7 +851,7 @@ It is recommended to maintain an index on at least the
 
 </div> <!-- subsection table_interface -->
 
-<div class="section"><h3><a id="table_intf_param"><span class="secnum">6.9. </span>The intf_param Table</a></h3>
+<div class="section"><h3><a id="table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></h3>
 
 <p>The <code>intf_param</code> table keeps information on the parameters
 avalailable on interfaces.  It is therefore closely related to
@@ -843,12 +885,12 @@ should be an explicit foreign key into <code>interface</code>.  It is recommende
 maintain an index on at least the <code>description</code>, <code>name</code>,
 <code>ucd</code>, and <code>utype</code> columns.</p>
 
-<p>See section <span class="xref"><a href="#table_table_column">6.7</a></span> for
+<p>See section <span class="xref"><a href="#table_table_column">7.7</a></span> for
 requirements on lowercasing or column values.</p>
 </div> <!-- subsection table_intf_param -->
 
 
-<div class="section"><h3><a id="table_relationship"><span class="secnum">6.10. </span>The relationship Table</a></h3>
+<div class="section"><h3><a id="table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></h3>
 
 <p>The relationship element is a slight denormalization of the
 <code>vr:Relationship</code> type: Whereas in VOResource, a single
@@ -875,7 +917,7 @@ between the two representations in the database ingestor.</p>
 
 </div> <!-- subsection table_relationship -->
 
-<div class="section"><h3><a id="table_validation"><span class="secnum">6.11. </span>The validation Table</a></h3>
+<div class="section"><h3><a id="table_validation"><span class="secnum">7.11. </span>The validation Table</a></h3>
 
 <p>The <code>validation</code> subsumes the
 <code>vr:validationLevel</code> members of both <code>vr:Resource</code>
@@ -907,7 +949,7 @@ addresses the entire resource).</p>
 </div> <!-- subsection table_validation -->
 
 
-<div class="section"><h3><a id="table_res_date"><span class="secnum">6.12. </span>The res_date Table</a></h3>
+<div class="section"><h3><a id="table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></h3>
 
 <p>The <code>res_date</code> table contains information gathered from
 <code>vr:Curation</code>'s date children.</p>
@@ -926,7 +968,7 @@ addresses the entire resource).</p>
 <code>ivoid</code>, <code>value_role</code>.</p>
 </div> <!-- subsection table_res_date -->
 
-<div class="section"><h3><a id="table_res_detail"><span class="secnum">6.13. </span>The res_detail Table</a></h3>
+<div class="section"><h3><a id="table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></h3>
 
 <p>The <code>res_detail</code> table is a fallback for less-used simple
 metadata.  Conceptually, it stores triples of resource entity references, utypes,
@@ -1259,7 +1301,7 @@ both the <code>time_start</code> and <code>time_end</code> columns.</p>
 </div> <!-- class ignorefornow -->
 
 
-<div class="section"><h2><a id="adqludf"><span class="secnum">7. </span>ADQL User Defined Functions</a></h2>
+<div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
 <code>ivo://ivoa.net/std/RegTAP#vor</code> data model MUST 
@@ -1295,7 +1337,7 @@ data base system are given in Appendix <span class="xref"><a href="#appPGDefs">B
 
 </div><!-- section adqludf -->
 
-<div class="section"><h2><a id="sample_queries"><span class="secnum">8. </span>Common Queries to the Relational Registry</a></h2>
+<div class="section"><h2><a id="sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></h2>
 
 <p>This section contains sample queries to the relational registry,
 mostly contributed as use cases by various members of the IVOA Registry
@@ -1545,7 +1587,7 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 <div class="section"><h2><a id="appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></h2>
 
 <p>What follows are implementations of the three user defined functions
-specificed in section <span class="xref"><a href="#adqludf">7</a></span> in the dialect
+specificed in section <span class="xref"><a href="#adqludf">8</a></span> in the dialect
 the PostgreSQL server uses for SQL procedures, PL/pgSQL.  For more
 details on PostgreSQL, see, e.g., <cite>[<a href="#doc:Postgres92">doc:Postgres92</a>]</cite>.</p>
 

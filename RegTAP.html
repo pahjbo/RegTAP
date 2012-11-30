@@ -334,6 +334,49 @@ to D144 in <a href="#ref_UC">[UC]</a>.</p>
 
 
 <div class="section">
+<h2><a id="qnameatts">QNames in VOResource attributes</a></h2>
+<p>VOResource and its extensions make use of XML QNames in attribute
+values, most prominently in <code>xsi:type</code>.  The standard
+representation of these QNames in XML instance documents makes use of an
+abbreviated notation using prefixes declared using the xmlns mechanism
+as discussed in <cite>std:XMLNS</cite>.  Within an ADQL database, no
+standard mechanism exists that could provide a similar mapping of URLs
+and abbreviations.  The correct way to handle this problem would thus be
+to have full QNames in the database (e.g.,
+<code>{http://www.ivoa.net/xml/ConeSearch/v1.0}ConeSearch</code> for the
+canonical <code>cs:ConeSearch</code>).  This, of course, would make for
+excessively tedious and error-prone querying.</p>
+
+<p>For various reasons, VOResource authors have always been encouraged
+to use a set of "standard" prefixes.  This allows an easy and, to users,
+unsurprising exit from the problem of the missing xmlns declarations:
+For the representation of QNames within the database, these recommended
+prefixes are now mandatory. Future VOResource extensions define their
+mandatory prefixes themselves.</p>  
+
+<p>Following the existing practice, minor version changes are not in
+general reflected in the recommended prefixes—e.g., both VODataService
+1.0 and VODataService 1.1 use <code>vs:</code>.  For reference, here is
+a table of XML namespaces and prefixes for namespaces relevant to this
+specification:</p>
+
+<table>
+<tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
+<tr><td>ri</td><td>http://www.ivoa.net/xml/RegistryInterface/v1.0</td></tr>
+<tr><td>vg</td><td>http://www.ivoa.net/xml/VORegistry/v1.0</td></tr>
+<tr><td>vr</td><td>http://www.ivoa.net/xml/VOResource/v1.0</td></tr>
+<tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.0</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.1</td></tr>
+<tr><td>cs</td><td>http://www.ivoa.net/xml/ConeSearch/v1.0</td></tr>
+<tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
+<tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
+<tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
+<tr><td>vstd</td><td>http://www.ivoa.net/xml/StandardsRegExt/v1.0</td></tr>
+</table>
+</div>
+
+<div class="section">
 <h2><a id="vorutypes">VOResource Utypes</a></h2>
 
 <p>The VOResources utypes are generated from the XML schema files
