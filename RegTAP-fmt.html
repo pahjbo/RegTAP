@@ -351,15 +351,15 @@ excessively tedious and error-prone querying.</p>
 <p>For various reasons, VOResource authors have always been encouraged
 to use a set of "standard" prefixes.  This allows an easy and, to users,
 unsurprising exit from the problem of the missing xmlns declarations:
-For the representation of QNames within the database, these standard
+For the representation of QNames within the database, these recommended
 prefixes are now mandatory. Future VOResource extensions define their
 mandatory prefixes themselves.</p>  
 
 <p>Following the existing practice, minor version changes are not in
 general reflected in the recommended prefixes—e.g., both VODataService
 1.0 and VODataService 1.1 use <code>vs:</code>.  For reference, here is
-a table of XML namespaces and prefixes for namespaces that might be
-encountered in VOResource documents:</p>
+a table of XML namespaces and prefixes for namespaces relevant to this
+specification:</p>
 
 <table>
 <tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
@@ -406,12 +406,12 @@ section <span class="xref"><a href="#rolewithinivoa">1.1</a></span>.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP#vor</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
 capabilities (see <cite>[<a href="#std:TAPREGEXT">std:TAPREGEXT</a>]</cite>).  Technically, this
 entails adding</p>
 
 <pre>
-&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP#vor"&gt;Registry 1.0&lt;/dataModel&gt;
+&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor"&gt;Registry 1.0&lt;/dataModel&gt;
 </pre>
 
 <p>as a child of the capability element with the type
@@ -447,7 +447,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP#vor</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
@@ -1155,7 +1155,7 @@ transform STC metadata given in other forms.</p>
 according to the rules in <a href="#ref_STCVOT">[STCVOT]</a>.</p>
 
 <p>Services providing the following tables should declare support for
-the data model <code>ivo://ivoa.net/std/RegTAP#stc</code> in
+the data model <code>ivo://ivoa.net/std/RegTAP/stc</code> in
 their TAP capabilities:</p>
 
 <!-- GENERATED: gettables.sh stc -->
@@ -1304,7 +1304,7 @@ both the <code>time_start</code> and <code>time_end</code> columns.</p>
 <div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP#vor</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1465,7 +1465,7 @@ NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND detail_utype='vor:capability.datamodel.ivoid'
-  AND detail_value='ivo://ivoa.net/std/regtap#vor'
+  AND detail_value='ivo://ivoa.net/std/regtap/vor'
 </pre>
 </dd>
 

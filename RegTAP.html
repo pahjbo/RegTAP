@@ -407,12 +407,12 @@ section <span class="xref">rolewithinivoa</span>.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP#vor</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
 capabilities (see <cite>std:TAPREGEXT</cite>).  Technically, this
 entails adding</p>
 
 <pre><![CDATA[
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#vor">Registry 1.0</dataModel>
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor">Registry 1.0</dataModel>
 ]]></pre>
 
 <p>as a child of the capability element with the type
@@ -450,7 +450,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP#vor</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
@@ -1172,7 +1172,7 @@ transform STC metadata given in other forms.</p>
 according to the rules in <a href="#ref_STCVOT">[STCVOT]</a>.</p>
 
 <p>Services providing the following tables should declare support for
-the data model <code>ivo://ivoa.net/std/RegTAP#stc</code> in
+the data model <code>ivo://ivoa.net/std/RegTAP/stc</code> in
 their TAP capabilities:</p>
 
 <!-- GENERATED: gettables.sh stc -->
@@ -1326,7 +1326,7 @@ both the <code>time_start</code> and <code>time_end</code> columns.</p>
 <h2><a id="adqludf">ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP#vor</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1489,7 +1489,7 @@ NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND detail_utype='vor:capability.datamodel.ivoid'
-  AND detail_value='ivo://ivoa.net/std/regtap#vor'
+  AND detail_value='ivo://ivoa.net/std/regtap/vor'
 </pre>
 </dd>
 
