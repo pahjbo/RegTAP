@@ -322,13 +322,13 @@ converted to lower case in the table below.</p>
 <p>This conversion MUST cover all ASCII letters, i.e., A through Z.  
 The conversion SHOULD take place according to
 algorithm R2 in section 3.13, "Default Case Algorithms" of 
-<a href="#ref_UC">[UC]</a>.  In practice, non-ASCII characters are not expected
+<cite>std:UNICODE</cite>.  In practice, non-ASCII characters are not expected
 to occur in columns for which lowercasing is required.</p>
 
 <p>Analogously, case-insensitive comparisons as required by some of the
 user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
-to D144 in <a href="#ref_UC">[UC]</a>.</p>
+to D144 in <cite>std:UNICODE</cite>.</p>
 
 </div> <!-- casenorm -->
 
@@ -421,7 +421,8 @@ entails adding</p>
 <p>A client that knows the access URL of one relational
 registry can thus discover all other services exposing one. The <a
 href="#example-findregtap">"Find all TAP endpoints offering the
-relational registry"</a> example below shows one query that does
+relational registry"</a> example in section
+<span class="xref">sample_queries</span> shows one query that does
 this.</p>
 
 </div><!-- subsection registration -->
@@ -484,7 +485,7 @@ name=value argument to the service.</td></tr>
 <div class="section">
 <h3><a id="table_resource">The resource Table</a></h3>
 
-<p>The <code>ivoa.resource</code> table contains most atomic 
+<p>The <code>rr.resource</code> table contains most atomic 
 members of <code>vr:Resource</code> and the common derived types
 that have a 1:1 relationship to the resource itself.  Some less-used members
 of derived types are handled through the <code>res_detail</code> table
@@ -536,7 +537,7 @@ records leave no traces in the relational registry.</p>
 as its primary key.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
-<code>ivoid</code>, <code>res_type</code>, <code>contentlevel</code>,
+<code>ivoid</code>, <code>res_type</code>, <code>content_level</code>,
 <code>content_type</code>, <code>source_format</code>,
 <code>waveband</code>, <code>footprint_ivoid</code>.
 Clients are advised to query the <code>res_description</code> and
