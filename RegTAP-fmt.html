@@ -179,7 +179,7 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#changes"><span class="secnum">C. </span>Changes from Previous Versions</a></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#changes"><span class="secnum">C. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">C.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -324,13 +324,13 @@ converted to lower case in the table below.</p>
 <p>This conversion MUST cover all ASCII letters, i.e., A through Z.  
 The conversion SHOULD take place according to
 algorithm R2 in section 3.13, "Default Case Algorithms" of 
-<a href="#ref_UC">[UC]</a>.  In practice, non-ASCII characters are not expected
+<cite>[<a href="#std:UNICODE">std:UNICODE</a>]</cite>.  In practice, non-ASCII characters are not expected
 to occur in columns for which lowercasing is required.</p>
 
 <p>Analogously, case-insensitive comparisons as required by some of the
 user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
-to D144 in <a href="#ref_UC">[UC]</a>.</p>
+to D144 in <cite>[<a href="#std:UNICODE">std:UNICODE</a>]</cite>.</p>
 
 </div> <!-- casenorm -->
 
@@ -419,7 +419,8 @@ entails adding</p>
 
 <p>A client that knows the access URL of one relational
 registry can thus discover all other services exposing one. The <a href="#example-findregtap">"Find all TAP endpoints offering the
-relational registry"</a> example below shows one query that does
+relational registry"</a> example in section
+<span class="xref"><a href="#sample_queries">9</a></span> shows one query that does
 this.</p>
 
 </div><!-- subsection registration -->
@@ -450,37 +451,37 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.res_date<br/>vor:resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
+present in this registry.</td></tr>
+<tr class="even"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+creators, contacts, publishers.</td></tr>
+<tr><td>rr.subject<br/>vr:Resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
+resource.</td></tr>
+<tr class="even"><td>rr.capability<br/>vr:Capability</td><td> Descriptions of what a resource does and how to use it
+(context-specific behavior and interfaces)</td></tr>
+<tr><td>rr.res_schema<br/>vs:TableSchema</td><td> A detailed description of a logically-related set of tables related
+to the resource.</td></tr>
+<tr class="even"><td>rr.res_table<br/>vs:Table</td><td> A description of one a table pertaining to the resource.</td></tr>
+<tr><td>rr.table_column<br/>vs:TableColumn</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="even"><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
+capability. The pairs refer to a resource if cap_index is NULL, to the
+referenced capability otherwise.</td></tr>
+<tr><td>rr.interface<br/>vr:Interface</td><td> Interfaces of capabilities; this gives you where to actually use a
+certain capability.</td></tr>
+<tr class="even"><td>rr.relationship<br/>vr:Relationship</td><td> Descriptions of relationships between resources.</td></tr>
+<tr><td>rr.intf_param<br/>vs:InputParam</td><td> A description of a input parameter that can be provided as a
+name=value argument to the service.</td></tr>
+<tr class="even"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
+<tr><td>rr.res_date<br/>vr:Resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
 This will typically be associated with the creation or availability
 (i.e., most recent release or version) of the resource. Use the role
 attribute to clarify.</td></tr>
-<tr class="even"><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
-present in this registry.</td></tr>
-<tr><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
-creators, contacts, publishers.</td></tr>
-<tr class="even"><td>rr.subject<br/>vor:resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
-resource.</td></tr>
-<tr><td>rr.capability<br/>vor:capability</td><td> Descriptions of what a resource does and how to use it
-(context-specific behavior and interfaces)</td></tr>
-<tr class="even"><td>rr.res_schema<br/>vor:resource.tableset.schema</td><td> A detailed description of a logically-related set of tables related
-to the resource.</td></tr>
-<tr><td>rr.res_table<br/>vor:resource.tableset.schema.table</td><td> A description of one a table pertaining to the resource.</td></tr>
-<tr class="even"><td>rr.table_column<br/>vor:resource.tableset.schema.table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
-<tr><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
-capability. The pairs refer to a resource if cap_index is NULL, to the
-referenced capability otherwise.</td></tr>
-<tr class="even"><td>rr.interface<br/>vor:capability.interface</td><td> Interfaces of capabilities; this gives you where to actually use a
-certain capability.</td></tr>
-<tr><td>rr.relationship<br/>vor:resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
-<tr class="even"><td>rr.intf_param<br/>vor:interface.param</td><td> A description of a input parameter that can be provided as a
-name=value argument to the service.</td></tr>
-<tr><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
 <div class="section"><h3><a id="table_resource"><span class="secnum">7.1. </span>The resource Table</a></h3>
 
-<p>The <code>ivoa.resource</code> table contains most atomic 
+<p>The <code>rr.resource</code> table contains most atomic 
 members of <code>vr:Resource</code> and the common derived types
 that have a 1:1 relationship to the resource itself.  Some less-used members
 of derived types are handled through the <code>res_detail</code> table
@@ -503,28 +504,28 @@ foreign key on the <code>ivoid</code> column, this implies that deleted
 records leave no traces in the relational registry.</p>
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="even"><td>res_type <br/>vor:resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like Service, Organization, etc)</td></tr>
-<tr><td>created <br/>vor:resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="even"><td>short_name <br/>vor:resource.shortName</td><td>adql:VARCHAR(*)</td><td>a short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr><td>res_title <br/>vor:resource.title</td><td>adql:VARCHAR(*)</td><td>the full name given to the resource</td></tr>
-<tr class="even"><td>updated <br/>vor:resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr><td>content_level <br/>vor:resource.content.contentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
-<tr class="even"><td>res_description <br/>vor:resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr><td>reference_url <br/>vor:resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="even"><td>creator_seq <br/>vor:resource.creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
-<tr><td>content_type <br/>vor:resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
-<tr class="even"><td>source_format <br/>vor:resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr><td>source_value <br/>vor:resource.content.source</td><td>adql:VARCHAR(*)</td><td>a bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="even"><td>version <br/>vor:resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr><td>region_of_regard <br/>vor:resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr class="even"><td>waveband <br/>vor:resource.coverage.waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with</td></tr>
-<tr><td>footprint_ivoid <br/>vor:resource.coverage.footprint.ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the service describing the capability referred to by this element.</td></tr>
-<tr class="even"><td>footprint_url <br/>vor:resource.coverage.footprint</td><td>adql:VARCHAR(*)</td><td>A URL of a footprint service for retrieving precise and up-to-date description of coverage</td></tr>
-<tr><td>rights <br/>vor:resource.rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
-<tr class="even"><td>facility <br/>vor:resource.facility</td><td>adql:VARCHAR(*)</td><td>The observatory or facility used to collect the data contained or managed by this resource.</td></tr>
-<tr><td>instrument <br/>vor:resource.instrument</td><td>adql:VARCHAR(*)</td><td>The Instrument used to collect the data contained or managed by a resource.</td></tr>
-<tr class="even"><td>data_url <br/>vor:resource.accessURL</td><td>adql:VARCHAR(*)</td><td>For data collections, the URL that can be used to download the data contained in this data collection. For service access URLs see the interface table.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>updated <br/>vr:Resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="even"><td>content_level <br/>vr:ContentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
+<tr><td>res_description <br/>vr:Resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="even"><td>reference_url <br/>vr:Resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr><td>creator_seq <br/>vr:Creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
+<tr class="even"><td>content_type <br/>vr:Resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
+<tr><td>source_format <br/>vr:Resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="even"><td>source_value <br/>vr:Resource.content.source</td><td>adql:VARCHAR(*)</td><td>a bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr><td>version <br/>vr:Resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="even"><td>region_of_regard <br/>vr:Resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr><td>waveband <br/>vs:Waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with</td></tr>
+<tr class="even"><td>footprint_ivoid <br/>vs:DataCollection.coverage.footprint.ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the service describing the capability referred to by this element.</td></tr>
+<tr><td>footprint_url <br/>vs:DataCollection.coverage.footprint</td><td>adql:VARCHAR(*)</td><td>A URL of a footprint service for retrieving precise and up-to-date description of coverage</td></tr>
+<tr class="even"><td>rights <br/>vr:Rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<tr><td>facility <br/>vs:DataCollection.facility</td><td>adql:VARCHAR(*)</td><td>The observatory or facility used to collect the data contained or managed by this resource.</td></tr>
+<tr class="even"><td>instrument <br/>vs:DataCollection.instrument</td><td>adql:VARCHAR(*)</td><td>The Instrument used to collect the data contained or managed by a resource.</td></tr>
+<tr><td>data_url <br/>vs:DataCollection.accessURL</td><td>adql:VARCHAR(*)</td><td>For data collections, the URL that can be used to download the data contained in this data collection. For service access URLs see the interface table.</td></tr>
+<tr class="even"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr><td>res_type <br/>vr:Resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="even"><td>created <br/>vr:Resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr><td>short_name <br/>vr:Resource.shortName</td><td>adql:VARCHAR(*)</td><td>a short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="even"><td>res_title <br/>vr:Resource.title</td><td>adql:VARCHAR(*)</td><td>the full name given to the resource</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -532,7 +533,7 @@ records leave no traces in the relational registry.</p>
 as its primary key.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
-<code>ivoid</code>, <code>res_type</code>, <code>contentlevel</code>,
+<code>ivoid</code>, <code>res_type</code>, <code>content_level</code>,
 <code>content_type</code>, <code>source_format</code>,
 <code>waveband</code>, <code>footprint_ivoid</code>.
 Clients are advised to query the <code>res_description</code> and
@@ -545,12 +546,65 @@ using the the <code>ivo_hasword</code> function.</p>
 
 <p>This table subsumes the contact, publisher and creator members of the
 VOResource data model.  They have been combined into a single table to
-reduce the total number of tables.  The actual role is given in the
-<code>base_utype</code> column that can be used to obtain full utypes
-for the columns by concatenating the column name with the value in this
-column.  An exception are <code>role_name</code> and
-<code>role_ivoid</code>; strip the leading <code>role_</code> before
-concatenation for them.</p>
+reduce the total number of tables, and also in anticipation of a unified
+data model for such entities in future versions of VOResource.</p>
+
+<p>The actual role is given in the <code>base_role</code> column, which
+can be one of <code>contact</code>, <code>publisher</code>, or
+<code>creator</code>.  Depending on this value, here are the utypes
+for the table fields (we have abbreviated vr:Resource.curation.publisher
+as Rcp):</p>
+
+<table class="results" frame="all" rules="rows">
+<tr><th>base_role value</th>
+<th>contact</th>
+<th>publisher</th>
+<th>creator</th>
+</tr>
+
+<tr>
+<td>role_name</td>
+<td>vr:Contact.name</td>
+<td>Rcp</td>
+<td>vr:Creator.name</td>
+</tr>
+
+<tr>
+<td>role_ivoid</td>
+<td>vr:Contact.name.ivo-id</td>
+<td>Rcp.ivo-id</td>
+<td>vr:Creator.name.ivo-id</td>
+</tr>
+
+<tr>
+<td>address</td>
+<td>vr:Contact.address</td>
+<td/>
+<td/>
+</tr>
+
+<tr>
+<td>email</td>
+<td>vr:Contact.email</td>
+<td/>
+<td/>
+</tr>
+
+<tr>
+<td>telephone</td>
+<td>vr:Contact.telephone</td>
+<td/>
+<td/>
+</tr>
+
+<tr>
+<td>logo</td>
+<td>vr:Contact.logo</td>
+<td/>
+<td>vr:Creator.logo</td>
+</tr>
+
+</table>
 
 <p>Not all columns are available for each role type in VOResource.  For
 example, contacts have no logo, and creators no telephone members.
@@ -567,14 +621,14 @@ regrettable, situation would
 probably require a change in the VOResource schema.</p>
 
 <!-- GENERATED: maketable.sh rr.res_role -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>role_name <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
 <tr><td>role_ivoid <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
 <tr class="even"><td>address <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
 <tr><td>email <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
 <tr class="even"><td>telephone <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
 <tr><td>logo <br/>N/A</td><td>adql:VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
-<tr class="even"><td>base_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The utype of the role played by this entity; this is typically vor:resource.curation.contact, vor:resource.curation.publisher, or vor:resource.curation.creator</td></tr>
+<tr class="even"><td>base_role <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -601,8 +655,8 @@ subjects are kept in a separate table rather than being hash-joined like other
 string-like 1:n members of resource.</p>
 
 <!-- GENERATED: maketable.sh rr.subject -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>subject <br/>vor:resource.content.subject</td><td>adql:VARCHAR(*)</td><td>topics, object types, or other descriptive keywords about the resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>subject <br/>vr:Resource.content.subject</td><td>adql:VARCHAR(*)</td><td>topics, object types, or other descriptive keywords about the resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -632,11 +686,11 @@ actual values as convenient, although it is recommended to just
 enumerate the capabilities in their physical sequence per-resource.</p>
 
 <!-- GENERATED: maketable.sh rr.capability -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource</td></tr>
-<tr><td>cap_type <br/>vor:capability.type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
-<tr class="even"><td>cap_description <br/>vor:capability.description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
-<tr><td>standard_id <br/>vor:Capability.standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
+<tr><td>cap_type <br/>vr:Capability.type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
+<tr class="even"><td>cap_description <br/>vr:Capability.description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
+<tr><td>standard_id <br/>vr:Capability.standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -670,12 +724,12 @@ physical sequence per-resource.</p>
 
 
 <!-- GENERATED: maketable.sh rr.res_schema -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
-<tr><td>schema_description <br/>vor:resource.tableset.schema.description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
-<tr class="even"><td>schema_name <br/>vor:resource.tableset.schema.name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
-<tr><td>schema_title <br/>vor:resource.tableset.schema.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
-<tr class="even"><td>schema_utype <br/>vor:resource.tableset.schema.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
+<tr><td>schema_description <br/>vs:TableSchema.description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
+<tr class="even"><td>schema_name <br/>vs:TableSchema.name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
+<tr><td>schema_title <br/>vs:TableSchema.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
+<tr class="even"><td>schema_utype <br/>vs:TableSchema.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -707,14 +761,14 @@ enumerate the tables in their physical sequence per-resource (but not per
 schema—<code>table_index</code> MUST be unique within a resource).</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>Index of the schema this table belongs to, if it belongs to a schema.</td></tr>
-<tr><td>table_description <br/>vor:resource.tableset.schema.table.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
-<tr class="even"><td>table_name <br/>vor:resource.tableset.schema.table.name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to sufficiently uniquely distinguish it in a query.</td></tr>
+<tr><td>table_description <br/>vs:Table.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
+<tr class="even"><td>table_name <br/>vs:Table.name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to sufficiently uniquely distinguish it in a query.</td></tr>
 <tr><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
-<tr class="even"><td>table_title <br/>vor:resource.tableset.schema.table.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
-<tr><td>table_type <br/>vor:resource.tableset.schema.table.type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
-<tr class="even"><td>table_utype <br/>vor:resource.tableset.schema.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
+<tr class="even"><td>table_title <br/>vs:Table.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
+<tr><td>table_type <br/>vs:Table.type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
+<tr class="even"><td>table_utype <br/>vs:Table.utype</td><td>adql:VARCHAR(*)</td><td>an identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -764,21 +818,21 @@ to vs; hence, this column will contain one of NULL,
 <code>vs:SimpleDataType</code>, and <code>vs:VOTableType</code>.</p>
 
 <!-- GENERATED: maketable.sh rr.table_column -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
-<tr><td>description <br/>vor:resource.tableset.schema.table.column.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
-<tr class="even"><td>name <br/>vor:resource.tableset.schema.table.column.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
-<tr><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="even"><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
-<tr><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr class="even"><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
-<tr><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
-<tr class="even"><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="even"><td>extended_type <br/>vor:interface.param.dataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr><td>arraysize <br/>vor:resource.tableset.schema.table.column.dataType.arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value</td></tr>
-<tr class="even"><td>delim <br/>vor:interface.param.dataType.delim</td><td>adql:VARCHAR(*)</td><td>the string that is used to delimit elements of an array value when arraysize is not '1'</td></tr>
-<tr><td>type_system <br/>vor:resource.tableset.schema.table.column.dataType.type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:vs:TAPType..</td></tr>
+<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
+<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
+<tr><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="even"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
+<tr><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="even"><td>std <br/>vs:TableParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
+<tr><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="even"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
+<tr class="even"><td>arraysize <br/>vs:DataType.arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value</td></tr>
+<tr><td>delim <br/>vs:DataType.delim</td><td>adql:VARCHAR(*)</td><td>the string that is used to delimit elements of an array value when arraysize is not '1'</td></tr>
+<tr class="even"><td>type_system <br/>vs:DataType.type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:vs:TAPType..</td></tr>
+<tr><td>flag <br/>vs:TableParam.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -823,17 +877,17 @@ enumerate the interfaces in their physical sequence per capability.</p>
 
 
 <!-- GENERATED: maketable.sh rr.interface -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
 <tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
-<tr class="even"><td>intf_type <br/>vor:interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (Web-Browser, ParamHTTP, etc).</td></tr>
-<tr><td>intf_role <br/>vor:interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability"s standardID attribute.</td></tr>
-<tr class="even"><td>std_version <br/>vor:interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element. If the standardID is not provided, the meaning of this attribute is undefined.</td></tr>
-<tr><td>query_type <br/>vor:interface.queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
-<tr class="even"><td>result_type <br/>vor:interface.resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
-<tr><td>wsdl_url <br/>vor:interface.wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If not provided, the location is assumed to be the accessURL with '?wsdl' appended.</td></tr>
-<tr class="even"><td>url_use <br/>vor:interface.accessURL.use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL, a full URL, or a URL to a directory that will produce a listing of files.</td></tr>
-<tr><td>access_url <br/>vor:interface.accessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
+<tr class="even"><td>intf_type <br/>vr:Interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (Web-Browser, ParamHTTP, etc).</td></tr>
+<tr><td>intf_role <br/>vr:Interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability"s standardID attribute.</td></tr>
+<tr class="even"><td>std_version <br/>vr:Interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element. If the standardID is not provided, the meaning of this attribute is undefined.</td></tr>
+<tr><td>query_type <br/>vs:ParamHTTP.queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
+<tr class="even"><td>result_type <br/>vs:ParamHTTP.resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
+<tr><td>wsdl_url <br/>vr:WebService.wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If not provided, the location is assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<tr class="even"><td>url_use <br/>vr:AccessURL.use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL, a full URL, or a URL to a directory that will produce a listing of files.</td></tr>
+<tr><td>access_url <br/>vr:AccessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -862,20 +916,19 @@ both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
 joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
 <tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
-<tr class="even"><td>description <br/>vor:resource.tableset.schema.table.column.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
-<tr><td>name <br/>vor:resource.tableset.schema.table.column.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
-<tr class="even"><td>ucd <br/>vor:resource.tableset.schema.table.column.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr><td>unit <br/>vor:resource.tableset.schema.table.column.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
-<tr class="even"><td>utype <br/>vor:resource.tableset.schema.table.column.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr><td>flag <br/>vor:resource.tableset.schema.table.column.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
-<tr class="even"><td>std <br/>vor:resource.tableset.schema.table.column.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
-<tr><td>datatype <br/>vor:resource.tableset.schema.table.column.dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr class="even"><td>extended_schema <br/>vor:interface.param.dataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr><td>extended_type <br/>vor:interface.param.dataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr class="even"><td>use <br/>vor:interface.param.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+<tr class="even"><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
+<tr><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
+<tr class="even"><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column</td></tr>
+<tr class="even"><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr><td>std <br/>vs:InputParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard. If not provided, then the value is unknown.</td></tr>
+<tr class="even"><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
+<tr><td>use <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -899,10 +952,10 @@ the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.</p>
 
 <!-- GENERATED: maketable.sh rr.relationship -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>relationship_type <br/>vor:resource.content.relationship.relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
-<tr><td>related_id <br/>vor:resource.content.relationship.relatedResource.ivoId</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
-<tr class="even"><td>related_name <br/>vor:resource.content.relationship.relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>relationship_type <br/>vr:Relationship.relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
+<tr><td>related_id <br/>vr:Relationship.relatedResource.ivoId</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
+<tr class="even"><td>related_name <br/>vr:Relationship.relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -929,7 +982,7 @@ validation comprises the entire resource.  Otherwise, only the
 referenced capability has been validated.</p>
 
 <!-- GENERATED: maketable.sh rr.validation -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>validated_by <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
 <tr><td>level <br/>N/A</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
@@ -955,9 +1008,9 @@ addresses the entire resource).</p>
 <code>vr:Curation</code>'s date children.</p>
 
 <!-- GENERATED: maketable.sh rr.res_date -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>date_value <br/>vor:resource.curation.date</td><td>adql:VARCHAR(*)</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
-<tr><td>value_role <br/>vor:resource.curation.date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<tr class="even"><td>date_value <br/>vr:Date</td><td>adql:VARCHAR(*)</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
+<tr><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1093,7 +1146,7 @@ attributes cannot be represented here; their values are not accessible
 in the relational registry.</p>
 
 <!-- GENERATED: maketable.sh rr.res_detail -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; if NULL the utype-value pair describes a member of the entire resource.</td></tr>
 <tr><td>detail_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>utype of the member</td></tr>
 <tr class="even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(atomic) value of the member</td></tr>
@@ -1214,7 +1267,7 @@ spherical position intervals in ICRS exclusively.  A short IVOA note
 will discuss the recommended format of coverage declaration.</p>
 
 <!-- GENERATED: maketable.sh rr.stc_spatial -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>ra_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C1</td><td>adql:REAL</td><td>A left edge of a bounding box on the sky the resource covers.</td></tr>
 <tr><td>ra_max <br/>stc:AstroCoordArea.Position2VecInterval.HiLimit2Vec.C1</td><td>adql:REAL</td><td>An right edge of a bounding box on the sky the resource covers.</td></tr>
 <tr class="even"><td>de_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C2</td><td>adql:REAL</td><td>A lower edge of a bounding box on the sky the resource covers.</td></tr>
@@ -1240,7 +1293,7 @@ TT in the geocenter.</p>
 
 
 <!-- GENERATED: maketable.sh rr.stc_temporal -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>time_start <br/>stc:AstroCoordArea.TimeInterval.StartTime</td><td>adql:REAL</td><td>Lower limit of a time interval covered by the resource.</td></tr>
 <tr><td>time_end <br/>stc:AstroCoordArea.TimeInterval.EndTime</td><td>adql:REAL</td><td>Upper limit of a time interval covered by the resource.</td></tr>
 </tbody></table></div>
@@ -1263,7 +1316,7 @@ The limits are given as wavelengths in meters, for the reference
 position in the barycenter of the solar system.</p>
 
 <!-- GENERATED: maketable.sh rr.stc_spectral -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>spectral_start <br/>stc:AstroCoordArea.SpectralInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a spectral interval covered by the resource.</td></tr>
 <tr><td>spectral_end <br/>stc:AstroCoordArea.SpectralInterval.HiLimit</td><td>adql:REAL</td><td>Upper limit of a spectral interval covered by the resource.</td></tr>
 </tbody></table></div>
@@ -1285,7 +1338,7 @@ values, in this case with redshifts, given as Δλ/λ (the STC data model's
 OPTICAL definition).</p>
 
 <!-- GENERATED: maketable.sh rr.stc_redshift -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vor:resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
 <tr class="even"><td>redshift_start <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a redshift interval covered by the resource.</td></tr>
 <tr><td>redshift_end <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Upper limit of a redshift interval covered by the resource.</td></tr>
 </tbody></table></div>
@@ -1519,7 +1572,7 @@ distance", one might need to give multiple UCDs here.</p>
 <dt>The service at X is down, who can fix it?</dt>
 <dd>
 <pre class="samplequery">
-SELECT DISTINCT email 
+SELECT DISTINCT res_role, email 
 FROM rr.res_role 
   NATURAL JOIN rr.interface 
 WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
@@ -1536,7 +1589,7 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 
 <div class="section"><h2><a id="appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></h2>
 
-<?incxml href="../makeutypes.xslt"?><h:div xmlns:h="http://www.w3.org/1999/xhtml" class="viewxml"><div class="element"><span class="markup">&lt;</span><span class="start-tag">stylesheet</span> <span class="attribute-name">version</span><span class="markup">=</span><span class="attribute-value">"1.0"</span> <span class="attribute-name">xmlns:xml</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/XML/1998/namespace"</span> <span class="attribute-name">xmlns:</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/1999/XSL/Transform"</span> <span class="attribute-name">xmlns:xs</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/2001/XMLSchema"</span> <span class="attribute-name">xmlns:vr</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VOResource/v1.0"</span> <span class="attribute-name">xmlns:vs</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VODataService/v1.1"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- extract utypes from VOResource and related XML schema files --&gt;</div><div class="comment">&lt;!--
+<?incxml href="../makeutypes.xslt"?><h:div xmlns:h="http://www.w3.org/1999/xhtml" class="viewxml"><div class="element"><span class="markup">&lt;</span><span class="start-tag">stylesheet</span> <span class="attribute-name">version</span><span class="markup">=</span><span class="attribute-value">"1.0"</span> <span class="attribute-name">xmlns:xml</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/XML/1998/namespace"</span> <span class="attribute-name">xmlns:</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/1999/XSL/Transform"</span> <span class="attribute-name">xmlns:xs</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/2001/XMLSchema"</span> <span class="attribute-name">xmlns:vr</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VOResource/v1.0"</span> <span class="attribute-name">xmlns:vs</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VODataService/v1.1"</span> <span class="attribute-name">xmlns:vm</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VOMetadata/v0.1"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- extract utypes from VOResource and related XML schema files --&gt;</div><div class="comment">&lt;!--
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -1549,20 +1602,19 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 
     For the complete text of the GPL, see http://www.gnu.org/licenses/.
 --&gt;</div><div class="comment">&lt;!-- The basic strategy here is: start from all discernible types
-derived from vr:Resource, vr:Capability, and vr:Interface; we need to
-handle capability and interface separately since they may not be
-explicitely reachable from a resource due to the way capability and
-interface types are declared in VOResource (i.e., through xsi:type).
+derived from vr:Resource, vr:Capability, and vr:Interface; we should
+catch everything in a VOResource extension even if we process file 
+by file, unless one extension were to derive from a type defined in
+a different extension.
 
-Each root is the start element for a recursion yielding the utypes.
-During this recursion, attributes yield utypes by concatenating the
-parent name with the attribute name, and elements yield utypes by
-concatenating the element name with the parent name.  Elements take part
-in the recursion, where their utype becomes the new parent name.
+In emulation of the utype generation done by VO-DML, we concatenate
+along axes that are simple attribuutes.  When something is actually
+a collection, we start a new utype.  The utype fragment is the *name* of
+a type or attribute; this means a certain amount of polymorphism.
 
-The root elements within each recursion are special in that not their
-names but their base type names (i.e., Resource, Capability, or
-Interface) becomes the particle for utype generation.
+In addition, for each schema, the prefix chosen for the target name
+space becomes the data model name for utype purposes;  when, during
+inheritance, we leave a file, the model name changes, too.
 
 Hack alert: We need to traverse the type tree; however, due to 
 (practical) limitations of XSLT1, we don't do that across files.  So,
@@ -1571,15 +1623,17 @@ in another document, this stylesheet would not notice.  Also, we kill all
 namespace prefixes in attributes.  Proper handling of that probably is
 close to impossible with XSLT1.  --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">output</span> <span class="attribute-name">method</span><span class="markup">=</span><span class="attribute-value">"text"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">strip-space</span> <span class="attribute-name">elements</span><span class="markup">=</span><span class="attribute-value">"*"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- An index used to retrieve the type definitions for the child
 elements in walk; note that this only spans one file,
-which is the primary limitation of this program --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"definitions"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:simpleType|xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- A map from types to the names of their base classes; this is
-a bit haphazard since we don't want to use XSLT extensions that
-actually understand XML schema.  A recursion within the type
-hierarchy takes place in walk-for-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"of-type"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- retrieve the "short" doc and add them in parens if present,
+which is the primary limitation of this program --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"definitions"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:simpleType|xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- types directly derived from another (the key is the name of
+the base type); we need this to identify start points for our
+tree traversal. --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"derivations"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:simpleType|xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- retrieve the "short" doc and add them in parens if present,
   emit an lf either way --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"boolean(xs:annotation[1])"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(' (', normalize-space(xs:annotation[1]/xs:documentation), ')')"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">text</span><span class="markup">&gt;</span><span class="text">
-</span><span class="markup">&lt;/</span><span class="end-tag">text</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- the central (recursive) template building up utypes by
-	collecting subelements; the current node here is a type definition --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat($parent-path, '.', @name)"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:element"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- capability and interface are roots of their own --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name!='capability' and @name!='interface'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat($parent-path, '.', @name)"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(@type, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat($parent-path, '.', @name)"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$child-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- collect attributes and elements for our node from the types
-  we are derived from, too --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:extension|descendant::xs:restriction"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', substring-after(@base, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- iterates over the types and elements derived from base-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('of-type', $base-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- templates cover the immediate types; the derived types are handled
-in explicit call-templates in the the template for root below. --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"//xs:complexType[@name='Resource']"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Resource'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"//xs:complexType[@name='Capability']"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Capability'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"//xs:complexType[@name='Interface']"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Interface'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"/"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">apply-templates</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Resource'"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Resource'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Capability'"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Capability'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Interface'"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"'Interface'"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"text()"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">stylesheet</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- vi:et:sw=2:sta
+</span><span class="markup">&lt;/</span><span class="end-tag">text</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- concatenate to parts with a dot unless there's another
+  non-letter at the end of the first part --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"substring($first, string-length($first), 1)=':'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="text">.</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- prints a utype for the current element --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emits utypes for an within a type if the element is 0..1:1 --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- capability and interface are roots of their own --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name!='capability' and @name!='interface'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(@type, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$child-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- the central (recursive) template building up utypes by
+	collecting subelements; the current node here is a type definition --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:element"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@maxOccurs='unbounded'"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emit a utype of the collection, then start a new utype hierarchy
+        --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"new-root"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(substring-before(@type, ':'), ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', substring-after(@type, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$new-root"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for the current type and the classes it is derived 
+  from --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"type-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-basetypes"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-basetypes"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for stuff derived from base-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions',        substring-after(./xs:complexContent|xs:simpleContent/*/@base, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:complexType"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- initiates a walk through the tree of child constructs if the
+  current element is a resource, capability, or interface, or directly
+  derived from one of those --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"uqbase"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name='Resource' or @name='Interface' or @name='Capability'     or @name='DataType'     or $uqbase='Resource' or $uqbase='Interface' or $uqbase='Capability'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(//xs:appinfo/vm:targetPrefix, ':')"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"/"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">apply-templates</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"text()"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">stylesheet</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- vi:et:sw=2:sta
 --&gt;</div></h:div>
 
 </div>  <!-- section appA -->
@@ -1631,8 +1685,16 @@ $func$ LANGUAGE plpgsql;
 </div> <!-- section appPGDefs -->
 <div class="section"><h2><a id="changes"><span class="secnum">C. </span>Changes from Previous Versions</a></h2>
 
-<p>No previous versions so far.</p>
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">C.1. </span>Changes from WD-20121112</a></h3>
 
+<ul>
+<li>Adapted utypes to better match future VO-DML utypes.</li>
+<li>For VOResource compliance, intf_param has no flag column any more.</li>
+<li>res_role.base_utype is renamed to res_role.base_role and no longer
+pretends to be a utype fragments; also, the content is now a simple
+word..</li>
+</ul>
+</div><!-- changes-20121112 -->
 </div><!-- changes -->
 
 </div> <!-- appendices -->
@@ -1640,6 +1702,18 @@ $func$ LANGUAGE plpgsql;
 <div class="section-nonum"><h2><a id="references"><span class="secnum"/>References</a></h2>
 
 <?bibliography ivoadoc/refs?><dl xmlns="">
+
+<dt><a name="std:XMLNS">[std:XMLNS] Tim Bray, Dave Hollander, Andrew Layman,
+  Richard Tobin, and Henry S. Thompson.</a></dt> <dd>
+  <a href="http://www.w3.org/TR/2009/REC-xml-names-20091208/">Namespaces in
+  XML 1.0 (third edition)</a>.
+  W3C Recommendation, December 2009.
+</dd>
+
+<dt><a name="std:UNICODE">[std:UNICODE] The Unicode Consortium.</a></dt> <dd>
+  <a href="http://www.unicode.org/versions/Unicode6.1.0">The unicode standard,
+  version 6.1 core specification</a>, 2012.
+</dd>
 
 <dt><a name="std:TAPREGEXT">[std:TAPREGEXT] Markus Demleitner, Patrick Dowler,
   Ray Plante, Guy Rixon, and Mark Taylor.</a></dt> <dd>
@@ -1660,6 +1734,23 @@ $func$ LANGUAGE plpgsql;
   <a href="http://www.ivoa.net/Documents/StandardsRegExt/20120508/REC-StandardsRegExt-1.0-20120508.html">StandardsRegExt: a VOResource schema extension for
   describing IVOA standards, version 1.0</a>.
   IVOA Recommendation, May 2012.
+</dd>
+
+<dt><a name="doc:Postgres92">[doc:Postgres92]
+  http://www.postgresql.org/docs/9.2/static/index.html.</a></dt> <dd>
+  <a href="http://www.postgresql.org/docs/9.2/static/index.html">PostgreSQL
+  9.2.1 documentation</a>.
+  [Online].
+</dd>
+
+<dt><a name="std:OBSCORE">[std:OBSCORE] Mireille Louys, Francois Bonnarel,
+  David Schade, Patrick Dowler, Alberto Micol, Daniel Durand, Doug Tody,
+  Laurent Michel, Jesus Salgado, Igor Chilingarian, Bruno Rino, Juan
+  de Dios Santander, and Petr Skoda, Doug Tody, Alberto Micol, Daniel Durand,
+  and Mireille Louys, editors.</a></dt> <dd>
+  <a href="http://www.ivoa.net/Documents/ObsCore/20111028/REC-ObsCore-v1.0-20111028.pdf">Observation data model core components and its implementation in the
+  Table Access Protocol, version 1.0</a>.
+  IVOA Recommendation, 2011.
 </dd>
 
 <dt><a name="std:ADQL">[std:ADQL] Iñaki Ortiz, Jeff Lusted, Pat Dowler,

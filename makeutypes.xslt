@@ -4,6 +4,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
  	xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
  	xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1"
+ 	xmlns:vm="http://www.ivoa.net/xml/VOMetadata/v0.1"
   >
 
 <!-- extract utypes from VOResource and related XML schema files -->
@@ -23,20 +24,19 @@
 -->
 
 <!-- The basic strategy here is: start from all discernible types
-derived from vr:Resource, vr:Capability, and vr:Interface; we need to
-handle capability and interface separately since they may not be
-explicitely reachable from a resource due to the way capability and
-interface types are declared in VOResource (i.e., through xsi:type).
+derived from vr:Resource, vr:Capability, and vr:Interface; we should
+catch everything in a VOResource extension even if we process file 
+by file, unless one extension were to derive from a type defined in
+a different extension.
 
-Each root is the start element for a recursion yielding the utypes.
-During this recursion, attributes yield utypes by concatenating the
-parent name with the attribute name, and elements yield utypes by
-concatenating the element name with the parent name.  Elements take part
-in the recursion, where their utype becomes the new parent name.
+In emulation of the utype generation done by VO-DML, we concatenate
+along axes that are simple attribuutes.  When something is actually
+a collection, we start a new utype.  The utype fragment is the *name* of
+a type or attribute; this means a certain amount of polymorphism.
 
-The root elements within each recursion are special in that not their
-names but their base type names (i.e., Resource, Capability, or
-Interface) becomes the particle for utype generation.
+In addition, for each schema, the prefix chosen for the target name
+space becomes the data model name for utype purposes;  when, during
+inheritance, we leave a file, the model name changes, too.
 
 Hack alert: We need to traverse the type tree; however, due to 
 (practical) limitations of XSLT1, we don't do that across files.  So,
@@ -55,12 +55,11 @@ which is the primary limitation of this program -->
 <key name="definitions" match="xs:simpleType|xs:complexType"
 	use="@name"/>
 
-<!-- A map from types to the names of their base classes; this is
-a bit haphazard since we don't want to use XSLT extensions that
-actually understand XML schema.  A recursion within the type
-hierarchy takes place in walk-for-type -->
-<key name="of-type" match="xs:complexType"
-  use="substring-after(./xs:complexContent/*/@base, ':')"/>
+<!-- types directly derived from another (the key is the name of
+the base type); we need this to identify start points for our
+tree traversal. -->
+<key name="derivations" match="xs:simpleType|xs:complexType"
+	use="substring-after(./xs:complexContent/*/@base, ':')"/>
 
 
 <template name="add-doc">
@@ -73,6 +72,64 @@ hierarchy takes place in walk-for-type -->
 </template>
 
 
+<template name="concat-dot">
+  <!-- concatenate to parts with a dot unless there's another
+  non-letter at the end of the first part -->
+  <param name="first"/>
+  <param name="second"/>
+  <choose>
+    <when test="substring($first, string-length($first), 1)=':'">
+      <value-of select="$first"/><value-of select="$second"/>
+    </when>
+    <otherwise>
+      <value-of select="$first"/>.<value-of select="$second"/>
+    </otherwise>
+  </choose>
+</template>
+
+
+<template name="emit-utype-for-current">
+  <!-- prints a utype for the current element -->
+  <param name="parent-path"/>
+
+  <call-template name="concat-dot">
+     <with-param name="first" select="$parent-path"/>
+     <with-param name="second" select="@name"/>
+  </call-template>
+   <call-template name="add-doc"/>
+</template>
+
+<template name="format-for-attribute">
+  <!-- emits utypes for an within a type if the element is 0..1:1 -->
+
+  <param name="parent-path"/>
+
+  <!-- capability and interface are roots of their own -->
+	<if test="@name!='capability' and @name!='interface'">
+    
+    <call-template name="emit-utype-for-current">
+      <with-param name="parent-path" select="$parent-path"/>
+    </call-template>
+
+	  <variable name="child-type"
+		  select="substring-after(@type, ':')"/>
+
+	  <if test="key('definitions', $child-type)">
+      <variable name="child-path">
+	      <call-template name="concat-dot">
+          <with-param name="first" select="$parent-path"/>
+          <with-param name="second" select="@name"/>
+	      </call-template>
+	    </variable>
+		  <for-each select="key('definitions', $child-type)">
+			  <call-template name="walk">
+  			  <with-param name="parent-path" select="$child-path"/>
+  		  </call-template>
+  	  </for-each>
+    </if>
+  </if>
+</template>
+
 <template name="walk">
 	<!-- the central (recursive) template building up utypes by
 	collecting subelements; the current node here is a type definition -->
@@ -80,101 +137,112 @@ hierarchy takes place in walk-for-type -->
   <param name="parent-path"/>
 
   <for-each select="descendant::xs:attribute">
-  	<value-of select="concat($parent-path, '.', @name)"/>
+ 	  <call-template name="concat-dot">
+       <with-param name="first" select="$parent-path"/>
+       <with-param name="second" select="@name"/>
+ 	  </call-template>
   	<call-template name="add-doc"/>
   </for-each>
 
   <for-each select="descendant::xs:element">
-    <!-- capability and interface are roots of their own -->
-  	<if test="@name!='capability' and @name!='interface'">
-      <value-of select="concat($parent-path, '.', @name)"/>
-      <call-template name="add-doc"/>
+    <choose>
 
-  	  <variable name="child-type"
-  		  select="substring-after(@type, ':')"/>
-  	  <if test="key('definitions', $child-type)">
- 	       <variable name="child-path"
- 	         select="concat($parent-path, '.', @name)"/>
-  		  <for-each select="key('definitions', $child-type)">
-  			  <call-template name="walk">
-    			  <with-param name="parent-path" select="$child-path"/>
-    		  </call-template>
-    	  </for-each>
-      </if>
-    </if>
-  </for-each>
- 
-  <!-- collect attributes and elements for our node from the types
-  we are derived from, too -->
-  <for-each select="descendant::xs:extension|descendant::xs:restriction">
-    <for-each select="key('definitions', substring-after(@base, ':'))">
-      <call-template name="walk">
-        <with-param name="parent-path" select="$parent-path"/>
-      </call-template>
-    </for-each>
+      <when test="@maxOccurs='unbounded'">
+        <!-- emit a utype of the collection, then start a new utype hierarchy
+        -->
+        <call-template name="emit-utype-for-current">
+          <with-param name="parent-path" select="$parent-path"/>
+        </call-template>
+
+        <variable name="new-root"
+          select="concat(substring-before(@type, ':'), ':')"/>
+
+        <for-each 
+            select="key('definitions', substring-after(@type, ':'))">
+          <call-template name="format-for-type">
+            <with-param name="parent-path" select="$new-root"/>
+          </call-template>
+        </for-each>
+      </when>
+
+      <otherwise>
+        <call-template name="format-for-attribute">
+          <with-param name="parent-path" select="$parent-path"/>
+        </call-template>
+      </otherwise>
+
+    </choose>
   </for-each>
 </template>
 
 
-<template name="walk-for-type">
-  <!-- iterates over the types and elements derived from base-type -->
+<template name="format-for-type">
+  <!-- generates utypes for the current type and the classes it is derived 
+  from -->
+  <param name="parent-path"/>
+
+  <variable name="type-path">
+    <call-template name="concat-dot">
+      <with-param name="first" select="$parent-path"/>
+      <with-param name="second" select="@name"/>
+    </call-template>
+  </variable>
+
+  <value-of select="$type-path"/>
+  <call-template name="add-doc"/>
+
+  <call-template name="walk">
+    <with-param name="parent-path" select="$type-path"/>
+  </call-template>
+
+  <call-template name="walk-in-hierarchy">
+    <with-param name="base-type" select="@name"/>
+    <with-param name="parent-path" select="$parent-path"/>
+  </call-template>
+</template>
+
+
+<template name="walk-in-hierarchy">
+  <!-- generates utypes for stuff derived from base-type -->
   <param name="base-type"/>
   <param name="parent-path"/>
-  <for-each select="key('of-type', $base-type)">
 
-    <call-template name="walk">
+  <for-each select="key('definitions', 
+      substring-after(./xs:complexContent|xs:simpleContent/*/@base, ':'))">
+    <call-template name="format-for-type">
       <with-param name="parent-path" select="$parent-path"/>
     </call-template>
+  </for-each>
 
-    <call-template name="walk-for-type">
-      <with-param name="base-type" select="@name"/>
+  <for-each select="key('derivations', @name)">
+    <call-template name="format-for-type">
       <with-param name="parent-path" select="$parent-path"/>
     </call-template>
-
   </for-each>
 </template>
 
 
-<!-- templates cover the immediate types; the derived types are handled
-in explicit call-templates in the the template for root below. -->
-<template match="//xs:complexType[@name='Resource']">
-	<call-template name="walk">
-		<with-param name="parent-path" select="'Resource'"/>
-	</call-template>
-</template>
+<template match="xs:complexType">
+  <!-- initiates a walk through the tree of child constructs if the
+  current element is a resource, capability, or interface, or directly
+  derived from one of those -->
 
-<template match="//xs:complexType[@name='Capability']">
-	<call-template name="walk">
-		<with-param name="parent-path" select="'Capability'"/>
-	</call-template>
-</template>
+  <variable name="uqbase" 
+    select="substring-after(./xs:complexContent/*/@base, ':')"/>
+  <if test="@name='Resource' or @name='Interface' or @name='Capability'
+    or @name='DataType'
+    or $uqbase='Resource' or $uqbase='Interface' or $uqbase='Capability'">
 
-<template match="//xs:complexType[@name='Interface']">
-	<call-template name="walk">
-		<with-param name="parent-path" select="'Interface'"/>
-	</call-template>
+    <call-template name="format-for-type">
+      <with-param name="parent-path" 
+        select="concat(//xs:appinfo/vm:targetPrefix, ':')"/>
+    </call-template>
+  </if>
 </template>
-
 
 
 <template match="/">
   <apply-templates/>
-
-  <call-template name="walk-for-type">
-		<with-param name="base-type" select="'Resource'"/>
-		<with-param name="parent-path" select="'Resource'"/>
-	</call-template>
-
-  <call-template name="walk-for-type">
-		<with-param name="base-type" select="'Capability'"/>
-		<with-param name="parent-path" select="'Capability'"/>
-	</call-template>
-
-  <call-template name="walk-for-type">
-		<with-param name="base-type" select="'Interface'"/>
-		<with-param name="parent-path" select="'Interface'"/>
-	</call-template>
-
 </template>
 
 <template match="text()"/> 
