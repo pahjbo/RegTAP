@@ -379,14 +379,36 @@ specification:</p>
 
 <div class="section"><h2><a id="vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></h2>
 
-<p>The VOResources utypes are generated from the XML schema files
-for VOResource and its extensions.  We follow the approach outlined in
-<a href="ref_STCVOT">[STCVOT]</a>, which means that utypes are basically
-XPaths within instance documents, starting from designated root
-elements.  Designated root elements within VOResource are instances of
-<code>vr:Resource</code> and its derived types, instances of
-<code>vr:Capability</code> and its derived types, and instances of
-<code>vr:Interface</code> and its derived types.</p>
+<p>This specification piggybacks on top of the well-established
+VOResource standard.  It explicitely does not define a full data model,
+but rather something like a reasonalby query-friendly view of a possible
+representation of one.  The link between the actual data model,
+VOResource and extensions as defined by the XML Schema documents, and
+the fields within this database schema, is largely effected with
+utypes.</p>
+
+<p>These utypes are generated from the XML schema files
+for VOResource and its extensions.  They are intended to be compatible
+with the utypes generated according to a future IVOA specification that
+at the time of this writing is expected to be based on a modelling
+languate VO-DML.  Since VOResource is not modelled in VO-DML -- and
+probably never will since interoperability with other OAI-PMH
+applications makes XML Schema a compelling choice as the modelling
+language --, we have to provide some custom method to define utypes and
+their relation to modelling elements</p>
+
+<p>The basic premise here is that 1:1 relationships are mapped to utypes
+by concatenating type and attribute names, while 1:n relationships yield
+one utype for the attribute (the "collection utype"), while utypes for
+the elements of the collection are rooted in the collection element's
+types.</p>
+
+<p>Polymorphism is handled by using the names of the type definitions in
+which an attribute is defined in a utype; for example, we could have
+<code>vr:Resource.created</code>, but
+<code>vstd:Standard.endorsedVersion</code> (where
+<code>vstd:Standards</code> is derived from <code>vr:Resource</code>) in
+the description of a single object.</p>
 
 <p>An XSLT stylesheet producing utypes together with the short
 documentation strings in the XSD is given in <a href="#appB">Appendix
@@ -451,24 +473,24 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.resource<br/>vor:resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.resource<br/>N/A</td><td> The resources, i.e., services, data collections, organizations, etc.,
 present in this registry.</td></tr>
 <tr class="even"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
 creators, contacts, publishers.</td></tr>
 <tr><td>rr.subject<br/>vr:Resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
 resource.</td></tr>
-<tr class="even"><td>rr.capability<br/>vr:Capability</td><td> Descriptions of what a resource does and how to use it
+<tr class="even"><td>rr.capability<br/>vr:Service.capability</td><td> Descriptions of what a resource does and how to use it
 (context-specific behavior and interfaces)</td></tr>
 <tr><td>rr.res_schema<br/>vs:TableSchema</td><td> A detailed description of a logically-related set of tables related
 to the resource.</td></tr>
 <tr class="even"><td>rr.res_table<br/>vs:Table</td><td> A description of one a table pertaining to the resource.</td></tr>
-<tr><td>rr.table_column<br/>vs:TableColumn</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr><td>rr.table_column<br/>vs:Table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
 <tr class="even"><td>rr.res_detail<br/>N/A</td><td> A table giving utype-value pairs for less used members of resource or
 capability. The pairs refer to a resource if cap_index is NULL, to the
 referenced capability otherwise.</td></tr>
 <tr><td>rr.interface<br/>vr:Interface</td><td> Interfaces of capabilities; this gives you where to actually use a
 certain capability.</td></tr>
-<tr class="even"><td>rr.relationship<br/>vr:Relationship</td><td> Descriptions of relationships between resources.</td></tr>
+<tr class="even"><td>rr.relationship<br/>vr:Resource.content.relationship</td><td> Descriptions of relationships between resources.</td></tr>
 <tr><td>rr.intf_param<br/>vs:InputParam</td><td> A description of a input parameter that can be provided as a
 name=value argument to the service.</td></tr>
 <tr class="even"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
@@ -504,28 +526,28 @@ foreign key on the <code>ivoid</code> column, this implies that deleted
 records leave no traces in the relational registry.</p>
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>updated <br/>vr:Resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="even"><td>content_level <br/>vr:ContentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
-<tr><td>res_description <br/>vr:Resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="even"><td>reference_url <br/>vr:Resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr><td>creator_seq <br/>vr:Creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
-<tr class="even"><td>content_type <br/>vr:Resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
-<tr><td>source_format <br/>vr:Resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="even"><td>source_value <br/>vr:Resource.content.source</td><td>adql:VARCHAR(*)</td><td>a bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr><td>version <br/>vr:Resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr class="even"><td>region_of_regard <br/>vr:Resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr><td>waveband <br/>vs:Waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with</td></tr>
-<tr class="even"><td>footprint_ivoid <br/>vs:DataCollection.coverage.footprint.ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the service describing the capability referred to by this element.</td></tr>
-<tr><td>footprint_url <br/>vs:DataCollection.coverage.footprint</td><td>adql:VARCHAR(*)</td><td>A URL of a footprint service for retrieving precise and up-to-date description of coverage</td></tr>
-<tr class="even"><td>rights <br/>vr:Rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
-<tr><td>facility <br/>vs:DataCollection.facility</td><td>adql:VARCHAR(*)</td><td>The observatory or facility used to collect the data contained or managed by this resource.</td></tr>
-<tr class="even"><td>instrument <br/>vs:DataCollection.instrument</td><td>adql:VARCHAR(*)</td><td>The Instrument used to collect the data contained or managed by a resource.</td></tr>
-<tr><td>data_url <br/>vs:DataCollection.accessURL</td><td>adql:VARCHAR(*)</td><td>For data collections, the URL that can be used to download the data contained in this data collection. For service access URLs see the interface table.</td></tr>
-<tr class="even"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr><td>res_type <br/>vr:Resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="even"><td>created <br/>vr:Resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr><td>short_name <br/>vr:Resource.shortName</td><td>adql:VARCHAR(*)</td><td>a short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="even"><td>res_title <br/>vr:Resource.title</td><td>adql:VARCHAR(*)</td><td>the full name given to the resource</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="even"><td>res_type <br/>vr:Resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr><td>created <br/>vr:Resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="even"><td>short_name <br/>vr:Resource.shortName</td><td>adql:VARCHAR(*)</td><td>a short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr><td>res_title <br/>vr:Resource.title</td><td>adql:VARCHAR(*)</td><td>the full name given to the resource</td></tr>
+<tr class="even"><td>updated <br/>vr:Resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr><td>content_level <br/>vr:ContentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
+<tr class="even"><td>res_description <br/>vr:Resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr><td>reference_url <br/>vr:Resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="even"><td>creator_seq <br/>vr:Creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
+<tr><td>content_type <br/>vr:Resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
+<tr class="even"><td>source_format <br/>vr:Resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr><td>source_value <br/>vr:Resource.content.source</td><td>adql:VARCHAR(*)</td><td>a bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="even"><td>version <br/>vr:Resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr><td>region_of_regard <br/>vr:Resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="even"><td>waveband <br/>vs:Waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with</td></tr>
+<tr><td>footprint_ivoid <br/>vs:DataCollection.coverage.footprint.ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the service describing the capability referred to by this element.</td></tr>
+<tr class="even"><td>footprint_url <br/>vs:DataCollection.coverage.footprint</td><td>adql:VARCHAR(*)</td><td>A URL of a footprint service for retrieving precise and up-to-date description of coverage</td></tr>
+<tr><td>rights <br/>vr:Rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<tr class="even"><td>facility <br/>vs:DataCollection.facility</td><td>adql:VARCHAR(*)</td><td>The observatory or facility used to collect the data contained or managed by this resource.</td></tr>
+<tr><td>instrument <br/>vs:DataCollection.instrument</td><td>adql:VARCHAR(*)</td><td>The Instrument used to collect the data contained or managed by a resource.</td></tr>
+<tr class="even"><td>data_url <br/>vs:DataCollection.accessURL</td><td>adql:VARCHAR(*)</td><td>For data collections, the URL that can be used to download the data contained in this data collection. For service access URLs see the interface table.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -579,28 +601,28 @@ as Rcp):</p>
 <tr>
 <td>address</td>
 <td>vr:Contact.address</td>
-<td/>
-<td/>
+<td>N/A</td>
+<td>N/A</td>
 </tr>
 
 <tr>
 <td>email</td>
 <td>vr:Contact.email</td>
-<td/>
-<td/>
+<td>N/A</td>
+<td>N/A</td>
 </tr>
 
 <tr>
 <td>telephone</td>
 <td>vr:Contact.telephone</td>
-<td/>
-<td/>
+<td>N/A</td>
+<td>N/A</td>
 </tr>
 
 <tr>
 <td>logo</td>
 <td>vr:Contact.logo</td>
-<td/>
+<td>N/A</td>
 <td>vr:Creator.logo</td>
 </tr>
 
@@ -983,8 +1005,8 @@ referenced capability has been validated.</p>
 
 <!-- GENERATED: maketable.sh rr.validation -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>validated_by <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
-<tr><td>level <br/>N/A</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
+<tr class="even"><td>validated_by <br/>vr:Validation.validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
+<tr><td>level <br/>vr:Validation.validationLevel</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
 <tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
@@ -1041,105 +1063,78 @@ If a representation of such information in the relational registry is
 required, this standard will need to be changed.</p>
 
 <p>Here is a list of utypes from various standards that registry
-operators MUST put into <code>res_details</code>; the source column
-contains the schema location relative to
-<code>http://ivoa.net/xml/</code></p>
+operators MUST put into <code>res_details</code> if the respective data
+is available from the resource records.  The XPath column gives a sketch
+of an XPath to the respective element in a VOResource metadata element,
+without any namespace prefixes.  Indiviual services MAY choose to expose
+additional metadata using other utypes.</p>
 
-<table frame="all" rules="cols">
-<tr><th>Utype</th><th>Source</th></tr>
-<tr><td>vor:capability.maxRecords</td><td>(various)</td></tr>
-<tr><td>vor:capability.testQuery</td><td>(various)</td></tr>
+<p>In addition to the metadata listed here, metadata defined in future
+IVOA-approved VOResource extensions MUST be present in
+<code>res_details</code> if the extensions require it.</p>
 
-<tr><td>vor:capability.imageServiceType</td><td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxQueryRegionSize.lat</td><td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxQueryRegionSize.long</td><td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxImageExtent.lat</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxImageExtent.long</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxImageSize.lat</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxImageSize.long</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxFileSize</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.maxSR</td>
-<td>SIA/v1.0</td></tr>
-<tr><td>vor:capability.verbosity</td>
-<td>SIA/v1.0</td></tr>
-
-<tr><td>vor:capability.testQuery.pos.lat</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.pos.long</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.size.lat</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.size.long</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.extras</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.verb</td>
-<td>SIA/v1.0, SSA/v1.0</td></tr>
-
-<tr><td>vor:capability.complianceLevel</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.dataSource</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.creationType</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.maxSearchRadius</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.defaultMaxRecords</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.maxAperture</td>
-<td>SSA/v1.0</td></tr>
-<tr><td>vor:capability.testQuery</td>
-<td>SSA/v1.0</td></tr>
-
-<tr><td>vor:capability.testQuery.ra</td>
-<td>ConeSearch/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.dec</td>
-<td>ConeSearch/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.sr</td>
-<td>ConeSearch/v1.0</td></tr>
-<tr><td>vor:capability.testQuery.catalog</td>
-<td>ConeSearch/v1.0</td></tr>
-
-<tr><td>vor:capability.dataModel</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.dataModel.ivoId</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.outputFormat.mime</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.outputFormat.ivoId</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.retentionPeriod.default</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.executionDuration.hard</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.executionDuration.default</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.outputLimit.hard</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.outputLimit.default</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.uploadLimit.hard</td>
-<td>TAPRegExt/v1.0</td></tr>
-<tr><td>vor:capability.uploadLimit.default</td>
-<td>TAPRegExt/v1.0</td></tr>
-
-<tr><td>vor:resource.endorsedVersion</td>
-<td>StandardsRegExt/v1.0</td></tr>
-<tr><td>vor:resource.deprecated</td>
-<td>StandardsRegExt/v1.0</td></tr>
-
-<tr><td>vor:resource.managingOrg</td>
-<td>VORegistry/v1.0</td></tr>
-<tr><td>vor:resource.managedAuthority</td>
-<td>VORegistry/v1.0</td></tr>
-<tr><td>vor:resource.full</td>
-<td>VORegistry/v1.0</td></tr>
-</table>
+<dl id="resutypes">
+<dt>cs:ConeSearch.maxRecords</dt>
+<dt>cs:ConeSearch.testQuery</dt>
+<dt>cs:ConeSearch.testQuery.catalog</dt>
+<dt>cs:ConeSearch.testQuery.dec</dt>
+<dt>cs:ConeSearch.testQuery.extras</dt>
+<dt>cs:ConeSearch.testQuery.ra</dt>
+<dt>cs:ConeSearch.testQuery.sr</dt>
+<dt>cs:ConeSearch.testQuery.verb</dt>
+<dt>cs:ConeSearch.verbosity</dt>
+<dt>sia:SimpleImageAccess.imageServiceType</dt>
+<dt>sia:SimpleImageAccess.maxFileSize</dt>
+<dt>sia:SimpleImageAccess.maxImageExtent.lat</dt>
+<dt>sia:SimpleImageAccess.maxImageExtent.long</dt>
+<dt>sia:SimpleImageAccess.maxImageSize.lat</dt>
+<dt>sia:SimpleImageAccess.maxImageSize.long</dt>
+<dt>sia:SimpleImageAccess.maxQueryRegionSize</dt>
+<dt>sia:SimpleImageAccess.maxQueryRegionSize.lat</dt>
+<dt>sia:SimpleImageAccess.maxQueryRegionSize.long</dt>
+<dt>sia:SimpleImageAccess.maxRecords</dt>
+<dt>sia:SimpleImageAccess.testQuery</dt>
+<dt>sia:SimpleImageAccess.testQuery.extras</dt>
+<dt>sia:SimpleImageAccess.testQuery.pos.lat</dt>
+<dt>sia:SimpleImageAccess.testQuery.pos.long</dt>
+<dt>sia:SimpleImageAccess.testQuery.size.lat</dt>
+<dt>sia:SimpleImageAccess.testQuery.size.long</dt>
+<dt>sia:SimpleImageAccess.testQuery.verb</dt>
+<dt>ssa:SimpleSpectralAccess.complianceLevel</dt>
+<dt>ssa:SimpleSpectralAccess.creationType</dt>
+<dt>ssa:SimpleSpectralAccess.dataSource</dt>
+<dt>ssa:SimpleSpectralAccess.defaultMaxRecords</dt>
+<dt>ssa:SimpleSpectralAccess.defaultMaxRecords</dt>
+<dt>ssa:SimpleSpectralAccess.maxAperture</dt>
+<dt>ssa:SimpleSpectralAccess.maxRecords</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery.pos.lat</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery.pos.long</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery.pos.refframe</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery.queryDataCmd</dt>
+<dt>ssa:SimpleSpectralAccess.testQuery.size</dt>
+<dt>tr:DataModelType</dt>
+<dt>tr:DataModelType.ivo-id</dt>
+<dt>tr:OutputFormat.ivo-id</dt>
+<dt>tr:OutputFormat.mime</dt>
+<dt>tr:TableAccess.executionDuration.default</dt>
+<dt>tr:TableAccess.executionDuration.hard</dt>
+<dt>tr:TableAccess.outputLimit.default</dt>
+<dt>tr:TableAccess.outputLimit.default.unit</dt>
+<dt>tr:TableAccess.outputLimit.hard</dt>
+<dt>tr:TableAccess.outputLimit.hard.unit</dt>
+<dt>tr:TableAccess.retentionPeriod.default</dt>
+<dt>tr:TableAccess.retentionPeriod.hard</dt>
+<dt>tr:TableAccess.uploadLimit.default</dt>
+<dt>tr:TableAccess.uploadLimit.default.unit</dt>
+<dt>tr:TableAccess.uploadLimit.hard</dt>
+<dt>tr:TableAccess.uploadLimit.hard.unit</dt>
+<dt>vg:Authority</dt>
+<dt>vg:Authority.managingOrg</dt>
+<dt>vg:Harvest.maxRecords</dt>
+<dt>vstd:EndorsedVersion</dt>
+<dt>vstd:Standard.deprecated</dt>
+</dl>
 
 <p>Note that VOStandard <code>status</code>  and <code>use</code>
 attributes cannot be represented here; their values are not accessible
@@ -1631,7 +1626,7 @@ tree traversal. --&gt;</div><div class="element"><span class="markup">&lt;</span
   non-letter at the end of the first part --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"substring($first, string-length($first), 1)=':'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="text">.</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- prints a utype for the current element --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emits utypes for an within a type if the element is 0..1:1 --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- capability and interface are roots of their own --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name!='capability' and @name!='interface'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(@type, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$child-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- the central (recursive) template building up utypes by
 	collecting subelements; the current node here is a type definition --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:element"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@maxOccurs='unbounded'"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emit a utype of the collection, then start a new utype hierarchy
         --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"new-root"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(substring-before(@type, ':'), ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', substring-after(@type, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$new-root"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for the current type and the classes it is derived 
-  from --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"type-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-basetypes"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-for-basetypes"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for stuff derived from base-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions',        substring-after(./xs:complexContent|xs:simpleContent/*/@base, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:complexType"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- initiates a walk through the tree of child constructs if the
+  from --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"type-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-in-hierarchy"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-in-hierarchy"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for stuff derived from base-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions',        substring-after(./xs:complexContent|xs:simpleContent/*/@base, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('derivations', @name)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:complexType"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- initiates a walk through the tree of child constructs if the
   current element is a resource, capability, or interface, or directly
   derived from one of those --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"uqbase"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name='Resource' or @name='Interface' or @name='Capability'     or @name='DataType'     or $uqbase='Resource' or $uqbase='Interface' or $uqbase='Capability'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(//xs:appinfo/vm:targetPrefix, ':')"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"/"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">apply-templates</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"text()"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">stylesheet</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- vi:et:sw=2:sta
 --&gt;</div></h:div>
