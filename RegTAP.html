@@ -1658,6 +1658,272 @@ $func$ LANGUAGE plpgsql;
 ]]></pre>
 
 </div> <!-- section appPGDefs -->
+
+<div class="section"><h2><a id="appBP">Relational Registry DB implementation notes</a></h2>
+
+<p class="TODO">This appendix contains a set of suggestions for implementing the Relational Registry RDB taking into account limitations that may arise using some RDBMSs (e.g. MySQL), this mainly happens for the adql:VARCHAR fields.
+These notes can also be useful to homogenize the various Resource Registry implementations in the view of preparing user interfaces for them: in that case a choice is likely to be needed for the various fields of the input form (or form like) interface.
+What follows has been put in form of a non-normative appendix to the RegTAP specification, it can, of course, be moved if a more suitable place is agreed upon. (-- Marco Molinaro)</p>
+
+<p>Starting from an harvest of the current available VO resources (actually a dump from the GAVO Relational Registry DB), and planning a mirror using an MySQL RDBMS SQL server, a simple consideration directly arose: how to set a VARCHAR data type length for the <code>adql:VARCHAR</code> fields of the Relational Registry since MySQL does not allow free length VARCHAR fields and given that TEXT (and similar data types) are overabundant in many cases. Since this consideration can be equally valid for:
+<ul>
+	<li>registry DB harvesting: different DB implementations may consider different data type and length solutions thus leading to dis-homogeneous registry records;</li>
+	<li>registry user interfaces: input form fields may require data type and length restrictions</li>
+</ul>
+it has been supposed a summary of the field types could be useful.<br>
+Hereafter possible string lengths are listed according to field characteristics and current state calculated resources' data length.</p>
+<p>
+The <code>stc_*</code> tables are not conseidered in this summary for 2 reasons:
+<ul>
+	<li>they are simpler: 1 ivo-id and a set of floating values, all of them not null;</li>
+	<li>it is not sure if they will be preserved in this specification or not.</li>
+</ul>
+Beside this tables, the first, and maybe simpler case, is that of the <code>ivoid</code> field present in every table of this specification. Togheter with those columns, other IVOA Unique Identifiers can be grouped. Given that current <code>ivo-id</code> fields have a maximum length of roughly 100 characters, and given the importance of this key in the registry, a suggested length of 256 should prevent from identifiers truncating. In the following one-record table the fields of the relational registry DB interested by these considerations:</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype suggested</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>ivo-id</td>
+				<td><code>VARCHAR(256)</code></td>
+				<td>
+					{all_table}.ivoid<br />
+					resource.footprint_ivoid<br />
+					(resource.harvested_from) - not standard?<br />
+					res_role.role_ivoid<br />
+					capability.standard_id<br />
+					relationship.related_id<br />
+					validation.validated_by
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>
+The registry RDB contains also some date-time values, these are easily managed by SQL timestamps. However the <code>res_date.date_value</code> is set as an <code>adql:VARCHAR</code> in this specification. For these fields no special advice is given, the <code>adql:TIMESTAMP</code> being self explanatory. Interested DB columns are: <code>resource.created</code>, <code>resource.updated</code> and <code>res_date.date_value</code> (even if this latter is considered a <code>VARCHAR</code> in the specification and DB records actually are not homogeneous).<br/>
+Other relational registry fields that are easily manageable are those that require numeric values, these fall into <code>adql:REAL</code>, <code>adql:SMALLINT</code> and <code>adql:INTEGER</code> datatypes. This table summarizes them:</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>floating point</td>
+				<td><code>adql:REAL</code></td>
+				<td>resource.region_of_regard</td>
+			</tr>
+			<tr>
+				<td>small integer</td>
+				<td><code>adql:SMALLINT</code></td>
+				<td>capability.cap_index<br />
+					res_schema.schema_index<br />
+					res_table.schema_index<br />
+					table_column.std<br />
+					interface.cap_index<br />
+					interface.intf_index<br />
+					intf_param.cap_index<br />
+					intf_param.intf_index<br />
+					intf_param.std<br />
+					validation.level<br />
+					validation.cap_index<br />
+					res_detail.cap_index<br />
+				</td>
+			</tr>
+			<tr>
+				<td>integer</td>
+				<td><code>adql:INTEGER</code></td>
+				<td>res_table.table_index<br />
+	                table_column.table_index
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>Another set of fields that may be group togheter to avoid case by case details are those containing Utypes, UCDs and Units. From a survey of the lengths of these fields in the GAVO registry it seems that a length of 128 characters can, currently, fit all the cases. This value may however be too little also considering the value set for <code>ivo-id</code>s and that (see below) for URIs and similar.<br />In the next table the list of interested fields:</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype suggested</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Utype(s)<br />UCD(s)<br />Units</td>
+				<td><code>VARCHAR(128)</code></td>
+				<td>res_schema.schema_utype<br />
+					res_table.table_utype<br />
+					table_column.ucd<br />
+					table_column.unit<br />
+					table_column.utype<br />
+					intf_param.ucd<br />
+					intf_param.unit<br />
+					intf_param.utype<br />
+					res_detail.detail_utype
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>The RDB contains also a set of URLs (one for the role's logo) and an e-mail field. This latter seems likely to be manageable with a 128 characters' length, while the URLs are better preserved with a string of 256 characters. Of course URLs have their own limits in HTTP-GET, for example, that fit better a <code>TEXT</code> SQL datatype, but to prevent truncating, given the current values' length, 256 characters should be enough. Also URI values can be considered as part of this group.<br />Here a list of the interested fields:</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype suggested</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>URL(s)<br />e-mail(s)<br />URI(s)</td>
+				<td><code>VARCHAR(256)</code></td>
+				<td>resource.reference_url<br />
+					resource.footprint_url<br />
+					resource.data_url<br />
+					res_role.email (e-mail)<br />
+					res_role.logo<br />
+					interface.wsdl_url<br />
+					interface.access_url
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>In the following two groups (internally subdivided by string's length) fall all the other fields of the RDB.<br />
+In the first one the idea is to put together those values that are part of a controlled vocabulary, are qualified in some way or another or form a definite list of terms. Trying to simplify the view (while always considering current lengths taken from the harvest), lengths in the form of powers of two are considered, but remember that these, like all other values expressed in this appendix, are simple suggestions, best practices at most.</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype suggested</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td rowspan="4">predefined<br />values</td>
+				<td><code>VARCHAR(256)</code></td>
+				<td>resource.content_level<br />
+					resource.content_type
+				</td>
+			</tr>
+			<tr>
+				<td><code>VARCHAR(64)</code></td>
+				<td>resource.waveband</td>
+			</tr>
+			<tr>
+				<td><code>VARCHAR(32)</code></td>
+				<td>resource.res_type<br />
+					resource.rights<br />
+					capability.cap_type<br />
+					res_table.table_type<br />
+					table_column.flag<br />
+					table_column.datatype<br />
+					table_column.extended_schema<br />
+					table_column.extended_type<br />
+					table_column.type_system<br />
+					interface.result_type<br />
+					intf_param.datatype<br />
+					intf_param.extended_schema<br />
+					intf_param.extended_type<br />
+				</td>
+			</tr>
+			<tr>
+				<td><code>VARCHAR(4)</code></td>
+				<td>interface.query_type<br />
+					interface.url_use
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>The second group (and last in those considered in this appendix) to contain the remaining fields consists of all the free text tokens to be input.<br />Also for these ones a choice from power of two lengths has been made considering the actual lengths in the registries. A special case (the </i>no-limit</i> one) considers those fields that contain really free-hand text, mainly descriptive abstracts. Here again a feasible solution can be setting the SQL column datatype to some <code>TEXT</code> value but, as an example, in MySQL previous than version 5.6 it is not possible to set indexes on field with that datatype while sometimes that could be useful; so, limiting to <code>VARCHAR(a_value)</code> datatypes can sometimes be needed.</p>
+<div class="tablewrap">
+	<table class="results" frame="all" rules="rows">
+		<thead>
+			<tr>
+				<th class="thVertical" >Field type</th>
+				<th class="thVertical" >Datatype suggested</th>
+				<th class="thVertical" >Interested Fields</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td rowspan="6">free string values</td>
+				<td><code>TEXT</code></td>
+				<td>resource.res_description<br />
+					resource.creator_seq<br />
+					res_role.role_name<br />
+					subject.subject<br />
+					res_schema.schema_description<br />
+					res_table.table_description<br />
+					table_column.description<br />
+					intf_param.description
+				</td>
+			</tr><tr>
+				<td><code>VARCHAR(256)</code></td>
+				<td>resource.res_title<br />
+					res_role.address<br />
+					capability.cap_description<br />
+					res_schema.schema_title<br />
+					res_table.table_title<br />
+					relationship.related_name<br />
+					res_detail.detail_value
+				</td>
+			</tr><tr>
+				<td><code>VARCHAR(128)</code></td>
+				<td>resource.version<br />
+					resource.source_value<br />
+					resource.facility<br />
+					resource.instrument
+				</td>
+			</tr><tr>
+				<td><code>VARCHAR(64)</code></td>
+				<td>res_table.table_name<br />
+					table_column.name<br />
+					intf_param.name
+				</td>
+			</tr><tr>
+				<td><code>VARCHAR(32)</code></td>
+				<td>resource.source_format<br />
+					res_role.telephone<br />
+					res_schema.schema_name<br />
+					interface.intf_type<br />
+					interface.intf_role<br />
+					relationship_type<br />
+					(res_date.date_value)<br />
+					res_date.value_role
+				</td>
+			</tr><tr>
+				<td><code>VARCHAR(16)</code></td>
+				<td>resource.short_name<br />
+					table_column.arraysize<br />
+					interface.std_version<br />
+					intf_param.use
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<p>A last consideration, regarding DB implementation of this specification, to be considered for best practices on fields' data types and lengths is about the weight of the final DB itself (the one used here should contain all available harvestable resources). This preliminary suggestions come from an <code>rr</code> DB schema containing about 13600 resources (in the <code>rr.resource</code>) with the largest table, <code>rr.table_column</code>, consisting of more than 560'000 records. Its weight, without indexing and keys, is a small 120 MB, raising to roughly 300 MB once primary keys, indexes and foreign keys are set. It is not a tremendous amount of data, however it will increase (or it is supposed to do so) and then, finding suitable byte-lengths for its fields content may be a good prevention of future headaches (and may help also in homogenizing full harvesting regitries and make it easier the decisions on user interface implementations, as written above).</p>
+</div>  <!-- section appBD - RDB impl.notes-->
+
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
 
 <div class="section"><h3><a id="changes-20121112" shape="rect"/><span class="secnum"/>Changes from WD-20121112</h3>
