@@ -507,22 +507,72 @@ attribute to clarify.</td></tr>
 <div class="section">
 <h3><a id="table_resource">The resource Table</a></h3>
 
-<p>The <code>rr.resource</code> table contains most atomic 
-members of <code>vr:Resource</code> and the common derived types
-that have a 1:1 relationship to the resource itself.  Some less-used members
-of derived types are handled through the <code>res_detail</code> table
-(see <span class="xref">table_res_detail</span>).
-The contentlevel, waveband, and rights members are 1:n but still appear here.
-If there are multiple values, concatenate them with 
-hash characters (#).  Use the <code>ivo_hashlist_has</code>
-ADQL extension function to check for the presence of a single value.
-This convention saves on tables while not complicating common queries
-significantly.</p>
+<p>The <code>rr.resource</code> table contains most atomic members of
+<code>vr:Resource</code> that have a 1:1 relationship to the resource
+itself, as well as some members of common derived types that are
+frequently required when building queries. Other registry-relevant
+members of derived types are handled through the <code>res_detail</code>
+table (see <span class="xref">table_res_detail</span>).  The
+contentlevel, waveband, and rights members are 1:n but still appear
+here.  If there are multiple values, concatenate them with hash
+characters (#).  Use the <code>ivo_hashlist_has</code> ADQL extension
+function to check for the presence of a single value.  This convention
+saves on tables while not complicating common queries significantly.</p>
 
 <p>The <code>vr:source</code> element is folded into the main record
 its content is available in the <code>source_value</code> column, the
 format&#8212;for which <code>bibcode</code> is the most interesting
 value&#8212;is available from <code>source_format</code>.</p>
+
+<p>The <code>res_type</code> column reflects the lower-cased value of
+the <code>ri:Resource</code> element's <code>xsi:type</code> attribute,
+where the canonical prefixes are used.  While custom or experimental
+VOResource extensions way yield more or less arbitrary strings in that
+column, here is an enumeration of <code>res_type</code>s from the
+VOResource and its IVOA-recommended extensions at the time of
+writing, together with explanations taken from the schema files and
+comments.</p>
+
+<dl>
+<dt>vg:authority</dt>
+<dd>A naming authority (these records allow resolving who is responsible
+for IVORNs with a certain authority; cf. <cite>std:VOID</cite>)</dd>
+<dt>vg:registry</dt>
+<dd>A registry is considered a publishing registry if it contains a
+capability element with <code>xsi:type="vg:Harvest"</code>.  Old,
+RegistryInterface 1-compliant registries also use this type with a
+capability of type <code>vg:Search</code>.  Searchable registries
+as specified here do <em>not</em> use this type any more; they are
+located using the data model identifier in the TAP registry extension
+(in the res_detail table).</dd>
+<dt>vr:organisation</dt>
+<dd>The main purpose of an organisation as a registered resource is to
+serve as a publisher of other resources.</dd>
+<dt>vr:resource</dt>
+<dd>Any entity or component of a VO application that is describable and
+identifiable by a IVOA Identifier; while it is technically possible to
+publish such records, the authors of such records should probably be
+asked to use a more specific type.</dd>
+<dt>vr:service</dt>
+<dd>A resource that can be invoked by a client to perform some action on
+its behalf</dd>
+<dt>vs:catalogservice</dt>
+<dd>A service that interacts with one or more specified tables having
+some coverage of the sky, time, and/or frequency.</dd>
+<dt>vs:dataservice</dt>
+<dd>A service for accessing astronomical data; publishers choosing
+this over <code>vs:catalogservice</code> probably intend to communicate
+that there are no actual sky positions in the tables exposed.</dd>
+<dt>vs:datacollection</dt>
+<dd>A schema as a logical grouping of data which, in general, is
+composed of one or more accessible datasets.  Use the
+<code>rr.relationship</code> table to find out services that allow
+access to the data, and/or look for values for
+<code>vs:datacollection.accessurl</code> in
+<code>rr.res_detail</code>.</dd>
+<dt>vstd:standard</dt>
+<dd>A description of a standard specification.</dd>
+</dl>
 
 <p>Deleted records should not be kept in the <code>resource</code>
 table.  Since all other tables in the relational registry should keep a
