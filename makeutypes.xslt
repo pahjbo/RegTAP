@@ -48,6 +48,11 @@ close to impossible with XSLT1.  -->
 <output method="text"/>
 <strip-space elements="*"/>
 
+<!-- root classes for utype generation; this must include all types that
+extensions derive from, since we don't see VOResource when processing
+them -->
+<variable name="UTYPEROOTS"
+  >+Resource+Interface+Capability+Service+DataType+</variable>
 
 <!-- An index used to retrieve the type definitions for the child
 elements in walk; note that this only spans one file,
@@ -222,17 +227,35 @@ tree traversal. -->
 </template>
 
 
+<template name="isUtypeRoot">
+  <!-- generates true if the current type is eligible as a root of
+  a utype hierarchy, nothing otherwise. -->
+  <variable name="uqbase" 
+    select="substring-after(./xs:complexContent/*/@base, ':')"/>
+  <!-- keep the explicit tests for the base since in VOResource
+  extensions we won't see the base classes -->
+  <choose>
+    <when test="contains($UTYPEROOTS, concat('+', @name, '+')) or
+        contains($UTYPEROOTS, concat('+', $uqbase, '+'))"
+      >true</when>
+    <otherwise>
+       <for-each select="key('definitions', $uqbase)">
+         <call-template name="isUtypeRoot"/>
+       </for-each>
+     </otherwise>
+  </choose>
+</template>
+
+
 <template match="xs:complexType">
   <!-- initiates a walk through the tree of child constructs if the
   current element is a resource, capability, or interface, or directly
   derived from one of those -->
 
-  <variable name="uqbase" 
-    select="substring-after(./xs:complexContent/*/@base, ':')"/>
-  <if test="@name='Resource' or @name='Interface' or @name='Capability'
-    or @name='DataType'
-    or $uqbase='Resource' or $uqbase='Interface' or $uqbase='Capability'">
-
+  <variable name="isRoot">
+    <call-template name="isUtypeRoot"/>
+  </variable>
+  <if test="$isRoot='true'">
     <call-template name="format-for-type">
       <with-param name="parent-path" 
         select="concat(//xs:appinfo/vm:targetPrefix, ':')"/>
