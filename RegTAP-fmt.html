@@ -141,15 +141,15 @@ Version <span class="docversion">1.0</span></h1>
 
 <h2>Abstract</h2>
 
-<p>Registries provide a mechanism with which VO applications can discover and
-select resources—first and foremost data and services—that 
-are relevant for a
-particular scientific problem. This specification defines  an interface for
-searching this resource metadata by specifying a set of tables comprising a
-useful subset of the information contained in the registry records as well as
-the table's data content in terms of the XML VOResource data model.  It is expected
-that this table set is queried by applications and users through the
-IVOA Table Access Protocol TAP.</p>
+<p>Registries provide a mechanism with which VO applications can
+discover and select resources—first and foremost data and
+services—that are relevant for a particular scientific problem.
+This specification defines  an interface for searching this resource
+metadata based on the IVOA's TAP protocol.  It specifies a set of tables
+that comprise a useful subset of the information contained in the
+registry records, as well as the table's data content in terms of the
+XML VOResource data model.  The general design of the system is geared
+towards allowing easy authoring of queries.</p>
 
 <h2>Status of this Document</h2>
 
@@ -191,16 +191,21 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 <p>In the Virtual Observatory (VO), registries provide a means for
 discovering useful resources, i.e., data and services.  Individual
 publishers offer the descriptions for their resources ("resource
-records") in publishing registries.  The protocol spoken by the
+records") in publishing registries.  At the time of writing, there are
+roughly 14000 such resource records active within the VO, originating
+from 20 publishing registries.</p>
+
+<p>The protocol spoken by these
 publishing registries, OAI-PMH, is not suitable for data discovery, and
 even if it were, data discovery would at least be fairly time consuming if
 each client had to query dozens or, potentially, hundreds of
 publishing registries.</p>
 
-<p>To enable efficient data discovery, there are services harvesting the
+<p>To enable efficient data discovery nevertheless, there are services harvesting the
 resource records from the publishing registries and offering interfaces
-more suitable for querying by their users.  Within the VO, the Registry
-Interfaces specification <cite>[<a href="#std:RI1">std:RI1</a>]</cite> defined such an interface
+more suitable for querying by their users.  The IVOA Registry
+Interfaces specification <cite>[<a href="#std:RI1">std:RI1</a>]</cite> defined, among other aspects of
+the VO registry system, such an interface
 using SOAP and an early draft of an XML-based query language.</p>
 
 <p>This document provides an update to the query ("full registry") part
@@ -399,7 +404,7 @@ specification:</p>
 
 <p>This specification piggybacks on top of the well-established
 VOResource standard.  It explicitely does not define a full data model,
-but rather something like a reasonably query-friendly view of a possible
+but rather something like a reasonably query-friendly view of a partial
 representation of one.  The link between the actual data model,
 VOResource and extensions as defined by the XML Schema documents, and
 the fields within this database schema, is provided by
@@ -540,7 +545,7 @@ resource.</td></tr>
 itself.  Members of derived types are, in general, handled through 
 the <code>res_detail</code>
 table even if 1:1 (see <span class="xref"><a href="#table_res_detail">7.13</a></span>).  The
-contentlevel, waveband, and rights members are 1:n but still appear
+content_level, waveband, and rights members are 1:n but still appear
 here.  If there are multiple values, concatenate them with hash
 characters (#).  Use the <code>ivo_hashlist_has</code> ADQL extension
 function to check for the presence of a single value.  This convention
@@ -554,7 +559,7 @@ value—is available from <code>source_format</code>.</p>
 <p>The <code>res_type</code> column reflects the lower-cased value of
 the <code>ri:Resource</code> element's <code>xsi:type</code> attribute,
 where the canonical prefixes are used.  While custom or experimental
-VOResource extensions way yield more or less arbitrary strings in that
+VOResource extensions may yield more or less arbitrary strings in that
 column, here is an enumeration of <code>res_type</code>s from the
 VOResource and its IVOA-recommended extensions at the time of
 writing, together with explanations taken from the schema files and
@@ -1042,7 +1047,7 @@ joined.</p>
 <tr class="even"><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
 <tr><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
 <tr class="even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr><td>use <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+<tr><td>use_param <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1123,7 +1128,7 @@ addresses the entire resource).</p>
 
 <!-- GENERATED: maketable.sh rr.res_date -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>date_value <br/>vr:Date</td><td>adql:VARCHAR(*)</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
+<tr class="even"><td>date_value <br/>vr:Date</td><td>adql:TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
 <tr><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
@@ -2231,6 +2236,8 @@ but are instead kept in rr.res_details rows.</li>
 <li>res_role.base_utype is renamed to res_role.base_role and no longer
 pretends to be a utype fragments; also, the content is now a simple
 word..</li>
+<li>intf_param.use is now called intf_param.use_param to avoid possible
+clashes with reserved SQL words.</li>
 </ul>
 </div><!-- changes-20121112 -->
 </div><!-- changes -->
