@@ -132,6 +132,7 @@ Version <span class="docversion">1.0</span></h1>
 <dd>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner" shape="rect">Markus Demleitner</a><br clear="none"/>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison" shape="rect">Paul Harrison</a><br clear="none"/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro" shape="rect">Marco Molinaro</a><br clear="none"/>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene" shape="rect">Gretchen Greene</a><br clear="none"/>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower" shape="rect">Theresa Dower</a><br clear="none"/>.
 </dd>
@@ -179,7 +180,7 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Relational Registry DB implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">D.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">D.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -599,10 +600,16 @@ access to the data (the <code>served_by</code> relation), and/or look for values
 <dd>A description of a standard specification.</dd>
 </dl>
 
-<p>Deleted records should not be kept in the <code>resource</code>
-table.  Since all other tables in the relational registry should keep a
-foreign key on the <code>ivoid</code> column, this implies that deleted
-records leave no traces in the relational registry.</p>
+<p>The <code>status</code> attribute of <code>vr:Resource</code> is
+considered an implementation detail of the XML serialization and is not
+kept here.  Neither <code>inactive</code> nor <code>deleted</code>
+records must not be kept in the <code>resource</code> table.  Since all
+other tables in the relational registry should keep a foreign key on the
+<code>ivoid</code> column, this implies that only <code>active</code> records 
+can be found in the relational registry; in other words, users can
+expect a resource they find using the relational registry to exist and
+work.</p>
+
 
 <!-- GENERATED: maketable.sh rr.resource -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
@@ -672,10 +679,10 @@ and <code>vr:ResourceName</code> as R):</p>
 
 <tr>
 <td>role_ivoid</td>
-<td>Co.name.ivo-id</td>
-<td>Rcp.ivo-id</td>
-<td>Cr.name.ivo-id</td>
-<td>R.ivo-id</td>
+<td>Co.name.ivoid</td>
+<td>Rcp.ivoid</td>
+<td>Cr.name.ivoid</td>
+<td>R.ivoid</td>
 </tr>
 
 <tr>
@@ -1217,38 +1224,45 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <dd>The maximum size in the longitude (R.A.) direction</dd>
 <dt>sia:SimpleImageAccess.testQuery.verb</dt>
 <dd>the verbosity level to use where 0 means the bare minimum set of columns and 3 means the full set of available columns.</dd>
-<dt>ssa:SimpleSpectralAccess.complianceLevel</dt>
+<dt>ssap:SimpleSpectralAccess.complianceLevel</dt>
 <dd>The category indicating the level to which this instance complies with the SSA standard.</dd>
-<dt>ssa:SimpleSpectralAccess.creationType (!)</dt>
+<dt>ssap:CreationType (!)</dt>
 <dd>The category that describes the process used to produce the dataset.</dd>
-<dt>ssa:DataSource (!)</dt>
+<dt>ssap:DataSource (!)</dt>
 <dd>The category specifying where the data originally came from.</dd>
-<dt>ssa:SimpleSpectralAccess.defaultMaxRecords</dt>
+<dt>ssap:SupportedFrame (!)</dt>
+<dd>The STC name for a world coordinate system frame supported by this service.</dd>
+<dt>ssap:SimpleSpectralAccess.defaultMaxRecords</dt>
 <dd>The largest number of records that the service will return when the MAXREC parameter not specified in the query input.</dd>
-<dt>ssa:SimpleSpectralAccess.maxAperture</dt>
+<dt>ssap:SimpleSpectralAccess.maxAperture</dt>
 <dd>The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method.</dd>
-<dt>ssa:SimpleSpectralAccess.maxRecords</dt>
+<dt>ssap:SimpleSpectralAccess.maxRecords</dt>
 <dd>The hard limit on the largest number of records that the query operation will return in a single response</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery</dt>
 <dd>a set of query parameters that is expected to produce at least one matched record which can be used to test the service.</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery.pos.lat</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery.pos.lat</dt>
 <dd>The latitude (e.g. Declination) of the center of the search position in decimal degrees.</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery.pos.long</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery.pos.long</dt>
 <dd>The longitude (e.g. Right Ascension) of the center of the search position in decimal degrees.</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery.pos.refframe</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery.pos.refframe</dt>
 <dd>the coordinate system reference frame name indicating the frame to assume for the given position. If not provided, ICRS is assumed.</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery.queryDataCmd</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery.queryDataCmd</dt>
 <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument which is assumed to be set to "queryData".</dd>
-<dt>ssa:SimpleSpectralAccess.testQuery.size</dt>
+<dt>ssap:SimpleSpectralAccess.testQuery.size</dt>
 <dd>the size of the search radius.</dd>
-<dt>tr:TableAccess.dataModel.ivo-id (!)</dt>
-<dd>The IVORN of the data model.</dd>
-<dt>tr:TableAccess.dataModel (!)</dt>
+<dt>tr:DataModelType.ivoid (!)</dt>
+<dd>The IVORN of the data model supported by a TAP service.</dd>
+<dt>tr:DataModelType (!)</dt>
+<dd>The short, human-readable name of a data model supported by a TAP service; 
+for most applications, clients should rather constrain tr:datamodeltype.ivoid.
+</dd>
+<dt>tr:Language.name (!)</dt>
 <dd>An IVOA defined data model, identified by an IVORN intended for machine consumption and a short label intended for human comsumption.</dd>
-<dt>tr:OutputFormat.ivo-id (!)</dt>
+
+<dt>tr:OutputFormat.ivoid (!)</dt>
 <dd>An optional IVORN of the output format.</dd>
 <dt>tr:OutputFormat.mime (!)</dt>
-<dd>The MIME type of this format.</dd>
+<dd>The MIME type of a format.</dd>
 <dt>tr:TableAccess.executionDuration.default</dt>
 <dd>The value of this limit for newly-created jobs, given in seconds.</dd>
 <dt>tr:TableAccess.executionDuration.hard</dt>
@@ -1287,7 +1301,7 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <dd>the Instrument used to collect the data contain or managed by a resource.</dd>
 <dt>vs:DataCollection.accessURL (!)</dt>
 <dd>The URL that can be used to download the data contained in this data collection.</dd>
-<dt>vs:DataCollection.coverage.footprint.ivo-id (!)</dt>
+<dt>vs:DataCollection.coverage.footprint.ivoid (!)</dt>
 <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element.</dd>
 <dt>vs:DataCollection.coverage.footprint (!)</dt>
 <dd>a reference to a footprint service for retrieving precise and up-to-date description of coverage.</dd>
@@ -1295,7 +1309,7 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <dd>the observatory or facility used to collect the data contained or managed by this resource.</dd>
 <dt>vs:DataCollection.instrument (!)</dt>
 <dd>the Instrument used to collect the data contain or managed by a resource.</dd>
-<dt>vs:DataService.coverage.footprint.ivo-id (!)</dt>
+<dt>vs:DataService.coverage.footprint.ivoid (!)</dt>
 <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element.</dd>
 <dt>vs:DataService.coverage.footprint (!)</dt>
 <dd>a reference to a footprint service for retrieving precise and up-to-date description of coverage.</dd>
@@ -1735,7 +1749,7 @@ SELECT access_url
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
-WHERE detail_utype='ssa:datasource' 
+WHERE detail_utype='ssap:datasource' 
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
@@ -1877,39 +1891,49 @@ $func$ LANGUAGE plpgsql;
 
 </div> <!-- section appPGDefs -->
 
-<div class="section"><h2><a id="appBP"><span class="secnum">C. </span>Relational Registry DB implementation notes</a></h2>
+<div class="section"><h2><a id="appBP"><span class="secnum">C. </span>Implementation notes</a></h2>
 
-<p class="TODO">This appendix contains a set of suggestions for implementing the Relational Registry RDB taking into account limitations that may arise using some RDBMSs (e.g. MySQL), this mainly happens for the adql:VARCHAR fields.
-These notes can also be useful to homogenize the various Resource Registry implementations in the view of preparing user interfaces for them: in that case a choice is likely to be needed for the various fields of the input form (or form like) interface.
-What follows has been put in form of a non-normative appendix to the RegTAP specification, it can, of course, be moved if a more suitable place is agreed upon. (-- Marco Molinaro)</p>
+<p>This appendix contains a set of recommendations and constrants for
+implementing the relational registry model on actual RDBMSes; this
+concerns, in particular, minimum lengths for columns of type
+adql:VARCHAR.  Implementations MUST NOT truncate strings of length equal
+to or smaller than the minimal lengths given here; the limitations are
+not, however, upper limits, and indeed, when choosing an implementation
+strategy it is in general preferable to not impose artificial length
+restrictions, in particular if no performance penalty is incurred.</p>
 
-<p>Starting from an harvest of the current available VO resources (actually a dump from the GAVO Relational Registry DB), and planning a mirror using an MySQL RDBMS SQL server, a simple consideration directly arose: how to set a VARCHAR data type length for the <code>adql:VARCHAR</code> fields of the Relational Registry since MySQL does not allow free length VARCHAR fields and given that TEXT (and similar data types) are overabundant in many cases. Since this consideration can be equally valid for:
-<ul>
-	<li>registry DB harvesting: different DB implementations may consider different data type and length solutions thus leading to dis-homogeneous registry records;</li>
-	<li>registry user interfaces: input form fields may require data type and length restrictions</li>
-</ul>
-it has been supposed a summary of the field types could be useful.
-Hereafter possible string lengths are listed according to field characteristics and current state calculated resources' data length.</p>
-<p>
-The <code>stc_*</code> tables are not conseidered in this summary for 2 reasons:
-<ul>
-	<li>they are simpler: 1 ivo-id and a set of floating values, all of them not null;</li>
-	<li>it is not sure if they will be preserved in this specification or not.</li>
-</ul>
-Beside this tables, the first, and maybe simpler case, is that of the <code>ivoid</code> field present in every table of this specification. Togheter with those columns, other IVOA Unique Identifiers can be grouped. Given that current <code>ivo-id</code> fields have a maximum length of roughly 100 characters, and given the importance of this key in the registry, a suggested length of 256 should prevent from identifiers truncating. In the following one-record table the fields of the relational registry DB interested by these considerations:</p>
+<p>These notes can also be useful with a view to preparing user
+interfaces for them, since input forms and similar user interface
+elements invariably have limited space; the limits here give reasonable
+defaults for the amount of data that should minimally be manipulatable
+by a user with reasonable effort.</p>
+
+<p>These guidelines and rules discussed here originiate partly from an
+analysis of the data content of the VO registry in February 2013, partly
+from a consideration of limits in various XML schema documents.</p>
+
+<p>The <code>ivoid</code> field present in every table of this
+specification merits special consideration, on the one hand due to its
+frequency, but also since other IVOA Identifiers present in the
+relational registry should probably be treated analoguously.
+Given that IVORNs in the 2013 data fields have a maximum
+length of roughly 100 characters, we propose a maximum length of 
+255 should be sufficient even when taking possible fragment identifiers
+into account.  Therefore, we propose:</p>
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
 			<tr>
 				<th class="thVertical">Field type</th>
 				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Interested Fields</th>
+				<th class="thVertical">Pertinent Fields</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td>ivo-id</td>
-				<td><code>VARCHAR(256)</code></td>
+				<td><code>VARCHAR(255)</code></td>
 				<td>
 					{all_table}.ivoid<br/>
 					resource.footprint_ivoid<br/>
@@ -1923,16 +1947,21 @@ Beside this tables, the first, and maybe simpler case, is that of the <code>ivoi
 		</tbody>
 	</table>
 </div>
-<p>
-The registry RDB contains also some date-time values, these are easily managed by SQL timestamps. However the <code>res_date.date_value</code> is set as an <code>adql:VARCHAR</code> in this specification. For these fields no special advice is given, the <code>adql:TIMESTAMP</code> being self explanatory. Interested DB columns are: <code>resource.created</code>, <code>resource.updated</code> and <code>res_date.date_value</code> (even if this latter is considered a <code>VARCHAR</code> in the specification and DB records actually are not homogeneous).<br/>
-Other relational registry fields that are easily manageable are those that require numeric values, these fall into <code>adql:REAL</code>, <code>adql:SMALLINT</code> and <code>adql:INTEGER</code> datatypes. This table summarizes them:</p>
+
+<p>The relational registry also contains some date-time values. The most
+straightforward implementation certainly is to use SQL timestamps.
+Other relational registry fields that straightforwardly map to common
+SQL types are those that require numeric values, viz.,
+<code>adql:REAL</code>, <code>adql:SMALLINT</code>, and
+<code>adql:INTEGER</code>.  The following table summarizes these:</p>
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
 			<tr>
 				<th class="thVertical">Field type</th>
 				<th class="thVertical">Datatype</th>
-				<th class="thVertical">Interested Fields</th>
+				<th class="thVertical">Pertinent Fields</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -1968,14 +1997,23 @@ Other relational registry fields that are easily manageable are those that requi
 		</tbody>
 	</table>
 </div>
-<p>Another set of fields that may be group togheter to avoid case by case details are those containing Utypes, UCDs and Units. From a survey of the lengths of these fields in the GAVO registry it seems that a length of 128 characters can, currently, fit all the cases. This value may however be too little also considering the value set for <code>ivo-id</code>s and that (see below) for URIs and similar.<br/>In the next table the list of interested fields:</p>
+
+<p>The fields containing Utypes, UCDs, and Units are treated in parallel
+here. The 2013 registry data indicates a length of 128 characters is
+sufficient for real-world purposes; actually, at least UCDs and Units
+could of course grow without limitations, but it seems unreasonable
+anything longer than a typical line might actually be useful.  As far as
+utypes are concerned, we expect those to shrink rather than grow with
+new standardization efforts.</p>
+
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
 			<tr>
 				<th class="thVertical">Field type</th>
 				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Interested Fields</th>
+				<th class="thVertical">Pertinent Fields</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -1996,24 +2034,41 @@ Other relational registry fields that are easily manageable are those that requi
 		</tbody>
 	</table>
 </div>
-<p>The RDB contains also a set of URLs (one for the role's logo) and an e-mail field. This latter seems likely to be manageable with a 128 characters' length, while the URLs are better preserved with a string of 256 characters. Of course URLs have their own limits in HTTP-GET, for example, that fit better a <code>TEXT</code> SQL datatype, but to prevent truncating, given the current values' length, 256 characters should be enough. Also URI values can be considered as part of this group.<br/>Here a list of the interested fields:</p>
+
+<p>The relational registry further has an
+e-mail field, for which we chose 128 characters as a reasonable upper
+limit (based on a real maximum of 40 characters in the 2013 data).
+There are furthermore URLs (in addition to access and reference URLs,
+there are also URLs for the WSDL of SOAP services and logos for roles).
+Due to the importance of in particular the access URLs we strongly
+recommend to use non-truncating types here.  Empirically, there are
+access URLs of up to 224 characters in 2013 (reference URLs are less
+critical at a maximum of 96 characters).  Expecting that with REST-based
+services, URL lengths will probably rather tend down than up, we still
+permit truncation at 255 characters.</p>
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
 			<tr>
 				<th class="thVertical">Field type</th>
 				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Interested Fields</th>
+				<th class="thVertical">Pertinent Fields</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<td>URL(s)<br/>e-mail(s)<br/>URI(s)</td>
-				<td><code>VARCHAR(256)</code></td>
+				<td>e-mail</td>
+				<td><code>VARCHAR(128)</code></td>
+				<td>
+					res_role.email<br/>
+				</td>
+			</tr>
+
+			<tr>
+				<td>URLs</td>
+				<td><code>VARCHAR(255)</code></td>
 				<td>resource.reference_url<br/>
-					resource.footprint_url<br/>
-					resource.data_url<br/>
-					res_role.email (e-mail)<br/>
 					res_role.logo<br/>
 					interface.wsdl_url<br/>
 					interface.access_url
@@ -2022,21 +2077,30 @@ Other relational registry fields that are easily manageable are those that requi
 		</tbody>
 	</table>
 </div>
-<p>In the following two groups (internally subdivided by string's length) fall all the other fields of the RDB.<br/>
-In the first one the idea is to put together those values that are part of a controlled vocabulary, are qualified in some way or another or form a definite list of terms. Trying to simplify the view (while always considering current lengths taken from the harvest), lengths in the form of powers of two are considered, but remember that these, like all other values expressed in this appendix, are simple suggestions, best practices at most.</p>
+
+<p>In the following two groups (internally subdivided by string's
+length) fall all the other fields of the RDB.
+In the first one the idea is to put together those values that are part
+of a controlled vocabulary, are qualified in some way or another or form
+a definite list of terms. Trying to simplify the view (while always
+considering current lengths taken from the harvest), lengths in the form
+of powers of two are considered, but remember that these, like all other
+values expressed in this appendix, are simple suggestions, best
+practices at most.</p>
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
 			<tr>
 				<th class="thVertical">Field type</th>
 				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Interested Fields</th>
+				<th class="thVertical">Pertinent Fields</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td rowspan="4">predefined<br/>values</td>
-				<td><code>VARCHAR(256)</code></td>
+				<td><code>VARCHAR(255)</code></td>
 				<td>resource.content_level<br/>
 					resource.content_type
 				</td>
@@ -2071,17 +2135,21 @@ In the first one the idea is to put together those values that are part of a con
 		</tbody>
 	</table>
 </div>
-<p>The second group (and last in those considered in this appendix) to
-contain the remaining fields consists of all the free text tokens to be
-input.  Also for these ones a choice from power of two lengths has
-been made considering the actual lengths in the registries. A special
-case (the <i>no-limit</i> one) considers those fields that contain
-really free-hand text, mainly descriptive abstracts. Here again a
-feasible solution can be setting the SQL column datatype to some
-<code>TEXT</code> value but, as an example, in MySQL previous than
-version 5.6 it is not possible to set indexes on field with that
-datatype while sometimes that could be useful; so, limiting to
-<code>VARCHAR(a_value)</code> datatypes can sometimes be needed.</p>
+<p>Finally, there are the fields that actually contain what is
+basically free text.
+For these, we have made a choice from reasonable powers of two lengths 
+considering the actual lengths in the 2013 registry data. 
+A special case are fields that either contain natural language text (the
+descriptions) or those that have grown without limit historically
+(resource.creator_seq, and, giving in to current abuses discussed above,
+res_role.role_name).  For all such fields, no upper limit can sensibly
+be defined.  However, since certain DBMSes (e.g.,MySQL older than
+version 5.6) cannot index fields with a TEXT datatype and thus using
+VARCHAR may be necessary at least for frequenly-searched fields, we give
+the maximal length of the fields nthe 2013 registry in parentheses after
+the column designations for the TEXT datatype) the the following
+table.</p>
+
 <div class="tablewrap">
 	<table class="results" frame="all" rules="rows">
 		<thead>
@@ -2095,20 +2163,19 @@ datatype while sometimes that could be useful; so, limiting to
 			<tr>
 				<td rowspan="6">free string values</td>
 				<td><code>TEXT</code></td>
-				<td>resource.res_description<br/>
-					resource.creator_seq<br/>
-					res_role.role_name<br/>
-					subject.subject<br/>
-					res_schema.schema_description<br/>
-					res_table.table_description<br/>
-					table_column.description<br/>
-					intf_param.description
+				<td>resource.res_description (7801)<br/>
+					resource.creator_seq (712)<br/>
+					res_role.role_name (712)<br/>
+					res_schema.schema_description (934)<br/>
+					res_table.table_description (934)<br/>
+					table_column.description (3735)<br/>
+					intf_param.description (347)
+					capability.cap_description (100)<br/>
 				</td>
 			</tr><tr>
-				<td><code>VARCHAR(256)</code></td>
+				<td><code>VARCHAR(255)</code></td>
 				<td>resource.res_title<br/>
 					res_role.address<br/>
-					capability.cap_description<br/>
 					res_schema.schema_title<br/>
 					res_table.table_title<br/>
 					relationship.related_name<br/>
@@ -2120,6 +2187,7 @@ datatype while sometimes that could be useful; so, limiting to
 					resource.source_value<br/>
 					resource.facility<br/>
 					resource.instrument
+					subject.subject<br/>
 				</td>
 			</tr><tr>
 				<td><code>VARCHAR(64)</code></td>
@@ -2135,7 +2203,6 @@ datatype while sometimes that could be useful; so, limiting to
 					interface.intf_type<br/>
 					interface.intf_role<br/>
 					relationship_type<br/>
-					(res_date.date_value)<br/>
 					res_date.value_role
 				</td>
 			</tr><tr>
