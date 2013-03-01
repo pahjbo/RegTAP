@@ -180,7 +180,7 @@ IETF standard RFC 2119 <a href="#ref_RFC2119">[RFC 2119]</a>.</p>
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#stctables"><span class="secnum">1. </span>STC Coverage Tables</a><ul><li><a href="#table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></li><li><a href="#table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></li><li><a href="#table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></li><li><a href="#table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">D.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">D.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -299,6 +299,12 @@ utypes are defined, and it is expected that building utypes based on XML
 schema documents will be left undefined by a recommendation.  Hence, the 
 utypes used here are generated using custom code in XSLT.</dd>
 </dl>
+
+<dt>RegTAP-STC</dt>
+<dd>This specification is complemented by a schema of four tables, also
+under the rr schema, that gives coverages of resources on the spatial,
+temporal, spectral and redshift axes.  These will be defined in a
+separate document.</dd>
 
 </div> <!-- subsection rolewithinivoa -->
 </div> <!-- section introduction -->
@@ -1371,193 +1377,6 @@ use the <code>ivo_nocasematch</code> function to search in
 </div> <!-- subsection table_res_detail -->
 
 </div> <!-- section vortables -->
-
-
-<div class="ignorefornow">
-<div class="section"><h2><a id="stctables"><span class="secnum">1. </span>STC Coverage Tables</a></h2>
-
-<p class="TODO">I don't insist on keeping this in; It's here until I
-either find a better place for it or until people feel it can stay in on
-grounds that it's reasonable and optional.</p>
-
-<p>VOResource records can contain coverage information expressed
-according to the IOVA data model for Space-Time Coordinates 
-<cite>[<a href="#std:STC">std:STC</a>]</cite>.  The complete data model is far too large and
-complex for a relational representation.  However, a rough indication of
-the regions in time, space, and the electromagnetic spectrum covered by
-a resource is sufficient for many registry purposes, in particular
-focusing queries to a smaller subset of resources by weeding out ones
-which do not intersect with the region of interest.</p>
-
-<p>This section defines a set of tables giving, for each resource and
-STC axis, zero or more intervals covered by the data.</p> 
-<p>To make queries feasible, the STC coverage tables have fixed STC
-metadata, viz,</p>
-
-<ul>
-<li>spatial: equatorial ra and dec, reference frame ICRS.
-Units are degrees</li>
-<li>temporal: MJD values (i.e., days) in Terrestial Time</li>
-<li>spectral: wavelength in meter</li>
-<li>redshift: STC's OPTICAL doppler definition (i.e., Δλ/λ)</li>
-</ul>
-
-<p>While it is expected to rarely matter at the level of precision the
-registry aims for, the reference position SHOULD be the solar system
-barycenter, except for time, which SHOULD be given for the geocenter.</p>
-
-<p>Resource registry authors SHOULD provide their metadata in these
-standard forms, but registry ingestors SHOULD make a best effort to
-transform STC metadata given in other forms.</p>
-
-<p>The utypes used here are taken from the STC data model, formed
-according to the rules in <a href="#ref_STCVOT">[STCVOT]</a>.</p>
-
-<p>Services providing the following tables should declare support for
-the data model <code>ivo://ivoa.net/std/RegTAP/stc</code> in
-their TAP capabilities:</p>
-
-<!-- GENERATED: gettables.sh stc -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.stc_redshift<br/>stc:AstroCoordArea.SpectralInterval</td><td> The redshift coverage of resources, given as one or more intervals;
-the total coverage is (a subset of) the union of all intervals given
-for a resource. Redshifts here are understood as delta lambda/lamda.</td></tr>
-<tr class="even"><td>rr.stc_spatial<br/>stc:AstroCoordArea.Region</td><td> The spatial coverage of resources; the total coverage is (a subset
-of) the union of all regions given for a resource. All coordinates are
-in ICRS. There is no notion of how tight the given regions are.</td></tr>
-<tr><td>rr.stc_spectral<br/>stc:AstroCoordArea.SpectralInterval</td><td> The spectral coverage of resources, given as one or more intervals;
-the total coverage is (a subset of) the union of all intervals given
-for a resource. All spectral values are understood as given as
-wavelength in meters; they are supposed to express wavelength at the
-barycenter of the solar system (which means instrument values should
-be close enough to work).</td></tr>
-<tr class="even"><td>rr.stc_temporal<br/>stc:AstroCoordArea.TimeInterval</td><td> The temporal coverage of resources, given as one or more intervals;
-the total coverage is (a subset of) the union of all intervals given
-for a resource. All times are understood as MJD in the TT time scale.</td></tr>
-</tbody></table></div>
-<!-- /GENERATED -->
-
-<p>In the following table descriptions, names and utypes of tables and
-columns are normative and MUST be used as given, and all-lowercase.
-Descriptions are not normative.  Registry operators MAY provide
-additional columns in their tables, but they MUST provide all columns
-given in this specification.  All values of the <code>ivoid</code>
-column must be lowercased on ingestion.</p>
-
-
-
-<div class="section"><h3><a id="table_stc_spatial"><span class="secnum">1.1. </span>The stc_spatial Table</a></h3>
-
-<p>The <code>stc_spatial</code> table links IVORNs with zero or more
-bounding boxes, understood as intervals in Right Ascension and and
-Declination (note that this means the bounding lines in latitude are
-not great circles).  This is an admittedly rough model, but since in
-principle, a service can define arbitrarily many such patches, any
-desired accuracy can be obtained.  However, since the these items are
-given for discovery purposes, to weed out irrelevant
-services in all-VO query, and similar tasks, a fairly sketchy
-specification of coverage should be sufficient.</p>
-
-<p>While ADQL would support defining and querying more sophisticated
-regions, using these for coverage is not straightforward; one reason is
-that the natural candidate for a coverage column type, POLYGON, cannot
-easily represent the entire sky or similarly large coverages, which
-means ingestors would have to employ fairly advanced spherical geometry
-to split such large regions up.  Also, in data discovery the actual
-shape of the covered regions is probably not usually important.</p>
-
-<p>Currently, fully general STC specifications are allowed in registry
-records.  It is not expected that many registries will sensibly support
-a significant part of the constructs possible and the transformations
-involved.  For interoperability, resource record authors should give
-spherical position intervals in ICRS exclusively.  A short IVOA note
-will discuss the recommended format of coverage declaration.</p>
-
-<!-- GENERATED: maketable.sh rr.stc_spatial -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>ra_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C1</td><td>adql:REAL</td><td>A left edge of a bounding box on the sky the resource covers.</td></tr>
-<tr><td>ra_max <br/>stc:AstroCoordArea.Position2VecInterval.HiLimit2Vec.C1</td><td>adql:REAL</td><td>An right edge of a bounding box on the sky the resource covers.</td></tr>
-<tr class="even"><td>de_min <br/>stc:AstroCoordArea.Position2VecInterval.LoLimit2Vec.C2</td><td>adql:REAL</td><td>A lower edge of a bounding box on the sky the resource covers.</td></tr>
-<tr><td>de_max <br/>stc:AstroCoordArea.Position2VecInterval.HiLimit2Vec.C2</td><td>adql:REAL</td><td>An upper edge of a bounding box on the sky the resource covers.</td></tr>
-</tbody></table></div>
-<!-- /GENERATED -->
-
-<p>The <code>ivoid</code> column should be an explicit foreign key into
-<code>resource</code>. 
-It is recommended to maintain an index on 
-the <code>area_covered</code> column.</p>
-
-
-</div> <!-- subsection table_stc_spatial -->
-
-<div class="section"><h3><a id="table_stc_temporal"><span class="secnum">1.2. </span>The stc_temporal Table</a></h3>
-
-<p>Temporal coverage is given by associating one or more time intervals
-to an IVORN.  Both start and end are mandatory, i.e., there are no
-half-open intervals.  All times are given in days in the MJD epoch.
-While it should rarely matter, we note that times are supposed to be in
-TT in the geocenter.</p>
-
-
-<!-- GENERATED: maketable.sh rr.stc_temporal -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>time_start <br/>stc:AstroCoordArea.TimeInterval.StartTime</td><td>adql:REAL</td><td>Lower limit of a time interval covered by the resource.</td></tr>
-<tr><td>time_end <br/>stc:AstroCoordArea.TimeInterval.EndTime</td><td>adql:REAL</td><td>Upper limit of a time interval covered by the resource.</td></tr>
-</tbody></table></div>
-<!-- /GENERATED -->
-
-<p>The <code>ivoid</code> column should be an explicit foreign key into
-<code>resource</code>. 
-It is recommended to maintain indexes on 
-both the <code>time_start</code> and <code>time_end</code> columns.</p>
-
-
-</div> <!-- subsection table_stc_temporal -->
-
-<div class="section"><h3><a id="table_stc_spectral"><span class="secnum">1.3. </span>The stc_spectral Table</a></h3>
-
-<p>The <code>stc_spectral</code> table is constructed analoguous to
-<code>stc_temporal</code>, i.e., each resource has one or more
-associated intervals, for which both upper and lower limit is mandatory.
-The limits are given as wavelengths in meters, for the reference
-position in the barycenter of the solar system.</p>
-
-<!-- GENERATED: maketable.sh rr.stc_spectral -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>spectral_start <br/>stc:AstroCoordArea.SpectralInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a spectral interval covered by the resource.</td></tr>
-<tr><td>spectral_end <br/>stc:AstroCoordArea.SpectralInterval.HiLimit</td><td>adql:REAL</td><td>Upper limit of a spectral interval covered by the resource.</td></tr>
-</tbody></table></div>
-<!-- /GENERATED -->
-
-<p>The <code>ivoid</code> column should be an explicit foreign key into
-<code>resource</code>. 
-It is recommended to maintain indexes on 
-both the <code>spectral_start</code> and <code>spectral_end</code> columns.</p>
-
-
-</div> <!-- subsection table_stc_spectral -->
-
-<div class="section"><h3><a id="table_redshift"><span class="secnum">1.4. </span>The stc_redshift Table</a></h3>
-
-<p>As <code>stc_temporal</code> and <code>stc_spectral</code>, the
-<code>stc_redshift</code> table associates resources with intervals of
-values, in this case with redshifts, given as Δλ/λ (the STC data model's
-OPTICAL definition).</p>
-
-<!-- GENERATED: maketable.sh rr.stc_redshift -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource</td></tr>
-<tr class="even"><td>redshift_start <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Lower limit of a redshift interval covered by the resource.</td></tr>
-<tr><td>redshift_end <br/>stc:AstroCoordArea.RedshiftInterval.LoLimit</td><td>adql:REAL</td><td>Upper limit of a redshift interval covered by the resource.</td></tr>
-</tbody></table></div>
-<!-- /GENERATED -->
-
-<p>The <code>ivoid</code> column should be an explicit foreign key into
-<code>resource</code>. 
-It is recommended to maintain indexes on 
-both the <code>time_start</code> and <code>time_end</code> columns.</p>
-
-</div> <!-- subsection table_redshift -->
-</div> <!-- section stctables -->
-</div> <!-- class ignorefornow -->
 
 
 <div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
