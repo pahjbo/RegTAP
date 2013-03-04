@@ -12,3 +12,9 @@ utypes.txt: makeutypes.xslt
 
 check_examples:
 	TAP_ACCESS_URL=http://dc.g-vo.org/tap python check_examples.py
+
+localinstall: RegTAP-fmt.html RegTAP.pdf
+	scp RegTAP.pdf RegTAP-arch.png alnilam:/var/www/docs/ridraft/
+	scp ivoadoc/ivoa-extras.css alnilam:/var/www/docs/ridraft/ivoadoc/
+	scp ivoadoc/XMLPrint.css alnilam:/var/www/docs/ridraft/ivoadoc/
+	scp RegTAP-fmt.html alnilam:/var/www/docs/ridraft/index.html
