@@ -473,6 +473,13 @@ different file.  As given here, the stylesheet produces the desired
 results for the versions of VOResource and its extensions given in 
 section <span class="xref">rolewithinivoa</span>.</p>
 
+<p>Note that for readability utypes are given in camel case
+throughout the normative text of this document,
+following the XML Schema names.  However, utypes are generally
+considered to be case insensitive.  Hence, in the database tables, all
+utypes are stored all-lowercase; this is mandated by the case conversion
+rules in the table descriptions.</p>
+
 </div><!-- subsection vorutypes -->
 
 <div class="section">
@@ -572,7 +579,7 @@ all content of the <code>name</code> elements below a resource element
 <code>curation</code> child's <code>creator</code> children,
 concatenated with a sequence of semicolon and blank characters (<code>";
 "</code>). The individual parts must be concatenated preserving the
-sequence of the XML elements.  he resulting string is primarily intended
+sequence of the XML elements.  The resulting string is primarily intended
 for display purposes ("author list") and is hence not case-normalized.
 It was added since the equivalent of an author list is expected to be
 a metadatum that is displayed fairly frequently, but also since the
