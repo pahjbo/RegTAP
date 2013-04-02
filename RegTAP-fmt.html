@@ -1230,10 +1230,10 @@ which should make the generation of <code>res_details</code> rows fairly
 straightforward (see also the rules for utype generation given in
 section <span class="xref"><a href="#vorutypes">5</a></span>).</p>
 
-<p>From the following list, operators MUST put all rows generatable for
-the utypes marked with an exclamation mark into
-<code>res_details</code>.  The remaining metadata may be provided if
-convenient; it mostly concerns test queries and other curation-type
+<p>Implementations MUST put all rows that can be generated from the resource 
+records processed for the utypes marked with an exclamation mark in the
+following table.  For the remaining utypes, rows may be provided if
+convenient; they mostly concern test queries and other curation-type
 information not likely to be useful to normal users.  Individual
 ingestors
 MAY choose to expose additional metadata using other utypes.</p>
