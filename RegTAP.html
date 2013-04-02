@@ -473,7 +473,7 @@ different file.  As given here, the stylesheet produces the desired
 results for the versions of VOResource and its extensions given in 
 section <span class="xref">rolewithinivoa</span>.</p>
 
-<p>Note that for readability utypes are given in camel case
+<p>Note that for readability utypes are given in camel-case
 throughout the normative text of this document,
 following the XML Schema names.  However, utypes are generally
 considered to be case insensitive.  Hence, in the database tables, all
@@ -676,7 +676,7 @@ as its primary key.</p>
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>res_type</code>, <code>content_level</code>,
 <code>content_type</code>, <code>source_format</code>,
-<code>waveband</code>, <code>footprint_ivoid</code>.
+<code>waveband</code>.
 Clients are advised to query the <code>res_description</code> and
 <code>res_title</code>  columns
 using the the <code>ivo_hasword</code> function, and to use
@@ -794,7 +794,7 @@ supports regular expressions.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>role_ivoid</code>,
-<code>base_utype</code>.
+<code>base_role</code>.
 Clients are advised to query the remaining columns, in particular
 <code>role_name</code>,
 case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
@@ -1418,14 +1418,7 @@ MIME types should be used for network-retrievable, digital data, non-MIME type v
 <dd>When present, this element indicates that all versions of the standard are considered deprecated by the publisher. The value is a human-readable explanation for the designation.</dd>
 </dl>
 
-
-
-<p>Note that within RegTAP tables, all utypes are stored lowercase only; the
-camel case notation above is for readability as well as easier
-relation to VOResource schema files (in which the same capitalization
-as given here is used for type and attribute names).</p>
-
-<p>Also note that VOStandard <code>status</code>  and <code>use</code>
+<p>Note that VOStandard <code>status</code>  and <code>use</code>
 attributes cannot be represented here, and hence their values are not accessible
 in the relational registry. Similarly, complex TAPRegExt metadata on
 languages, user defined functions, and the like cannot be
@@ -1792,7 +1785,6 @@ into account.</p>
 				<td>
 					{all_table}.ivoid<br />
 					resource.footprint_ivoid<br />
-					(resource.harvested_from) - not standard?<br />
 					res_role.role_ivoid<br />
 					capability.standard_id<br />
 					relationship.related_id<br />
