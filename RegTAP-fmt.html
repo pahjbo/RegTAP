@@ -969,8 +969,8 @@ to vs; hence, this column will contain one of NULL,
 <!-- GENERATED: maketable.sh rr.table_column -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
-<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
-<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
+<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
+<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
 <tr><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr class="even"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
 <tr><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
@@ -1028,7 +1028,8 @@ enumerate the interfaces in their physical sequence per resource.</p>
 
 <p>Note that StandardsRegExt records can contain interface elements
 outside of capabilities; therefore, <code>intf_index</code> runs over
-resources, and the otherwise natural foreign key into the
+resources, and the otherwise natural foreign key (<code>ivoid</code>,
+<code>cap_index</code>) into the
 <code>capability</code> table cannot be used.</p>
 
 <p>Analogous to <code>resource.res_type</code>, the
@@ -1055,8 +1056,8 @@ interface.</dd>
 
 <!-- GENERATED: maketable.sh rr.interface -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
-<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
+<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; may be NULL for interfaces in resource (e.g., StandardsRegExt)</td></tr>
+<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
 <tr class="even"><td>intf_type <br/>vr:Interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (WebBrowser, ParamHTTP, etc).</td></tr>
 <tr><td>intf_role <br/>vr:Interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
 <tr class="even"><td>std_version <br/>vr:Interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
@@ -1094,18 +1095,17 @@ joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability</td></tr>
-<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a capability.</td></tr>
-<tr class="even"><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents</td></tr>
-<tr><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column</td></tr>
-<tr class="even"><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
-<tr class="even"><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr><td>std <br/>vs:InputParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr class="even"><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr><td>use_param <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+<tr class="even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
+<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
+<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
+<tr><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="even"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
+<tr><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="even"><td>std <br/>vs:InputParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="even"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
+<tr class="even"><td>use_param <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1198,7 +1198,7 @@ addresses the entire resource).</p>
 <!-- GENERATED: maketable.sh rr.res_date -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="even"><td>date_value <br/>vr:Date</td><td>adql:TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
-<tr><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to.</td></tr>
+<tr><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to, e.g., created, availability, updated.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
