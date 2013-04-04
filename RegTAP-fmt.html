@@ -180,7 +180,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20121112"><span class="secnum">D.1. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130305"><span class="secnum">D.1. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">D.2. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -472,7 +472,7 @@ different file.  As given here, the stylesheet produces the desired
 results for the versions of VOResource and its extensions given in 
 section <span class="xref"><a href="#rolewithinivoa">1.1</a></span>.</p>
 
-<p>Note that for readability utypes are given in camel case
+<p>Note that for readability utypes are given in camel-case
 throughout the normative text of this document,
 following the XML Schema names.  However, utypes are generally
 considered to be case insensitive.  Hence, in the database tables, all
@@ -671,7 +671,7 @@ as its primary key.</p>
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>res_type</code>, <code>content_level</code>,
 <code>content_type</code>, <code>source_format</code>,
-<code>waveband</code>, <code>footprint_ivoid</code>.
+<code>waveband</code>.
 Clients are advised to query the <code>res_description</code> and
 <code>res_title</code>  columns
 using the the <code>ivo_hasword</code> function, and to use
@@ -788,7 +788,7 @@ supports regular expressions.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>role_ivoid</code>,
-<code>base_utype</code>.
+<code>base_role</code>.
 Clients are advised to query the remaining columns, in particular
 <code>role_name</code>,
 case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
@@ -1022,9 +1022,14 @@ logic.</p>
 
 <p>The table contains an
 integer-typed column <code>intf_index</code> to disambiguate multiple
-interfaces on a single capability.  Operators are free to choose the
+interfaces of one resource.  Operators are free to choose the
 actual values as convenient, although it is recommended to just
-enumerate the interfaces in their physical sequence per capability.</p>
+enumerate the interfaces in their physical sequence per resource.</p>
+
+<p>Note that StandardsRegExt records can contain interface elements
+outside of capabilities; therefore, <code>intf_index</code> runs over
+resources, and the otherwise natural foreign key into the
+<code>capability</code> table cannot be used.</p>
 
 <p>Analogous to <code>resource.res_type</code>, the
 <code>intf_type</code> column contains type names; VOResource extensions
@@ -1063,11 +1068,11 @@ interface.</dd>
 </tbody></table></div>
 <!-- /GENERATED -->
 
-<p>This table should have the triple <code>ivoid</code>,
-<code>cap_index</code>, and <code>intf_index</code> as an explicit
-primary key.  The pair <code>ivoid</code>, <code>cap_index</code> should
-be an explicit foreign key into <code>capability</code>.
-It is recommended to maintain an index on at least the 
+<p>This table should have the pair <code>ivoid</code>, and
+<code>intf_index</code> as an explicit primary key.  The pair
+<code>ivoid</code>, <code>cap_index</code> is frequently used in joins
+with the capability table and hence should be indexed.  Additionally, it
+is recommended to maintain an index on at least the
 <code>intf_type</code> column.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
@@ -1104,8 +1109,8 @@ joined.</p>
 </tbody></table></div>
 <!-- /GENERATED -->
 
-<p>The triple 
-<code>ivoid</code>, <code>cap_index</code>, and <code>intf_index</code>
+<p>The pair 
+<code>ivoid</code>, <code>intf_index</code>
 should be an explicit foreign key into <code>interface</code>.  It is recommended to
 maintain indexes on at least the <code>description</code>, <code>name</code>,
 <code>ucd</code>, and <code>utype</code> columns.</p>
@@ -1397,18 +1402,13 @@ it is a MIME type, this does not appear a dramatic limitation.</dd>
 MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network.</dd>
 <dt>vstd:EndorsedVersion (!)</dt>
 <dd>A version of a standard that is recommended for use.</dd>
+<dt>vstd:Schema.namespace (!)</dt>
+<dd>An identifier for a schema described by a standard.</dd>
 <dt>vstd:Standard.deprecated (!)</dt>
 <dd>When present, this element indicates that all versions of the standard are considered deprecated by the publisher. The value is a human-readable explanation for the designation.</dd>
 </dl>
 
-
-
-<p>Note that within RegTAP tables, all utypes are stored lowercase only; the
-camel case notation above is for readability as well as easier
-relation to VOResource schema files (in which the same capitalization
-as given here is used for type and attribute names).</p>
-
-<p>Also note that VOStandard <code>status</code>  and <code>use</code>
+<p>Note that VOStandard <code>status</code>  and <code>use</code>
 attributes cannot be represented here, and hence their values are not accessible
 in the relational registry. Similarly, complex TAPRegExt metadata on
 languages, user defined functions, and the like cannot be
@@ -1820,7 +1820,6 @@ into account.</p>
 				<td>
 					{all_table}.ivoid<br/>
 					resource.footprint_ivoid<br/>
-					(resource.harvested_from) - not standard?<br/>
 					res_role.role_ivoid<br/>
 					capability.standard_id<br/>
 					relationship.related_id<br/>
@@ -2094,7 +2093,18 @@ the column designations for the TEXT datatype:</p>
 
 <div class="section"><h2><a id="changes"><span class="secnum">D. </span>Changes from Previous Versions</a></h2>
 
-<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">D.1. </span>Changes from WD-20121112</a></h3>
+<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">D.1. </span>Changes from WD-20130305</a></h3>
+
+<ul>
+<li>intf_index is now required to be unique within a resource, not a
+capability; this is because StandardsRegExt has interfaces outside
+of capabilities.  In consequence, the intf_param no longer has a
+cap_index column, and its foreign key is just ivoid and intf_index.</li>
+<li>Added handling for the StandardsRegExt schema element.</li>
+</ul>
+</div>
+
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">D.2. </span>Changes from WD-20121112</a></h3>
 
 <ul>
 <li>Adapted all utypes to better match future VO-DML utypes.</li>
