@@ -36,7 +36,7 @@ STDNAME=RegTAP
 # The current version
 DOCVERSION=1.0
 # YYYYMMDD of the current release
-DOCDATE=20130305
+DOCDATE=20130411
 # One of NOTE, WD, PR, REC
 PUBSTATUS=WD
 # Extra files that need to end up in the final package
@@ -124,6 +124,6 @@ clean:
 	rm -f $(PUBSTATUS)-$(STDNAME)-*.html
 	rm -f $(PUBSTATUS)-$(STDNAME)-*.pdf
 	rm -f $(STDNAME).pdf
-	rm -r $(PUBSTATUS)-$(STDNAME)*.zip
+	rm -fr $(PUBSTATUS)-$(STDNAME)*.zip
 
 -include make.local
