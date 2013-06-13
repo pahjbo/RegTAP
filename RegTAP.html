@@ -1048,11 +1048,11 @@ interfaces of one resource.  Operators are free to choose the
 actual values as convenient, although it is recommended to just
 enumerate the interfaces in their physical sequence per resource.</p>
 
-<p>Note that StandardsRegExt records can contain interface elements
-outside of capabilities; therefore, <code>intf_index</code> runs over
-resources, and the otherwise natural foreign key (<code>ivoid</code>,
-<code>cap_index</code>) into the
-<code>capability</code> table cannot be used.</p>
+<p>This table only contains interface elements from within capabilities.
+Interface elements in StandardsRegExt records are ignored in RegTAP,
+and they must not be inserted in this table, since doing so would disturb
+the foreign key from interface into capability.  In other words,
+RegTAP requires every interface to have a parent capability.</p>
 
 <p>Analogous to <code>resource.res_type</code>, the
 <code>intf_type</code> column contains type names; VOResource extensions
@@ -1091,11 +1091,10 @@ interface.</dd>
 </tbody></table></div>
 <!-- /GENERATED -->
 
-<p>This table should have <code>ivoid</code> as an explicit foreign key into
-<code>resource</code>, and the pair <code>ivoid</code>, and
-<code>intf_index</code> as an explicit primary key.  The pair
-<code>ivoid</code>, <code>cap_index</code> is frequently used in joins
-with the capability table and hence should be indexed.  Additionally, it
+<p>This table should have the pair <code>ivoid</code>, <code>cap_index</code>
+as an explicit foreign key into
+<code>capability</code>, and the pair <code>ivoid</code>, and
+<code>intf_index</code> as an explicit primary key. Additionally, it
 is recommended to maintain an index on at least the
 <code>intf_type</code> column.</p>
 
@@ -1118,9 +1117,7 @@ both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
 joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the interface this parameter belongs to.</td></tr>
-<tr class="data"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
 <tr class="data even"><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr class="data"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
 <tr class="data even"><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
@@ -1130,6 +1127,8 @@ joined.</p>
 <tr class="data even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
 <tr class="data"><td>param_use <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
 <tr class="data even"><td>param_description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
+<tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the interface this parameter belongs to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -2160,6 +2159,9 @@ the column designations for the TEXT datatype:</p>
       <tr><td>validation.level</td><td>validation.val_level</td></tr>
     </table>
   </li>
+  <li>Restored the foreign key from interface to capability.  Mandating
+  ignoring interface elements from StandardsRegExt records really is the
+  lesser evil.</li>
 </ul>
 
 </div> <!-- subsection changes-20130411 -->
