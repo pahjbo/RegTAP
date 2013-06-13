@@ -55,7 +55,7 @@ CATALOG=ivoadoc/xmlcatalog/catalog.xml
 FOPHYPH=/usr/share/fop/fop-hyph.jar
 
 JARROOT=/usr/share/java
-RESOLVERJAR=$(JARROOT)/xml-commons-resolver-1.1.jar
+RESOLVERJAR=$(JARROOT)/xml-resolver.jar
 SAXONJAR=$(JARROOT)/saxonb.jar
 SAXON=java -cp $(RESOLVERJAR):$(SAXONJAR) \
 	-Dxml.catalog.files=$(CATALOG) -Dxml.catalog.verbosity=1\

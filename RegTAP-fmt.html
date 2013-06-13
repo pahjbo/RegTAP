@@ -180,7 +180,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130305"><span class="secnum">E.1. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.2. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -229,7 +229,7 @@ query astronomical data servers.</p>
 <div class="section"><h3><a id="rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></h3>
 
 <div class="figure">
-<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" width="95%" align="center"/>
+<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" align="center"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
 diagram with the Relational Registry specification (RegTAP) and
 the related standards marked up.</p>
@@ -1138,8 +1138,6 @@ relationship element can take several IVORNs, in the relational model,
 the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.</p>
 
-<p class="TBD">For convenicence, we repeat the definition of the validation
-levels from <cite>[<a href="#std:RM">std:RM</a>]</cite>:</p>
 
 <!-- GENERATED: maketable.sh rr.relationship -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
@@ -1182,6 +1180,47 @@ of resources and/or resource records is not fully mapped to VOResource.
 Implementations are free to handle or ignore validation results as they
 see fit, and they may add validation results of their own.</p>
 
+<p>For convenicence, we repeat the definition of the validation
+levels from <cite>[<a href="#std:RM">std:RM</a>]</cite>:</p>
+<dl>
+<dt>0</dt>
+<dd>The resource has a description that is stored in a registry.  This
+level does not imply a compliant description.</dd>
+
+<dt>1</dt>
+<dd>In addition to meeting the level 0 definition, the resource
+description conforms syntactically to this standard and to the encoding
+scheme used. </dd>
+
+<dt>2</dt>
+<dd>In addition to meeting the level 1 definition, the resource
+description refers to an existing resource that has been demonstrated to
+be functionally compliant.  When the resource is a service, it is
+considered to exist and to be functionally compliant if use of the
+Service.InterfaceURL or Service.BaseURL responds without error when used
+as intended by the resource.  If the service is a stan- dard one, it
+must also demonstrate the response is syntactically compliant with the
+service standard in order to be considered functionally compliant.  If
+the resource is not a service, then the ReferenceURL must be shown to
+return a document without error.</dd>
+
+<dt>3</dt>
+<dd>In addition to meeting the level 2 definition, the resource
+description has been inspected by a human and judged to comply
+semantically to this standard as well as meeting any additional minimum
+quality criteria (e.g., providing values for important but non-required
+metadata) set by the human inspector. [...]</dd>
+
+
+<dt>4</dt>
+
+<dd>In addition to meeting the level 3 definition, the resource
+description meets additional quality criteria set by the human inspector
+and is therefore consid- ered an excellent description of the resource.
+Consequently, the resource is expected to be operate well as part of a
+VO application or research study.</dd>
+
+</dl>
 <!-- GENERATED: maketable.sh rr.validation -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="even"><td>validated_by <br/>vr:Validation.validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
@@ -1778,7 +1817,8 @@ details on PostgreSQL, see, e.g., <cite>[<a href="#doc:Postgres92">doc:Postgres9
 CREATE OR REPLACE FUNCTION ivo_hasword(haystack TEXT, needle TEXT)
 RETURNS INTEGER AS $func$
 BEGIN
-	IF to_tsvector(haystack) @@ plainto_tsquery(needle) THEN
+	IF to_tsvector('english', haystack) 
+			@@ plainto_tsquery('english', needle) THEN
 		RETURN 1;
 	ELSE
 		RETURN 0;
@@ -2129,7 +2169,28 @@ the column designations for the TEXT datatype:</p>
 
 <div class="section"><h2><a id="changes"><span class="secnum">E. </span>Changes from Previous Versions</a></h2>
 
-<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.1. </span>Changes from WD-20130305</a></h3>
+<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></h3>
+
+<ul>
+  <li>Renamed some columns and the subject table to relieve the need of quoting in MS SQL Server (or, in the case or <code>use_param</code>, maintain consistency after the renaming):<br/>
+    <table>
+      <tr><th>Old</th><th>New</th></tr>
+      <tr><td>resource.version</td><td>resource.res_version</td></tr>
+      <tr><td>res_role.address</td><td>res_role.street_address</td></tr>
+      <tr><td>subject.*</td><td>res_subject.*</td></tr>
+      <tr><td>subject.subject</td><td>res_subject.res_subject</td></tr>
+      <tr><td>table_column.description</td><td>table_column.column_description</td></tr>
+      <tr><td>intf_param.description</td><td>intf_param.param_description</td></tr>
+      <tr><td>intf_param.use_param</td><td>intf_param.param_use</td></tr>
+      <tr><td>validation.level</td><td>validation.val_level</td></tr>
+    </table>
+  </li>
+</ul>
+
+</div> <!-- subsection changes-20130411 -->
+
+
+<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.2. </span>Changes from WD-20130305</a></h3>
 
 <ul>
 <li>intf_index is now required to be unique within a resource, not a
@@ -2143,7 +2204,7 @@ it was too long to be included in the running text.</li>
 </ul>
 </div>
 
-<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.2. </span>Changes from WD-20121112</a></h3>
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.3. </span>Changes from WD-20121112</a></h3>
 
 <ul>
 <li>Adapted all utypes to better match future VO-DML utypes.</li>
@@ -2206,6 +2267,13 @@ clashes with reserved SQL words.</li>
   <a href="http://www.ivoa.net/Documents/TAP">Table access protocol version
   1.0</a>.
   IVOA Recommendation, March 2010.
+</dd>
+
+<dt><a name="std:RM">[std:RM] Robert Hanisch, IVOA Resource Registry Working
+  Group, and NVO Metadata Working Group, R Hanisch, editor.</a></dt> <dd>
+  <a href="http://www.ivoa.net/Documents/latest/RM.html">Resource metadata for
+  the virtual observatory</a>.
+  IVOA Recommendation, 2007.
 </dd>
 
 <dt><a name="std:STDREGEXT">[std:STDREGEXT] Paul Harrison, Douglas Burke, Ray
@@ -2275,5 +2343,5 @@ clashes with reserved SQL words.</li>
 
 </div> <!-- section references -->
 
-</body></html><!-- vi: enc=utf-8:sw=2:et:sta
+</body></html><!-- vi: sw=2:et:sta
 -->

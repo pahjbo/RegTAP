@@ -225,7 +225,7 @@ query astronomical data servers.</p>
 <h3><a id="rolewithinivoa">The Relational Registry within the VO Architecture</a></h3>
 
 <div class="figure">
-<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" width="95%" align="center"/>
+<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" align="center"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
 diagram with the Relational Registry specification (RegTAP) and
 the related standards marked up.</p>
@@ -1152,8 +1152,6 @@ relationship element can take several IVORNs, in the relational model,
 the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.</p>
 
-<p class="TBD">For convenicence, we repeat the definition of the validation
-levels from <cite>std:RM</cite>:</p>
 
 <!-- GENERATED: maketable.sh rr.relationship -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
@@ -1197,6 +1195,47 @@ of resources and/or resource records is not fully mapped to VOResource.
 Implementations are free to handle or ignore validation results as they
 see fit, and they may add validation results of their own.</p>
 
+<p>For convenicence, we repeat the definition of the validation
+levels from <cite>std:RM</cite>:</p>
+<dl>
+<dt>0</dt>
+<dd>The resource has a description that is stored in a registry.  This
+level does not imply a compliant description.</dd>
+
+<dt>1</dt>
+<dd>In addition to meeting the level 0 definition, the resource
+description conforms syntactically to this standard and to the encoding
+scheme used. </dd>
+
+<dt>2</dt>
+<dd>In addition to meeting the level 1 definition, the resource
+description refers to an existing resource that has been demonstrated to
+be functionally compliant.  When the resource is a service, it is
+considered to exist and to be functionally compliant if use of the
+Service.InterfaceURL or Service.BaseURL responds without error when used
+as intended by the resource.  If the service is a stan- dard one, it
+must also demonstrate the response is syntactically compliant with the
+service standard in order to be considered functionally compliant.  If
+the resource is not a service, then the ReferenceURL must be shown to
+return a document without error.</dd>
+
+<dt>3</dt>
+<dd>In addition to meeting the level 2 definition, the resource
+description has been inspected by a human and judged to comply
+semantically to this standard as well as meeting any additional minimum
+quality criteria (e.g., providing values for important but non-required
+metadata) set by the human inspector. [...]</dd>
+
+
+<dt>4</dt>
+
+<dd>In addition to meeting the level 3 definition, the resource
+description meets additional quality criteria set by the human inspector
+and is therefore consid- ered an excellent description of the resource.
+Consequently, the resource is expected to be operate well as part of a
+VO application or research study.</dd>
+
+</dl>
 <!-- GENERATED: maketable.sh rr.validation -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="even"><td>validated_by <br/>vr:Validation.validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
@@ -1752,7 +1791,8 @@ details on PostgreSQL, see, e.g., <cite>doc:Postgres92</cite>.</p>
 CREATE OR REPLACE FUNCTION ivo_hasword(haystack TEXT, needle TEXT)
 RETURNS INTEGER AS $func$
 BEGIN
-	IF to_tsvector(haystack) @@ plainto_tsquery(needle) THEN
+	IF to_tsvector('english', haystack) 
+			@@ plainto_tsquery('english', needle) THEN
 		RETURN 1;
 	ELSE
 		RETURN 0;
@@ -2103,6 +2143,27 @@ the column designations for the TEXT datatype:</p>
 
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
 
+<div class="section"><h3><a id="changes-20130411">Changes from WD-20130411</a></h3>
+
+<ul>
+  <li>Renamed some columns and the subject table to relieve the need of quoting in MS SQL Server (or, in the case or <code>use_param</code>, maintain consistency after the renaming):<br/>
+    <table>
+      <tr><th>Old</th><th>New</th></tr>
+      <tr><td>resource.version</td><td>resource.res_version</td></tr>
+      <tr><td>res_role.address</td><td>res_role.street_address</td></tr>
+      <tr><td>subject.*</td><td>res_subject.*</td></tr>
+      <tr><td>subject.subject</td><td>res_subject.res_subject</td></tr>
+      <tr><td>table_column.description</td><td>table_column.column_description</td></tr>
+      <tr><td>intf_param.description</td><td>intf_param.param_description</td></tr>
+      <tr><td>intf_param.use_param</td><td>intf_param.param_use</td></tr>
+      <tr><td>validation.level</td><td>validation.val_level</td></tr>
+    </table>
+  </li>
+</ul>
+
+</div> <!-- subsection changes-20130411 -->
+
+
 <div class="section"><h3><a id="changes-20130305" shape="rect"/><span class="secnum"/>Changes from WD-20130305</h3>
 
 <ul>
@@ -2144,5 +2205,5 @@ clashes with reserved SQL words.</li>
 </div> <!-- section references -->
 
 </body></html>
-<!-- vi: enc=utf-8:sw=2:et:sta
+<!-- vi: sw=2:et:sta
 -->
