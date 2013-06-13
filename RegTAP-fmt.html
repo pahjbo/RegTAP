@@ -28,39 +28,39 @@ code {
 }
 
 .results tr td {
-	padding-left: 2px;
-	padding-right: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 table.results {
-	empty-cells: show;
-	border-style: none;
-	border-spacing: 0px;
+  empty-cells: show;
+  border-style: none;
+  border-spacing: 0px;
 }
 
 th.thVertical {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	margin-bottom: 2px;
-	padding-left: 3px;
-	padding-right: 3px;
-	margin: 0px 0px 0px 0px;
-	position: relative;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 0px 0px 0px 0px;
+  position: relative;
 }
 
 .results td {
-	padding-left: 4px;
-	padding-right: 40px;
-	border-collapse: collapse;
-	border:2px solid white;
+  padding-left: 4px;
+  padding-right: 40px;
+  border-collapse: collapse;
+  border:2px solid white;
 }
 
 tr.even {
-	padding-top:4px;
-	padding-bottom:4px;
-	background: #EEEEFF;
+  padding-top:4px;
+  padding-bottom:4px;
+  background: #EEEEFF;
 }
 
 </style>
@@ -120,14 +120,14 @@ Version <span class="docversion">1.0</span></h1>
 <h2 class="subtitle">IVOA Working Draft  11 April 2013</h2>
 
 <dl><dt>Working Group:</dt><dd>
-		<a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/IvoaResReg" shape="rect">Registry WG</a></dd>
+    <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/IvoaResReg" shape="rect">Registry WG</a></dd>
 <dt>This version:</dt>
 <dd><a class="currentlink" href="http://www.ivoa.net/Documents/RegTAP-20130411">http://www.ivoa.net/Documents/RegTAP-20130411</a></dd>
 <dt><b>Latest version:</b></dt>
-	    <dd><a href="http://www.ivoa.net/Documents/RegTAP/" shape="rect">http://www.ivoa.net/Documents/RegTAP/</a></dd>
-	  <dt>Previous versions:</dt>
-	    <dd>None (The schema discussed here started its existence as part of
-	    the Registry Interfaces Version 2 working draft)</dd>
+      <dd><a href="http://www.ivoa.net/Documents/RegTAP/" shape="rect">http://www.ivoa.net/Documents/RegTAP/</a></dd>
+    <dt>Previous versions:</dt>
+      <dd>None (The schema discussed here started its existence as part of
+      the Registry Interfaces Version 2 working draft)</dd>
 <dt>Authors:</dt>
 <dd>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner" shape="rect">Markus Demleitner</a><br clear="none"/>
@@ -180,7 +180,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -540,28 +540,28 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>rr.capability<br/>vr:Service.capability</td><td> Pieces of behaviour of a resource.</td></tr>
-<tr class="even"><td>rr.interface<br/>vr:Interface</td><td> Information on access modes of a capability.</td></tr>
-<tr><td>rr.intf_param<br/>vs:InputParam</td><td> Input parameters for services.</td></tr>
-<tr class="even"><td>rr.relationship<br/>vr:Resource.content.relationship</td><td> Relationships between resources, e.g., mirroring, derivation, but
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>rr.capability<br/>vr:Service.capability</td><td> Pieces of behaviour of a resource.</td></tr>
+<tr class="data even"><td>rr.interface<br/>vr:Interface</td><td> Information on access modes of a capability.</td></tr>
+<tr class="data"><td>rr.intf_param<br/>vs:InputParam</td><td> Input parameters for services.</td></tr>
+<tr class="data even"><td>rr.relationship<br/>vr:Resource.content.relationship</td><td> Relationships between resources, e.g., mirroring, derivation, but
 also providing access to data within a resource.</td></tr>
-<tr><td>rr.res_date<br/>vr:Resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
+<tr class="data"><td>rr.res_date<br/>vr:Resource.curation.date</td><td> A date associated with an event in the life cycle of the resource.
 This could be creation or update. The role column can be used to
 clarify.</td></tr>
-<tr class="even"><td>rr.res_detail<br/>N/A</td><td> Utype-value pairs for members of resource or capability and their
+<tr class="data even"><td>rr.res_detail<br/>N/A</td><td> Utype-value pairs for members of resource or capability and their
 derivations that are less used and/or from VOResource extensions. The
 pairs refer to a resource if cap_index is NULL, to the referenced
 capability otherwise.</td></tr>
-<tr><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+<tr class="data"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
 creators, contacts, publishers.</td></tr>
-<tr class="even"><td>rr.res_schema<br/>vs:TableSchema</td><td> Sets of tables related to resources.</td></tr>
-<tr><td>rr.res_table<br/>vs:Table</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
-<tr class="even"><td>rr.resource<br/>vr:Resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
-present in this registry.</td></tr>
-<tr><td>rr.subject<br/>vr:Resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
+<tr class="data even"><td>rr.res_schema<br/>vs:TableSchema</td><td> Sets of tables related to resources.</td></tr>
+<tr class="data"><td>rr.res_subject<br/>vr:Resource.content.subject</td><td> Topics, object types, or other descriptive keywords about the
 resource.</td></tr>
-<tr class="even"><td>rr.table_column<br/>vs:Table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
-<tr><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
+<tr class="data even"><td>rr.res_table<br/>vs:Table</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
+<tr class="data"><td>rr.resource<br/>vr:Resource</td><td> The resources, i.e., services, data collections, organizations, etc.,
+present in this registry.</td></tr>
+<tr class="data even"><td>rr.table_column<br/>vs:Table.column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="data"><td>rr.validation<br/>N/A</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -655,23 +655,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="even"><td>res_type <br/>vr:Resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr><td>created <br/>vr:Resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="even"><td>short_name <br/>vr:Resource.shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr><td>res_title <br/>vr:Resource.title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="even"><td>updated <br/>vr:Resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr><td>content_level <br/>vr:ContentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
-<tr class="even"><td>res_description <br/>vr:Resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr><td>reference_url <br/>vr:Resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="even"><td>creator_seq <br/>vr:Creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
-<tr><td>content_type <br/>vr:Resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
-<tr class="even"><td>source_format <br/>vr:Resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr><td>source_value <br/>vr:Resource.content.source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="even"><td>version <br/>vr:Resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr><td>region_of_regard <br/>vr:Resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr class="even"><td>waveband <br/>vs:Waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
-<tr><td>rights <br/>vr:Rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="data even"><td>res_type <br/>vr:Resource.type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data"><td>created <br/>vr:Resource.created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>short_name <br/>vr:Resource.shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data"><td>res_title <br/>vr:Resource.title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data even"><td>updated <br/>vr:Resource.updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>content_level <br/>vr:ContentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
+<tr class="data even"><td>res_description <br/>vr:Resource.content.description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data"><td>reference_url <br/>vr:Resource.content.referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data even"><td>creator_seq <br/>vr:Creator.name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
+<tr class="data"><td>content_type <br/>vr:Resource.content.type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
+<tr class="data even"><td>source_format <br/>vr:Resource.content.source.format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data"><td>source_value <br/>vr:Resource.content.source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data even"><td>res_version <br/>vr:Resource.curation.version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="data"><td>region_of_regard <br/>vr:Resource.coverage.regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="data even"><td>waveband <br/>vs:Waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
+<tr class="data"><td>rights <br/>vr:Rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -780,14 +780,14 @@ regrettable, situation would
 probably require a change in the VOResource schema.</p>
 
 <!-- GENERATED: maketable.sh rr.res_role -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>role_name <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
-<tr><td>role_ivoid <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
-<tr class="even"><td>address <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
-<tr><td>email <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
-<tr class="even"><td>telephone <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
-<tr><td>logo <br/>N/A</td><td>adql:VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
-<tr class="even"><td>base_role <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>role_name <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
+<tr class="data"><td>role_ivoid <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
+<tr class="data even"><td>street_address <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
+<tr class="data"><td>email <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
+<tr class="data even"><td>telephone <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
+<tr class="data"><td>logo <br/>N/A</td><td>adql:VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
+<tr class="data even"><td>base_role <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -806,26 +806,26 @@ case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 </div> <!-- subsection table_res_role -->
 
 
-<div class="section"><h3><a id="table_subject"><span class="secnum">7.3. </span>The subject Table</a></h3>
+<div class="section"><h3><a id="table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></h3>
 
 <p>Since subject queries are expected to be frequent and perform relatively
 complex checks (e.g., resulting from thesaurus queries in the clients), the
 subjects are kept in a separate table rather than being hash-joined like other
 string-like 1:n members of resource.</p>
 
-<!-- GENERATED: maketable.sh rr.subject -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>subject <br/>xs:token</td><td>adql:VARCHAR(*)</td><td>Topics, object types, or other descriptive keywords about the resource.</td></tr>
+<!-- GENERATED: maketable.sh rr.res_subject -->
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>res_subject <br/>xs:token</td><td>adql:VARCHAR(*)</td><td>Topics, object types, or other descriptive keywords about the resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
 <p>The <code>ivoid</code>  column should be an explicit foreign key into
 <code>resource</code>.  It is recommended to index the
-<code>subject</code> column, preferably in a way that allows to process
+<code>res_subject</code> column, preferably in a way that allows to process
 case-insensitive and pattern queries using the index.</p>
 
 <p>The <code>ivoid</code> column MUST be lowercased during
-ingestion.  Clients are advised query the <code>subject</code> column
+ingestion.  Clients are advised query the <code>res_subject</code> column
 case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 
 </div> <!-- subsection table_subject -->
@@ -845,11 +845,11 @@ actual values as convenient, although it is recommended to just
 enumerate the capabilities in their physical sequence per-resource.</p>
 
 <!-- GENERATED: maketable.sh rr.capability -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource.</td></tr>
-<tr><td>cap_type <br/>vr:Capability.type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
-<tr class="even"><td>cap_description <br/>vr:Capability.description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
-<tr><td>standard_id <br/>vr:Capability.standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource.</td></tr>
+<tr class="data"><td>cap_type <br/>vr:Capability.type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
+<tr class="data even"><td>cap_description <br/>vr:Capability.description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
+<tr class="data"><td>standard_id <br/>vr:Capability.standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -883,12 +883,12 @@ physical sequence per-resource.</p>
 
 
 <!-- GENERATED: maketable.sh rr.res_schema -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
-<tr><td>schema_description <br/>vs:TableSchema.description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
-<tr class="even"><td>schema_name <br/>vs:TableSchema.name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
-<tr><td>schema_title <br/>vs:TableSchema.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
-<tr class="even"><td>schema_utype <br/>vs:TableSchema.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
+<tr class="data"><td>schema_description <br/>vs:TableSchema.description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
+<tr class="data even"><td>schemaname <br/>vs:TableSchema.name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
+<tr class="data"><td>schema_title <br/>vs:TableSchema.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
+<tr class="data even"><td>schema_utype <br/>vs:TableSchema.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -920,14 +920,14 @@ enumerate the tables in their physical sequence per-resource (but not per
 schema—<code>table_index</code> MUST be unique within a resource).</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
-<tr><td>table_description <br/>vs:Table.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
-<tr class="even"><td>table_name <br/>vs:Table.name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
-<tr><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
-<tr class="even"><td>table_title <br/>vs:Table.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
-<tr><td>table_type <br/>vs:Table.type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
-<tr class="even"><td>table_utype <br/>vs:Table.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
+<tr class="data"><td>table_description <br/>vs:Table.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
+<tr class="data even"><td>table_name <br/>vs:Table.name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
+<tr class="data"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
+<tr class="data even"><td>table_title <br/>vs:Table.title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
+<tr class="data"><td>table_type <br/>vs:Table.type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
+<tr class="data even"><td>table_utype <br/>vs:Table.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -977,21 +977,21 @@ to vs; hence, this column will contain one of NULL,
 <code>vs:SimpleDataType</code>, and <code>vs:VOTableType</code>.</p>
 
 <!-- GENERATED: maketable.sh rr.table_column -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
-<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
-<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
-<tr><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="even"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
-<tr><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr class="even"><td>std <br/>vs:TableParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr class="even"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr class="even"><td>arraysize <br/>vs:DataType.arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value.</td></tr>
-<tr><td>delim <br/>vs:DataType.delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
-<tr class="even"><td>type_system <br/>vs:DataType.type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:TAPType.</td></tr>
-<tr><td>flag <br/>vs:TableParam.flag</td><td>adql:VARCHAR(*)</td><td>hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>Index of the table this column belongs to.</td></tr>
+<tr class="data"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
+<tr class="data even"><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="data"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
+<tr class="data even"><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="data"><td>std <br/>vs:TableParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr class="data even"><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="data"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="data even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
+<tr class="data"><td>arraysize <br/>vs:DataType.arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value.</td></tr>
+<tr class="data even"><td>delim <br/>vs:DataType.delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
+<tr class="data"><td>type_system <br/>vs:DataType.type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:TAPType.</td></tr>
+<tr class="data even"><td>flag <br/>vs:TableParam.flag</td><td>adql:VARCHAR(*)</td><td>Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr class="data"><td>column_description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1065,17 +1065,17 @@ interface.</dd>
 </dl>
 
 <!-- GENERATED: maketable.sh rr.interface -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; may be NULL for interfaces in resource (e.g., StandardsRegExt)</td></tr>
-<tr><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
-<tr class="even"><td>intf_type <br/>vr:Interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (WebBrowser, ParamHTTP, etc).</td></tr>
-<tr><td>intf_role <br/>vr:Interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
-<tr class="even"><td>std_version <br/>vr:Interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
-<tr><td>query_type <br/>vs:ParamHTTP.queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
-<tr class="even"><td>result_type <br/>vs:ParamHTTP.resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
-<tr><td>wsdl_url <br/>vr:WebService.wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If not provided, the location is assumed to be the accessURL with '?wsdl' appended.</td></tr>
-<tr class="even"><td>url_use <br/>vr:AccessURL.use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL, a full URL, or a URL to a directory that will produce a listing of files.</td></tr>
-<tr><td>access_url <br/>vr:AccessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; may be NULL for interfaces in resource (e.g., StandardsRegExt)</td></tr>
+<tr class="data"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
+<tr class="data even"><td>intf_type <br/>vr:Interface.type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:WebBrowser, vs:ParamHTTP, etc).</td></tr>
+<tr class="data"><td>intf_role <br/>vr:Interface.role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
+<tr class="data even"><td>std_version <br/>vr:Interface.version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
+<tr class="data"><td>query_type <br/>vs:ParamHTTP.queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
+<tr class="data even"><td>result_type <br/>vs:ParamHTTP.resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
+<tr class="data"><td>wsdl_url <br/>vr:WebService.wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If not provided, the location is assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<tr class="data even"><td>url_use <br/>vr:AccessURL.use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL, a full URL, or a URL to a directory that will produce a listing of files.</td></tr>
+<tr class="data"><td>access_url <br/>vr:AccessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1105,18 +1105,18 @@ both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
 joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
-<tr><td>description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
-<tr class="even"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
-<tr><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="even"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
-<tr><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr class="even"><td>std <br/>vs:InputParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr class="even"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>The data value represented by this type can be interpreted as of a custom type identified by the value of this attribute.</td></tr>
-<tr class="even"><td>use_param <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the interface this parameter belongs to.</td></tr>
+<tr class="data"><td>name <br/>vs:BaseParam.name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
+<tr class="data even"><td>ucd <br/>vs:BaseParam.ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="data"><td>unit <br/>vs:BaseParam.unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
+<tr class="data even"><td>utype <br/>vs:BaseParam.utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="data"><td>std <br/>vs:InputParam.std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr class="data even"><td>datatype <br/>vs:DataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="data"><td>extended_schema <br/>vs:DataType.extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="data even"><td>extended_type <br/>vs:DataType.extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
+<tr class="data"><td>param_use <br/>vs:InputParam.use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
+<tr class="data even"><td>param_description <br/>vs:BaseParam.description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1140,10 +1140,10 @@ between the two representations in the database ingestor.</p>
 
 
 <!-- GENERATED: maketable.sh rr.relationship -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>relationship_type <br/>vr:Relationship.relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
-<tr><td>related_id <br/>vr:Relationship.relatedResource.ivoId</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
-<tr class="even"><td>related_name <br/>vr:Relationship.relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>relationship_type <br/>vr:Relationship.relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
+<tr class="data"><td>related_id <br/>vr:Relationship.relatedResource.ivoId</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
+<tr class="data even"><td>related_name <br/>vr:Relationship.relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1222,10 +1222,10 @@ VO application or research study.</dd>
 
 </dl>
 <!-- GENERATED: maketable.sh rr.validation -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>validated_by <br/>vr:Validation.validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
-<tr><td>level <br/>vr:Validation.validationLevel</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>validated_by <br/>vr:Validation.validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
+<tr class="data"><td>val_level <br/>vr:Validation.validationLevel</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1248,9 +1248,9 @@ addresses the entire resource).</p>
 <code>vr:Curation</code>'s date children.</p>
 
 <!-- GENERATED: maketable.sh rr.res_date -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>date_value <br/>vr:Date</td><td>adql:TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
-<tr><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to, e.g., created, availability, updated.</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>date_value <br/>vr:Date</td><td>adql:TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
+<tr class="data"><td>value_role <br/>vr:Date.role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to, e.g., created, availability, updated.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1305,10 +1305,10 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 
 
 <!-- GENERATED: maketable.sh rr.res_detail -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; if NULL the utype-value pair describes a member of the entire resource.</td></tr>
-<tr><td>detail_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The utype of the member</td></tr>
-<tr class="even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(atomic) value of the member</td></tr>
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>vr:Resource.identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; if NULL the utype-value pair describes a member of the entire resource.</td></tr>
+<tr class="data"><td>detail_utype <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The utype of the member</td></tr>
+<tr class="data even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(atomic) value of the member</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1403,10 +1403,10 @@ SELECT ivoid, access_url
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
-  NATURAL JOIN rr.subject
+  NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
   AND (
-    1=ivo_nocasematch(subject, '%spiral%')
+    1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
     OR 1=ivo_hasword(res_title, 'spiral'))
 </pre>
@@ -1502,7 +1502,7 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
 and having a column with a certain UCD".  Then, a query could look like
 this:</p>
 <pre class="samplequery">
-SELECT ivoid, access_url, name, ucd, description
+SELECT ivoid, access_url, name, ucd, column_description
 FROM rr.capability 
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
@@ -1530,7 +1530,7 @@ WHERE detail_utype='ssap:datasource'
 <dt>Find all ConeSearch services that provide stellar distance information</dt>
 <dd>
 <pre class="samplequery">
-SELECT access_url, name, ucd, description
+SELECT access_url, name, ucd, column_description
 FROM rr.capability 
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
@@ -1808,47 +1808,48 @@ warrented just so they can be exposed.</p>
 
 <div class="section"><h2><a id="appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></h2>
 
-<p>What follows are implementations of the three user defined functions
+<p>What follows are (non-normative) 
+implementations of the three user defined functions
 specificed in section <span class="xref"><a href="#adqludf">8</a></span> in the dialect
 the PostgreSQL server uses for SQL procedures, PL/pgSQL.  For more
 details on PostgreSQL, see, e.g., <cite>[<a href="#doc:Postgres92">doc:Postgres92</a>]</cite>.</p>
 
+<p>Note that PostgreSQL cannot use fulltext indices on the respective
+columns if the functions are defined in this way, for example since the
+expressons given here will evaluate differently from the boolean
+expression in the presence of NULL values.  While workarounds are
+conceivable, they come with potentially unwelcome side effects, at least
+as of PostgreSQL 9.x.  It is therefore recommended to replace
+expressions involving the functions given here with simple boolean
+expressions in the ADQL translation layer whenever possible.</p>
+
 <pre>
-CREATE OR REPLACE FUNCTION ivo_hasword(haystack TEXT, needle TEXT)
-RETURNS INTEGER AS $func$
-BEGIN
-	IF to_tsvector('english', haystack) 
-			@@ plainto_tsquery('english', needle) THEN
-		RETURN 1;
-	ELSE
-		RETURN 0;
-	END IF;
-END;
-$func$ LANGUAGE plpgsql;
+  CREATE OR REPLACE FUNCTION ivo_hasword(haystack TEXT, needle TEXT)
+  RETURNS INTEGER AS $func$
+    SELECT CASE WHEN to_tsvector($1) @@ plainto_tsquery($2) 
+      THEN 1 
+      ELSE 0 
+    END
+  $func$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION ivo_hashlist_has(hashlist TEXT, item TEXT)
-RETURNS INTEGER AS $func$
-BEGIN
-	-- postgres can't RE-escape a user string; hence, we'll have
-	-- to work on the hashlist
-	IF lower(item) = ANY(string_to_array(lower(hashlist), '#')) THEN
-		RETURN 1;
-	ELSE
-		RETURN 0;
-	END IF;
-END;
-$func$ LANGUAGE plpgsql;
+  CREATE OR REPLACE FUNCTION ivo_hashlist_has(hashlist TEXT, item TEXT)
+  RETURNS INTEGER AS $func$
+    -- postgres can't RE-escape a user string; hence, we'll have
+    -- to work on the hashlist (this assumes hashlist is already
+    -- lowercased).
+    SELECT CASE WHEN lower($2) = ANY(string_to_array($1, '#'))
+      THEN 1 
+      ELSE 0 
+    END
+  $func$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION ivo_nocasematch(value TEXT, pattern TEXT)
-RETURNS INTEGER AS $func$
-BEGIN
-	IF value ILIKE pattern THEN
-		RETURN 1;
-	ELSE
-		RETURN 0;
-	END IF;
-END;
-$func$ LANGUAGE plpgsql;
+  CREATE OR REPLACE FUNCTION ivo_nocasematch(value TEXT, pattern TEXT)
+  RETURNS INTEGER AS $func$
+    SELECT CASE WHEN $1 ILIKE $2
+      THEN 1 
+      ELSE 0 
+    END
+  $func$ LANGUAGE SQL;
 </pre>
 
 </div> <!-- section appPGDefs -->
@@ -1882,29 +1883,29 @@ length of roughly 100 characters, we propose that a maximum length of
 into account.</p>
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Pertinent Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>ivo-id</td>
-				<td><code>VARCHAR(255)</code></td>
-				<td>
-					{all_tables}.ivoid<br/>
-					resource.footprint_ivoid<br/>
-					res_role.role_ivoid<br/>
-					capability.standard_id<br/>
-					relationship.related_id<br/>
-					validation.validated_by
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype suggested</th>
+        <th class="thVertical">Pertinent Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ivo-id</td>
+        <td><code>VARCHAR(255)</code></td>
+        <td>
+          {all_tables}.ivoid<br/>
+          resource.footprint_ivoid<br/>
+          res_role.role_ivoid<br/>
+          capability.standard_id<br/>
+          relationship.related_id<br/>
+          validation.validated_by
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <p>The relational registry also contains some date-time values. The most
@@ -1915,40 +1916,40 @@ SQL types are those that require numeric values, viz.,
 <code>adql:INTEGER</code>.  The following table summarizes these:</p>
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype</th>
-				<th class="thVertical">Pertinent Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>floating point</td>
-				<td><code>adql:REAL</code></td>
-				<td>resource.region_of_regard</td>
-			</tr>
-			<tr>
-				<td>small integer</td>
-				<td><code>adql:SMALLINT</code></td>
-				<td>capability.cap_index<br/>
-					res_schema.schema_index<br/>
-					res_table.schema_index<br/>
-					table_column.std<br/>
-					interface.cap_index<br/>
-					interface.intf_index<br/>
-					intf_param.intf_index<br/>
-					intf_param.std<br/>
-					validation.level<br/>
-					validation.cap_index<br/>
-					res_detail.cap_index<br/>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype</th>
+        <th class="thVertical">Pertinent Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>floating point</td>
+        <td><code>adql:REAL</code></td>
+        <td>resource.region_of_regard</td>
+      </tr>
+      <tr>
+        <td>small integer</td>
+        <td><code>adql:SMALLINT</code></td>
+        <td>capability.cap_index<br/>
+          res_schema.schema_index<br/>
+          res_table.schema_index<br/>
+          table_column.std<br/>
+          interface.cap_index<br/>
+          interface.intf_index<br/>
+          intf_param.intf_index<br/>
+          intf_param.std<br/>
+          validation.level<br/>
+          validation.cap_index<br/>
+          res_detail.cap_index<br/>
           res_table.table_index<br/>
           table_column.table_index
-				</td>
-			</tr>
-		</tbody>
-	</table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <p>The fields containing Utypes, UCDs, and Units are treated in parallel
@@ -1961,31 +1962,31 @@ new standardization efforts.</p>
 
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Pertinent Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Utype(s)<br/>UCD(s)<br/>Units</td>
-				<td><code>VARCHAR(128)</code></td>
-				<td>res_schema.schema_utype<br/>
-					res_table.table_utype<br/>
-					table_column.ucd<br/>
-					table_column.unit<br/>
-					table_column.utype<br/>
-					intf_param.ucd<br/>
-					intf_param.unit<br/>
-					intf_param.utype<br/>
-					res_detail.detail_utype
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype suggested</th>
+        <th class="thVertical">Pertinent Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Utype(s)<br/>UCD(s)<br/>Units</td>
+        <td><code>VARCHAR(128)</code></td>
+        <td>res_schema.schema_utype<br/>
+          res_table.table_utype<br/>
+          table_column.ucd<br/>
+          table_column.unit<br/>
+          table_column.utype<br/>
+          intf_param.ucd<br/>
+          intf_param.unit<br/>
+          intf_param.utype<br/>
+          res_detail.detail_utype
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <p>The relational registry further has an
@@ -2001,34 +2002,34 @@ services, URL lengths will probably rather tend down than up, we still
 permit truncation at 255 characters.</p>
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Pertinent Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>e-mail</td>
-				<td><code>VARCHAR(128)</code></td>
-				<td>
-					res_role.email<br/>
-				</td>
-			</tr>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype suggested</th>
+        <th class="thVertical">Pertinent Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>e-mail</td>
+        <td><code>VARCHAR(128)</code></td>
+        <td>
+          res_role.email<br/>
+        </td>
+      </tr>
 
-			<tr>
-				<td>URLs</td>
-				<td><code>VARCHAR(255)</code></td>
-				<td>resource.reference_url<br/>
-					res_role.logo<br/>
-					interface.wsdl_url<br/>
-					interface.access_url
-				</td>
-			</tr>
-		</tbody>
-	</table>
+      <tr>
+        <td>URLs</td>
+        <td><code>VARCHAR(255)</code></td>
+        <td>resource.reference_url<br/>
+          res_role.logo<br/>
+          interface.wsdl_url<br/>
+          interface.access_url
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <p>The next group of columns comprises those that have values taken from
@@ -2038,51 +2039,51 @@ lengths in the form
 of powers of two are considered.</p>
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Pertinent Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td rowspan="4">predefined<br/>values</td>
-				<td><code>VARCHAR(255)</code></td>
-				<td>resource.content_level<br/>
-					resource.content_type
-				</td>
-			</tr>
-			<tr>
-				<td><code>VARCHAR(64)</code></td>
-				<td>resource.waveband</td>
-			</tr>
-			<tr>
-				<td><code>VARCHAR(32)</code></td>
-				<td>resource.res_type<br/>
-					resource.rights<br/>
-					capability.cap_type<br/>
-					res_table.table_type<br/>
-					table_column.flag<br/>
-					table_column.datatype<br/>
-					table_column.extended_schema<br/>
-					table_column.extended_type<br/>
-					table_column.type_system<br/>
-					interface.result_type<br/>
-					intf_param.datatype<br/>
-					intf_param.extended_schema<br/>
-					intf_param.extended_type<br/>
-				</td>
-			</tr>
-			<tr>
-				<td><code>VARCHAR(4)</code></td>
-				<td>interface.query_type<br/>
-					interface.url_use
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype suggested</th>
+        <th class="thVertical">Pertinent Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="4">predefined<br/>values</td>
+        <td><code>VARCHAR(255)</code></td>
+        <td>resource.content_level<br/>
+          resource.content_type
+        </td>
+      </tr>
+      <tr>
+        <td><code>VARCHAR(64)</code></td>
+        <td>resource.waveband</td>
+      </tr>
+      <tr>
+        <td><code>VARCHAR(32)</code></td>
+        <td>resource.res_type<br/>
+          resource.rights<br/>
+          capability.cap_type<br/>
+          res_table.table_type<br/>
+          table_column.flag<br/>
+          table_column.datatype<br/>
+          table_column.extended_schema<br/>
+          table_column.extended_type<br/>
+          table_column.type_system<br/>
+          interface.result_type<br/>
+          intf_param.datatype<br/>
+          intf_param.extended_schema<br/>
+          intf_param.extended_type<br/>
+        </td>
+      </tr>
+      <tr>
+        <td><code>VARCHAR(4)</code></td>
+        <td>interface.query_type<br/>
+          interface.url_use
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <p>Finally, there are the fields that actually contain what is
 basically free text.
@@ -2099,70 +2100,70 @@ the maximal length of the fields in the 2013 registry in parentheses after
 the column designations for the TEXT datatype:</p>
 
 <div class="tablewrap">
-	<table class="results" frame="all" rules="rows">
-		<thead>
-			<tr>
-				<th class="thVertical">Field type</th>
-				<th class="thVertical">Datatype suggested</th>
-				<th class="thVertical">Interested Fields</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td rowspan="6">free string values</td>
-				<td><code>TEXT</code></td>
-				<td>resource.res_description (7801)<br/>
-					resource.creator_seq (712)<br/>
-					res_role.role_name (712)<br/>
-					res_schema.schema_description (934)<br/>
-					res_table.table_description (934)<br/>
-					table_column.description (3735)<br/>
-					intf_param.description (347)
-					capability.cap_description (100)<br/>
-				</td>
-			</tr><tr>
-				<td><code>VARCHAR(255)</code></td>
-				<td>resource.res_title<br/>
-					res_role.address<br/>
-					res_schema.schema_title<br/>
-					res_table.table_title<br/>
-					relationship.related_name<br/>
-					res_detail.detail_value
-				</td>
-			</tr><tr>
-				<td><code>VARCHAR(128)</code></td>
-				<td>resource.version<br/>
-					resource.source_value<br/>
-					resource.facility<br/>
-					resource.instrument
-					subject.subject<br/>
-				</td>
-			</tr><tr>
-				<td><code>VARCHAR(64)</code></td>
-				<td>res_table.table_name<br/>
-					table_column.name<br/>
-					intf_param.name
-				</td>
-			</tr><tr>
-				<td><code>VARCHAR(32)</code></td>
-				<td>resource.source_format<br/>
-					res_role.telephone<br/>
-					res_schema.schema_name<br/>
-					interface.intf_type<br/>
-					interface.intf_role<br/>
-					relationship_type<br/>
-					res_date.value_role
-				</td>
-			</tr><tr>
-				<td><code>VARCHAR(16)</code></td>
-				<td>resource.short_name<br/>
-					table_column.arraysize<br/>
-					interface.std_version<br/>
-					intf_param.use
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <table class="results" frame="all" rules="rows">
+    <thead>
+      <tr>
+        <th class="thVertical">Field type</th>
+        <th class="thVertical">Datatype suggested</th>
+        <th class="thVertical">Interested Fields</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="6">free string values</td>
+        <td><code>TEXT</code></td>
+        <td>resource.res_description (7801)<br/>
+          resource.creator_seq (712)<br/>
+          res_role.role_name (712)<br/>
+          res_schema.schema_description (934)<br/>
+          res_table.table_description (934)<br/>
+          table_column.description (3735)<br/>
+          intf_param.description (347)
+          capability.cap_description (100)<br/>
+        </td>
+      </tr><tr>
+        <td><code>VARCHAR(255)</code></td>
+        <td>resource.res_title<br/>
+          res_role.address<br/>
+          res_schema.schema_title<br/>
+          res_table.table_title<br/>
+          relationship.related_name<br/>
+          res_detail.detail_value
+        </td>
+      </tr><tr>
+        <td><code>VARCHAR(128)</code></td>
+        <td>resource.version<br/>
+          resource.source_value<br/>
+          resource.facility<br/>
+          resource.instrument
+          res_subject.res_subject<br/>
+        </td>
+      </tr><tr>
+        <td><code>VARCHAR(64)</code></td>
+        <td>res_table.table_name<br/>
+          table_column.name<br/>
+          intf_param.name
+        </td>
+      </tr><tr>
+        <td><code>VARCHAR(32)</code></td>
+        <td>resource.source_format<br/>
+          res_role.telephone<br/>
+          res_schema.schema_name<br/>
+          interface.intf_type<br/>
+          interface.intf_role<br/>
+          relationship_type<br/>
+          res_date.value_role
+        </td>
+      </tr><tr>
+        <td><code>VARCHAR(16)</code></td>
+        <td>resource.short_name<br/>
+          table_column.arraysize<br/>
+          interface.std_version<br/>
+          intf_param.use
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 </div>  <!-- section appBD - RDB impl.notes-->
@@ -2178,7 +2179,7 @@ the column designations for the TEXT datatype:</p>
       <tr><td>resource.version</td><td>resource.res_version</td></tr>
       <tr><td>res_role.address</td><td>res_role.street_address</td></tr>
       <tr><td>subject.*</td><td>res_subject.*</td></tr>
-      <tr><td>subject.subject</td><td>res_subject.res_subject</td></tr>
+      <tr><td>res_subject.res_subject</td><td>res_subject.res_subject</td></tr>
       <tr><td>table_column.description</td><td>table_column.column_description</td></tr>
       <tr><td>intf_param.description</td><td>intf_param.param_description</td></tr>
       <tr><td>intf_param.use_param</td><td>intf_param.param_use</td></tr>
