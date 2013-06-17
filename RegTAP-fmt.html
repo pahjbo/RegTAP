@@ -1290,6 +1290,20 @@ information that, while unlikely to be useful to normal users, may be useful
 to clients to, e.g., ascertain the continued operation of services before
 exposing users to them.</p>
 
+<p>Some detail values must be interpreted case-insensitively; this
+concerns, in particular, IVORNs like the TAP data model type.  For other
+rows -- the test queries are immediate examples --, changing the case
+will likely break the data.  In order to avoid having to give and
+implement case normalization rules by detail utype, no case normalization 
+is done on detail values at all, and users and clients will have to use
+the <code>ivo_nocasematch</code> user defined function (see section
+<span class="xref"><a href="#adqludf">8</a></span>) when locating
+case-insensitive values.  For the detail utypes given in Appendix <span class="xref"><a href="#d_u_list">B</a></span>, this concerns tr:DataModelType.ivoid, 
+tr:Language.version.ivoi, tr:OutputFormat.ivoid,
+vg:Registry.managedAuthority, and
+vs:DataCollection.coverage.footprint.ivoid.
+</p>
+
 <p>Individual
 ingestors
 MAY choose to expose additional metadata using other utypes, provided
@@ -1314,7 +1328,10 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <p>The <code>ivoid</code> column should be an explicit foreign key into
 <code>resource</code>.  It is recommended to maintain indexes on
 at least the columns
-<code>detail_utype</code> and <code>detail_value</code>.</p>
+<code>detail_utype</code> and <code>detail_value</code>, where the
+indices on <code>detail_value</code> should ideally work for both direct
+comparisons and searches using the <code>ivo_nocasematch</code>
+function.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>detail_utype</code>.  Clients are advised to
@@ -1717,8 +1734,12 @@ section <span class="xref"><a href="#vorutypes">5</a></span>).</p>
 <dd>The short, human-readable name of a data model supported by a TAP service; 
 for most applications, clients should rather constrain tr:datamodeltype.ivoid.
 </dd>
+<dt>tr:Language.version.ivoid (!)</dt>
+<dd>The IVORN of a language supported by a TAP service.</dd>
+
 <dt>tr:Language.name (!)</dt>
-<dd>An IVOA defined data model, identified by an IVORN intended for machine consumption and a short label intended for human comsumption.</dd>
+<dd>A short, human-readable name of a language understood by the TAP
+service.</dd>
 
 <dt>tr:OutputFormat.ivoid (!)</dt>
 <dd>An optional IVORN of the output format.</dd>
