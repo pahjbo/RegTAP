@@ -180,7 +180,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -419,6 +419,8 @@ specification:</p>
 </div>
 
 <div class="section"><h2><a id="vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></h2>
+
+No xsi:type constraints here!
 
 <p>This specification piggybacks on top of the well-established
 VOResource standard.  It explicitly does not define a full data model,
@@ -1336,7 +1338,8 @@ function.</p>
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>detail_utype</code>.  Clients are advised to
 use the <code>ivo_nocasematch</code> function to search in
-<code>detail_value</code> if the values have textual content.</p>
+<code>detail_value</code> if the values are to be compared
+case-insensitively (e.g., all IVORNs).</p>
 </div> <!-- subsection table_res_detail -->
 
 </div> <!-- section vortables -->
@@ -1632,188 +1635,87 @@ tree traversal. --&gt;</div><div class="element"><span class="markup">&lt;</span
 
 </div>  <!-- section appA -->
 
-<div class="section"><h2><a id="d_u_list"><span class="secnum">B. </span>Utypes for res_details</a></h2>
+<div class="section"><h2><a id="d_u_list"><span class="secnum">B. </span>XPaths for res_details</a></h2>
 
-<p>This appendix defines the required (those utypes annotated with an
+<p>This appendix defines the required (the xpaths annotated with an
 exclamation mark) or recommended content of the <code>res_details</code>
 table (section <span class="xref"><a href="#table_res_detail">7.13</a></span>) by giving
-utypes for which utype/value pairs MUST or SHOULD be given if the
+xpaths for which xpath/value pairs MUST or SHOULD be given if the
 corresponding data is present in the resource records.  This list is
 normative for metadata defined in IVOA recommendations current as of the
 publication of this document (see section <span class="xref"><a href="#rolewithinivoa">1.1</a></span>).  As laid down in section <span class="xref"><a href="#table_res_detail">7.13</a></span>, new VOResource extensions or new
 versions of existing VOResource extensions may amend this list.</p>
 
-<p>The utypes given here double
-as partial XPath-like expressions into the VOResource XML trees.
-This should make the generation of <code>res_details</code> rows fairly
-straightforward (see also the rules for utype generation given in
-section <span class="xref"><a href="#vorutypes">5</a></span>).</p>
-
-<p>The following list is sorted by originating standard.</p>
+<p>The xpaths are suffient for locating the respective metdata as per
+section <span class="xref"><a href="#vorutypes">5</a></span>.  With the explanations we
+give the conventional tags for the XML namespaces from which the item
+originate, which is where further information can be found.</p>
 
 <dl id="resutypes">
-<dt>cs:ConeSearch.maxRecords (!)</dt>
-<dd>The largest number of records that the service will return.</dd>
-<dt>cs:ConeSearch.testQuery.catalog</dt>
-<dd>the catalog to query.</dd>
-<dt>cs:ConeSearch.testQuery.dec</dt>
-<dd>the declination of the search cone's center in decimal degrees.</dd>
-<dt>cs:ConeSearch.testQuery.extras</dt>
-<dd>any extra (non-standard) parameters that must be provided (apart from what is part of base URL given by the accessURL element).</dd>
-<dt>cs:ConeSearch.testQuery</dt>
-<dd>A query that will result in at least on matched record that can be used to test the service.</dd>
-<dt>cs:ConeSearch.testQuery.ra</dt>
-<dd>the right ascension of the search cone's center in decimal degrees.</dd>
-<dt>cs:ConeSearch.testQuery.sr</dt>
-<dd>the radius of the search cone in decimal degrees.</dd>
-<dt>cs:ConeSearch.testQuery.verb</dt>
-<dd>the verbosity level to use where 1 means the bare minimum set of columns and 3 means the full set of available columns.</dd>
-<dt>cs:ConeSearch.verbosity (!)</dt>
-<dd>True if the service supports the VERB keyword; false, otherwise.</dd>
-<dt>sia:SimpleImageAccess.imageServiceType (!)</dt>
-<dd>The class of image service: Cutout, Mosaic, Atlas, Pointed</dd>
-<dt>sia:SimpleImageAccess.maxFileSize (!)</dt>
-<dd>The maximum image file size in bytes.</dd>
-<dt>sia:SimpleImageAccess.maxImageExtent.lat</dt>
-<dd>The maximum size in the latitdude (Dec.) direction</dd>
-<dt>sia:SimpleImageAccess.maxImageExtent.long</dt>
-<dd>The maximum size in the longitude (R.A.) direction</dd>
-<dt>sia:SimpleImageAccess.maxImageSize.lat</dt>
-<dd>The image size in the latitdude (Dec.) direction in pixels</dd>
-<dt>sia:SimpleImageAccess.maxImageSize.long</dt>
-<dd>The image size in the longitude (R.A.) direction in pixels</dd>
-<dt>sia:SimpleImageAccess.maxQueryRegionSize.lat</dt>
-<dd>The maximum size in the latitdude (Dec.) direction</dd>
-<dt>sia:SimpleImageAccess.maxQueryRegionSize.long</dt>
-<dd>The maximum size in the longitude (R.A.) direction</dd>
-<dt>sia:SimpleImageAccess.maxRecords (!)</dt>
-<dd>The largest number of records that the Image Query web method will return.</dd>
-<dt>sia:SimpleImageAccess.testQuery.extras</dt>
-<dd>any extra (particularly non-standard) parameters that must be provided (apart from what is part of base URL given by the accessURL element).</dd>
-<dt>sia:SimpleImageAccess.testQuery</dt>
-<dd>a set of query parameters that is expected to produce at least one matched record which can be used to test the service.</dd>
-<dt>sia:SimpleImageAccess.testQuery.pos.lat</dt>
-<dd>The sky position in the latitdude (Dec.) direction</dd>
-<dt>sia:SimpleImageAccess.testQuery.pos.long</dt>
-<dd>The sky position in the longitude (R.A.) direction</dd>
-<dt>sia:SimpleImageAccess.testQuery.size.lat</dt>
-<dd>The maximum size in the latitdude (Dec.) direction</dd>
-<dt>sia:SimpleImageAccess.testQuery.size.long</dt>
-<dd>The maximum size in the longitude (R.A.) direction</dd>
-<dt>sia:SimpleImageAccess.testQuery.verb</dt>
-<dd>the verbosity level to use where 0 means the bare minimum set of columns and 3 means the full set of available columns.</dd>
-<dt>ssap:SimpleSpectralAccess.complianceLevel</dt>
-<dd>The category indicating the level to which this instance complies with the SSA standard.</dd>
-<dt>ssap:CreationType (!)</dt>
-<dd>The category that describes the process used to produce the dataset.</dd>
-<dt>ssap:DataSource (!)</dt>
-<dd>The category specifying where the data originally came from.</dd>
-<dt>ssap:SupportedFrame (!)</dt>
-<dd>The STC name for a world coordinate system frame supported by this service.</dd>
-<dt>ssap:SimpleSpectralAccess.defaultMaxRecords (!)</dt>
-<dd>The largest number of records that the service will return when the MAXREC parameter not specified in the query input.</dd>
-<dt>ssap:SimpleSpectralAccess.maxAperture</dt>
-<dd>The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method.</dd>
-<dt>ssap:SimpleSpectralAccess.maxRecords (!)</dt>
-<dd>The hard limit on the largest number of records that the query operation will return in a single response</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery</dt>
-<dd>a set of query parameters that is expected to produce at least one matched record which can be used to test the service.</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery.pos.lat</dt>
-<dd>The latitude (e.g. Declination) of the center of the search position in decimal degrees.</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery.pos.long</dt>
-<dd>The longitude (e.g. Right Ascension) of the center of the search position in decimal degrees.</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery.pos.refframe</dt>
-<dd>the coordinate system reference frame name indicating the frame to assume for the given position. If not provided, ICRS is assumed.</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery.queryDataCmd</dt>
-<dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument which is assumed to be set to "queryData".</dd>
-<dt>ssap:SimpleSpectralAccess.testQuery.size</dt>
-<dd>the size of the search radius.</dd>
-<dt>tr:DataModelType.ivoid (!)</dt>
-<dd>The IVORN of the data model supported by a TAP service.</dd>
-<dt>tr:DataModelType (!)</dt>
-<dd>The short, human-readable name of a data model supported by a TAP service; 
-for most applications, clients should rather constrain tr:datamodeltype.ivoid.
-</dd>
-<dt>tr:Language.version.ivoid (!)</dt>
-<dd>The IVORN of a language supported by a TAP service.</dd>
+<dt>/accessURL (!)</dt> <dd>The URL that can be used to download the data contained in this data collection (vs).</dd>
+<dt>/capabililty/executionDuration/hard</dt> <dd>The hard run time limit, given in seconds (tr).</dd>
+<dt>/capability/complianceLevel</dt> <dd>The category indicating the level to which this instance complies with the SSA standard (ssap).</dd>
+<dt>/capability/creationType (!)</dt> <dd>The category that describes the process used to produce the dataset (ssap).</dd>
+<dt>/capability/dataModel/ (!)</dt> <dd>The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  </dd>
+<dt>/capability/dataModel/@ivo-id (!)</dt> <dd>The IVORN of the data model supported by a TAP service (tr).</dd>
+<dt>/capability/dataSource (!)</dt> <dd>The category specifying where the data originally came from (ssap).</dd>
+<dt>/capability/defaultMaxRecords (!)</dt> <dd>The largest number of records that the service will return when the MAXREC parameter not specified in the query input (ssap).</dd>
+<dt>/capability/executionDuration/default</dt> <dd>The run time limit for newly-created jobs, given in seconds (tr).</dd>
+<dt>/capability/imageServiceType (!)</dt> <dd>The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).</dd>
+<dt>/capability/language/name (!)</dt> <dd>A short, human-readable name of a language understood by the TAP service (tr).</dd>
+<dt>/capability/language/version/@ivo-id (!)</dt> <dd>The IVORN of a language supported by a TAP service (tr).</dd>
+<dt>/capability/maxAperture</dt> <dd>The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method (ssap).</dd>
+<dt>/capability/maxFileSize (!)</dt> <dd>The maximum image file size in bytes (sia).</dd>
+<dt>/capability/maxImageExtent/lat</dt> <dd>The maximum size in the latitude (Dec.) direction (sia).</dd>
+<dt>/capability/maxImageExtent/long</dt> <dd>The maximum size in the longitude (R.A.) direction (sia).</dd>
+<dt>/capability/maxImageSize/lat</dt> <dd>The image size in the latitdude (Dec.) direction in pixels (sia).</dd>
+<dt>/capability/maxImageSize/long</dt> <dd>The image size in the longitude (R.A.) direction in pixels (sia).</dd>
+<dt>/capability/maxQueryRegionSize/lat</dt> <dd>The maximum size in the latitdude (Dec.) direction (sia).</dd>
+<dt>/capability/maxQueryRegionSize/long</dt> <dd>The maximum size in the longitude (R.A.) direction (sia).</dd>
+<dt>/capability/maxRecords (!)</dt> <dd>The hard limit on the largest number of records that the query operation will return in a single response (ssap).</dd>
+<dt>/capability/maxRecords (!)</dt> <dd>The largest number of items (records, rows, etc) that the service will return (cs, sia, vg).</dd>
+<dt>/capability/maxSR (!)</dt> <dd>The largest search radius of a cone search service (cs).</dd>
+<dt>/capability/outputFormat/@ivo-id (!)</dt> <dd>An IVORN of an output format (tr).</dd>
+<dt>/capability/outputFormat/mime (!)</dt> <dd>The MIME type of an output format (tr).</dd>
+<dt>/capability/outputLimit/default</dt> <dd>The maximal output size for newly-created jobs (tr).</dd>
+<dt>/capability/outputLimit/default/@unit</dt> <dd>The unit (rows/bytes) in which the service's default output limit is given (tr).</dd>
+<dt>/capability/outputLimit/hard</dt> <dd>The hard limit of a service's output size (tr).</dd>
+<dt>/capability/outputLimit/hard/@unit</dt> <dd>The unit of this services hard output limit (tr).</dd>
+<dt>/capability/retentionPeriod/default</dt> <dd>The default time between creation and removal on this service, given in seconds (tr).</dd>
+<dt>/capability/retentionPeriod/hard</dt> <dd>The hard limit for the retention time of jobs on this services (tr).</dd>
+<dt>/capability/supportedFrame (!)</dt> <dd>The STC name for a world coordinate system frame supported by this service (ssap).</dd>
+<dt>/capability/testQuery/catalog</dt> <dd>The catalog to query (cs).</dd>
+<dt>/capability/testQuery/dec</dt> <dd>Declination in a test query (cs)</dd>
+<dt>/capability/testQuery/extras</dt> <dd>Any extra (non-standard) parameters that must be provided (apart from what is part of base URL given by the accessURL element; cs, sia).</dd>
+<dt>/capability/testQuery/pos/lat</dt> <dd>Declination for a SIA test query (sia).</dd>
+<dt>/capability/testQuery/pos/lat</dt> <dd>The latitude (e.g. Declination) of the center of the search position in decimal degrees (ssap).</dd>
+<dt>/capability/testQuery/pos/long</dt> <dd>RA for a SIA test query (sia).</dd>
+<dt>/capability/testQuery/pos/long</dt> <dd>The longitude (e.g. Right Ascension) of the center of the search position in decimal degrees (ssap).</dd>
+<dt>/capability/testQuery/pos/refframe</dt> <dd>the coordinate system reference frame name indicating the frame to assume for the given position. If not provided, ICRS is assumed (ssap).</dd>
+<dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument which is assumed to be set to "queryData" (ssap).</dd>
+<dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs)</dd>
+<dt>/capability/testQuery/size</dt> <dd>The size of the search radius in an SSA search query (ssap).</dd>
+<dt>/capability/testQuery/size/lat</dt> <dd>Region size for a SIA test query in declination (sia).</dd>
+<dt>/capability/testQuery/size/long</dt> <dd>Region size for a SIA test query in RA (sia).</dd>
+<dt>/capability/testQuery/sr</dt> <dd>Search radius of a cone search service's test query (cs).</dd>
+<dt>/capability/testQuery/verb</dt> <dd>Verbosity of a cone search servie's test query (cs, sia).</dd>
+<dt>/capability/uploadLimit/default</dt> <dd>An advisory size above which user agents should reconfirm uploads to this service (tr).</dd>
+<dt>/capability/uploadLimit/default/@unit</dt> <dd>The unit of the limit specified (tr).</dd>
+<dt>/capability/uploadLimit/hard</dt> <dd>Hard limit for the size of uploads on this service (tr).</dd>
+<dt>/capability/uploadLimit/hard/@unit</dt> <dd>The unit of the limit specified (tr).</dd>
+<dt>/capability/verbosity (!)</dt> <dd><code>true</code> if the service supports the VERB keyword; <code>false</code>, otherwise (cs).</dd>
+<dt>/coverage/footprint (!)</dt> <dd>A URL of a footprint service for retrieving precise and up-to-date description of coverage (vs).</dd>
+<dt>/coverage/footprint/@ivo-id (!)</dt> <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element (vs).</dd>
+<dt>/deprecated (!)</dt> <dd>A sentinel that all versions of the referenced standard are deprectaed. The value is a human-readable explanation for the designation.</dd>
+<dt>/endorsedVersion (!)</dt> <dd>A version of a standard that is recommended for use (vstd).</dd>
+<dt>/facility (!)</dt> <dd>The observatory or facility used to collect the data contained or managed by this resource (vs).</dd>
+<dt>/format (!)</dt> <dd>The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).</dd>
+<dt>/format/@isMIMEType</dt> <dd>If <code>true</code>, then an accompanying <code>/format</code> item is a MIME Type. Within res_details, this does not work for services that give more than one format; since furthermore the literal of vs:Format allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).</dd>
+<dt>/instrument (!)</dt> <dd>The Instrument used to collect the data contain or managed by a resource (vr).</dd>
+<dt>/managedAuthority (!)</dt> <dd>An authority identifier managed by a registry (vg).</dd>
+<dt>/managingOrg (!)</dt> <dd>The organization that manages or owns this authority (vr).</dd>
+<dt>/schema/@namespace (!)</dt> <dd>An identifier for a schema described by a standard (vstd).</dd>
 
-<dt>tr:Language.name (!)</dt>
-<dd>A short, human-readable name of a language understood by the TAP
-service.</dd>
-
-<dt>tr:OutputFormat.ivoid (!)</dt>
-<dd>An optional IVORN of the output format.</dd>
-<dt>tr:OutputFormat.mime (!)</dt>
-<dd>The MIME type of a format.</dd>
-<dt>tr:TableAccess.executionDuration.default</dt>
-<dd>The value of this limit for newly-created jobs, given in seconds.</dd>
-<dt>tr:TableAccess.executionDuration.hard</dt>
-<dd>The value this limit cannot be raised above, given in seconds.</dd>
-<dt>tr:TableAccess.outputLimit.default</dt>
-<dd>The value of this limit for newly-created jobs.</dd>
-<dt>tr:TableAccess.outputLimit.default.unit</dt>
-<dd>The unit of the limit specified.</dd>
-<dt>tr:TableAccess.outputLimit.hard</dt>
-<dd>The value this limit cannot be raised above.</dd>
-<dt>tr:TableAccess.outputLimit.hard.unit</dt>
-<dd>The unit of the limit specified.</dd>
-<dt>tr:TableAccess.retentionPeriod.default</dt>
-<dd>The value of this limit for newly-created jobs, given in seconds.</dd>
-<dt>tr:TableAccess.retentionPeriod.hard</dt>
-<dd>The value this limit cannot be raised above, given in seconds.</dd>
-<dt>tr:TableAccess.uploadLimit.default</dt>
-<dd>The value of this limit for newly-created jobs.</dd>
-<dt>tr:TableAccess.uploadLimit.default.unit</dt>
-<dd>The unit of the limit specified.</dd>
-<dt>tr:TableAccess.uploadLimit.hard</dt>
-<dd>The value this limit cannot be raised above.</dd>
-<dt>tr:TableAccess.uploadLimit.hard.unit</dt>
-<dd>The unit of the limit specified.</dd>
-<dt>vg:Authority (!)</dt>
-<dd>A naming authority; an assertion of control over a namespace represented by an authority identifier.</dd>
-<dt>vg:Authority.managingOrg (!)</dt>
-<dd>The organization that manages or owns this authority.</dd>
-<dt>vg:Harvest.maxRecords</dt>
-<dd>The largest number of records that the registry search method will return. A value greater than one implies that an OAI continuation token will be provided when the limit is reached. A value of zero or less indicates that there is no explicit limit and thus, continuation tokens are not supported.</dd>
-<dt>vg:Registry.managedAuthority (!)</dt>
-<dd>An authority identifier managed by a registry</dd>
-<dt>vr:Organisation.facility (!)</dt>
-<dd>The observatory or facility used to collect the data contained or managed by this resource.</dd>
-<dt>vr:Organisation.instrument (!)</dt>
-<dd>The Instrument used to collect the data contain or managed by a resource.</dd>
-<dt>vs:DataCollection.accessURL (!)</dt>
-<dd>The URL that can be used to download the data contained in this data collection.</dd>
-<dt>vs:DataCollection.coverage.footprint.ivoid (!)</dt>
-<dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element.</dd>
-<dt>vs:DataCollection.coverage.footprint (!)</dt>
-<dd>A reference to a footprint service for retrieving precise and up-to-date description of coverage.</dd>
-<dt>vs:DataCollection.facility (!)</dt>
-<dd>The observatory or facility used to collect the data contained or managed by this resource.</dd>
-<dt>vs:DataCollection.instrument (!)</dt>
-<dd>The Instrument used to collect the data contain or managed by a resource.</dd>
-<dt>vs:DataService.coverage.footprint.ivoid (!)</dt>
-<dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element.</dd>
-<dt>vs:DataService.coverage.footprint (!)</dt>
-<dd>A reference to a footprint service for retrieving precise and up-to-date description of coverage.</dd>
-<dt>vs:DataService.facility (!)</dt>
-<dd>The observatory or facility used to collect the data contained or managed by this resource.</dd>
-<dt>vs:DataService.instrument (!)</dt>
-<dd>The Instrument used to collect the data contain or managed by a resource.</dd>
-<dt>vs:Format.isMIMEType</dt>
-<dd>If <code>true</code>, then an accompanying <code>vs:Format</code>
-item is a MIME Type. Within res_details, this
-does not work for services that give more than one format; since
-furthermore the literal of vs:Format allows a good guess whether or not
-it is a MIME type, this does not appear a dramatic limitation.</dd>
-<dt>vs:Format (!)</dt>
-<dd>The physical or digital manifestation of the information supported by a resource.
-MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network.</dd>
-<dt>vstd:EndorsedVersion (!)</dt>
-<dd>A version of a standard that is recommended for use.</dd>
-<dt>vstd:Schema.namespace (!)</dt>
-<dd>An identifier for a schema described by a standard.</dd>
-<dt>vstd:Standard.deprecated (!)</dt>
-<dd>When present, this element indicates that all versions of the standard are considered deprecated by the publisher. The value is a human-readable explanation for the designation.</dd>
 </dl>
 
 <p>Note that StandardsRegExt's <code>status</code>  and <code>use</code>
@@ -2193,6 +2095,8 @@ the column designations for the TEXT datatype:</p>
 <div class="section"><h3><a id="changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></h3>
 
 <ul>
+  <li>Added warnings about having to match case-insensitively in
+  res_detail.detail_value for IVORN-valued rows.</li>
   <li>Renamed some columns and the subject table to relieve the need of quoting in MS SQL Server (or, in the case or <code>use_param</code>, maintain consistency after the renaming):<br/>
     <table>
       <tr><th>Old</th><th>New</th></tr>
