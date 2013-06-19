@@ -238,26 +238,23 @@ following ways:</p>
 <dt>VOResource, v1.03 <cite>std:VOR</cite></dt>
 <dd>VOResource sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
-refers to concepts laid down there via the utypes given here.</dd>
+refers to concepts laid down there via XPaths <cite>std:XPATH</cite>.</dd>
 
 
 <dt>VODataService, v1.1 <cite>std:VODS11</cite></dt>
 <dd>VODataService extends the VOResource data model by important
 concepts and resource types (tablesets, data services, data
 collections).  These concepts and types are reflected in the database
-schema.  Again utypes on the tables and columns link this specification
-and VODataService.</dd>
+schema.  Again xpaths link this specification and VODataService.</dd>
 
 <dt>Other Registry Extensions</dt>
 <dd>Registry extensions are VO standards
 defining how particular resources (e.g., Standards) or capabilities
 (e.g., IVOA defined interfaces) are described.  Most aspects
 introduced by them are reflected in the <code>res_detail</code> table using
-utypes algorithmically generated from the XML schema documents given by
-these standards.  This document should not in general need updates
-for registry extension updates.  Still, in particular with a view to the
-caveat on the limits of the utypes generation algorithm given
-in section <span class="xref">vorutypes</span>, we note the
+xpaths into the registry documents.
+This document should not in general need updates
+for registry extension updates.  For completeness, we note the
 versions current as of this specification: SimpleDALRegExt 1.0
 <cite>std:DALREGEXT</cite>,
 StandardsRegExt 1.0 <cite>std:STDREGEXT</cite>, TAPRegExt 1.0
@@ -286,21 +283,12 @@ easy queries given the constraints of ADQL 2.0.  Also,
 we give three functions that extend ADQL using the
 language's built-in facility for user-defined functions.</dd>
 
-<dt>utypes</dt>
-<dd>To link columns and tables in the relational resource model to
-entities defined in VOResource and ancillary specifications, we employ
-utypes; as of this writing, no IVOA recommendation conclusively
-defines utypes.  It is expected that a Recommendation on utypes will
-tie building them to a formal data model definition in a language much
-simpler than XML schema.  Since our data model comes in XML schema,
-we need custom rules.</dd>
-</dl>
-
 <dt>RegTAP-STC</dt>
-<dd>This specification is complemented by a schema of four tables, also
+<dd>This specification will be complemented by a schema of four tables, also
 under the rr schema, that gives coverages of resources on the spatial,
 temporal, spectral and redshift axes.  These will be defined in a
 separate document.</dd>
+</dl>
 
 </div> <!-- subsection rolewithinivoa -->
 </div> <!-- section introduction -->
@@ -355,7 +343,7 @@ containing values not usually intended for display are required to be
 converted to lower case; in the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
-compared are defined to be case-insensitive (e.g., ucds, IVORNs, utypes).
+compared are defined to be case-insensitive (e.g., ucds, IVORNs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower-case.</p>
@@ -418,77 +406,64 @@ specification:</p>
 </div>
 
 <div class="section">
-<h2><a id="vorutypes">VOResource Utypes</a></h2>
-
-No xsi:type constraints here!
+<h2><a id="vorutypes">XPaths</a></h2>
 
 <p>This specification piggybacks on top of the well-established
-VOResource standard.  It explicitly does not define a full data model,
+VOResource standard.  This means that it does not define a full data model,
 but rather something like a reasonably query-friendly view of a partial
 representation of one.  The link between the actual data model, i.e.,
 VOResource and extensions as defined by the XML Schema documents, and
 the fields within this database schema, is provided by
-utypes.</p>
+xpaths, which are here slightly abbreviated for both brevity and
+generality.</p>
 
-<p>These utypes are generated from the XML schema files
-for VOResource and its extensions by means of an XSL stylesheet.  
-They are intended to be compatible
-with the utypes generated according to a future IVOA specification.
-These are expected to be based on a modelling
-language called VO-DML; since VOResource is not modelled in VO-DML &#8212; and
-probably never will, since interoperability with other OAI-PMH
-applications makes XML Schema a compelling choice as the modelling
-language &#8212;, we have to provide some custom method to define utypes and
-their relation to modelling elements</p>
+<p>All xpaths given in this specifiation are assumed to be relative to
+the enclosing <code>vr:Resource</code> element; these are called
+"resource xpaths" in the following.  If resource xpaths are to be
+applied to an OAI-PMH response, the xpath expression
+<code>*/*/*/oai:metadata/ri:Resource</code> must be prepended to it,
+with the canoical prefixes from <span class="xref">qnameatts</span>
+implied.  The resource xpaths themselves largely do not need explicit
+namespaces since VOResource elements are by default unqualified.
+Elements and attributes from non-VOResource schemata have the canonical
+namespace prefixes, which in this specification only applies to
+several <code>xsi:type</code> attribute names.</p>
 
-<p>The basic premise here is that 1:1 relationships are mapped to utypes
-by concatenating type and attribute names until the leaf element is
-reached; attributes and elements (in XSD terms) are not distinguished.
-1:n relationships yield one utype for the attribute (the "collection
-utype", which is used on some tables), while utypes for the elements of
-the collection are rooted in the collection element's types.  For
-example, the capabilities of a service have the collection utype
-<code>vr:Service.capability</code>, but the standard identifier of a
-capability has the utype <code>vr:Capability.standardID</code>.</p>
+<p>Within the Virtual Observatory, the link between data models and
+concrete data representations is usually made using utypes
+<cite>std:utypedraft</cite>. Since the VOResource is directly modelled
+in XML Schema, the choice of XPath as the bridging formalism is 
+compelling, though, and utypes themselves are not necessary for the
+operation of a TAP service containing the relational registry.
+TAP, however, offers fields for utypes in its TAP_SCHEMA.  Since they
+are not otherwise requried, this specification takes the liberty of
+using them to denote the xpaths.</p>
 
-<p>XML namespaces are ignored in utype generation.  In particular, the
-<code>xsi:type</code> attributes that provide polymorphism for VOResource's
-<code>Resource</code> and <code>Capability</code> elements yield
-utypes ending in type, as in <code>vr:Resource.type</code> and
-<code>vr:Capability.type</code>.</p>
+<p>In the metadata for tables and columns below, the utypes given are
+obtained from the xpaths by simply prepending them with
+<code>xpath:</code>.  To avoid repetition, we allow relative xpaths:
+when the xpath in a column utype does not start with a slash, it is
+understood that is must be concatenated with the table utype to obtain
+the full xpath.</p>
 
-<p>At the utype level, polymorphism is reflected by using the names of the
-type definitions in which an element or attribute is defined as a utype 
-fragment. For
-example, in the description of a single data collection there can be
-values for <code>vr:Resource.created</code> (as the definition of
-the <code>created</code> attribute is on <code>vr:Resource</code>
-itself) as well as <code>vs:DataCollection.instrument</code> (since
-<code>instrument</code> comes from the definition of the XML Schema
-<code>DataCollection</code> type in this case).</p>
+<p>For illustration, if a table has a utype of
+<code>xpath:/capability/interface/</code> and a column within this table
+has a utype of <code>xpath:accessURL/@use</code>, the resulting resource
+xpath would come out to be
+<code>/capability/interface/accessURL/@use</code>; to match this in an
+OAI-PMH response, the xpath would be
+<code>*/*/*/oai:metadata/ri:Resource/capability/interface/accessURL/@use</code>.
+</p>
 
-<p>The data model name of the utypes, i.e., the part in front of the
-colon, is the canonical target name space prefix taken from the XML
-schema.  The remarks on versioning those from section <span
-class="xref">qnameatts</span> apply here as well.</p>
+<p>While clients MUST NOT rely on these utypes in either TAP_SCHEMA or
+the metadata delievered with TAP replies, service operators SHOULD
+provide them.  This is mainly intended to help human interpretation when
+the tables defined here have local extensions.</p>
 
-<p>An XSLT stylesheet producing utypes together with short
-documentation strings from the XML schema files is given in <a href="#appA">Appendix
-A</a>.  Note that due to limitations of XSLT version 1, the complexity
-of XML schema, as well as considerations of implementation simplicity,
-this stylesheet is not completely general (see also comments in the
-file). Future VOResource extensions could break it if, e.g., they were
-to inherit from types derived from <code>vr:Resource</code> in a
-different file.  As given here, the stylesheet produces the desired
-results for the versions of VOResource and its extensions given in 
-section <span class="xref">rolewithinivoa</span>.</p>
-
-<p>Note that for readability utypes are given in camel-case
-throughout the normative text of this document,
-following the XML Schema names.  However, utypes are generally
-considered to be case insensitive.  Hence, in the database tables, all
-utypes are stored all-lowercase; this is mandated by the case conversion
-rules in the table descriptions.</p>
+<p>Resource xpaths are also used in the res_details table (section <span
+class="xref">table_res_detail</span>).  These are normal xpaths
+(although again understood relative to the enclosing Resource element),
+which, in particular, means that they are case sensitive.</p>
 
 </div><!-- subsection vorutypes -->
 
@@ -1605,12 +1580,6 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 </div><!-- class="body" -->
 
 <div class="appendices">
-
-<div class="section"><h2><a id="appA">A Stylesheet Generating Utypes</a></h2>
-
-<?incxml href="../makeutypes.xslt"?>
-
-</div>  <!-- section appA -->
 
 <div class="section"><h2><a id="d_u_list">XPaths for res_details</a></h2>
 

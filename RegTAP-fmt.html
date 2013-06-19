@@ -180,7 +180,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></li><li><a href="#d_u_list"><span class="secnum">B. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">D. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#rolewithinivoa"><span class="secnum">1.1. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#changes"><span class="secnum">D. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20130411"><span class="secnum">D.1. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">D.2. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">D.3. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -242,26 +242,23 @@ following ways:</p>
 <dt>VOResource, v1.03 <cite>[<a href="#std:VOR">std:VOR</a>]</cite></dt>
 <dd>VOResource sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
-refers to concepts laid down there via the utypes given here.</dd>
+refers to concepts laid down there via XPaths <cite>[<a href="#std:XPATH">std:XPATH</a>]</cite>.</dd>
 
 
 <dt>VODataService, v1.1 <cite>[<a href="#std:VODS11">std:VODS11</a>]</cite></dt>
 <dd>VODataService extends the VOResource data model by important
 concepts and resource types (tablesets, data services, data
 collections).  These concepts and types are reflected in the database
-schema.  Again utypes on the tables and columns link this specification
-and VODataService.</dd>
+schema.  Again xpaths link this specification and VODataService.</dd>
 
 <dt>Other Registry Extensions</dt>
 <dd>Registry extensions are VO standards
 defining how particular resources (e.g., Standards) or capabilities
 (e.g., IVOA defined interfaces) are described.  Most aspects
 introduced by them are reflected in the <code>res_detail</code> table using
-utypes algorithmically generated from the XML schema documents given by
-these standards.  This document should not in general need updates
-for registry extension updates.  Still, in particular with a view to the
-caveat on the limits of the utypes generation algorithm given
-in section <span class="xref"><a href="#vorutypes">5</a></span>, we note the
+xpaths into the registry documents.
+This document should not in general need updates
+for registry extension updates.  For completeness, we note the
 versions current as of this specification: SimpleDALRegExt 1.0
 <cite>[<a href="#std:DALREGEXT">std:DALREGEXT</a>]</cite>,
 StandardsRegExt 1.0 <cite>[<a href="#std:STDREGEXT">std:STDREGEXT</a>]</cite>, TAPRegExt 1.0
@@ -290,21 +287,12 @@ easy queries given the constraints of ADQL 2.0.  Also,
 we give three functions that extend ADQL using the
 language's built-in facility for user-defined functions.</dd>
 
-<dt>utypes</dt>
-<dd>To link columns and tables in the relational resource model to
-entities defined in VOResource and ancillary specifications, we employ
-utypes; as of this writing, no IVOA recommendation conclusively
-defines utypes.  It is expected that a Recommendation on utypes will
-tie building them to a formal data model definition in a language much
-simpler than XML schema.  Since our data model comes in XML schema,
-we need custom rules.</dd>
-</dl>
-
 <dt>RegTAP-STC</dt>
-<dd>This specification is complemented by a schema of four tables, also
+<dd>This specification will be complemented by a schema of four tables, also
 under the rr schema, that gives coverages of resources on the spatial,
 temporal, spectral and redshift axes.  These will be defined in a
 separate document.</dd>
+</dl>
 
 </div> <!-- subsection rolewithinivoa -->
 </div> <!-- section introduction -->
@@ -357,7 +345,7 @@ containing values not usually intended for display are required to be
 converted to lower case; in the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
-compared are defined to be case-insensitive (e.g., ucds, IVORNs, utypes).
+compared are defined to be case-insensitive (e.g., ucds, IVORNs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower-case.</p>
@@ -418,76 +406,63 @@ specification:</p>
 </table>
 </div>
 
-<div class="section"><h2><a id="vorutypes"><span class="secnum">5. </span>VOResource Utypes</a></h2>
-
-No xsi:type constraints here!
+<div class="section"><h2><a id="vorutypes"><span class="secnum">5. </span>XPaths</a></h2>
 
 <p>This specification piggybacks on top of the well-established
-VOResource standard.  It explicitly does not define a full data model,
+VOResource standard.  This means that it does not define a full data model,
 but rather something like a reasonably query-friendly view of a partial
 representation of one.  The link between the actual data model, i.e.,
 VOResource and extensions as defined by the XML Schema documents, and
 the fields within this database schema, is provided by
-utypes.</p>
+xpaths, which are here slightly abbreviated for both brevity and
+generality.</p>
 
-<p>These utypes are generated from the XML schema files
-for VOResource and its extensions by means of an XSL stylesheet.  
-They are intended to be compatible
-with the utypes generated according to a future IVOA specification.
-These are expected to be based on a modelling
-language called VO-DML; since VOResource is not modelled in VO-DML — and
-probably never will, since interoperability with other OAI-PMH
-applications makes XML Schema a compelling choice as the modelling
-language —, we have to provide some custom method to define utypes and
-their relation to modelling elements</p>
+<p>All xpaths given in this specifiation are assumed to be relative to
+the enclosing <code>vr:Resource</code> element; these are called
+"resource xpaths" in the following.  If resource xpaths are to be
+applied to an OAI-PMH response, the xpath expression
+<code>*/*/*/oai:metadata/ri:Resource</code> must be prepended to it,
+with the canoical prefixes from <span class="xref"><a href="#qnameatts">4</a></span>
+implied.  The resource xpaths themselves largely do not need explicit
+namespaces since VOResource elements are by default unqualified.
+Elements and attributes from non-VOResource schemata have the canonical
+namespace prefixes, which in this specification only applies to
+several <code>xsi:type</code> attribute names.</p>
 
-<p>The basic premise here is that 1:1 relationships are mapped to utypes
-by concatenating type and attribute names until the leaf element is
-reached; attributes and elements (in XSD terms) are not distinguished.
-1:n relationships yield one utype for the attribute (the "collection
-utype", which is used on some tables), while utypes for the elements of
-the collection are rooted in the collection element's types.  For
-example, the capabilities of a service have the collection utype
-<code>vr:Service.capability</code>, but the standard identifier of a
-capability has the utype <code>vr:Capability.standardID</code>.</p>
+<p>Within the Virtual Observatory, the link between data models and
+concrete data representations is usually made using utypes
+<cite>[<a href="#std:utypedraft">std:utypedraft</a>]</cite>. Since the VOResource is directly modelled
+in XML Schema, the choice of XPath as the bridging formalism is 
+compelling, though, and utypes themselves are not necessary for the
+operation of a TAP service containing the relational registry.
+TAP, however, offers fields for utypes in its TAP_SCHEMA.  Since they
+are not otherwise requried, this specification takes the liberty of
+using them to denote the xpaths.</p>
 
-<p>XML namespaces are ignored in utype generation.  In particular, the
-<code>xsi:type</code> attributes that provide polymorphism for VOResource's
-<code>Resource</code> and <code>Capability</code> elements yield
-utypes ending in type, as in <code>vr:Resource.type</code> and
-<code>vr:Capability.type</code>.</p>
+<p>In the metadata for tables and columns below, the utypes given are
+obtained from the xpaths by simply prepending them with
+<code>xpath:</code>.  To avoid repetition, we allow relative xpaths:
+when the xpath in a column utype does not start with a slash, it is
+understood that is must be concatenated with the table utype to obtain
+the full xpath.</p>
 
-<p>At the utype level, polymorphism is reflected by using the names of the
-type definitions in which an element or attribute is defined as a utype 
-fragment. For
-example, in the description of a single data collection there can be
-values for <code>vr:Resource.created</code> (as the definition of
-the <code>created</code> attribute is on <code>vr:Resource</code>
-itself) as well as <code>vs:DataCollection.instrument</code> (since
-<code>instrument</code> comes from the definition of the XML Schema
-<code>DataCollection</code> type in this case).</p>
+<p>For illustration, if a table has a utype of
+<code>xpath:/capability/interface/</code> and a column within this table
+has a utype of <code>xpath:accessURL/@use</code>, the resulting resource
+xpath would come out to be
+<code>/capability/interface/accessURL/@use</code>; to match this in an
+OAI-PMH response, the xpath would be
+<code>*/*/*/oai:metadata/ri:Resource/capability/interface/accessURL/@use</code>.
+</p>
 
-<p>The data model name of the utypes, i.e., the part in front of the
-colon, is the canonical target name space prefix taken from the XML
-schema.  The remarks on versioning those from section <span class="xref"><a href="#qnameatts">4</a></span> apply here as well.</p>
+<p>While clients MUST NOT rely on these utypes in either TAP_SCHEMA or
+the metadata delievered with TAP replies, service operators SHOULD
+provide them.  This is mainly intended to help human interpretation when
+the tables defined here have local extensions.</p>
 
-<p>An XSLT stylesheet producing utypes together with short
-documentation strings from the XML schema files is given in <a href="#appA">Appendix
-A</a>.  Note that due to limitations of XSLT version 1, the complexity
-of XML schema, as well as considerations of implementation simplicity,
-this stylesheet is not completely general (see also comments in the
-file). Future VOResource extensions could break it if, e.g., they were
-to inherit from types derived from <code>vr:Resource</code> in a
-different file.  As given here, the stylesheet produces the desired
-results for the versions of VOResource and its extensions given in 
-section <span class="xref"><a href="#rolewithinivoa">1.1</a></span>.</p>
-
-<p>Note that for readability utypes are given in camel-case
-throughout the normative text of this document,
-following the XML Schema names.  However, utypes are generally
-considered to be case insensitive.  Hence, in the database tables, all
-utypes are stored all-lowercase; this is mandated by the case conversion
-rules in the table descriptions.</p>
+<p>Resource xpaths are also used in the res_details table (section <span class="xref"><a href="#table_res_detail">7.13</a></span>).  These are normal xpaths
+(although again understood relative to the enclosing Resource element),
+which, in particular, means that they are case sensitive.</p>
 
 </div><!-- subsection vorutypes -->
 
@@ -1289,7 +1264,7 @@ new utypes to be added in <code>res_detail</code>.</p>
 If a representation of such information in the relational registry is
 required, this standard will need to be changed.</p>
 
-<p>Appendix <span class="xref"><a href="#d_u_list">B</a></span> gives a list
+<p>Appendix <span class="xref"><a href="#d_u_list">A</a></span> gives a list
 of utypes from the registry extensions
 that were recommendations at the time of writing.  
 Implementations MUST put all rows that can be generated from the resource 
@@ -1308,7 +1283,7 @@ implement case normalization rules by detail utype, no case normalization
 is done on detail values at all, and users and clients will have to use
 the <code>ivo_nocasematch</code> user defined function (see section
 <span class="xref"><a href="#adqludf">8</a></span>) when locating
-case-insensitive values.  For the detail utypes given in Appendix <span class="xref"><a href="#d_u_list">B</a></span>, this concerns all items with xpaths ending
+case-insensitive values.  For the detail utypes given in Appendix <span class="xref"><a href="#d_u_list">A</a></span>, this concerns all items with xpaths ending
 in <code>@ivo-id</code>.</p>
 
 <p>Individual
@@ -1383,7 +1358,7 @@ arguments containing a hash sign is undefined.</dd>
 </dl>
 
 <p>Reference implementations of the three functions for the PostgreSQL
-database system are given in Appendix <span class="xref"><a href="#appPGDefs">C</a></span>.</p>
+database system are given in Appendix <span class="xref"><a href="#appPGDefs">B</a></span>.</p>
 
 </div><!-- section adqludf -->
 
@@ -1585,62 +1560,7 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 
 <div class="appendices">
 
-<div class="section"><h2><a id="appA"><span class="secnum">A. </span>A Stylesheet Generating Utypes</a></h2>
-
-<?incxml href="../makeutypes.xslt"?><h:div xmlns:h="http://www.w3.org/1999/xhtml" class="viewxml"><div class="element"><span class="markup">&lt;</span><span class="start-tag">stylesheet</span> <span class="attribute-name">version</span><span class="markup">=</span><span class="attribute-value">"1.0"</span> <span class="attribute-name">xmlns:xml</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/XML/1998/namespace"</span> <span class="attribute-name">xmlns:</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/1999/XSL/Transform"</span> <span class="attribute-name">xmlns:xs</span><span class="markup">=</span><span class="attribute-value">"http://www.w3.org/2001/XMLSchema"</span> <span class="attribute-name">xmlns:vr</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VOResource/v1.0"</span> <span class="attribute-name">xmlns:vs</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VODataService/v1.1"</span> <span class="attribute-name">xmlns:vm</span><span class="markup">=</span><span class="attribute-value">"http://www.ivoa.net/xml/VOMetadata/v0.1"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- extract utypes from VOResource and related XML schema files --&gt;</div><div class="comment">&lt;!--
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    For the complete text of the GPL, see http://www.gnu.org/licenses/.
---&gt;</div><div class="comment">&lt;!-- The basic strategy here is: start from all discernible types
-derived from vr:Resource, vr:Capability, and vr:Interface; we should
-catch everything in a VOResource extension even if we process file 
-by file, unless one extension were to derive from a type defined in
-a different extension.
-
-In emulation of the utype generation done by VO-DML, we concatenate
-along axes that are simple attribuutes.  When something is actually
-a collection, we start a new utype.  The utype fragment is the *name* of
-a type or attribute; this means a certain amount of polymorphism.
-
-In addition, for each schema, the prefix chosen for the target name
-space becomes the data model name for utype purposes;  when, during
-inheritance, we leave a file, the model name changes, too.
-
-Hack alert: We need to traverse the type tree; however, due to 
-(practical) limitations of XSLT1, we don't do that across files.  So,
-if a type were to inherit from a class derived from VOResource or Capability
-in another document, this stylesheet would not notice.  Also, we kill all
-namespace prefixes in attributes.  Proper handling of that probably is
-close to impossible with XSLT1.  --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">output</span> <span class="attribute-name">method</span><span class="markup">=</span><span class="attribute-value">"text"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">strip-space</span> <span class="attribute-name">elements</span><span class="markup">=</span><span class="attribute-value">"*"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- root classes for utype generation; this must include all types that
-extensions derive from, since we don't see VOResource when processing
-them --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"UTYPEROOTS"</span><span class="markup">&gt;</span><span class="text">+Resource+Interface+Capability+Service+DataType+</span><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- An index used to retrieve the type definitions for the child
-elements in walk; note that this only spans one file,
-which is the primary limitation of this program --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"definitions"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:simpleType|xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- types directly derived from another (the key is the name of
-the base type); we need this to identify start points for our
-tree traversal. --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">key</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"derivations"</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:simpleType|xs:complexType"</span> <span class="attribute-name">use</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- retrieve the "short" doc and add them in parens if present,
-  emit an lf either way --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"boolean(xs:annotation[1])"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(' (', normalize-space(xs:annotation[1]/xs:documentation), ')')"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">text</span><span class="markup">&gt;</span><span class="text">
-</span><span class="markup">&lt;/</span><span class="end-tag">text</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- concatenate to parts with a dot unless there's another
-  non-letter at the end of the first part --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"substring($first, string-length($first), 1)=':'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$first"</span><span class="markup">/&gt;</span></div><div class="text">.</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$second"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- prints a utype for the current element --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emits utypes for an within a type if the element is 0..1:1 --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- capability and interface are roots of their own --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@name!='capability' and @name!='interface'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(@type, ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"child-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $child-type)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$child-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- the central (recursive) template building up utypes by
-	collecting subelements; the current node here is a type definition --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"descendant::xs:element"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"@maxOccurs='unbounded'"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- emit a utype of the collection, then start a new utype hierarchy
-        --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"emit-utype-for-current"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"new-root"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(substring-before(@type, ':'), ':')"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', substring-after(@type, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$new-root"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-attribute"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for the current type and the classes it is derived 
-  from --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"type-path"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"concat-dot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"first"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"second"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">value-of</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"add-doc"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$type-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-in-hierarchy"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"@name"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"walk-in-hierarchy"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates utypes for stuff derived from base-type --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"base-type"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span><span class="markup">/&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions',        substring-after(./xs:complexContent|xs:simpleContent/*/@base, ':'))"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('derivations', @name)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"$parent-path"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"isUtypeRoot"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- generates true if the current type is eligible as a root of
-  a utype hierarchy, nothing otherwise. --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"uqbase"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"substring-after(./xs:complexContent/*/@base, ':')"</span><span class="markup">/&gt;</span></div><div class="comment">&lt;!-- keep the explicit tests for the base since in VOResource
-  extensions we won't see the base classes --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">choose</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">when</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"contains($UTYPEROOTS, concat('+', @name, '+')) or         contains($UTYPEROOTS, concat('+', $uqbase, '+'))"</span><span class="markup">&gt;</span><span class="text">true</span><span class="markup">&lt;/</span><span class="end-tag">when</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">otherwise</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">for-each</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"key('definitions', $uqbase)"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"isUtypeRoot"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">for-each</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">otherwise</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">choose</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"xs:complexType"</span><span class="markup">&gt;</span><div class="indent"><div class="comment">&lt;!-- initiates a walk through the tree of child constructs if the
-  current element is a resource, capability, or interface, or directly
-  derived from one of those --&gt;</div><div class="element"><span class="markup">&lt;</span><span class="start-tag">variable</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"isRoot"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"isUtypeRoot"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">variable</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">if</span> <span class="attribute-name">test</span><span class="markup">=</span><span class="attribute-value">"$isRoot='true'"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">call-template</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"format-for-type"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">with-param</span> <span class="attribute-name">name</span><span class="markup">=</span><span class="attribute-value">"parent-path"</span> <span class="attribute-name">select</span><span class="markup">=</span><span class="attribute-value">"concat(//xs:appinfo/vm:targetPrefix, ':')"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">call-template</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">if</span><span class="markup">&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"/"</span><span class="markup">&gt;</span><div class="indent"><div class="element"><span class="markup">&lt;</span><span class="start-tag">apply-templates</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">template</span><span class="markup">&gt;</span></div><div class="element"><span class="markup">&lt;</span><span class="start-tag">template</span> <span class="attribute-name">match</span><span class="markup">=</span><span class="attribute-value">"text()"</span><span class="markup">/&gt;</span></div></div><span class="markup">&lt;/</span><span class="end-tag">stylesheet</span><span class="markup">&gt;</span></div><div class="comment">&lt;!-- vi:et:sw=2:sta
---&gt;</div></h:div>
-
-</div>  <!-- section appA -->
-
-<div class="section"><h2><a id="d_u_list"><span class="secnum">B. </span>XPaths for res_details</a></h2>
+<div class="section"><h2><a id="d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></h2>
 
 <p>This appendix defines the required (the xpaths annotated with an
 exclamation mark) or recommended content of the <code>res_details</code>
@@ -1735,7 +1655,7 @@ relevant to resource discovery, a more complex model does not seem
 warrented just so they can be exposed.</p>
 </div> <!-- section d_u_list -->
 
-<div class="section"><h2><a id="appPGDefs"><span class="secnum">C. </span>The Extra UDFs in PL/pgSQL</a></h2>
+<div class="section"><h2><a id="appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></h2>
 
 <p>What follows are (non-normative) 
 implementations of the three user defined functions
@@ -1783,7 +1703,7 @@ expressions in the ADQL translation layer whenever possible.</p>
 
 </div> <!-- section appPGDefs -->
 
-<div class="section"><h2><a id="appBP"><span class="secnum">D. </span>Implementation notes</a></h2>
+<div class="section"><h2><a id="appBP"><span class="secnum">C. </span>Implementation notes</a></h2>
 
 <p>This appendix contains a set of constraints and recommendations for
 implementing the relational registry model on actual RDBMSes, originating
@@ -2097,9 +2017,9 @@ the column designations for the TEXT datatype:</p>
 
 </div>  <!-- section appBD - RDB impl.notes-->
 
-<div class="section"><h2><a id="changes"><span class="secnum">E. </span>Changes from Previous Versions</a></h2>
+<div class="section"><h2><a id="changes"><span class="secnum">D. </span>Changes from Previous Versions</a></h2>
 
-<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.1. </span>Changes from WD-20130411</a></h3>
+<div class="section"><h3><a id="changes-20130411"><span class="secnum">D.1. </span>Changes from WD-20130411</a></h3>
 
 <ul>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
@@ -2131,7 +2051,7 @@ the column designations for the TEXT datatype:</p>
 </div> <!-- subsection changes-20130411 -->
 
 
-<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.2. </span>Changes from WD-20130305</a></h3>
+<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">D.2. </span>Changes from WD-20130305</a></h3>
 
 <ul>
 <li>intf_index is now required to be unique within a resource, not a
@@ -2145,7 +2065,7 @@ it was too long to be included in the running text.</li>
 </ul>
 </div>
 
-<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.3. </span>Changes from WD-20121112</a></h3>
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">D.3. </span>Changes from WD-20121112</a></h3>
 
 <ul>
 <li>Adapted all utypes to better match future VO-DML utypes.</li>
