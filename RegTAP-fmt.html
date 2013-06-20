@@ -209,19 +209,24 @@ the VO registry system, such an interface
 using SOAP and an early draft of an XML-based query language.</p>
 
 <p>This document provides an update to the query ("full registry") part
-of this specifiation, aimed towards
+of that specifiation, aimed towards
 usage with current VO standards, in particular TAP <cite>[<a href="#std:TAP">std:TAP</a>]</cite>
 and ADQL <cite>[<a href="#std:ADQL">std:ADQL</a>]</cite>.  It follows the model of ObsCore
 <cite>[<a href="#std:OBSCORE">std:OBSCORE</a>]</cite> of defining a representation of a data model
-within a relational data base.  In this case, the data model is a
+within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
 the VOResource XML format <cite>[<a href="#std:VOR">std:VOR</a>]</cite>.  The simplification
-yields 13 tables.  This specification gives the table metadata together
+yields 13 tables.  For each table, TAP_SCHEMA metadata is given together
 with rules for how to fill these tables from VOResource-serialized
-metadata records.</p>
+metadata records as well as conditions on foreign keys and
+recommendations on indices.</p>
 
-<p>This architecture allows client applications to perform "canned"
-queries on behalf of their user as well as complex queries formulated
+<p>The resulting set of tables has a modest size by today's standards,
+but is still non-trivial.  The largest table, <code>table_column</code>,
+has about half a million rows at the time of writing.</p>
+
+<p>The architecture laid out here allows client applications to perform "canned"
+queries on behalf of their users as well as complex queries formulated
 directly by advanced users, using the same TAP clients they employ to
 query astronomical data servers.</p>
 
@@ -270,13 +275,13 @@ these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
 local additions to the registry relations via TAP's metadata publishing
 mechanisms.</dd>
-</dl>
 
 <dt>IVOA Identifiers, v1.12 <cite>[<a href="#std:VOID">std:VOID</a>]</cite> </dt>
-<dd>IVOA identifiers are something like the
-primary keys within the VO registry.  Also, the notion of an authority as
-laid down in IVOA Identifiers plays an important role as publishing
-registries can be viewed as a realization of a set of authorities.</dd>
+<dd>IVOA identifiers are something like the primary keys within the VO
+registry; as such, they are actual primary keys of the central table of
+the relational registry. Also, the notion of an authority as laid down
+in IVOA Identifiers plays an important role as publishing registries can
+be viewed as a realization of a set of authorities.</dd> </dl>
 
 <p>This standard also relates to other IVOA standards:</p>
 
@@ -307,7 +312,7 @@ possible.</p>
 
 <p>An overriding consideration has been, however, to make natural joins
 between the tables behave usefully, i.e., to actually combine rows
-relevant to the same entity (i.e., resource, table, capability, etc.).
+relevant to the same entity (resource, table, capability, etc.).
 To disambiguate column names that name the same concept on different
 entities (name, description, etc.) and would therefore interfere with
 the natural join, a shortened tag for the source object
@@ -315,6 +320,13 @@ is prepended to the name.  Thus, a <code>description</code> element within
 a resource ends up in a column named
 <code>res_description</code>, whereas the same element from a
 capability becomes <code>cap_description</code>.</p>
+
+<p>We further renamed some columns with respect to their VOResource
+counterparts to avoid clashes with reserved words in popular database
+management systems.  The alternatives would have been to either recommend
+quoting them or burden ADQL translation layers with the task of
+automatically converting them to delimited identifiers.  Both
+alternatives seemed either confusing or impacting robustness.</p>
 
 <p>Furthermore, camel-case identifiers have been converted to
 underscore-separated ones (thus, <code>standardId</code>  becomes
@@ -348,7 +360,7 @@ section.  This is particularly important when the entities to be
 compared are defined to be case-insensitive (e.g., ucds, IVORNs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
-lower-case.</p>
+lower case.</p>
 
 <p>This conversion MUST cover all ASCII letters, i.e., A through Z.  
 The conversion SHOULD take place according to
@@ -403,6 +415,7 @@ specification:</p>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
 <tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
 <tr><td>vstd</td><td>http://www.ivoa.net/xml/StandardsRegExt/v1.0</td></tr>
+<tr><td>xsi</td><td>http://www.w3.org/2001/XMLSchema-instance</td></tr>
 </table>
 </div>
 
@@ -422,16 +435,23 @@ the enclosing <code>vr:Resource</code> element; these are called
 "resource xpaths" in the following.  If resource xpaths are to be
 applied to an OAI-PMH response, the xpath expression
 <code>*/*/*/oai:metadata/ri:Resource</code> must be prepended to it,
-with the canoical prefixes from <span class="xref"><a href="#qnameatts">4</a></span>
-implied.  The resource xpaths themselves largely do not need explicit
-namespaces since VOResource elements are by default unqualified.
-Elements and attributes from non-VOResource schemata have the canonical
-namespace prefixes, which in this specification only applies to
-several <code>xsi:type</code> attribute names.</p>
+with the canonical prefixes from section <span class="xref"><a href="#qnameatts">4</a></span> implied.  The resource xpaths themselves
+largely do not need explicit namespaces since VOResource elements are by
+default unqualified.  Elements and attributes from non-VOResource
+schemata have the canonical namespace prefixes, which in this
+specification only applies to several <code>xsi:type</code> attribute
+names.</p>
+
+<p>Some tables draw data from several different VOResource elements.
+For those, we have introduced an extended syntax with additional
+metacharacters (, ), and |, where the vertical bar denotes an
+alternative and the parentheses grouping.  For instance, our notation
+<code>/(tableset/schema/|)table/</code> corresponds to the two xpaths
+<code>/table</code> and <code>/tableset/schema/table</code>.</p>
 
 <p>Within the Virtual Observatory, the link between data models and
 concrete data representations is usually made using utypes
-<cite>[<a href="#std:utypedraft">std:utypedraft</a>]</cite>. Since the VOResource is directly modelled
+<cite>[<a href="#std:utypedraft">std:utypedraft</a>]</cite>. Since VOResource is directly modelled
 in XML Schema, the choice of XPath as the bridging formalism is 
 compelling, though, and utypes themselves are not necessary for the
 operation of a TAP service containing the relational registry.
@@ -471,12 +491,12 @@ which, in particular, means that they are case sensitive.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP#full</code> in the service's
 capabilities (see <cite>[<a href="#std:TAPREGEXT">std:TAPREGEXT</a>]</cite>).  Technically, this
 entails adding</p>
 
 <pre>
-&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor"
+&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP#full"
   &gt;Registry 1.0&lt;/dataModel&gt;
 </pre>
 
@@ -489,12 +509,32 @@ relational registry"</a> example in section
 <span class="xref"><a href="#sample_queries">9</a></span> shows a query that does
 this.</p>
 
+<p>It is recommended to additionally register a relational registry as a
+VODataService data collection and connect this and the TAP services
+with a pair of service-for/served-by relations.  This allows giving more
+metadata on the data content like, for example, the frequency of
+harvesting.</p>
+
+<p>Services implementing this data model that do not (strive to) offer
+the full data content of the VO registry (like domain-specific
+registries or experimental systems) MUST NOT declare the above data
+model in order to not invite clients expecting the VO registry to send
+queries to it.  Such TAP services can use the
+<code>ivo://ivoa.net/std/RegTAP#partial</code> data model.  TAP services
+declaring that data MUST declare a service-for relationship to a data
+collection record explaining the actual data content.</p>
+
 </div><!-- subsection registration -->
 
 <div class="section"><h2><a id="vortables"><span class="secnum">7. </span>VOResource Tables</a></h2>
 
-<p>In the following table descriptions, names and utypes of tables and
-columns are normative and MUST be used as given, and all-lowercase.
+<p>In the following table descriptions, the names of tables and
+columns are normative and MUST be used as given, and all-lowercase.  On
+the utypes, see section <span class="xref"><a href="#vorutypes">5</a></span>.  All
+columns defined in this document MUST have a 1 in the <code>std</code>
+column of the <code>TAP_SCHEMA.table_columns</code> table.  Unless
+otherwise specified, all values of ucd and unit in
+<code>TAP_SCHEMA.table_columns</code> are NULL for columns defined here.
 Descriptions are not normative (as given, they usually are taken from
 the schema files of VOResource and its extensions with slight
 redaction).  Registry operators MAY provide additional columns in their
@@ -514,31 +554,31 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP#full</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>rr.capability<br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
-<tr class="data even"><td>rr.interface<br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
-<tr class="data"><td>rr.intf_param<br/>xpath:/capability/interface/param</td><td> Input parameters for services.</td></tr>
-<tr class="data even"><td>rr.relationship<br/>xpath:content/relationship</td><td> Relationships between resources, e.g., mirroring, derivation, but
+<div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
+<tr class="data even"><td><a href="#table_interface">rr.interface</a><br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
+<tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br/>xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
+<tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br/>xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
 also providing access to data within a resource.</td></tr>
-<tr class="data"><td>rr.res_date<br/>xpath:curation/</td><td> A date associated with an event in the life cycle of the resource.
+<tr class="data"><td><a href="#table_res_date">rr.res_date</a><br/>xpath:/curation/</td><td> A date associated with an event in the life cycle of the resource.
 This could be creation or update. The role column can be used to
 clarify.</td></tr>
-<tr class="data even"><td>rr.res_detail<br/>N/A</td><td> XPath-value pairs for members of resource or capability and their
+<tr class="data even"><td><a href="#table_res_detail">rr.res_detail</a><br/>N/A</td><td> XPath-value pairs for members of resource or capability and their
 derivations that are less used and/or from VOResource extensions. The
 pairs refer to a resource if cap_index is NULL, to the referenced
 capability otherwise.</td></tr>
-<tr class="data"><td>rr.res_role<br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+<tr class="data"><td><a href="#table_res_role">rr.res_role</a><br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
 creators, contacts, publishers.</td></tr>
-<tr class="data even"><td>rr.res_schema<br/>xpath:/tableset/schema</td><td> Sets of tables related to resources.</td></tr>
-<tr class="data"><td>rr.res_subject<br/>xpath:/content/</td><td> Topics, object types, or other descriptive keywords about the
+<tr class="data even"><td><a href="#table_res_schema">rr.res_schema</a><br/>xpath:/tableset/schema/</td><td> Sets of tables related to resources.</td></tr>
+<tr class="data"><td><a href="#table_res_subject">rr.res_subject</a><br/>xpath:/content/</td><td> Topics, object types, or other descriptive keywords about the
 resource.</td></tr>
-<tr class="data even"><td>rr.res_table<br/>xpath:/(tableset/schema/table|table)</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
-<tr class="data"><td>rr.resource<br/>xpath:/</td><td> The resources, i.e., services, data collections, organizations, etc.,
+<tr class="data even"><td><a href="#table_res_table">rr.res_table</a><br/>xpath:/(tableset/schema/|)table/</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
+<tr class="data"><td><a href="#table_resource">rr.resource</a><br/>xpath:/</td><td> The resources, i.e., services, data collections, organizations, etc.,
 present in this registry.</td></tr>
-<tr class="data even"><td>rr.table_column<br/>xpath:/(tableset/schema/table|table)/column</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
-<tr class="data"><td>rr.validation<br/>xpath:(/capability|/)</td><td>Validation levels for resources and capabilities.</td></tr>
+<tr class="data even"><td><a href="#table_table_column">rr.table_column</a><br/>xpath:/(tableset/schema|)/table/column/</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="data"><td><a href="#table_validation">rr.validation</a><br/>xpath:/(capability|)</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -613,8 +653,8 @@ that there are no actual sky positions in the tables exposed.</dd>
 composed of one or more accessible datasets.  Use the
 <code>rr.relationship</code> table to find out services that allow
 access to the data (the <code>served_by</code> relation), and/or look for values for
-<code>vs:datacollection.accessurl</code> in
-<code>rr.res_detail</code>.</dd>
+<code>/accessURL</code> in
+<a href="#table_res_detail">rr.res_detail</a>.</dd>
 <dt>vstd:standard</dt>
 <dd>A description of a standard specification.</dd>
 </dl>
@@ -664,6 +704,9 @@ Clients are advised to query the <code>res_description</code> and
 using the the <code>ivo_hasword</code> function, and to use
 <code>ivo_hashlist_has</code> on <code>content_level</code>,
 <code>waveband</code>, and <code>rights</code>.</p>
+
+<p>The <code>region_of_regard</code> column must have its
+<code>TAP_SCHEMA.unit</code> set to <code>deg</code>.</p>
 
 </div> <!-- subsection table_resource -->
 
@@ -811,7 +854,7 @@ case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 
 <div class="section"><h3><a id="table_capability"><span class="secnum">7.4. </span>The capability Table</a></h3>
 
-<p>The capability table describes the capabilities of a resource; it only
+<p>The capability table describes a resource's modes of interaction; it only
 contains the members of the base type <code>vr:Capability</code>.
 Members of derived types are kept in the <code>res_detail</code> table
 (see <span class="xref"><a href="#table_res_detail">7.13</a></span>).</p>
@@ -825,7 +868,7 @@ enumerate the capabilities in their physical sequence per-resource.</p>
 <!-- GENERATED: maketable.sh rr.capability -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource.</td></tr>
-<tr class="data"><td>cap_type <br/>xpath:@type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
+<tr class="data"><td>cap_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
 <tr class="data even"><td>cap_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
 <tr class="data"><td>standard_id <br/>xpath:@standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
 </tbody></table></div>
@@ -894,7 +937,7 @@ with the SQL reserved word <code>TABLE</code>.</p>
 <p>VODataService 1.0 had a similar element that was a direct child of
 resource.  Ingestors should also accept such tables, as there are still
 numerous active VODataService 1.0 resources in the Registry at the time
-of writing.  This explains the double table xpath.</p>
+of writing (this is the reason for the alternative in the xpath).</p>
 
 <p>The table contains an integer-typed column <code>table_index</code> to
 disambiguate multiple tables on a single resource.  Operators are free to
@@ -910,7 +953,7 @@ schema—<code>table_index</code> MUST be unique within a resource).</p>
 <tr class="data"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
 <tr class="data even"><td>table_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
 <tr class="data"><td>table_type <br/>xpath:@type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
-<tr class="data even"><td>table_utype <br/>xpath:@utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
+<tr class="data even"><td>table_utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -942,7 +985,7 @@ a name clash with the SQL reserved word <code>COLUMN</code>.</p>
 
 <p>Since it is expected that queries for column properties will be
 fairly common in advanced queries, it is the column table that has the
-unprefixed versions of common member names (name, description, ucd,
+unprefixed versions of common member names (name,  ucd,
 utype, etc).</p>
 
 <p>The <code>flag</code> column contains a concatenation of all values
@@ -972,7 +1015,7 @@ to vs; hence, this column will contain one of NULL,
 <tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
 <tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value.</td></tr>
 <tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
-<tr class="data"><td>type_system <br/>xpath:dataType</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:TAPType.</td></tr>
+<tr class="data"><td>type_system <br/>xpath:dataType/@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:SimpleDataType, vs:VOTableType, and vs:TAPType.</td></tr>
 <tr class="data even"><td>flag <br/>xpath:flag</td><td>adql:VARCHAR(*)</td><td>Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
 <tr class="data"><td>column_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
 </tbody></table></div>
@@ -980,9 +1023,9 @@ to vs; hence, this column will contain one of NULL,
 
 <p>The pair <code>ivoid</code>, <code>table_index</code> should be an
 explicit foreign key into <code>res_table</code>.  It is recommended to
-maintain indexes on at least the <code>description</code>,
+maintain indexes on at least the <code>column_description</code>,
 <code>name</code>, <code>ucd</code>, and <code>utype</code> columns,
-where the index on <code>description</code> should ideally be able
+where the index on <code>column_description</code> should ideally be able
 to handle queries using <code>ivo_hasword</code>.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
@@ -1051,7 +1094,7 @@ interface.</dd>
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
 <tr class="data"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
-<tr class="data even"><td>intf_type <br/>xpath:@type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:WebBrowser, vs:ParamHTTP, etc).</td></tr>
+<tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:WebBrowser, vs:ParamHTTP, etc).</td></tr>
 <tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>A tag name the identifies the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
 <tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
 <tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>The type of HTTP request, either GET or POST.</td></tr>
@@ -1079,7 +1122,7 @@ is recommended to maintain an index on at least the
 <div class="section"><h3><a id="table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></h3>
 
 <p>The <code>intf_param</code> table keeps information on the parameters
-avalailable on interfaces.  It is therefore closely related to
+available on interfaces.  It is therefore closely related to
 <code>table_column</code>, but the differences between the two are
 significant enough to warrant a separation between the two tables.
 Since the names of common column attributes are used where applicable in
@@ -1110,7 +1153,8 @@ should be an explicit foreign key into <code>interface</code>.</p>
 
 <p>The remaining requirements and conventions are as per
 section <span class="xref"><a href="#table_table_column">7.7</a></span>
-where applicable.</p>
+where applicable, and <code>param_description</code> taking the role
+of <code>column_description</code>.</p>
 </div> <!-- subsection table_intf_param -->
 
 
@@ -1145,7 +1189,7 @@ between the two representations in the database ingestor.</p>
 <div class="section"><h3><a id="table_validation"><span class="secnum">7.11. </span>The validation Table</a></h3>
 
 <p>The <code>validation</code> subsumes the
-<code>vr:validationLevel</code> members of both <code>vr:Resource</code>
+<code>vr:validationLevel</code>-typed members of both <code>vr:Resource</code>
 and <code>vr:Capability</code>.</p>
 
 <p>If the <code>cap_index</code> column in <code>NULL</code> the
@@ -1153,19 +1197,22 @@ validation comprises the entire resource.  Otherwise, only the
 referenced capability has been validated.</p>
 
 <p>While it is recommended that harvesters only accept resource records
-from their originating registries, rows in the validation table could very
-well originate from third-party registries.  Hence, rows in
-<code>rr.validation</code> for the same resource might originate from
-completely different registries.  This can trigger potentially
-problematic behaviour when the original registry updates  its resource
-record in that naive implementations will lose all third-party
-validation rows; also, the semantics of validation results over updates
-of resources and/or resource records is not fully mapped to VOResource.
-Implementations are free to handle or ignore validation results as they
-see fit, and they may add validation results of their own.</p>
+from their originating registries, it is valuable to gather validation
+results from various sources.  Hence, havesters for the relational
+registry may choose to obtain validation data from the OAI-PMH endpoints
+of various registries by not harvesting just for the ivo_managed set and
+generate <code>rr.validation</code> rows from these records.  This can
+trigger potentially problematic behaviour when the original registry
+updates  its resource record in that naive implementations will lose all
+third-party validation rows; this may actually be the correct behaviour,
+since an update of the registry record might very well indicate
+validation-relevant changes in the underlying services.  Implementations
+are free to handle or ignore validation results as they see fit, and
+they may add validation results of their own.</p>
 
 <p>For convenicence, we repeat the definition of the validation
 levels from <cite>[<a href="#std:RM">std:RM</a>]</cite>:</p>
+<blockquote>
 <dl>
 <dt>0</dt>
 <dd>The resource has a description that is stored in a registry.  This
@@ -1205,6 +1252,8 @@ Consequently, the resource is expected to be operate well as part of a
 VO application or research study.</dd>
 
 </dl>
+</blockquote>
+
 <!-- GENERATED: maketable.sh rr.validation -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>validated_by <br/>xpath:validationLevel/@validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
@@ -1248,8 +1297,9 @@ addresses the entire resource).</p>
 <div class="section"><h3><a id="table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></h3>
 
 <p>The <code>res_detail</code> table is RegTAP's primary means for
-extensability as well as a fallback for less-used simple
-metadata.  Conceptually, it stores triples of resource entity references, utypes,
+extensibility as well as a fallback for less-used simple
+metadata.  Conceptually, it stores triples of resource entity
+references, resource xpaths,
 and values, where resource entities can be resource records themselves
 or capabilities.  Thus, metadata with values that are either
 string-valued or sets of strings can be represented in this table.</p>
@@ -1257,7 +1307,7 @@ string-valued or sets of strings can be represented in this table.</p>
 <p>As long as the metadata that needs to be represented in the
 relational registry for new VOResource extensions is simple enough, no changes to the schema defined
 here will be neccessary as these are introduced.  Instead, the extension itself simply defines
-new utypes to be added in <code>res_detail</code>.</p>
+new xpaths to be added in <code>res_detail</code>.</p>
 
 <p>Some complex metadata—<code>tr:languageFeature</code> or
 <code>vstd:key</code> being examples—cannot be kept in this table.
@@ -1265,25 +1315,25 @@ If a representation of such information in the relational registry is
 required, this standard will need to be changed.</p>
 
 <p>Appendix <span class="xref"><a href="#d_u_list">A</a></span> gives a list
-of utypes from the registry extensions
+of resource xpaths from the registry extensions
 that were recommendations at the time of writing.  
 Implementations MUST put all rows that can be generated from the resource 
-records processed for the utypes marked with an exclamation mark there.
-For the remaining utypes, rows should be provided if
+records processed for the resource xpaths marked with an exclamation mark there.
+For the remaining resource xpaths, rows should be provided if
 convenient; they mostly concern test queries and other curation-type
-information that, while unlikely to be useful to normal users, may be useful
-to clients to, e.g., ascertain the continued operation of services before
-exposing users to them.</p>
+information that, while unlikely to be useful to normal users, may be
+relevant to curation-type clients that, e.g., ascertain the continued 
+operation of services.</p>
 
 <p>Some detail values must be interpreted case-insensitively; this
 concerns, in particular, IVORNs like the TAP data model type.  For other
-rows -- the test queries are immediate examples --, changing the case
+rows—the test queries are immediate examples—, changing the case
 will likely break the data.  In order to avoid having to give and
 implement case normalization rules by detail utype, no case normalization 
 is done on detail values at all, and users and clients will have to use
 the <code>ivo_nocasematch</code> user defined function (see section
 <span class="xref"><a href="#adqludf">8</a></span>) when locating
-case-insensitive values.  For the detail utypes given in Appendix <span class="xref"><a href="#d_u_list">A</a></span>, this concerns all items with xpaths ending
+case-insensitive values.  For the resource xpaths given in Appendix <span class="xref"><a href="#d_u_list">A</a></span>, this concerns all items with xpaths ending
 in <code>@ivo-id</code>.</p>
 
 <p>Individual
@@ -1310,7 +1360,7 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <p>The <code>ivoid</code> column should be an explicit foreign key into
 <code>resource</code>.  It is recommended to maintain indexes on
 at least the columns
-<code>detail_utype</code> and <code>detail_value</code>, where the
+<code>detail_xpath</code> and <code>detail_value</code>, where the
 indices on <code>detail_value</code> should ideally work for both direct
 comparisons and searches using the <code>ivo_nocasematch</code>
 function.</p>
@@ -1328,7 +1378,7 @@ case-insensitively (e.g., all IVORNs).</p>
 <div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP#full</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1369,6 +1419,12 @@ mostly contributed as use cases by various members of the IVOA Registry
 working group.  They are intended as an aid in designing relational
 registry queries, in particular for users new to the data model.</p>
 
+<p>Where these queries locate access URLs of standard services, they
+contain <code>intf_type='std'</code> conditions; actual clients should
+include this, for hand-crafted queries it will usually be dispensable
+since most standard capabilities in real-world resources only have 
+one—standard—interface.</p>
+
 <dl>
 <dt>Find all TAP services; return their accessURLs</dt>
 <dd>
@@ -1377,6 +1433,7 @@ SELECT ivoid, access_url
 FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/tap'
+  AND intf_role='std'
 </pre>
 
 <p>Other <code>standard_id</code>s relevant include:</p>
@@ -1404,6 +1461,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
+  AND intf_type='std'
   AND (
     1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
@@ -1411,7 +1469,7 @@ WHERE standard_id='ivo://ivoa.net/std/sia'
 </pre>
 </dd>
 
-<dt>Find all SIA services that provides infrared images</dt>
+<dt>Find all SIA services that provide infrared images</dt>
 <dd>
 <pre class="samplequery">
 SELECT ivoid, access_url 
@@ -1419,12 +1477,13 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/sia'
+  AND intf_type='std'
   AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
 </dd>
 
 <dt>Find all searchable catalogs that provide a column containing
-redshift</dt>
+redshifts</dt>
 <dd>
 <pre class="samplequery">
 SELECT ivoid, access_url 
@@ -1432,6 +1491,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
+  AND intf_type='std'
   AND ucd='src.redshift'
 </pre>
 </dd>
@@ -1472,7 +1532,7 @@ builds conditions on values in <code>res_detail</code>:</p>
 SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
   SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
-  WHERE detail_utype='vg:registry.managedauthority' 
+  WHERE detail_xpath='/managedAuthority' 
     AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
 ON (resource.ivoid LIKE authpatterns.pat)
@@ -1490,8 +1550,9 @@ FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND detail_utype='tr:datamodeltype.ivoid'
-  AND detail_value='ivo://ivoa.net/std/regtap/vor'
+  AND intf_type='std'
+  AND detail_xpath='/dataModel/@ivo-id'
+  AND ivo_nocasematch(detail_value='ivo://ivoa.net/std/regtap#full')
 </pre>
 </dd>
 
@@ -1507,6 +1568,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
 WHERE standard_id='ivo://ivoa.net/std/tap'
+  AND intf_type='std'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 </pre>
@@ -1519,7 +1581,8 @@ SELECT access_url
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
-WHERE detail_utype='ssap:datasource' 
+WHERE detail_xpath='/capability/dataSource' 
+  AND intf_type='std'
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
@@ -1534,6 +1597,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
+  AND intf_type='std'
   AND ucd LIKE 'pos.parallax%'  
 </pre>
 
@@ -1573,18 +1637,18 @@ versions of existing VOResource extensions may amend this list.</p>
 
 <p>The xpaths are suffient for locating the respective metdata as per
 section <span class="xref"><a href="#vorutypes">5</a></span>.  With the explanations we
-give the conventional tags for the XML namespaces from which the item
+give the canonical prefixes for the XML namespaces from which the items
 originate, which is where further information can be found.</p>
 
 <dl id="resutypes">
 <dt>/accessURL (!)</dt> <dd>The URL that can be used to download the data contained in this data collection (vs).</dd>
 <dt>/capabililty/executionDuration/hard</dt> <dd>The hard run time limit, given in seconds (tr).</dd>
 <dt>/capability/complianceLevel</dt> <dd>The category indicating the level to which this instance complies with the SSA standard (ssap).</dd>
-<dt>/capability/creationType (!)</dt> <dd>The category that describes the process used to produce the dataset (ssap).</dd>
-<dt>/capability/dataModel/ (!)</dt> <dd>The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  </dd>
+<dt>/capability/creationType (!)</dt> <dd>The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).</dd>
+<dt>/capability/dataModel (!)</dt> <dd>The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  </dd>
 <dt>/capability/dataModel/@ivo-id (!)</dt> <dd>The IVORN of the data model supported by a TAP service (tr).</dd>
-<dt>/capability/dataSource (!)</dt> <dd>The category specifying where the data originally came from (ssap).</dd>
-<dt>/capability/defaultMaxRecords (!)</dt> <dd>The largest number of records that the service will return when the MAXREC parameter not specified in the query input (ssap).</dd>
+<dt>/capability/dataSource (!)</dt> <dd>The category specifying where the data originally came from; one of survey, pointed, custom, theory, artificial (ssap).</dd>
+<dt>/capability/defaultMaxRecords (!)</dt> <dd>The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).</dd>
 <dt>/capability/executionDuration/default</dt> <dd>The run time limit for newly-created jobs, given in seconds (tr).</dd>
 <dt>/capability/imageServiceType (!)</dt> <dd>The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).</dd>
 <dt>/capability/language/name (!)</dt> <dd>A short, human-readable name of a language understood by the TAP service (tr).</dd>
@@ -1606,25 +1670,25 @@ originate, which is where further information can be found.</p>
 <dt>/capability/outputLimit/default</dt> <dd>The maximal output size for newly-created jobs (tr).</dd>
 <dt>/capability/outputLimit/default/@unit</dt> <dd>The unit (rows/bytes) in which the service's default output limit is given (tr).</dd>
 <dt>/capability/outputLimit/hard</dt> <dd>The hard limit of a service's output size (tr).</dd>
-<dt>/capability/outputLimit/hard/@unit</dt> <dd>The unit of this services hard output limit (tr).</dd>
-<dt>/capability/retentionPeriod/default</dt> <dd>The default time between creation and removal on this service, given in seconds (tr).</dd>
+<dt>/capability/outputLimit/hard/@unit</dt> <dd>The unit of this service's hard output limit (tr).</dd>
+<dt>/capability/retentionPeriod/default</dt> <dd>The default time between job creation and removal on this service, given in seconds (tr).</dd>
 <dt>/capability/retentionPeriod/hard</dt> <dd>The hard limit for the retention time of jobs on this services (tr).</dd>
 <dt>/capability/supportedFrame (!)</dt> <dd>The STC name for a world coordinate system frame supported by this service (ssap).</dd>
 <dt>/capability/testQuery/catalog</dt> <dd>The catalog to query (cs).</dd>
 <dt>/capability/testQuery/dec</dt> <dd>Declination in a test query (cs)</dd>
 <dt>/capability/testQuery/extras</dt> <dd>Any extra (non-standard) parameters that must be provided (apart from what is part of base URL given by the accessURL element; cs, sia).</dd>
 <dt>/capability/testQuery/pos/lat</dt> <dd>Declination for a SIA test query (sia).</dd>
-<dt>/capability/testQuery/pos/lat</dt> <dd>The latitude (e.g. Declination) of the center of the search position in decimal degrees (ssap).</dd>
+<dt>/capability/testQuery/pos/lat</dt> <dd>The Declination of the center of the search position in decimal degrees (ssap).</dd>
 <dt>/capability/testQuery/pos/long</dt> <dd>RA for a SIA test query (sia).</dd>
-<dt>/capability/testQuery/pos/long</dt> <dd>The longitude (e.g. Right Ascension) of the center of the search position in decimal degrees (ssap).</dd>
-<dt>/capability/testQuery/pos/refframe</dt> <dd>the coordinate system reference frame name indicating the frame to assume for the given position. If not provided, ICRS is assumed (ssap).</dd>
-<dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument which is assumed to be set to "queryData" (ssap).</dd>
+<dt>/capability/testQuery/pos/long</dt> <dd>The Right Ascension of the center of the search position in decimal degrees (ssap).</dd>
+<dt>/capability/testQuery/pos/refframe</dt> <dd>A coordinate system reference frame name for a test query. If not provided, ICRS is assumed (ssap).</dd>
+<dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument (ssap).</dd>
 <dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs)</dd>
 <dt>/capability/testQuery/size</dt> <dd>The size of the search radius in an SSA search query (ssap).</dd>
 <dt>/capability/testQuery/size/lat</dt> <dd>Region size for a SIA test query in declination (sia).</dd>
 <dt>/capability/testQuery/size/long</dt> <dd>Region size for a SIA test query in RA (sia).</dd>
 <dt>/capability/testQuery/sr</dt> <dd>Search radius of a cone search service's test query (cs).</dd>
-<dt>/capability/testQuery/verb</dt> <dd>Verbosity of a cone search servie's test query (cs, sia).</dd>
+<dt>/capability/testQuery/verb</dt> <dd>Verbosity of a service's test query (cs, sia).</dd>
 <dt>/capability/uploadLimit/default</dt> <dd>An advisory size above which user agents should reconfirm uploads to this service (tr).</dd>
 <dt>/capability/uploadLimit/default/@unit</dt> <dd>The unit of the limit specified (tr).</dd>
 <dt>/capability/uploadLimit/hard</dt> <dd>Hard limit for the size of uploads on this service (tr).</dd>
@@ -1632,13 +1696,13 @@ originate, which is where further information can be found.</p>
 <dt>/capability/verbosity (!)</dt> <dd><code>true</code> if the service supports the VERB keyword; <code>false</code>, otherwise (cs).</dd>
 <dt>/coverage/footprint (!)</dt> <dd>A URL of a footprint service for retrieving precise and up-to-date description of coverage (vs).</dd>
 <dt>/coverage/footprint/@ivo-id (!)</dt> <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element (vs).</dd>
-<dt>/deprecated (!)</dt> <dd>A sentinel that all versions of the referenced standard are deprectaed. The value is a human-readable explanation for the designation.</dd>
+<dt>/deprecated (!)</dt> <dd>A sentinel that all versions of the referenced standard are deprectaed. The value is a human-readable explanation for the designation (vstd).</dd>
 <dt>/endorsedVersion (!)</dt> <dd>A version of a standard that is recommended for use (vstd).</dd>
 <dt>/facility (!)</dt> <dd>The observatory or facility used to collect the data contained or managed by this resource (vs).</dd>
 <dt>/format (!)</dt> <dd>The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).</dd>
 <dt>/format/@isMIMEType</dt> <dd>If <code>true</code>, then an accompanying <code>/format</code> item is a MIME Type. Within res_details, this does not work for services that give more than one format; since furthermore the literal of vs:Format allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).</dd>
-<dt>/instrument (!)</dt> <dd>The Instrument used to collect the data contained or managed by a resource (vr).</dd>
-<dt>/instrument/@ivoid (!)</dt> <dd>IVORN of the Instrument used to collect the data contained or managed by a resource (vr).</dd>
+<dt>/instrument (!)</dt> <dd>The instrument used to collect the data contained or managed by a resource (vr).</dd>
+<dt>/instrument/@ivoid (!)</dt> <dd>IVORN of the instrument used to collect the data contained or managed by a resource (vr).</dd>
 <dt>/managedAuthority (!)</dt> <dd>An authority identifier managed by a registry (vg).</dd>
 <dt>/managingOrg (!)</dt> <dd>The organization that manages or owns this authority (vr).</dd>
 <dt>/schema/@namespace (!)</dt> <dd>An identifier for a schema described by a standard (vstd).</dd>
@@ -1651,7 +1715,8 @@ cannot be represented here, and hence their values are not accessible
 in the relational registry. Similarly, complex TAPRegExt metadata on
 languages, user defined functions, and the like cannot be
 represented in this table.  Since these pieces of metadata do not seem
-relevant to resource discovery, a more complex model does not seem
+relevant to resource discovery and are geared towards other uses of the
+respective VOResource extensions, a more complex model does not seem
 warrented just so they can be exposed.</p>
 </div> <!-- section d_u_list -->
 
@@ -1659,14 +1724,12 @@ warrented just so they can be exposed.</p>
 
 <p>What follows are (non-normative) 
 implementations of the three user defined functions
-specificed in section <span class="xref"><a href="#adqludf">8</a></span> in the dialect
-the PostgreSQL server uses for SQL procedures, PL/pgSQL.  For more
-details on PostgreSQL, see, e.g., <cite>[<a href="#doc:Postgres92">doc:Postgres92</a>]</cite>.</p>
+specificed in section <span class="xref"><a href="#adqludf">8</a></span> in the SQL dialect
+of PostgreSQL (e.g., <cite>[<a href="#doc:Postgres92">doc:Postgres92</a>]</cite>).</p>
 
 <p>Note that PostgreSQL cannot use fulltext indices on the respective
-columns if the functions are defined in this way, for example since the
-expressons given here will evaluate differently from the boolean
-expression in the presence of NULL values.  While workarounds are
+columns if the functions are defined in this way for (fairly subtle)
+reasons connected with NULL value handling.  While workarounds are
 conceivable, they come with potentially unwelcome side effects, at least
 as of PostgreSQL 9.x.  It is therefore recommended to replace
 expressions involving the functions given here with simple boolean
@@ -1724,7 +1787,7 @@ by a user with reasonable effort.</p>
 
 <p>The <code>ivoid</code> field present in every table of this
 specification merits special consideration, on the one hand due to its
-frequency, but also since other IVOA identifiers present in the
+frequency, but also since other IVOA identifiers stored in the
 relational registry should probably be treated analoguously.
 Given that IVORNs in the 2013 data fields have a maximum
 length of roughly 100 characters, we propose that a maximum length of 
@@ -1746,11 +1809,11 @@ into account.</p>
         <td><code>VARCHAR(255)</code></td>
         <td>
           {all_tables}.ivoid<br/>
-          resource.footprint_ivoid<br/>
           res_role.role_ivoid<br/>
           capability.standard_id<br/>
           relationship.related_id<br/>
-          validation.validated_by
+          validation.validated_by<br/>
+          res_detail.detail_value for several values of detail_xpath
         </td>
       </tr>
     </tbody>
@@ -1809,6 +1872,11 @@ anything longer than a typical line might actually be useful.  As far as
 utypes are concerned, we expect those to shrink rather than grow with
 new standardization efforts.</p>
 
+<p>In this category, we also summarize our resource xpaths.  With the
+conventions laid down in this document, it seems unlikely that future
+extensions to VOResource will be so deeply nested that 128 characters
+will not be sufficient for their resource xpaths.</p>
+
 
 <div class="tablewrap">
   <table class="results" frame="all" rules="rows">
@@ -1821,7 +1889,7 @@ new standardization efforts.</p>
     </thead>
     <tbody>
       <tr>
-        <td>Utype(s)<br/>UCD(s)<br/>Units</td>
+        <td>Utype(s)<br/>UCD(s)<br/>Units<br/>xpaths</td>
         <td><code>VARCHAR(128)</code></td>
         <td>res_schema.schema_utype<br/>
           res_table.table_utype<br/>
@@ -1831,7 +1899,7 @@ new standardization efforts.</p>
           intf_param.ucd<br/>
           intf_param.unit<br/>
           intf_param.utype<br/>
-          res_detail.detail_utype
+          res_detail.detail_xpath
         </td>
       </tr>
     </tbody>
@@ -1906,12 +1974,13 @@ of powers of two are considered.</p>
       </tr>
       <tr>
         <td><code>VARCHAR(64)</code></td>
-        <td>resource.waveband</td>
+        <td>
+          resource.rights<br/>
+          resource.waveband</td>
       </tr>
       <tr>
         <td><code>VARCHAR(32)</code></td>
         <td>resource.res_type<br/>
-          resource.rights<br/>
           capability.cap_type<br/>
           res_table.table_type<br/>
           table_column.flag<br/>
@@ -1983,8 +2052,6 @@ the column designations for the TEXT datatype:</p>
         <td><code>VARCHAR(128)</code></td>
         <td>resource.version<br/>
           resource.source_value<br/>
-          resource.facility<br/>
-          resource.instrument
           res_subject.res_subject<br/>
         </td>
       </tr><tr>
@@ -2022,6 +2089,11 @@ the column designations for the TEXT datatype:</p>
 <div class="section"><h3><a id="changes-20130411"><span class="secnum">D.1. </span>Changes from WD-20130411</a></h3>
 
 <ul>
+  <li>Changed the data model name to
+  <code>ivo://ivoa.net/std/RegTAP#full</code> to allow using
+  StandardsRegExt keys as destinations.  Added a
+  <code>ivo://ivoa.net/std/RegTAP#partial</code> to allow specialized
+  registries.</li>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
   any more, they're fairly plain xpaths.  Consequently, 
   <code>res_detail.detail_utype</code> has been renamed 
@@ -2046,6 +2118,8 @@ the column designations for the TEXT datatype:</p>
   <li>Restored the foreign key from interface to capability.  Mandating
   ignoring interface elements from StandardsRegExt records really is the
   lesser evil.</li>
+  <li><code>resource.region_of_regard</code> now must have unit metadata
+  declared.</li>
 </ul>
 
 </div> <!-- subsection changes-20130411 -->
