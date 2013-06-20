@@ -494,12 +494,12 @@ which, in particular, means that they are case sensitive.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP#full</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
 capabilities (see <cite>std:TAPREGEXT</cite>).  Technically, this
 entails adding</p>
 
 <pre><![CDATA[
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#full"
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor"
   >Registry 1.0</dataModel>
 ]]></pre>
 
@@ -524,7 +524,7 @@ the full data content of the VO registry (like domain-specific
 registries or experimental systems) MUST NOT declare the above data
 model in order to not invite clients expecting the VO registry to send
 queries to it.  Such TAP services can use the
-<code>ivo://ivoa.net/std/RegTAP#partial</code> data model.  TAP services
+<code>ivo://ivoa.net/std/RegTAP</code> data model.  TAP services
 declaring that data MUST declare a service-for relationship to a data
 collection record explaining the actual data content.</p>
 
@@ -559,7 +559,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP#full</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
@@ -1398,7 +1398,7 @@ case-insensitively (e.g., all IVORNs).</p>
 <h2><a id="adqludf">ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP#full</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1574,7 +1574,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND intf_type='std'
   AND detail_xpath='/dataModel/@ivo-id'
-  AND ivo_nocasematch(detail_value='ivo://ivoa.net/std/regtap#full')
+  AND ivo_nocasematch(detail_value='ivo://ivoa.net/std/regtap/vor')
 </pre>
 </dd>
 
@@ -2114,16 +2114,13 @@ the column designations for the TEXT datatype:</p>
 <div class="section"><h3><a id="changes-20130411">Changes from WD-20130411</a></h3>
 
 <ul>
-  <li>Changed the data model name to
-  <code>ivo://ivoa.net/std/RegTAP#full</code> to allow using
-  StandardsRegExt keys as destinations.  Added a
-  <code>ivo://ivoa.net/std/RegTAP#partial</code> to allow specialized
-  registries.</li>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
   any more, they're fairly plain xpaths.  Consequently, 
   <code>res_detail.detail_utype</code> has been renamed 
   <code>res_detail.detail_xpath</code>.</li>
-  <li>Renamed some columns and the subject table to relieve the need of quoting in MS SQL Server (or, in the case or <code>use_param</code>, maintain consistency after the renaming):<br/>
+  <li>Renamed some columns and the subject table to relieve the need of quoting
+  in MS SQL Server (or, in the case or <code>use_param</code>, maintain
+  consistency after the renaming):<br/>
     <table>
       <tr><th>Old</th><th>New</th></tr>
       <tr><td>resource.version</td><td>resource.res_version</td></tr>
