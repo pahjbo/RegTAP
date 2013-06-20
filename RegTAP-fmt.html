@@ -491,12 +491,12 @@ which, in particular, means that they are case sensitive.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP#full</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
 capabilities (see <cite>[<a href="#std:TAPREGEXT">std:TAPREGEXT</a>]</cite>).  Technically, this
 entails adding</p>
 
 <pre>
-&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP#full"
+&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor"
   &gt;Registry 1.0&lt;/dataModel&gt;
 </pre>
 
@@ -519,10 +519,7 @@ harvesting.</p>
 the full data content of the VO registry (like domain-specific
 registries or experimental systems) MUST NOT declare the above data
 model in order to not invite clients expecting the VO registry to send
-queries to it.  Such TAP services can use the
-<code>ivo://ivoa.net/std/RegTAP#partial</code> data model.  TAP services
-declaring that data MUST declare a service-for relationship to a data
-collection record explaining the actual data content.</p>
+queries to it.</p>
 
 </div><!-- subsection registration -->
 
@@ -554,7 +551,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP#full</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="all" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
@@ -1378,7 +1375,7 @@ case-insensitively (e.g., all IVORNs).</p>
 <div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP#full</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language:</p>
 
 <dl>
@@ -1420,10 +1417,14 @@ working group.  They are intended as an aid in designing relational
 registry queries, in particular for users new to the data model.</p>
 
 <p>Where these queries locate access URLs of standard services, they
-contain <code>intf_type='std'</code> conditions; actual clients should
-include this, for hand-crafted queries it will usually be dispensable
-since most standard capabilities in real-world resources only have 
-one—standard—interface.</p>
+contain <code>intf_role='std'</code> conditions. Desktop clients should
+probably include this to weed out nonstandard interfaces on standard
+capabilities, which are rare but technically legal; on the other hand,
+there are fairly standards-compliant interfaces for which the operator
+neglected to set <code>role="std"</code>, and the respective services
+would be missed with such a condition. For hand-crafted queries it will
+usually be dispensable since most standard capabilities in real-world
+resources only have one—standard—interface.</p>
 
 <dl>
 <dt>Find all TAP services; return their accessURLs</dt>
@@ -1461,7 +1462,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_type='std'
+  AND intf_role='std'
   AND (
     1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
@@ -1477,7 +1478,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_type='std'
+  AND intf_role='std'
   AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
 </dd>
@@ -1491,7 +1492,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_type='std'
+  AND intf_role='std'
   AND ucd='src.redshift'
 </pre>
 </dd>
@@ -1550,9 +1551,9 @@ FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_type='std'
-  AND detail_xpath='/dataModel/@ivo-id'
-  AND ivo_nocasematch(detail_value='ivo://ivoa.net/std/regtap#full')
+  AND intf_role='std'
+  AND detail_xpath='/capability/dataModel/@ivo-id'
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap/vor')
 </pre>
 </dd>
 
@@ -1568,7 +1569,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_type='std'
+  AND intf_role='std'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 </pre>
@@ -1582,7 +1583,7 @@ FROM rr.res_detail
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
 WHERE detail_xpath='/capability/dataSource' 
-  AND intf_type='std'
+  AND intf_role='std'
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
@@ -1597,7 +1598,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_type='std'
+  AND intf_role='std'
   AND ucd LIKE 'pos.parallax%'  
 </pre>
 
@@ -2089,16 +2090,13 @@ the column designations for the TEXT datatype:</p>
 <div class="section"><h3><a id="changes-20130411"><span class="secnum">D.1. </span>Changes from WD-20130411</a></h3>
 
 <ul>
-  <li>Changed the data model name to
-  <code>ivo://ivoa.net/std/RegTAP#full</code> to allow using
-  StandardsRegExt keys as destinations.  Added a
-  <code>ivo://ivoa.net/std/RegTAP#partial</code> to allow specialized
-  registries.</li>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
   any more, they're fairly plain xpaths.  Consequently, 
   <code>res_detail.detail_utype</code> has been renamed 
   <code>res_detail.detail_xpath</code>.</li>
-  <li>Renamed some columns and the subject table to relieve the need of quoting in MS SQL Server (or, in the case or <code>use_param</code>, maintain consistency after the renaming):<br/>
+  <li>Renamed some columns and the subject table to relieve the need of quoting
+  in MS SQL Server (or, in the case or <code>use_param</code>, maintain
+  consistency after the renaming):<br/>
     <table>
       <tr><th>Old</th><th>New</th></tr>
       <tr><td>resource.version</td><td>resource.res_version</td></tr>

@@ -523,10 +523,7 @@ harvesting.</p>
 the full data content of the VO registry (like domain-specific
 registries or experimental systems) MUST NOT declare the above data
 model in order to not invite clients expecting the VO registry to send
-queries to it.  Such TAP services can use the
-<code>ivo://ivoa.net/std/RegTAP</code> data model.  TAP services
-declaring that data MUST declare a service-for relationship to a data
-collection record explaining the actual data content.</p>
+queries to it.</p>
 
 </div><!-- subsection registration -->
 
@@ -1442,10 +1439,14 @@ working group.  They are intended as an aid in designing relational
 registry queries, in particular for users new to the data model.</p>
 
 <p>Where these queries locate access URLs of standard services, they
-contain <code>intf_type='std'</code> conditions; actual clients should
-include this, for hand-crafted queries it will usually be dispensable
-since most standard capabilities in real-world resources only have 
-one&#8212;standard&#8212;interface.</p>
+contain <code>intf_role='std'</code> conditions. Desktop clients should
+probably include this to weed out nonstandard interfaces on standard
+capabilities, which are rare but technically legal; on the other hand,
+there are fairly standards-compliant interfaces for which the operator
+neglected to set <code>role="std"</code>, and the respective services
+would be missed with such a condition. For hand-crafted queries it will
+usually be dispensable since most standard capabilities in real-world
+resources only have one&#8212;standard&#8212;interface.</p>
 
 <dl>
 <dt>Find all TAP services; return their accessURLs</dt>
@@ -1483,7 +1484,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_type='std'
+  AND intf_role='std'
   AND (
     1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
@@ -1499,7 +1500,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_type='std'
+  AND intf_role='std'
   AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
 </dd>
@@ -1513,7 +1514,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_type='std'
+  AND intf_role='std'
   AND ucd='src.redshift'
 </pre>
 </dd>
@@ -1572,9 +1573,9 @@ FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_type='std'
-  AND detail_xpath='/dataModel/@ivo-id'
-  AND ivo_nocasematch(detail_value='ivo://ivoa.net/std/regtap/vor')
+  AND intf_role='std'
+  AND detail_xpath='/capability/dataModel/@ivo-id'
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap/vor')
 </pre>
 </dd>
 
@@ -1590,7 +1591,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_type='std'
+  AND intf_role='std'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 </pre>
@@ -1604,7 +1605,7 @@ FROM rr.res_detail
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
 WHERE detail_xpath='/capability/dataSource' 
-  AND intf_type='std'
+  AND intf_role='std'
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
@@ -1619,7 +1620,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_type='std'
+  AND intf_role='std'
   AND ucd LIKE 'pos.parallax%'  
 </pre>
 
