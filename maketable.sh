@@ -10,6 +10,6 @@ QUERY="SELECT column_name || ' join', utype,
 curl -s -FLANG=ADQL -FFORMAT=html -FQUERY="$QUERY" -FREQUEST=doQuery\
 	-F_ROWSPERDIV=100 $TAP_ACCESS_URL/sync |\
 sed -e 's/title="[^"]*"//g;
-	s/class="results"/& frame="all" rules="rows"/g;
+	s/class="results"/& frame="box" rules="rows"/g;
 	s/join<\/td><td[^>]*>/<br\/>/g;
 	s/Name<\/th><th[^>]*>/Name<br\/>/g;'

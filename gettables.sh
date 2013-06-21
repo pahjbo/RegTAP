@@ -16,7 +16,7 @@ TAP_ACCESS_URL=${TAP_ACCESS_URL:=http://localhost:8080/tap}
 curl -s -FLANG=ADQL -FFORMAT=html -FQUERY="$QUERY" -FREQUEST=doQuery\
 	$TAP_ACCESS_URL/sync|\
 sed -e 's/title="[^"]*"//g;
-	s/class="results"/& frame="all" rules="rows"/g;
+	s/class="results"/& frame="box" rules="rows"/g;
 	s/join<\/td><td[^>]*>/<br\/>/g;
 	s/Table<\/th><th[^>]*>/Table<br\/>/g;
 	s/rr\.\([a-z_]*\)/<a href="#table_\1">&<\/a>/g'
