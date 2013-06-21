@@ -1639,6 +1639,18 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 </pre>
 </dd>
 
+<dt>Get the capabilities of all services serving a specific resource 
+(typically, a data collection)</dt>
+<dd>
+<pre class="samplequery">
+SELECT * 
+FROM rr.relationship AS a
+  JOIN rr.capability AS b 
+    ON (a.related_id=b.ivoid) 
+WHERE relationship_type='served-by'
+</pre>
+</dd>
+
 </dl>
 
 
