@@ -225,6 +225,9 @@ queries on behalf of their users as well as complex queries formulated
 directly by advanced users, using the same TAP clients they employ to
 query astronomical data servers.</p>
 
+<p>The combination of the table set discussed here and a TAP server is
+referred to in this document as "RegTAP".</p>
+
 
 <div class="section">
 <h3><a id="rolewithinivoa">The Relational Registry within the VO Architecture</a></h3>
@@ -1430,7 +1433,7 @@ class="xref">appPGDefs</span>.</p>
 
 </div><!-- section adqludf -->
 
-<div class="section">
+<div class="section" vocab="ivo://ivoa.net/std/DALI#examples">
 <h2><a id="sample_queries">Common Queries to the Relational Registry</a></h2>
 
 <p>This section contains sample queries to the relational registry,
@@ -1444,14 +1447,21 @@ probably include this to weed out nonstandard interfaces on standard
 capabilities, which are rare but technically legal; on the other hand,
 there are fairly standards-compliant interfaces for which the operator
 neglected to set <code>role="std"</code>, and the respective services
-would be missed with such a condition. For hand-crafted queries it will
-usually be dispensable since most standard capabilities in real-world
-resources only have one&#8212;standard&#8212;interface.</p>
+would be missed with such a condition. Hand-crafted queries can probably
+typically  do without restraining role since most standard capabilities
+in real-world resources only have
+one&#8212;standard&#8212;interface.</p>
 
-<dl>
-<dt>Find all TAP services; return their accessURLs</dt>
-<dd>
-<pre class="querysample">
+<div class="query-example" typeof="example" id="example-accurlbytype">
+<h3 property="name">TAP accessURLs</h3>
+<p class="problem"><strong>Problem:</strong> Find all TAP services; return their accessURLs</p>
+
+<p>As the capability type is in <span
+property="table">rr.capability</span>, whereas the access URL can be
+found from <span property="table">rr.interface</span>, this requires
+a join:</p>
+
+<pre class="querysample" property="query">
 SELECT ivoid, access_url 
 FROM rr.capability
 NATURAL JOIN rr.interface
@@ -1459,7 +1469,7 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
   AND intf_role='std'
 </pre>
 
-<p>Other <code>standard_id</code>s relevant include:</p>
+<p>Other <code>standard_id</code>s relevant here include:</p>
 
 <ul>
 <li><code>ivo://ivoa.net/std/registry</code> for OAI-PMH services,</li>
@@ -1468,16 +1478,21 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
 and</li>
 <li><code>ivo://ivoa.net/std/ssa</code> for SSA services.</li>
 </ul>
-</dd>
+</div>
 
-<dt>Find all SIA services that might have spiral galaxies</dt>
-<dd><p>This is somewhat tricky since it is probably hard to image a part
+<div class="query-example" typeof="example" id="example-siaspiral">
+<h3 property="title">Image Services with Spirals</h3>
+<p class="problem"><strong>Problem:</strong> Find all SIA services that might have spiral
+galaxies</p>
+<p>This is somewhat tricky since it is probably hard to image a part
 of the sky guaranteed not to have some, possibly distant, spiral galaxy
 in it.  However, translating the intention into "find all SIA services
-that mention spiral in either the subject, the description, or the
-title", the query would become:</p>
+that mention spiral in either the subject (from <span
+property="table">rr.res_subject</span>), the description, or the
+title (which are in <span property="table">rr.resource</span>)", 
+the query would become:</p>
 
-<pre class="samplequery">
+<pre class="samplequery" property="query">
 SELECT ivoid, access_url 
 FROM rr.capability 
   NATURAL JOIN rr.resource
@@ -1490,11 +1505,22 @@ WHERE standard_id='ivo://ivoa.net/std/sia'
     OR 1=ivo_hasword(res_description, 'spiral')
     OR 1=ivo_hasword(res_title, 'spiral'))
 </pre>
-</dd>
+</div>
 
-<dt>Find all SIA services that provide infrared images</dt>
-<dd>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-siainfrared">
+<h3 property="name">Infrared Image Services</h3>
+<p class="problem"><strong>Problem:</strong> Find all SIA services that provide infrared
+images</p>
+
+<p>The waveband information in <span property="table">rr.resource</span>
+comes in hash-separated atoms (which can be
+radio, millimeter, infrared, optical, uv, euv, x-ray, or gamma-ray).
+For matching those, use the <code>ivo_hashlist_has</code> function as
+below.  The access URL and the service standard come from <span
+property="table">rr.interface</span> and <span
+property="table">rr.capability</span>, respectively.</p>
+
+<pre class="samplequery" property="query">
 SELECT ivoid, access_url 
 FROM rr.capability 
   NATURAL JOIN rr.resource
@@ -1503,12 +1529,19 @@ WHERE standard_id='ivo://ivoa.net/std/sia'
   AND intf_role='std'
   AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
-</dd>
+</div>
 
-<dt>Find all searchable catalogs that provide a column containing
-redshifts</dt>
-<dd>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-redshiftcol">
+<h3 property="name">Catalogs with Redshifts</h3>
+<p class="problem"><strong>Problem:</strong> Find all searchable catalogs (i.e., cone search
+services) that provide a column containing redshifts</p>
+
+<p>Metadata on columns exposed by a service are contained in <span
+property="table">rr.table_column</span>.  Again, this table can be
+naturally joined with <span property="table">rr.capability</span>
+and <span property="table">rr.interface</span>:</p>
+
+<pre class="samplequery" property="query">
 SELECT ivoid, access_url 
 FROM rr.capability 
   NATURAL JOIN rr.table_column
@@ -1517,20 +1550,44 @@ WHERE standard_id='ivo://ivoa.net/std/conesearch'
   AND intf_role='std'
   AND ucd='src.redshift'
 </pre>
-</dd>
 
-<dt>Find all the resources published by a certain authority</dt>
-<dd>
-<pre class="samplequery">
+<p>Sometimes you want to match a whole set of ucds.  Frequently the
+simple regular expressions of SQL will help, as in 
+<code>AND ucd LIKE 'pos.parallax%' </code>.  When that is not enough, 
+use boolean OR expressions </p>
+</div>
+
+<div class="query-example" typeof="example" id="example-authres">
+<h3 property="name">Names from an Authority</h3>
+<p class="problem"><strong>Problem:</strong> Find all the resources published by a certain
+authority</p>
+
+<p>An "authority" within the VO is something that hands out identifiers.
+You can tell what authority a record came from by looking at the "host
+part" of the IVO identifier, most naturally obtained from <span
+property="table">rr.resource</span>.  Since ADQL cannot actually parse
+URIs, we make do with simple string matching:</p>
+<pre class="samplequery" property="query">
 SELECT ivoid 
 FROM rr.resource
 WHERE ivoid LIKE 'ivo://org.gavo.dc%'
 </pre>
-</dd>
+</div>
 
-<dt>What registry records are there from a given publisher?</dt>
-<dd>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-frompublisher">
+<h3 property="name">Records Published by X</h3>
+<p class="problem"><strong>Problem:</strong> What registry records are there from a given
+publisher?</p>
+
+<p>This uses the <span property="table">rr.res_role</span> table both
+match names (in this case, a publisher that has "gavo" in its name) and
+to ascertain the named entity actually publishes the resource (rather
+than, e.g., just being the contact in case of trouble).  The result is a
+list of ivoids in this case.  You could join this with any other
+table in the relational registry to find out more about these
+services.</p>
+
+<pre class="samplequery" property="query">
 SELECT ivoid 
 FROM rr.res_role
 WHERE 1=ivo_nocasematch(role_name, '%gavo%')
@@ -1544,14 +1601,21 @@ FROM rr.res_role
 WHERE role_ivoid='ivo://ned.ipac/ned'
   AND base_role='publisher'
 </pre>
-</dd>
+</div>
 
 
-<dt>What registry records are there originating from registry X?</dt>
-<dd>
-<p>This is using the CDS registry as an example. Note how this query
-builds conditions on values in <code>res_detail</code>:</p>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-regoriginate">
+<h3 property="name">Records from Registry</h3>
+
+<p class="problem"><strong>Problem:</strong> What registry records are
+there originating from registry X?</p>
+
+<p>This is mainly a query interesting for registry maintainers.  Sill,
+it is a nice example for joining with the
+<span property="table">rr.res_detail</span> table, in this case to
+first get a list of all authorities managed by the CDS registry.</p>
+
+<pre class="samplequery" property="query">
 SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
   SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
@@ -1560,14 +1624,22 @@ RIGHT OUTER JOIN (
   AS authpatterns
 ON (resource.ivoid LIKE authpatterns.pat)
 </pre>
-</dd>
+</div>
 
 
 
-<dt><a id="example-findregtap"></a>Find all TAP endpoints offering 
-the relational registry</dt>
-<dd>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-findrectap">
+<h3 property="name">Locate RegTAP services</h3>
+<p class="problem"><strong>Problem:</strong> Find all TAP endpoints offering the relational
+registry</p>
+
+<p>This is the discovery query for RegTAP services themselves;  note how
+this combines <span property="table">rr.res_detail</span> pairs with
+<span property="table">rr.capability</span> and <span
+property="table">rr.interface</span> to locate the desired protocol
+endpoints.</p>
+
+<pre class="samplequery" property="query">
 SELECT access_url
 FROM rr.interface
 NATURAL JOIN rr.capability
@@ -1577,14 +1649,22 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap/vor')
 </pre>
-</dd>
+</div>
 
-<dt>Find all TAP services exposing a table with certain features</dt>
-<dd>
+<div class="query-example" typeof="example" id="example-glotsquery">
+<h3 property="name">TAP with Physics</h3>
+<p class="problem"><strong>Problem:</strong> Find all TAP services
+exposing a table with certain features</p>
+
 <p>"Certain features" could be "have some word in their description
-and having a column with a certain UCD".  Then, a query could look like
-this:</p>
-<pre class="samplequery">
+and having a column with a certain UCD".  Either way, this kind of query
+fairly invariably combines the usual <span
+property="table">rr.capability</span> and <span
+property="table">rr.interface</span> for service location with
+<span property="table">rr.table_column</span> for the column metadata
+and <span property="table">rr.res_table</span> for properties of tables.</p>
+
+<pre class="samplequery" property="query">
 SELECT ivoid, access_url, name, ucd, column_description
 FROM rr.capability 
   NATURAL JOIN rr.interface
@@ -1595,11 +1675,20 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 </pre>
-</dd>
+</div>
 
-<dt>Find all SSAP services that provide theoretical spectra</dt>
-<dd>
-<pre class="samplequery">
+
+<div class="query-example" typeof="example" id="example-theospectra">
+<h3 property="name">Theoretical SSA</h3>
+
+<p class="problem"><strong>Problem:</strong> Find all SSAP services that
+provide theoretical spectra</p>
+
+<p>The metadata required to solve this problem is found in the SSAP
+registry extension and is thus kept in <span
+property="table">rr.res_detail</span>:</p>
+
+<pre class="samplequery" property="query">
 SELECT access_url 
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
@@ -1609,49 +1698,50 @@ WHERE detail_xpath='/capability/dataSource'
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
-</dd>
+</div>
 
 
-<dt>Find all ConeSearch services that provide stellar distance information</dt>
-<dd>
-<pre class="samplequery">
-SELECT access_url, name, ucd, column_description
-FROM rr.capability 
-  NATURAL JOIN rr.interface
-  NATURAL JOIN rr.table_column
-WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_role='std'
-  AND ucd LIKE 'pos.parallax%'  
-</pre>
+<div class="query-example" typeof="example" id="example-brokenservice">
+<h3 property="name">Find Contact Persons</h3>
+<p class="problem"><strong>Problem:</strong> The service at
+http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap is down, who can
+fix it?</p>
 
-<p>Since there are multiple UCDs that might fit the concept of "stellar
-distance", one might need to give multiple UCDs here.</p>
-</dd>
+<p>This uses the <span property="table">rr.res_role</span> table and
+returns all information on it based on the IVORN of a service that in
+turn was obtained from <span property="table">rr.interface</span>.  You
+could restrict to the actual technical contact person by requiring
+<code>base_role='contact'</code>.</p>
 
-
-<dt>The service at http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap is down, who can fix it?</dt>
-<dd>
-<pre class="samplequery">
+<pre class="samplequery" property="query">
 SELECT DISTINCT base_role, role_name, email 
 FROM rr.res_role 
   NATURAL JOIN rr.interface 
 WHERE access_url='http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap'
 </pre>
-</dd>
+</div>
 
-<dt>Get the capabilities of all services serving a specific resource 
-(typically, a data collection)</dt>
-<dd>
-<pre class="samplequery">
+<div class="query-example" typeof="example" id="example-caprelation">
+<h3 property="name">Related Capabilities</h3>
+<p class="problem"><strong>Problem:</strong> Get the capabilities of all services serving a
+specific resource (typically, a data collection)</p>
+
+<p>In the VO, data providers can register pure data collections without
+access options (or just furnished with a link to a download).  They can
+then declare that their data can be "served-by" some other resource,
+typically a TAP service or some collective service for a number of
+instruments.  To locate the access options to the data itself, inspect
+<span property="table">rr.relationship</span> and use it to select records
+from <span property="table">rr.capability</span>.</p>
+
+<pre class="samplequery" property="query">
 SELECT * 
 FROM rr.relationship AS a
   JOIN rr.capability AS b 
     ON (a.related_id=b.ivoid) 
 WHERE relationship_type='served-by'
 </pre>
-</dd>
-
-</dl>
+</div>
 
 
 </div><!-- section sample_queries -->
