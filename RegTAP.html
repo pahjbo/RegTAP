@@ -129,8 +129,9 @@ Version <span class="docversion"/></h1>
       <dd><a href="http://www.ivoa.net/Documents/RegTAP/"
       shape="rect">http://www.ivoa.net/Documents/RegTAP/</a></dd>
     <dt>Previous versions:</dt>
-      <dd>None (The schema discussed here started its existence as part of
-      the Registry Interfaces Version 2 working draft)</dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130411/WD-RegTAP-1.0-20130411.html">http://www.ivoa.net/documents/RegTAP/20130411/WD-RegTAP-1.0-20130411.html</a></dd>
+      <dd>(Unpublished) Internal Working Draft 2013-03-05 (Volute rev. 2011)</dd>
+      <dd>(Unpublished) Internal Working Draft 2012-11-12 (Volute rev. 1864)</dd>
 <dt>Authors:</dt>
 <dd>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner" shape="rect">Markus Demleitner</a><br/>
@@ -481,10 +482,12 @@ OAI-PMH response, the xpath would be
 <code>*/*/*/oai:metadata/ri:Resource/capability/interface/accessURL/@use</code>.
 </p>
 
-<p>While clients MUST NOT rely on these utypes in either TAP_SCHEMA or
-the metadata delievered with TAP replies, service operators SHOULD
-provide them.  This is mainly intended to help human interpretation when
-the tables defined here have local extensions.</p>
+<p>While clients MUST NOT rely on these utypes in either TAP_SCHEMA or the
+metadata delievered with TAP replies, service operators SHOULD provide them, in
+particular when there are local extensions to the relational registry in their
+services.  Giving xpaths for extra columns and tables helps human
+interpretation of them at least when the defining schema files are
+available.</p>
 
 <p>Resource xpaths are also used in the res_details table (section <span
 class="xref">table_res_detail</span>).  These are normal xpaths
