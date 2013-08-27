@@ -602,7 +602,7 @@ present in this registry.</td></tr>
 itself.  Members of derived types are, in general, handled through 
 the <code>res_detail</code>
 table even if 1:1 (see <span class="xref">table_res_detail</span>).  The
-content_level, waveband, and rights members are 1:n but still appear
+content_level, content_type, waveband, and rights members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
 characters (#).  Use the <code>ivo_hashlist_has</code> ADQL extension
 function to check for the presence of a single value.  This convention
@@ -684,7 +684,7 @@ registry .</p>
 
 <!-- GENERATED: maketable.sh rr.resource -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data even"><td>res_type <br/>xpath:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
 <tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
 <tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
 <tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
@@ -714,10 +714,12 @@ Clients are advised to query the <code>res_description</code> and
 <code>res_title</code>  columns
 using the the <code>ivo_hasword</code> function, and to use
 <code>ivo_hashlist_has</code> on <code>content_level</code>,
+<code>content_type</code>,
 <code>waveband</code>, and <code>rights</code>.</p>
 
-<p>The <code>region_of_regard</code> column must have its
-<code>TAP_SCHEMA.unit</code> set to <code>deg</code>.</p>
+<p>The row for <code>region_of_regard</code> 
+<code>TAP_SCHEMA.tables</code> must have <code>deg</code> in its
+<code>unit</code> column.</p>
 
 </div> <!-- subsection table_resource -->
 
@@ -758,8 +760,8 @@ and <code>/curation/contributor</code> as cb):</p>
 <tr>
 <td>role_ivoid</td>
 <td>co/name/@ivo-id</td>
-<td>cp/@ivoid</td>
-<td>cc/name/@ivoid</td>
+<td>cp/@ivo-id</td>
+<td>cc/name/@ivo-id</td>
 <td>cb/@ivo-id</td>
 </tr>
 
@@ -798,9 +800,9 @@ and <code>/curation/contributor</code> as cb):</p>
 </table>
 
 <p>Not all columns are available for each role type in VOResource.  For
-example, contacts have no logo, and creators no telephone members.
-Unavailable metadata MUST be represented with NULL values in the
-corresponding columns.</p>
+example, contacts have no logo, and creators no telephone members.  Unavailable
+metadata (marked with N/A in the above table) MUST be represented with NULL
+values in the corresponding columns.</p>
 
 <p>Note that, due to current practice in the VO, it is not easy to
 predict what <code>role_name</code> will contain; it could be a single
@@ -915,7 +917,10 @@ the SQL reserved word <code>SCHEMA</code>.</p>
 to disambiguate multiple schema elements on a single resource.
 Operators are free to choose the actual values as convenient, although
 it is recommended to just enumerate the schema elements in their
-physical sequence per-resource.</p>
+physical sequence per-resource.  The xpath
+<code>count(preceding-sibling::schema)</code> gives one possible
+set of values for this column; it has not been prescribed via a utype,
+though, since other enumeration schemes are valid as well.</p>
 
 
 <!-- GENERATED: maketable.sh rr.res_schema -->
@@ -953,7 +958,7 @@ with the SQL reserved word <code>TABLE</code>.</p>
 <p>VODataService 1.0 had a similar element that was a direct child of
 resource.  Ingestors should also accept such tables, as there are still
 numerous active VODataService 1.0 resources in the Registry at the time
-of writing (this is the reason for the alternative in the xpath).</p>
+of writing (this is the reason for the alternative in the table xpath).</p>
 
 <p>The table contains an integer-typed column <code>table_index</code> to
 disambiguate multiple tables on a single resource.  Operators are free to
@@ -974,9 +979,9 @@ schema&#8212;<code>table_index</code> MUST be unique within a resource).</p>
 <!-- /GENERATED -->
 
 <p>This table should have an explicit primary key made up of
-<code>ivoid</code> and <code>table_index</code>.  The pair
-<code>ivoid</code>, <code>schema_index</code>  should be an explicit
-foreign key into <code>res_schema</code>.  It is recommended to
+<code>ivoid</code> and <code>table_index</code>.  The 
+<code>ivoid</code> column should be an explicit
+foreign key into <code>resource</code>.  It is recommended to
 maintain an index on at least the <code>table_description</code>
 column, ideally one suited for queries with <code>ivo_hasword</code>.</p>
 
@@ -1069,16 +1074,23 @@ not been used by registry record authors.  Since access URLs are
 probably the item most queried for, it seems warranted to save one
 indirection when querying for them.</p>
 
-<p>Should interfaces with multiple access URLs come into use in
-the future, we propose a slight denormalization by creating mulitple
-interfaces with one access URL each within the registry's ingestion
-logic.</p>
+<p>This specification deprecates the <code>maxOccurs="unbounded"</code>
+in the definition of <code>Interface</code>'s <code>accessURL</code>
+child in the XML schema
+<code>http://www.ivoa.net/xml/VOResource/v1.0</code>; in future versions
+of VOResource, implementations can expect this to be
+<code>maxOccurs="1"</code>.  Meanwhile, implementation behaviour in the
+presence of multiple access URLs in an interface is undefined.</p>
 
 <p>The table contains an
 integer-typed column <code>intf_index</code> to disambiguate multiple
 interfaces of one resource.  Operators are free to choose the
 actual values as convenient, although it is recommended to just
 enumerate the interfaces in their physical sequence per resource.</p>
+
+<p>The <code>query_type</code> column is a hash-joined list (analoguos
+to <code>waveband</code>, etc. in the resource table), as
+the XML schema allows listing up to two request methods.</p>
 
 <p>This table only contains interface elements from within capabilities.
 Interface elements in StandardsRegExt records are ignored in RegTAP,
@@ -1115,7 +1127,7 @@ interface.</dd>
 <tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:WebBrowser, vs:ParamHTTP, etc).</td></tr>
 <tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
 <tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
-<tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>The type of an HTTP request, either GET or POST.</td></tr>
+<tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (GET or POST) supported by the service.</td></tr>
 <tr class="data even"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
 <tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
 <tr class="data even"><td>url_use <br/>xpath:accessURL/@use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').</td></tr>
@@ -1133,7 +1145,9 @@ is recommended to maintain an index on at least the
 <p>The following columns MUST be lowercased during ingestion:
 <code>ivoid</code>, <code>intf_type</code>, <code>intf_role</code>,
 <code>std_version</code>, <code>query_type</code>,
-<code>result_type</code>, <code>url_use</code>.</p>
+<code>result_type</code>, <code>url_use</code>.
+Clients are adviced to query <code>query_type</code> using the the
+<code>ivo_hashlist_has</code> function.</p>
 
 </div> <!-- subsection table_interface -->
 
@@ -1151,14 +1165,14 @@ joined.</p>
 <!-- GENERATED: maketable.sh rr.intf_param -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the interface this parameter belongs to.</td></tr>
-<tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
+<tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the parameter.</td></tr>
 <tr class="data even"><td>ucd <br/>xpath:ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
-<tr class="data even"><td>utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
+<tr class="data even"><td>utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this parameter represents.</td></tr>
 <tr class="data"><td>std <br/>xpath:@std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr class="data even"><td>datatype <br/>xpath:dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="data even"><td>datatype <br/>xpath:dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the parameter.</td></tr>
 <tr class="data"><td>extended_schema <br/>xpath:dataType/@extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
+<tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this parameter contains.</td></tr>
 <tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
 <tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
 <tr class="data"><td>param_use <br/>xpath:@use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
@@ -1775,8 +1789,10 @@ give the canonical prefixes for the XML namespaces from which the items
 originate, which is where further information can be found.</p>
 
 <dl id="resutypes">
-<dt>/accessURL (!)</dt> <dd>The URL that can be used to download the data contained in this data collection (vs).</dd>
-<dt>/capabililty/executionDuration/hard</dt> <dd>The hard run time limit, given in seconds (tr).</dd>
+<dt>/accessURL (!)</dt> <dd>For data collection resources, this is
+the URL that can be used to download the data contained.  Do
+<em>not</em> enter accessURLs from interfaces into res_detail. (vs).</dd>
+<dt>/capability/executionDuration/hard</dt> <dd>The hard run time limit, given in seconds (tr).</dd>
 <dt>/capability/complianceLevel</dt> <dd>The category indicating the level to which this instance complies with the SSA standard (ssap).</dd>
 <dt>/capability/creationType (!)</dt> <dd>The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).</dd>
 <dt>/capability/dataModel (!)</dt> <dd>The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  </dd>
@@ -1812,7 +1828,6 @@ originate, which is where further information can be found.</p>
 <dt>/capability/testQuery/extras</dt> <dd>Any extra (non-standard) parameters that must be provided (apart from what is part of base URL given by the accessURL element; cs, sia).</dd>
 <dt>/capability/testQuery/pos/lat</dt> <dd>Declination for a SIA test query (sia).</dd>
 <dt>/capability/testQuery/pos/lat</dt> <dd>The Declination of the center of the search position in decimal degrees (ssap).</dd>
-<dt>/capability/testQuery/pos/long</dt> <dd>RA for a SIA test query (sia).</dd>
 <dt>/capability/testQuery/pos/long</dt> <dd>The Right Ascension of the center of the search position in decimal degrees (ssap).</dd>
 <dt>/capability/testQuery/pos/refframe</dt> <dd>A coordinate system reference frame name for a test query. If not provided, ICRS is assumed (ssap).</dd>
 <dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument (ssap).</dd>
@@ -1835,7 +1850,7 @@ originate, which is where further information can be found.</p>
 <dt>/format (!)</dt> <dd>The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).</dd>
 <dt>/format/@isMIMEType</dt> <dd>If <code>true</code>, then an accompanying <code>/format</code> item is a MIME Type. Within res_details, this does not work for services that give more than one format; since furthermore the literal of vs:Format allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).</dd>
 <dt>/instrument (!)</dt> <dd>The instrument used to collect the data contained or managed by a resource (vr).</dd>
-<dt>/instrument/@ivoid (!)</dt> <dd>IVORN of the instrument used to collect the data contained or managed by a resource (vr).</dd>
+<dt>/instrument/@ivo-id (!)</dt> <dd>IVORN of the instrument used to collect the data contained or managed by a resource (vr).</dd>
 <dt>/managedAuthority (!)</dt> <dd>An authority identifier managed by a registry (vg).</dd>
 <dt>/managingOrg (!)</dt> <dd>The organization that manages or owns this authority (vr).</dd>
 <dt>/schema/@namespace (!)</dt> <dd>An identifier for a schema described by a standard (vstd).</dd>
@@ -2251,6 +2266,9 @@ the column designations for the TEXT datatype:</p>
   lesser evil.</li>
   <li><code>resource.region_of_regard</code> now must have unit metadata
   declared.</li>
+  <li>We now explicitely deprecate multiple access urls per interface
+  and announce that single access URLs will be enforced in future
+  VOResource versions.</li>
 </ul>
 
 </div> <!-- subsection changes-20130411 -->
