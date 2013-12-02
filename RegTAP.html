@@ -425,7 +425,9 @@ specification:</p>
 <tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.1</td></tr>
 <tr><td>cs</td><td>http://www.ivoa.net/xml/ConeSearch/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
+<tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.1</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
+<tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.1</td></tr>
 <tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
 <tr><td>vstd</td><td>http://www.ivoa.net/xml/StandardsRegExt/v1.0</td></tr>
 <tr><td>xsi</td><td>http://www.w3.org/2001/XMLSchema-instance</td></tr>
@@ -1818,11 +1820,13 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/maxFileSize (!)</dt> <dd>The maximum image file size in bytes (sia).</dd>
 <dt>/capability/maxImageExtent/lat</dt> <dd>The maximum size in the latitude (Dec.) direction (sia).</dd>
 <dt>/capability/maxImageExtent/long</dt> <dd>The maximum size in the longitude (R.A.) direction (sia).</dd>
-<dt>/capability/maxImageSize/lat</dt> <dd>The image size in the latitdude (Dec.) direction in pixels (sia).</dd>
-<dt>/capability/maxImageSize/long</dt> <dd>The image size in the longitude (R.A.) direction in pixels (sia).</dd>
-<dt>/capability/maxQueryRegionSize/lat</dt> <dd>The maximum size in the latitdude (Dec.) direction (sia).</dd>
+<dt>/capability/maxImageSize/lat</dt> <dd>The image size in the latitude (Dec.) direction in pixels (sia-1.0).</dd>
+<dt>/capability/maxImageSize/long</dt> <dd>The image size in the longitude (R.A.) direction in pixels (sia-1.0).</dd>
+<dt>/capability/maxImageSize</dt> <dd>A measure of the largest image the service can produce given as the maximum number of pixels along the first or second axes. (sia).</dd>
+<dt>/capability/maxQueryRegionSize/lat</dt> <dd>The maximum size in the latitude (Dec.) direction (sia).</dd>
 <dt>/capability/maxQueryRegionSize/long</dt> <dd>The maximum size in the longitude (R.A.) direction (sia).</dd>
 <dt>/capability/maxRecords (!)</dt> <dd>The largest number of items (records, rows, etc) that the service will return (cs, sia, vg, ssap).</dd>
+<dt>/capability/maxSearchRadius (!)</dt> <dd>The largest search radius, in degrees, that will be accepted by the service without returning an error condition. Not providing this element or specifying a value of 180 indicates that there is no restriction. (ssap)</dd>
 <dt>/capability/maxSR (!)</dt> <dd>The largest search radius of a cone search service (cs).</dd>
 <dt>/capability/outputFormat/@ivo-id (!)</dt> <dd>An IVORN of an output format (tr).</dd>
 <dt>/capability/outputFormat/alias</dt> <dd>A short, mnemonic identifier for a service's output format (tr).</dd>
@@ -1841,6 +1845,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/testQuery/pos/lat</dt> <dd>The Declination of the center of the search position in decimal degrees (ssap).</dd>
 <dt>/capability/testQuery/pos/long</dt> <dd>The Right Ascension of the center of the search position in decimal degrees (ssap).</dd>
 <dt>/capability/testQuery/pos/refframe</dt> <dd>A coordinate system reference frame name for a test query. If not provided, ICRS is assumed (ssap).</dd>
+<dt>/capability/testQuery/pos/refframe</dt> <dd>The coordinate system reference frame name indicating the frame to assume for the given position (empty means ICRS; ssap).</dd>
 <dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument (ssap).</dd>
 <dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs)</dd>
 <dt>/capability/testQuery/size</dt> <dd>The size of the search radius in an SSA search query (ssap).</dd>
@@ -2268,6 +2273,12 @@ to RegTAP.</p>
 <div class="section"><h3><a id="changes-20130909">Changes from WD-20130909</a></h3>
 
 <ul>
+  <li>Updates for REC of SimpleDALRegExt, which contains versions 1.1 of
+  both the sia and the ssap XML schemas; thisi means there are now additional
+  namespace URIs to take into accound, as well as new res_detail xpaths
+  <code>/capability/maxSearchRadius</code>, 
+  <code>/capability/maxImageSize</code>, and 
+  <code>/testQuery/pos/refframe</code>.</li>
   <li>Reinstated makeutypes.xslt script; it's useful even with the new
   xpaths.</li>
 </ul>
