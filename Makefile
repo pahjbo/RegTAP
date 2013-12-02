@@ -36,9 +36,9 @@ STDNAME=RegTAP
 # The current version
 DOCVERSION=1.0
 # YYYYMMDD of the current release
-DOCDATE=20130909
+DOCDATE=20131211
 # One of NOTE, WD, PR, REC
-PUBSTATUS=WD
+PUBSTATUS=PR
 # Extra files that need to end up in the final package
 # (pngs are included automatically)
 PACKAGE_EXTRAS=
