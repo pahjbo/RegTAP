@@ -15,7 +15,7 @@ from gavo import votable
 from gavo.votable import tapquery
 
 
-TAP_ACCESS_URL = os.environ.get("TAP_ACCESS_URL", "http://localhost:8080/tap")
+TAP_ACCESS_URL = os.environ.get("TAP_ACCESS_URL", "http://dc.g-vo.org/tap")
 
 
 class ExampleChecker(StartEndHandler):

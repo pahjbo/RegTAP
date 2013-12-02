@@ -5,7 +5,7 @@ What's what?
 
 * RegTAP.html -- the document source code.  This is what you
   should be editing
-* makeutyles.xslt -- the XSLT to generate utypes from VOResource input; there's
+* makeutypes.xslt -- the XSLT to generate utypes from VOResource input; there's
 	a wrapper around this in the Makefile (this is included in the standard)
 * RegTAP-fmt.html -- the formatted document.  This will be
   overwritten, so DO NOT edit this.  To rebuild it, say "make" (provided

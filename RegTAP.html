@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- TODO: Enumerate all elements containing QNames (which thus require
+prefix mappings -->
+
+
 <!-- this source is meant to be processed with Paul Harrison's
 ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
 
@@ -138,7 +143,8 @@ Version <span class="docversion"/></h1>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison" shape="rect">Paul Harrison</a><br/>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro" shape="rect">Marco Molinaro</a><br/>
       <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene" shape="rect">Gretchen Greene</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower" shape="rect">Theresa Dower</a><br/>.
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower" shape="rect">Theresa Dower</a><br/>
+      Menelaos Perdikeas<br/>
 </dd>
 </dl>
 <hr/>
@@ -207,8 +213,8 @@ Interfaces specification <cite>std:RI1</cite> defined, among other aspects of
 the VO registry system, such an interface
 using SOAP and an early draft of an XML-based query language.</p>
 
-<p>This document provides an update to the query ("full registry") part
-of that specifiation, aimed towards
+<p>This document provides an update to the query ("searchable registry") part
+of that specifiation (chapter 2), aimed towards
 usage with current VO standards, in particular TAP <cite>std:TAP</cite>
 and ADQL <cite>std:ADQL</cite>.  It follows the model of ObsCore
 <cite>std:OBSCORE</cite> of defining a representation of a data model
@@ -388,7 +394,7 @@ to D144 in <cite>std:UNICODE</cite>.</p>
 values, most prominently in <code>xsi:type</code>.  The standard
 representation of these QNames in XML instance documents makes use of an
 abbreviated notation employing prefixes declared using the xmlns mechanism
-as discussed in <cite>std:XMLNS</cite>.  Within an ADQL database, no
+as discussed in <cite>std:XMLNS</cite>.  Within an ADQL-exposed database, no
 standard mechanism exists that could provide a similar mapping of URLs
 and abbreviations.  The correct way to handle this problem would thus be
 to have full QNames in the database (e.g.,
@@ -433,7 +439,7 @@ specification:</p>
 VOResource standard.  This means that it does not define a full data model,
 but rather something like a reasonably query-friendly view of a partial
 representation of one.  The link between the actual data model, i.e.,
-VOResource and extensions as defined by the XML Schema documents, and
+VOResource and its extensions as defined by the XML Schema documents, and
 the fields within this database schema, is provided by
 xpaths, which are here slightly abbreviated for both brevity and
 generality.</p>
@@ -494,7 +500,9 @@ available.</p>
 <p>Resource xpaths are also used in the res_details table (section <span
 class="xref">table_res_detail</span>).  These are normal xpaths
 (although again understood relative to the enclosing Resource element),
-which, in particular, means that they are case sensitive.</p>
+which, in particular, means that they are case sensitive.  On the other
+hand, to clients they are simply opaque strings, i.e., clients cannot
+just search for any xpaths into VOResource within res_details.</p>
 
 </div><!-- subsection vorutypes -->
 
@@ -516,7 +524,8 @@ entails adding</p>
 <p>as a child of the capability element with the type
 <code>{http://www.ivoa.net/xml/TAPRegExt/v1.0}TableAccess</code>.</p>
 
-<p>A client that knows the access URL of one relational
+<p>A client that knows the access URL of one TAP service containing 
+a relational
 registry can thus discover all other services exposing one. The <a
 href="#example-findregtap">"Find all TAP endpoints offering the
 relational registry"</a> example in section
@@ -540,12 +549,13 @@ queries to it.</p>
 <div class="section">
 <h2><a id="vortables">VOResource Tables</a></h2>
 
-<p>In the following table descriptions, the names of tables and
-columns are normative and MUST be used as given, and all-lowercase.  On
-the utypes, see section <span class="xref">vorutypes</span>.  All
-columns defined in this document MUST have a 1 in the <code>std</code>
-column of the <code>TAP_SCHEMA.table_columns</code> table.  Unless
-otherwise specified, all values of ucd and unit in
+<p>In the following table descriptions, the names of tables and columns
+are normative and MUST be used as given, and all-lowercase.  On the
+values in the <code>utype</code> columns within <code>TAP_SCHEMA</code>,
+see section <span class="xref">vorutypes</span>.  All columns defined in
+this document MUST have a 1 in the <code>std</code> column of the
+<code>TAP_SCHEMA.table_columns</code> table.  Unless otherwise
+specified, all values of ucd and unit in
 <code>TAP_SCHEMA.table_columns</code> are NULL for columns defined here.
 Descriptions are not normative (as given, they usually are taken from
 the schema files of VOResource and its extensions with slight
@@ -1354,8 +1364,8 @@ required, this standard will need to be changed.</p>
 <p>Appendix <span class="xref">d_u_list</span> gives a list
 of resource xpaths from the registry extensions
 that were recommendations at the time of writing.  
-For the resource xpaths marked with an exclamation mark in the following
-table, xpath/value pairs MUST be generated whenever the corresponding
+For the resource xpaths marked with an exclamation mark there,
+xpath/value pairs MUST be generated whenever the corresponding
 metadata items are given in a resource record.
 For the remaining resource xpaths, these pairs should be provided if
 convenient; they mostly concern test queries and other curation-type
@@ -1367,7 +1377,7 @@ operation of services.</p>
 concerns, in particular, IVORNs like the TAP data model type.  For other
 rows&#8212;the test queries are immediate examples&#8212;, changing the case
 will likely break the data.  In order to avoid having to give and
-implement case normalization rules by detail utype, no case normalization 
+implement case normalization rules by detail xpath, no case normalization 
 is done on detail values at all, and users and clients will have to use
 the <code>ivo_nocasematch</code> user defined function (see section
 <span class="xref">adqludf</span>) when locating
@@ -1419,7 +1429,8 @@ case-insensitively (e.g., all IVORNs).</p>
 
 <p>TAP Servers implementing the 
 <code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
-implement the following three functions in their ADQL 2.0 language:</p>
+implement the following three functions in their ADQL 2.0 language,
+with signatures written as recommended in <cite>std:TAPREGEXT</cite>:</p>
 
 <dl>
 <dt><code>ivo_nocasematch(value VARCHAR(*), pattern VARCHAR(*))->INTEGER</code></dt>
@@ -1857,10 +1868,12 @@ the URL that can be used to download the data contained.  Do
 
 </dl>
 
-<p>Note that StandardsRegExt's <code>status</code>  and <code>use</code>
-attributes and the <code>key</code> element 
-cannot be represented here, and hence their values are not accessible
-in the relational registry. Similarly, complex TAPRegExt metadata on
+<p>Note that the representation of StandardsRegExt's 
+<code>status</code>  and <code>use</code>
+attributes as well as its <code>key</code> would require sequences of
+complex objects, which is impossible using <code>res_detail</code>.
+Hence, the respective metadata is not queriable
+within the relational registry. Similarly, complex TAPRegExt metadata on
 languages, user defined functions, and the like cannot be
 represented in this table.  Since these pieces of metadata do not seem
 relevant to resource discovery and are geared towards other uses of the
@@ -1973,8 +1986,8 @@ into account.</p>
 straightforward implementation certainly is to use SQL timestamps.
 Other relational registry fields that straightforwardly map to common
 SQL types are those that require numeric values, viz.,
-<code>adql:REAL</code>, <code>adql:SMALLINT</code>, and
-<code>adql:INTEGER</code>.  The following table summarizes these:</p>
+<code>REAL</code>, <code>SMALLINT</code>, and
+<code>INTEGER</code>.  The following table summarizes these:</p>
 
 <div class="tablewrap">
   <table class="results" frame="box" rules="rows">
@@ -1988,12 +2001,12 @@ SQL types are those that require numeric values, viz.,
     <tbody>
       <tr>
         <td>floating point</td>
-        <td><code>adql:REAL</code></td>
+        <td><code>REAL</code></td>
         <td>resource.region_of_regard</td>
       </tr>
       <tr>
         <td>small integer</td>
-        <td><code>adql:SMALLINT</code></td>
+        <td><code>SMALLINT</code></td>
         <td>capability.cap_index<br />
           res_schema.schema_index<br />
           res_table.schema_index<br />
@@ -2233,7 +2246,32 @@ the column designations for the TEXT datatype:</p>
 
 </div>  <!-- section appBD - RDB impl.notes-->
 
+<div class="section"><h2><a id="appMkut">XSLT to enumerate RegTAP XPaths</a>
+</h2>
+
+<p>The (non-normative) following XSL stylesheet emits RegTAP xpaths as
+discussed in section <span class="xref">vorutypes</span> when applied to a
+VOResource extension.  Considering readability and limitations of XSLT, this is
+not fully general -- if VOResource extensions started to inherit from other
+extensions' subclasses of Resource, Capability, or Interface, this stylesheet
+will need to be extended.</p>
+
+<p>Still, it is a useful tool when evaluating how to map a given extension
+to RegTAP.</p>
+
+<div><?incxml href="../makeutypes.xslt" ?></div>
+
+</div> <!-- section appMkut -->
+
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
+
+<div class="section"><h3><a id="changes-20130909">Changes from WD-20130909</a></h3>
+
+<ul>
+  <li>Reinstated makeutypes.xslt script; it's useful even with the new
+  xpaths.</li>
+</ul>
+</div> <!-- section changes-20130909 -->
 
 <div class="section"><h3><a id="changes-20130411">Changes from WD-20130411</a></h3>
 
