@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- TODO: Enumerate all elements containing QNames (which thus require
-prefix mappings -->
-
-
 <!-- this source is meant to be processed with Paul Harrison's
 ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
 
@@ -236,9 +232,31 @@ queries on behalf of their users as well as complex queries formulated
 directly by advanced users, using the same TAP clients they employ to
 query astronomical data servers.</p>
 
-<p>The combination of the table set discussed here and a TAP server is
-referred to in this document as "RegTAP".</p>
+<div class="section">
+<h3><a id="terms">Terminology</a></h3>
 
+<p>The set of tables and their metadata specified here, together with
+the mapping from VOResource ("ingestion rules") is collectively
+called "relational registry schema" or relational registry for
+short.</p>
+
+<p>The specificiation additionally talks about how to embed these into TAP
+services, gives additional user defined functions, talks about
+discovering compliant services, etc.  Since all this is tightly coupled
+to the "relational registry" as defined above, we do not 
+introduce a new term for it.  Hence, the entire standard is now known as
+"IVOA relational registry schema".</p>
+
+<p>Historically, we intended to follow the ObsCore/ObsTAP model and
+talked about RegTAP.  As changing this acronym is technically painful
+(e.g., identifiers and URLs would need to be adapted), we kept it after
+the distinction between the schema and its mapping on the one hand and
+the its combination with a TAP service on the other went away.  This
+means that the official acronym for "IVOA relational registry schema" is
+RegTAP.  This aesthetic defect seems preferable to causing actual
+incompatibilities.</p>
+
+</div> <!-- subsection terms -->
 
 <div class="section">
 <h3><a id="rolewithinivoa">The Relational Registry within the VO Architecture</a></h3>
@@ -247,7 +265,7 @@ referred to in this document as "RegTAP".</p>
 <img src="RegTAP-arch.png" 
   alt="The Relational Registry within the VO architecture" align="middle"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
-diagram with the Relational Registry specification (RegTAP) and
+diagram with the Relational Registry specification (tagged with RegTAP) and
 the related standards marked up.</p>
 </div>
 
@@ -515,12 +533,12 @@ just search for any xpaths into VOResource within res_details.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP/vor</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP#v1.0</code> in the service's
 capabilities (see <cite>std:TAPREGEXT</cite>).  Technically, this
 entails adding</p>
 
 <pre><![CDATA[
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP/vor"
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#v1.0"
   >Registry 1.0</dataModel>
 ]]></pre>
 
@@ -579,7 +597,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP/vor</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP#v1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
@@ -1106,10 +1124,11 @@ to <code>waveband</code>, etc. in the resource table), as
 the XML schema allows listing up to two request methods.</p>
 
 <p>This table only contains interface elements from within capabilities.
-Interface elements in StandardsRegExt records are ignored in RegTAP,
+Interface elements in StandardsRegExt records are ignored in the
+relational registry,
 and they must not be inserted in this table, since doing so would disturb
 the foreign key from interface into capability.  In other words,
-RegTAP requires every interface to have a parent capability.</p>
+the relational registry requires every interface to have a parent capability.</p>
 
 <p>Analogous to <code>resource.res_type</code>, the
 <code>intf_type</code> column contains type names; VOResource extensions
@@ -1346,7 +1365,7 @@ addresses the entire resource).</p>
 <div class="section">
 <h3><a id="table_res_detail">The res_detail Table</a></h3>
 
-<p>The <code>res_detail</code> table is RegTAP's primary means for
+<p>The <code>res_detail</code> table is the relational registry's primary means for
 extensibility as well as a fallback for less-used simple
 metadata.  Conceptually, it stores triples of resource entity
 references, resource xpaths,
@@ -1431,7 +1450,7 @@ case-insensitively (e.g., all IVORNs).</p>
 <h2><a id="adqludf">ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP/vor</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP#v1.0</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language,
 with signatures written as recommended in <cite>std:TAPREGEXT</cite>:</p>
 
@@ -1681,7 +1700,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap/vor')
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#v1.0')
 </pre>
 </div>
 
@@ -2252,10 +2271,11 @@ the column designations for the TEXT datatype:</p>
 
 </div>  <!-- section appBD - RDB impl.notes-->
 
-<div class="section"><h2><a id="appMkut">XSLT to enumerate RegTAP XPaths</a>
+<div class="section"><h2><a id="appMkut">XSLT to enumerate Relational
+Registry XPaths</a>
 </h2>
 
-<p>The (non-normative) following XSL stylesheet emits RegTAP xpaths as
+<p>The (non-normative) following XSL stylesheet emits xpaths as
 discussed in section <span class="xref">vorutypes</span> when applied to a
 VOResource extension.  Considering readability and limitations of XSLT, this is
 not fully general -- if VOResource extensions started to inherit from other
@@ -2263,13 +2283,24 @@ extensions' subclasses of Resource, Capability, or Interface, this stylesheet
 will need to be extended.</p>
 
 <p>Still, it is a useful tool when evaluating how to map a given extension
-to RegTAP.</p>
+to the relational registry.</p>
 
 <div><?incxml href="../makeutypes.xslt" ?></div>
 
 </div> <!-- section appMkut -->
 
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
+
+<div class="section"><h3><a id="changes-20131203">Changes from
+WD-2013-1203</a></h3>
+
+<ul>
+  <li>Changed the data model identifier to
+  <code>ivo://ivoa.net/std/RegTAP#v1.0</code> to match usage with a
+  later standards record.</li>
+  <li>Clarification of nomenclature.</li>
+</ul>
+</div> <!-- section changes-20131203 -->
 
 <div class="section"><h3><a id="changes-20130909">Changes from WD-20130909</a></h3>
 
