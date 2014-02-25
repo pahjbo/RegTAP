@@ -7,7 +7,7 @@ QUERY="SELECT column_name || ' join', utype,
 	datatype, description 
 	FROM TAP_SCHEMA.columns WHERE table_name='$1' and std=1"
 
-curl -s -FLANG=ADQL -FFORMAT=html -FQUERY="$QUERY" -FREQUEST=doQuery\
+curl -s -FLANG=ADQL -FFORMAT=html -FQUERY="$QUERY" -FREQUEST=doQuery \
 	-F_ROWSPERDIV=100 $TAP_ACCESS_URL/sync |\
 sed -e 's/title="[^"]*"//g;
 	s/class="results"/& frame="box" rules="rows"/g;

@@ -29,14 +29,15 @@ class ExampleChecker(StartEndHandler):
 			job = votable.ADQLSyncJob(TAP_ACCESS_URL, content)
 			data, metadata = votable.load(job.run().openResult())
 			if not data:
-				print "(Example returned no records: %s"%self.lastDT
+				print "(Example returned no records: '%s')"%self.lastDT
 		except tapquery.WrongStatus:
 			print "************ Example went bad"
 			print "Last title:", self.lastDT
 			print "Error message:", job.getErrorFromServer()[:1000]
 	
-	def _end_dt(self, name, attrs, content):
-		self.lastDT = content.replace("\n", " ")
+	def _start_div(self, name, attrs):
+		if attrs.get("class")=="query-example":
+			self.lastDT = attrs["id"]
 
 
 def main():

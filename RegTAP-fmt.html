@@ -4,7 +4,7 @@ ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head profile="http://www.w3.org/1999/xhtml/vocab">
-<title>IVOA Registry Relational Schema IVOA Working Draft  3 December 2013</title>
+<title>IVOA Registry Relational Schema IVOA Proposed Recommendation  18 February 2014</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 <meta name="author" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
 <meta name="maintainedBy" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
@@ -65,7 +65,7 @@ tr.even {
 }
 
 </style>
-<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_wd.css"/></head>
+<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_pr.css"/></head>
 <body>
 <div class="head">
 <div id="titlehead" style="position:relative;height:170px;width: 500px">
@@ -118,12 +118,12 @@ tr.even {
 
 <h1>IVOA Registry Relational Schema<br/>
 Version <span class="docversion">1.0</span></h1>
-<h2 class="subtitle">IVOA Working Draft  3 December 2013</h2>
+<h2 class="subtitle">IVOA Proposed Recommendation  18 February 2014</h2>
 
 <dl><dt>Working Group:</dt><dd>
     <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/IvoaResReg" shape="rect">Registry WG</a></dd>
 <dt>This version:</dt>
-<dd><a class="currentlink" href="http://www.ivoa.net/Documents/RegTAP-20131203">http://www.ivoa.net/Documents/RegTAP-20131203</a></dd>
+<dd><a class="currentlink" href="http://www.ivoa.net/Documents/RegTAP-20140218">http://www.ivoa.net/Documents/RegTAP-20140218</a></dd>
 <dt><b>Latest version:</b></dt>
       <dd><a href="http://www.ivoa.net/Documents/RegTAP/" shape="rect">http://www.ivoa.net/Documents/RegTAP/</a></dd>
     <dt>Previous versions:</dt>
@@ -158,12 +158,11 @@ towards allowing easy authoring of queries.</p>
 <h2>Status of this Document</h2>
 
 <p id="statusdecl"><em>
-                    This is an IVOA Working Draft for review by IVOA members
-                    and other interested parties.  It is a draft document and
-                    may be updated, replaced, or obsoleted by other documents
-                    at any time. It is inappropriate to use IVOA Working Drafts
-                    as reference materials or to cite them as other than "work
-                    in progress".
+                    This is an IVOA Proposed Recommendation made available for
+                    public review. It is appropriate to reference this document
+                    only as a recommended standard that is under review and
+                    which may be changed before it is accepted as a full
+                    Recommendation.
                 </em></p>
 
 <p><em>A list of</em> <span style="background: transparent">
@@ -184,7 +183,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20131203"><span class="secnum">E.1. </span>Changes from WD-2013-1203</a></li><li><a href="#changes-20130909"><span class="secnum">E.2. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.3. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.4. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.5. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140218"><span class="secnum">E.1. </span>Changes from PR-20140218</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -527,12 +526,12 @@ just search for any xpaths into VOResource within res_details.</p>
 <p>The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model <code>Registry 1.0</code> with the IVORN
-<code>ivo://ivoa.net/std/RegTAP#v1.0</code> in the service's
+<code>ivo://ivoa.net/std/RegTAP#1.0</code> in the service's
 capabilities (see <cite>[<a href="#std:TAPREGEXT">std:TAPREGEXT</a>]</cite>).  Technically, this
 entails adding</p>
 
 <pre>
-&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP#v1.0"
+&lt;dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.0"
   &gt;Registry 1.0&lt;/dataModel&gt;
 </pre>
 
@@ -589,7 +588,7 @@ relationships.  Finally, lowercasing requirements
 
 
 <p>The following tables make up the data model
-<code>ivo://ivoa.net/std/RegTAP#v1.0</code>:</p>
+<code>ivo://ivoa.net/std/RegTAP#1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
@@ -705,23 +704,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="data even"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
-<tr class="data even"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
-<tr class="data"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
-<tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="data"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr class="data even"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
-<tr class="data"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data even"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data even"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
+<tr class="data"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data even"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
+<tr class="data even"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
+<tr class="data"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data even"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="data even"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="data"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
+<tr class="data even"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
+<tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -945,7 +944,7 @@ though, since other enumeration schemes are valid as well.</p>
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
 <tr class="data"><td>schema_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
-<tr class="data even"><td>schemaname <br/>xpath:name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
+<tr class="data even"><td>schema_name <br/>xpath:name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
 <tr class="data"><td>schema_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
 <tr class="data even"><td>schema_utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
 </tbody></table></div>
@@ -1427,7 +1426,7 @@ case-insensitively (e.g., all IVORNs).</p>
 <div class="section"><h2><a id="adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></h2>
 
 <p>TAP Servers implementing the 
-<code>ivo://ivoa.net/std/RegTAP#v1.0</code> data model MUST 
+<code>ivo://ivoa.net/std/RegTAP#1.0</code> data model MUST 
 implement the following three functions in their ADQL 2.0 language,
 with signatures written as recommended in <cite>[<a href="#std:TAPREGEXT">std:TAPREGEXT</a>]</cite>:</p>
 
@@ -1668,7 +1667,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#v1.0')
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.0')
 </pre>
 </div>
 
@@ -2297,17 +2296,26 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 
 <div class="section"><h2><a id="changes"><span class="secnum">E. </span>Changes from Previous Versions</a></h2>
 
-<div class="section"><h3><a id="changes-20131203"><span class="secnum">E.1. </span>Changes from WD-2013-1203</a></h3>
+<div class="section"><h3><a id="changes-20140218"><span class="secnum">E.1. </span>Changes from PR-20140218</a></h3>
+
+<ul>
+<li>Fixed a typo in a column name: schema.schemaname is now schema.schema_name
+as in the prose.</li>
+</ul>
+
+</div> <!-- changes-20140218 -->
+
+<div class="section"><h3><a id="changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></h3>
 
 <ul>
   <li>Changed the data model identifier to
-  <code>ivo://ivoa.net/std/RegTAP#v1.0</code> to match usage with a
+  <code>ivo://ivoa.net/std/RegTAP#1.0</code> to match usage with a
   later standards record.</li>
   <li>Clarification of nomenclature.</li>
 </ul>
 </div> <!-- section changes-20131203 -->
 
-<div class="section"><h3><a id="changes-20130909"><span class="secnum">E.2. </span>Changes from WD-20130909</a></h3>
+<div class="section"><h3><a id="changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></h3>
 
 <ul>
   <li>Updates for REC of SimpleDALRegExt, which contains versions 1.1 of
@@ -2321,7 +2329,7 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 </ul>
 </div> <!-- section changes-20130909 -->
 
-<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.3. </span>Changes from WD-20130411</a></h3>
+<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></h3>
 
 <ul>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
@@ -2360,7 +2368,7 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 </div> <!-- subsection changes-20130411 -->
 
 
-<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.4. </span>Changes from WD-20130305</a></h3>
+<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.5. </span>Changes from WD-20130305</a></h3>
 
 <ul>
 <li>intf_index is now required to be unique within a resource, not a
@@ -2374,7 +2382,7 @@ it was too long to be included in the running text.</li>
 </ul>
 </div>
 
-<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.5. </span>Changes from WD-20121112</a></h3>
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.6. </span>Changes from WD-20121112</a></h3>
 
 <ul>
 <li>Adapted all utypes to better match future VO-DML utypes.</li>
