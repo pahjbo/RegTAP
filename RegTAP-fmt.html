@@ -183,7 +183,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140218"><span class="secnum">E.1. </span>Changes from PR-20140218</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20131203"><span class="secnum">E.1. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.2. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.3. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.4. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.5. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -1839,6 +1839,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/uploadLimit/default/@unit</dt> <dd>The unit of the limit specified (tr).</dd>
 <dt>/capability/uploadLimit/hard</dt> <dd>Hard limit for the size of uploads on this service (tr).</dd>
 <dt>/capability/uploadLimit/hard/@unit</dt> <dd>The unit of the limit specified (tr).</dd>
+<dt>/capability/uploadMethod/@ivo-id</dt> <dd>The IVORN of an upload method supported by the service (tr).</dd>
 <dt>/capability/verbosity (!)</dt> <dd><code>true</code> if the service supports the VERB keyword; <code>false</code>, otherwise (cs).</dd>
 <dt>/coverage/footprint (!)</dt> <dd>A URL of a footprint service for retrieving precise and up-to-date description of coverage (vs).</dd>
 <dt>/coverage/footprint/@ivo-id (!)</dt> <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element (vs).</dd>
@@ -2296,26 +2297,23 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 
 <div class="section"><h2><a id="changes"><span class="secnum">E. </span>Changes from Previous Versions</a></h2>
 
-<div class="section"><h3><a id="changes-20140218"><span class="secnum">E.1. </span>Changes from PR-20140218</a></h3>
-
-<ul>
-<li>Fixed a typo in a column name: schema.schemaname is now schema.schema_name
-as in the prose.</li>
-</ul>
-
-</div> <!-- changes-20140218 -->
-
-<div class="section"><h3><a id="changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></h3>
+<div class="section"><h3><a id="changes-20131203"><span class="secnum">E.1. </span>Changes from WD-20131203</a></h3>
 
 <ul>
   <li>Changed the data model identifier to
   <code>ivo://ivoa.net/std/RegTAP#1.0</code> to match usage with a
   later standards record.</li>
+  <li>Fixed a typo in a column name: schema.schemaname is now schema.schema_name
+  as in the prose.</li>
+  <li>Recovered 
+  <code>/capability/uploadMethod/@ivo-id</code> res_detail keys that was
+  accidentally lost in a previous version.</li>
+
   <li>Clarification of nomenclature.</li>
 </ul>
 </div> <!-- section changes-20131203 -->
 
-<div class="section"><h3><a id="changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></h3>
+<div class="section"><h3><a id="changes-20130909"><span class="secnum">E.2. </span>Changes from WD-20130909</a></h3>
 
 <ul>
   <li>Updates for REC of SimpleDALRegExt, which contains versions 1.1 of
@@ -2329,7 +2327,7 @@ as in the prose.</li>
 </ul>
 </div> <!-- section changes-20130909 -->
 
-<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></h3>
+<div class="section"><h3><a id="changes-20130411"><span class="secnum">E.3. </span>Changes from WD-20130411</a></h3>
 
 <ul>
   <li>The final utype reform: most of our ex-utype strings aren't called utypes
@@ -2368,7 +2366,7 @@ as in the prose.</li>
 </div> <!-- subsection changes-20130411 -->
 
 
-<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.5. </span>Changes from WD-20130305</a></h3>
+<div class="section"><h3><a id="changes-20130305" shape="rect"><span class="secnum">E.4. </span>Changes from WD-20130305</a></h3>
 
 <ul>
 <li>intf_index is now required to be unique within a resource, not a
@@ -2382,7 +2380,7 @@ it was too long to be included in the running text.</li>
 </ul>
 </div>
 
-<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.6. </span>Changes from WD-20121112</a></h3>
+<div class="section"><h3><a id="changes-20121112" shape="rect"><span class="secnum">E.5. </span>Changes from WD-20121112</a></h3>
 
 <ul>
 <li>Adapted all utypes to better match future VO-DML utypes.</li>
