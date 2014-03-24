@@ -166,6 +166,11 @@ in explicit call-templates in the the template for root below. -->
 	</call-template>
 
   <call-template name="walk-for-type">
+		<with-param name="base-type" select="'Service'"/>
+		<with-param name="parent-path" select="''"/>
+	</call-template>
+
+  <call-template name="walk-for-type">
 		<with-param name="base-type" select="'Capability'"/>
 		<with-param name="parent-path" select="'/capability'"/>
 	</call-template>

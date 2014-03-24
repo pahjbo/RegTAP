@@ -127,11 +127,12 @@ Version <span class="docversion"/></h1>
 <dt>This version:</dt>
 <dd><a href="" class="currentlink">filled in automatically</a></dd>
 <dt><b>Latest version:</b></dt>
-      <dd><a href="http://www.ivoa.net/Documents/RegTAP/"
-      shape="rect">http://www.ivoa.net/Documents/RegTAP/</a></dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/"
+      shape="rect">http://www.ivoa.net/documents/RegTAP/</a></dd>
     <dt>Previous versions:</dt>
-      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130411/WD-RegTAP-1.0-20130909.html">http://www.ivoa.net/documents/RegTAP/20130909/WD-RegTAP-1.0-20130909.html</a></dd>
-      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130411/WD-RegTAP-1.0-20130411.html">http://www.ivoa.net/documents/RegTAP/20130411/WD-RegTAP-1.0-20130411.html</a></dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20131203">http://www.ivoa.net/documents/RegTAP/20131203</a></dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130909">http://www.ivoa.net/documents/RegTAP/20130909</a></dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130411">http://www.ivoa.net/documents/RegTAP/20130411</a></dd>
       <dd>(Unpublished) Internal Working Draft 2013-03-05 (Volute rev. 2011)</dd>
       <dd>(Unpublished) Internal Working Draft 2012-11-12 (Volute rev. 1864)</dd>
 <dt>Authors:</dt>
@@ -1886,10 +1887,11 @@ the URL that can be used to download the data contained.  Do
 <dt>/facility (!)</dt> <dd>The observatory or facility used to collect the data contained or managed by this resource (vs).</dd>
 <dt>/format (!)</dt> <dd>The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).</dd>
 <dt>/format/@isMIMEType</dt> <dd>If <code>true</code>, then an accompanying <code>/format</code> item is a MIME Type. Within res_details, this does not work for services that give more than one format; since furthermore the literal of vs:Format allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).</dd>
+<dt>/full</dt> <dd>If true, the registry attempts to collect all resource records known to the IVOA (vg).</dd>
 <dt>/instrument (!)</dt> <dd>The instrument used to collect the data contained or managed by a resource (vr).</dd>
 <dt>/instrument/@ivo-id (!)</dt> <dd>IVORN of the instrument used to collect the data contained or managed by a resource (vr).</dd>
 <dt>/managedAuthority (!)</dt> <dd>An authority identifier managed by a registry (vg).</dd>
-<dt>/managingOrg (!)</dt> <dd>The organization that manages or owns this authority (vr).</dd>
+<dt>/managingOrg (!)</dt> <dd>The organization that manages or owns this authority (vg).</dd>
 <dt>/schema/@namespace (!)</dt> <dd>An identifier for a schema described by a standard (vstd).</dd>
 
 </dl>
@@ -2291,6 +2293,15 @@ to the relational registry.</p>
 </div> <!-- section appMkut -->
 
 <div class="section"><h2><a id="changes">Changes from Previous Versions</a></h2>
+
+<div class="section"><h3><a id="changes-20140227">Changes from
+PR-20140227</a></h3>
+
+<ul>
+  <li>Added a <code>/full</code> details xpath from VORegistry (this had
+  been forgotten due to limitations in the makeutypes stylesheet).</li>
+</ul>
+</div> <!-- section changes-20140227 -->
 
 <div class="section"><h3><a id="changes-20131203">Changes from
 WD-20131203</a></h3>
