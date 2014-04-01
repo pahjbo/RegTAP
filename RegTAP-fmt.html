@@ -248,14 +248,14 @@ services, gives additional user defined functions, talks about
 discovering compliant services, etc.  Since all this is tightly coupled
 to the "relational registry" as defined above, we do not 
 introduce a new term for it.  Hence, the entire standard is now known as
-"IVOA relational registry schema".</p>
+"IVOA registry relational schema".</p>
 
 <p>Historically, we intended to follow the ObsCore/ObsTAP model and
 talked about RegTAP.  As changing this acronym is technically painful
 (e.g., identifiers and URLs would need to be adapted), we kept it after
 the distinction between the schema and its mapping on the one hand and
 the its combination with a TAP service on the other went away.  This
-means that the official acronym for "IVOA relational registry schema" is
+means that the official acronym for "IVOA registry relational schema" is
 RegTAP.  This aesthetic defect seems preferable to causing actual
 incompatibilities.</p>
 
@@ -266,7 +266,7 @@ incompatibilities.</p>
 <div class="figure">
 <img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" align="middle"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
-diagram with the Relational Registry specification (tagged with RegTAP) and
+diagram with the IVOA Registry Relational Specification (tagged with "Relational Registry") and
 the related standards marked up.</p>
 </div>
 
@@ -433,19 +433,19 @@ a table of XML namespaces and prefixes for namespaces relevant to this
 specification:</p>
 
 <table>
+<tr><td>cs</td><td>http://www.ivoa.net/xml/ConeSearch/v1.0</td></tr>
+<tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
 <tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
 <tr><td>ri</td><td>http://www.ivoa.net/xml/RegistryInterface/v1.0</td></tr>
-<tr><td>vg</td><td>http://www.ivoa.net/xml/VORegistry/v1.0</td></tr>
-<tr><td>vr</td><td>http://www.ivoa.net/xml/VOResource/v1.0</td></tr>
-<tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
-<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.0</td></tr>
-<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.1</td></tr>
-<tr><td>cs</td><td>http://www.ivoa.net/xml/ConeSearch/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.1</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.1</td></tr>
 <tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
+<tr><td>vg</td><td>http://www.ivoa.net/xml/VORegistry/v1.0</td></tr>
+<tr><td>vr</td><td>http://www.ivoa.net/xml/VOResource/v1.0</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.0</td></tr>
+<tr><td>vs</td><td>http://www.ivoa.net/xml/VODataService/v1.1</td></tr>
 <tr><td>vstd</td><td>http://www.ivoa.net/xml/StandardsRegExt/v1.0</td></tr>
 <tr><td>xsi</td><td>http://www.w3.org/2001/XMLSchema-instance</td></tr>
 </table>
@@ -705,23 +705,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="data even"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use to refer to this resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data even"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="data"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data even"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>Description of the content level or intended audience</td></tr>
-<tr class="data"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="data even"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="data"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author.</td></tr>
-<tr class="data even"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>Nature or genre of the content of the resource</td></tr>
-<tr class="data"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="data even"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="data"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr class="data even"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr class="data"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
-<tr class="data even"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource.</td></tr>
-<tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data even"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
+<tr class="data even"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
+<tr class="data"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
+<tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="data even"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
+<tr class="data"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource (multiple values are separated by hashes).</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1017,7 +1017,7 @@ using the the <code>ivo_hasword</code> function.</p>
 
 <div class="section"><h3><a id="table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></h3>
 
-<p>The <code>table_column</code>  table models the content of VOResource's
+<p>The <code>table_column</code>  table models the content of VODataService's
 <code>column</code> element.  The table has been renamed to avoid
 a name clash with the SQL reserved word <code>COLUMN</code>.</p>
 
@@ -1037,8 +1037,8 @@ systems (VOTable, ADQL, Simple).  The
 <code>type_system</code> column contains the value of the column's 
 <code>datatype</code> child, with the VODataService XML prefix fixed
 to vs; hence, this column will contain one of NULL,
-<code>vs:TAPType</code>,
-<code>vs:SimpleDataType</code>, and <code>vs:VOTableType</code>.</p>
+<code>vs:taptype</code>,
+<code>vs:simpledatatype</code>, and <code>vs:votabletype</code>.</p>
 
 <!-- GENERATED: maketable.sh rr.table_column -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
@@ -1103,7 +1103,7 @@ interfaces of one resource.  Operators are free to choose the
 actual values as convenient, although it is recommended to just
 enumerate the interfaces in their physical sequence per resource.</p>
 
-<p>The <code>query_type</code> column is a hash-joined list (analoguos
+<p>The <code>query_type</code> column is a hash-joined list (analogous
 to <code>waveband</code>, etc. in the resource table), as
 the XML schema allows listing up to two request methods.</p>
 
@@ -1162,7 +1162,7 @@ is recommended to maintain an index on at least the
 <code>ivoid</code>, <code>intf_type</code>, <code>intf_role</code>,
 <code>std_version</code>, <code>query_type</code>,
 <code>result_type</code>, <code>url_use</code>.
-Clients are adviced to query <code>query_type</code> using the the
+Clients are advised to query <code>query_type</code> using the the
 <code>ivo_hashlist_has</code> function.</p>
 
 </div> <!-- subsection table_interface -->
@@ -1191,7 +1191,7 @@ joined.</p>
 <tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
 <tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
 <tr class="data"><td>param_use <br/>xpath:@use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
-<tr class="data even"><td>param_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
+<tr class="data even"><td>param_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the parameter's contents.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1225,7 +1225,7 @@ between the two representations in the database ingestor.</p>
 
 <p>The
 <code>ivoid</code> column should be an explicit foreign key into the
-<code>resoure</code> table.  You should index at least the
+<code>resource</code> table.  You should index at least the
 <code>related_id</code> column.</p>
 
 <p>The following columns MUST be lowercased during ingestion:
@@ -1448,7 +1448,7 @@ Additionally, servers MAY employ techniques to improve recall, in
 particular stemming.  Registry clients must hence expect different results
 from different servers when using <code>ivo_hasword</code>; for such
 queries trying them on multiple registries may improve recall.</dd>
-<dt><code>ivo_hashlist_has(haslist VARCHAR(*), item VARCHAR(*))-&gt;INTEGER</code></dt>
+<dt><code>ivo_hashlist_has(hashlist VARCHAR(*), item VARCHAR(*))-&gt;INTEGER</code></dt>
 <dd>The function takes two strings; the first is a list of words not
 containing the hash sign (#), concatenated by hash signs, the second is
 a word not containing the hash sign.  It returns 1 if, compared
@@ -1769,7 +1769,7 @@ WHERE relationship_type='served-by'
 
 <div class="section"><h2><a id="d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></h2>
 
-<p>This appendix defines the of the <code>res_details</code>
+<p>This appendix defines the <code>res_details</code>
 table (see section <span class="xref"><a href="#table_res_detail">7.13</a></span> for
 details) by giving
 xpaths for which xpath/value pairs MUST (where marked with an
@@ -1779,7 +1779,13 @@ normative for metadata defined in IVOA recommendations current as of the
 publication of this document (see section <span class="xref"><a href="#rolewithinivoa">1.2</a></span>).  As laid down in section <span class="xref"><a href="#table_res_detail">7.13</a></span>, new VOResource extensions or new
 versions of existing VOResource extensions may amend this list.</p>
 
-<p>The xpaths are suffient for locating the respective metdata as per
+<p>In case there are conflicts between this list and xpaths derived 
+from schema files using the rules given in section <span class="xref"><a href="#vorutypes">5</a></span>, the conflict must be considered due to an
+editorial oversight in the preparation of this list, and the xpaths from the
+schema files are normative.  Errata to this list will be issued in such
+cases.</p>
+
+<p>The xpaths are sufficient for locating the respective metdata as per
 section <span class="xref"><a href="#vorutypes">5</a></span>.  With the explanations we
 give the canonical prefixes for the XML namespaces from which the items
 originate, which is where further information can be found.</p>
@@ -1939,7 +1945,7 @@ by a user with reasonable effort.</p>
 <p>The <code>ivoid</code> field present in every table of this
 specification merits special consideration, on the one hand due to its
 frequency, but also since other IVOA identifiers stored in the
-relational registry should probably be treated analoguously.
+relational registry should probably be treated analogously.
 Given that IVORNs in the 2013 data fields have a maximum
 length of roughly 100 characters, we propose that a maximum length of 
 255 should be sufficient even when taking possible fragment identifiers
@@ -2303,7 +2309,11 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 
 <ul>
   <li>Added a <code>/full</code> details xpath from VORegistry (this had
-  been forgotten due to limitations in the makeutypes stylesheet.</li>
+  been forgotten due to limitations in the makeutypes stylesheet).</li>
+  <li>Now declaring a precedence of xpaths generated by rules over the
+  list in Appendix <span class="xref"><a href="#d_u_list">A</a></span></li>
+  <li>Redactional changes from RFC (e.g., in column descriptions, some 
+  clarifications, typo fixes)</li>
 </ul>
 </div> <!-- section changes-20140227 -->
 
