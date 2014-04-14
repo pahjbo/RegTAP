@@ -352,7 +352,8 @@ a resource ends up in a column named
 <code>res_description</code>, whereas the same element from a
 capability becomes <code>cap_description</code>.</p>
 
-<p>We further renamed some columns with respect to their VOResource
+<p>We further renamed some columns and most tables 
+with respect to their VOResource
 counterparts to avoid clashes with reserved words in popular database
 management systems.  The alternatives would have been to either recommend
 quoting them or burden ADQL translation layers with the task of
@@ -1137,34 +1138,34 @@ can define new types here, but at the time of writing, the following
 types are mentioned in IVOA-recommended schemata:</p>
 
 <dl>
-<dt>vs:paramHTTP</dt>
+<dt>vs:paramhttp</dt>
 <dd>A service invoked via an HTTP query with either form-urlencoded or
 multipart form-data parameters.</dd>
-<dt>vr:WebBrowser</dt>
+<dt>vr:webbrowser</dt>
 <dd>A (form-based) interface intended to be accessed interactively by a
 user via a web browser.</dd>
-<dt>vg:OAIHTTP</dt>
+<dt>vg:oaihttp</dt>
 <dd>A standard OAI PMH interface using HTTP queries with form-urlencoded
 parameters.</dd>
-<dt>vg:OAISOAP</dt>
+<dt>vg:oaisoap</dt>
 <dd>A standard OAI PMH interface using a SOAP Web Service
 interface.</dd>
-<dt>vr:WebService</dt>
+<dt>vr:webservice</dt>
 <dd>A Web Service that is describable by a WSDL document.</dd>
 </dl>
 
 <!-- GENERATED: maketable.sh rr.interface -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
-<tr class="data"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
-<tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:WebBrowser, vs:ParamHTTP, etc).</td></tr>
-<tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
-<tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
-<tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (GET or POST) supported by the service.</td></tr>
-<tr class="data even"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
-<tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
 <tr class="data even"><td>url_use <br/>xpath:accessURL/@use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').</td></tr>
 <tr class="data"><td>access_url <br/>xpath:accessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
+<tr class="data even"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
+<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
+<tr class="data"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
+<tr class="data even"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
+<tr class="data"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
+<tr class="data even"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (get or post) supported by the service.</td></tr>
+<tr class="data"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1872,7 +1873,6 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/testQuery/pos/lat</dt> <dd>The Declination of the center of the search position in decimal degrees (ssap, sia).</dd>
 <dt>/capability/testQuery/pos/long</dt> <dd>The Right Ascension of the center of the search position in decimal degrees (ssap, sia).</dd>
 <dt>/capability/testQuery/pos/refframe</dt> <dd>A coordinate system reference frame name for a test query. If not provided, ICRS is assumed (ssap).</dd>
-<dt>/capability/testQuery/pos/refframe</dt> <dd>The coordinate system reference frame name indicating the frame to assume for the given position (empty means ICRS; ssap).</dd>
 <dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument (ssap).</dd>
 <dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs)</dd>
 <dt>/capability/testQuery/size</dt> <dd>The size of the search radius in an SSA search query (ssap).</dd>
