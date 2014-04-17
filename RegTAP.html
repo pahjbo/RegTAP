@@ -622,7 +622,7 @@ resource.</td></tr>
 <tr class="data even"><td><a href="#table_res_table">rr.res_table</a><br/>xpath:/(tableset/schema/|)table/</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
 <tr class="data"><td><a href="#table_resource">rr.resource</a><br/>xpath:/</td><td> The resources, i.e., services, data collections, organizations, etc.,
 present in this registry.</td></tr>
-<tr class="data even"><td><a href="#table_table_column">rr.table_column</a><br/>xpath:/(tableset/schema|)/table/column/</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="data even"><td><a href="#table_table_column">rr.table_column</a><br/>xpath:/(tableset/schema/|)/table/column/</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
 <tr class="data"><td><a href="#table_validation">rr.validation</a><br/>xpath:/(capability|)</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
@@ -716,23 +716,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="data even"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
-<tr class="data even"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
-<tr class="data"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
-<tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="data"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
 <tr class="data even"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
 <tr class="data"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource (multiple values are separated by hashes).</td></tr>
+<tr class="data even"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="data"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data even"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data even"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
+<tr class="data"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data even"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
+<tr class="data even"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
+<tr class="data"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data even"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1155,17 +1155,17 @@ interface.</dd>
 </dl>
 
 <!-- GENERATED: maketable.sh rr.interface -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
+<tr class="data"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
+<tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
+<tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
+<tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
+<tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (get or post) supported by the service.</td></tr>
+<tr class="data even"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
+<tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
 <tr class="data even"><td>url_use <br/>xpath:accessURL/@use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').</td></tr>
 <tr class="data"><td>access_url <br/>xpath:accessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
-<tr class="data even"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
-<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
-<tr class="data"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
-<tr class="data even"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
-<tr class="data"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
-<tr class="data even"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (get or post) supported by the service.</td></tr>
-<tr class="data"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
