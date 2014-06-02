@@ -134,12 +134,12 @@ Version <span class="docversion">1.0</span></h1>
       <dd>(Unpublished) Internal Working Draft 2012-11-12 (Volute rev. 1864)</dd>
 <dt>Authors:</dt>
 <dd>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner" shape="rect">Markus Demleitner</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison" shape="rect">Paul Harrison</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro" shape="rect">Marco Molinaro</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene" shape="rect">Gretchen Greene</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower" shape="rect">Theresa Dower</a><br/>
-      Menelaos Perdikeas<br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner">Markus Demleitner</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison">Paul Harrison</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro">Marco Molinaro</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene">Gretchen Greene</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower">Theresa Dower</a><br/>
+      <a href="http://wiki.ivoa.net/twiki/bin/view/IVOA/MenelaosPerdikeas">Menelaos Perdikeas</a><br/>
 </dd>
 </dl>
 <hr/>
@@ -1470,16 +1470,22 @@ mostly contributed as use cases by various members of the IVOA Registry
 working group.  They are intended as an aid in designing relational
 registry queries, in particular for users new to the data model.</p>
 
-<p>Where these queries locate access URLs of standard services, they
-contain <code>intf_role='std'</code> conditions. Desktop clients should
-probably include this to weed out nonstandard interfaces on standard
-capabilities, which are rare but technically legal; on the other hand,
-there are fairly standards-compliant interfaces for which the operator
-neglected to set <code>role="std"</code>, and the respective services
-would be missed with such a condition. Hand-crafted queries can probably
-typically  do without restraining role since most standard capabilities
-in real-world resources only have
-one—standard—interface.</p>
+<p>When locating access URLs for capabilities of standard services,
+these sample queries look for interfaces of type <code>vs:ParamHTTP</code> 
+within the
+embedding capabilities.  This is not strictly as intended by VOResource,
+which has the special <code>role</code> attribute to mark the interface
+on which a standard protocol is exposed within a capability.  In
+RegTAP, this method of locating standard interfaces would be effected by
+constraining
+<code>intf_role LIKE 'std%'</code>.  In actual VO practice, too many
+standard interfaces are lacking a proper declaration of their role, and
+actual clients locate the standard interfaces as given here.  Following
+widespread practice client designers are encouraged to compare
+against the interface types rather than rely on
+<code>interface/@role</code>, and resource record authors should make
+sure clients can discover standard interfaces both by the interfaces'
+roles and types.</p>
 
 <div class="query-example" typeof="example" id="example-accurlbytype">
 <h3 property="name">TAP accessURLs</h3>
@@ -1494,7 +1500,7 @@ SELECT ivoid, access_url
 FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
 </pre>
 
 <p>Other <code>standard_id</code>s relevant here include:</p>
@@ -1526,7 +1532,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND (
     1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
@@ -1551,7 +1557,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id='ivo://ivoa.net/std/sia'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND 1=ivo_hashlist_has('infrared', waveband)
 </pre>
 </div>
@@ -1571,7 +1577,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
 WHERE standard_id='ivo://ivoa.net/std/conesearch'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND ucd='src.redshift'
 </pre>
 
@@ -1667,7 +1673,7 @@ FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.0')
 </pre>
@@ -1691,7 +1697,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
 WHERE standard_id='ivo://ivoa.net/std/tap'
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 </pre>
@@ -1713,7 +1719,7 @@ FROM rr.res_detail
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
 WHERE detail_xpath='/capability/dataSource' 
-  AND intf_role='std'
+  AND intf_type='vs:paramhttp'
   AND standard_id='ivo://ivoa.net/std/ssa'
   AND detail_value='theory'
 </pre>
@@ -2311,6 +2317,9 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
   been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
   list in Appendix <span class="xref"><a href="#d_u_list">A</a></span></li>
+  <li>Now recommending to contrain on <code>intf_type</code>
+  (rather than <code>intf_role</code>, as before) when locating standard
+  interfaces.</li>
   <li>Redactional changes from RFC (e.g., in column descriptions, some 
   clarifications, typo fixes)</li>
 </ul>
