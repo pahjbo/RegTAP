@@ -382,15 +382,62 @@ the same set of resource records.</p>
 </div>  <!-- subsection design -->
 
 <div class="section">
-<h2><a id="casenorm">Note on case normalization</a></h2>
+<h2><a id="stringnorm">Notes on string normalization</a></h2>
 
+<p>In the interest of consistent behavior between different RegTAP
+implementations regardless of their technology choices, this section
+establishes some rules on the treatment of strings&#8212;both those
+obtained from attributes and those obtained from element
+content&#8212;during ingestion from VOResource XML to database
+tables.</p>
+
+<div class="section">
+<h3><a id="whitenorm">Whitespace normalization</a></h3>
+
+<p>Most string-valued items in VOResource and extensions are of type
+<code>xs:token</code>, with the clear intent that whitespace in them is
+to be normalized in the sense of XML schema.  For the few exceptions
+that actually are directly derived from xs:string (e.g.,
+<code>vstd:EndorsedVersion</code>, <code>vs:Waveband</code>) it does not
+appear that the intent regarding whitespace is different.</p>
+
+<p>In order to provide reliable querying and simple rules for ingestors
+even when these do not employ schema-aware XML parsers, this standard
+requires that during ingestion, leading and trailing whitespace MUST be
+removed from all strings; in particular, there are no strings consisting
+exclusively of whitespace in RegTAP.  The treatment of internal
+whitespace is implementation-defined. This reflects the expectation
+that, whereever multi-word items are queried, whitespace-ignoring
+constraints will be used (e.g., LIKE-based regular expressions or the
+<code>ivo_hasword</code> user defined function defined below).</p>
+</div> <!-- subsection whitenorm -->
+
+<div class="section">
+<h3><a id="nullnorm">NULL/Empty string normalization</a></h3>
+
+<p>While empty strings and NULL values are not usually well
+distinguished in VO practice&#8212;as reflected in the conventional
+TABLEDATA and BINARY serializations of VOTable&#8212;, the distinction
+must be strictly maintained in the database tables to ensure
+reproduceable queries across different RegTAP implementations.</p>
+
+<p>Ingestors therefore MUST turn empty strings (which, by section <span
+class="xref">whitenorm</span>, include strings consisting of whitespace
+only in VOResource's XML serialization) into NULL values in the
+database.  Clients expressing constraints on the presence (or absence)
+of some information must therefore do so using SQL's <code>IS NOT NULL</code>
+(or <code>IS NULL</code>) operators.</p>
+</div> <!-- subsection nullnorm -->
+
+<div class="section">
+<h3><a id="casenorm">Case normalization</a></h3>
 <p>ADQL has no operators for case-insensitive matching of strings.  To
 allow for robust and straightforward queries nevertheless, most columns
 containing values not usually intended for display are required to be
 converted to lower case; in the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
-compared are defined to be case-insensitive (e.g., ucds, IVORNs).
+compared are defined to be case-insensitive (e.g., UCDs, IVORNs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower case.</p>
@@ -406,7 +453,8 @@ user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
 to D144 in <cite>std:UNICODE</cite>.</p>
 
-</div> <!-- casenorm -->
+</div> <!-- subsection casenorm -->
+</div> <!-- section stringnorm -->
 
 
 <div class="section">
@@ -602,7 +650,7 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP#1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behavior of a resource.</td></tr>
 <tr class="data even"><td><a href="#table_interface">rr.interface</a><br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
 <tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br/>xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
 <tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br/>xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
@@ -1112,7 +1160,7 @@ in the definition of <code>Interface</code>'s <code>accessURL</code>
 child in the XML schema
 <code>http://www.ivoa.net/xml/VOResource/v1.0</code>; in future versions
 of VOResource, implementations can expect this to be
-<code>maxOccurs="1"</code>.  Meanwhile, implementation behaviour in the
+<code>maxOccurs="1"</code>.  Meanwhile, implementation behavior in the
 presence of multiple access URLs in an interface is undefined.</p>
 
 <p>The table contains an
@@ -1271,9 +1319,9 @@ results from various sources.  Hence, harvesters for the relational
 registry may choose to obtain validation data from the OAI-PMH endpoints
 of various registries by not harvesting just for the ivo_managed set and
 generate <code>rr.validation</code> rows from these records.  This can
-trigger potentially problematic behaviour when the original registry
+trigger potentially problematic behavior when the original registry
 updates  its resource record in that naive implementations will lose all
-third-party validation rows; this may actually be the correct behaviour,
+third-party validation rows; this may actually be the correct behavior,
 since an update of the registry record might very well indicate
 validation-relevant changes in the underlying services.  Implementations
 are free to handle or ignore validation results as they see fit, and
@@ -1478,7 +1526,7 @@ queries trying them on multiple registries may improve recall.</dd>
 containing the hash sign (#), concatenated by hash signs, the second is
 a word not containing the hash sign.  It returns 1 if, compared
 case-insensitively, the second argument is in the list of words encoded in
-the first argument.  The behaviour for second
+the first argument.  The behavior for second
 arguments containing a hash sign is undefined.</dd>
 </dl>
 
@@ -2310,6 +2358,8 @@ to the relational registry.</p>
 PR-20140227</a></h3>
 
 <ul>
+  <li>New rules on string normalization: strings must be
+  whitespace-stripped, empty strings must be mapped to NULL.</li>
   <li>Added a <code>/full</code> details xpath from VORegistry (this had
   been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Now declaring a precedence of xpaths generated by rules over the

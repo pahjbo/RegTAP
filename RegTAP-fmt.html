@@ -184,7 +184,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#casenorm"><span class="secnum">3. </span>Note on case normalization</a></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#stringnorm"><span class="secnum">3. </span>Notes on string normalization</a><ul><li><a href="#whitenorm"><span class="secnum">3.1. </span>Whitespace normalization</a></li><li><a href="#nullnorm"><span class="secnum">3.2. </span>NULL/Empty string normalization</a></li><li><a href="#casenorm"><span class="secnum">3.3. </span>Case normalization</a></li></ul></li><li><a href="#qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">5. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">6. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">7. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">7.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">7.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">7.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">7.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">7.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">7.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">7.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">7.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">7.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">7.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">7.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">7.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">7.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">8. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">9. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -380,15 +380,58 @@ the same set of resource records.</p>
 
 </div>  <!-- subsection design -->
 
-<div class="section"><h2><a id="casenorm"><span class="secnum">3. </span>Note on case normalization</a></h2>
+<div class="section"><h2><a id="stringnorm"><span class="secnum">3. </span>Notes on string normalization</a></h2>
 
+<p>In the interest of consistent behavior between different RegTAP
+implementations regardless of their technology choices, this section
+establishes some rules on the treatment of strings—both those
+obtained from attributes and those obtained from element
+content—during ingestion from VOResource XML to database
+tables.</p>
+
+<div class="section"><h3><a id="whitenorm"><span class="secnum">3.1. </span>Whitespace normalization</a></h3>
+
+<p>Most string-valued items in VOResource and extensions are of type
+<code>xs:token</code>, with the clear intent that whitespace in them is
+to be normalized in the sense of XML schema.  For the few exceptions
+that actually are directly derived from xs:string (e.g.,
+<code>vstd:EndorsedVersion</code>, <code>vs:Waveband</code>) it does not
+appear that the intent regarding whitespace is different.</p>
+
+<p>In order to provide reliable querying and simple rules for ingestors
+even when these do not employ schema-aware XML parsers, this standard
+requires that during ingestion, leading and trailing whitespace MUST be
+removed from all strings; in particular, there are no strings consisting
+exclusively of whitespace in RegTAP.  The treatment of internal
+whitespace is implementation-defined. This reflects the expectation
+that, whereever multi-word items are queried, whitespace-ignoring
+constraints will be used (e.g., LIKE-based regular expressions or the
+<code>ivo_hasword</code> user defined function defined below).</p>
+</div> <!-- subsection whitenorm -->
+
+<div class="section"><h3><a id="nullnorm"><span class="secnum">3.2. </span>NULL/Empty string normalization</a></h3>
+
+<p>While empty strings and NULL values are not usually well
+distinguished in VO practice—as reflected in the conventional
+TABLEDATA and BINARY serializations of VOTable—, the distinction
+must be strictly maintained in the database tables to ensure
+reproduceable queries across different RegTAP implementations.</p>
+
+<p>Ingestors therefore MUST turn empty strings (which, by section <span class="xref"><a href="#whitenorm">3.1</a></span>, include strings consisting of whitespace
+only in VOResource's XML serialization) into NULL values in the
+database.  Clients expressing constraints on the presence (or absence)
+of some information must therefore do so using SQL's <code>IS NOT NULL</code>
+(or <code>IS NULL</code>) operators.</p>
+</div> <!-- subsection nullnorm -->
+
+<div class="section"><h3><a id="casenorm"><span class="secnum">3.3. </span>Case normalization</a></h3>
 <p>ADQL has no operators for case-insensitive matching of strings.  To
 allow for robust and straightforward queries nevertheless, most columns
 containing values not usually intended for display are required to be
 converted to lower case; in the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
-compared are defined to be case-insensitive (e.g., ucds, IVORNs).
+compared are defined to be case-insensitive (e.g., UCDs, IVORNs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower case.</p>
@@ -404,7 +447,8 @@ user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
 to D144 in <cite>[<a href="#std:UNICODE">std:UNICODE</a>]</cite>.</p>
 
-</div> <!-- casenorm -->
+</div> <!-- subsection casenorm -->
+</div> <!-- section stringnorm -->
 
 
 <div class="section"><h2><a id="qnameatts"><span class="secnum">4. </span>QNames in VOResource attributes</a></h2>
@@ -593,7 +637,7 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP#1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behavior of a resource.</td></tr>
 <tr class="data even"><td><a href="#table_interface">rr.interface</a><br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
 <tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br/>xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
 <tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br/>xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
@@ -1095,7 +1139,7 @@ in the definition of <code>Interface</code>'s <code>accessURL</code>
 child in the XML schema
 <code>http://www.ivoa.net/xml/VOResource/v1.0</code>; in future versions
 of VOResource, implementations can expect this to be
-<code>maxOccurs="1"</code>.  Meanwhile, implementation behaviour in the
+<code>maxOccurs="1"</code>.  Meanwhile, implementation behavior in the
 presence of multiple access URLs in an interface is undefined.</p>
 
 <p>The table contains an
@@ -1251,9 +1295,9 @@ results from various sources.  Hence, harvesters for the relational
 registry may choose to obtain validation data from the OAI-PMH endpoints
 of various registries by not harvesting just for the ivo_managed set and
 generate <code>rr.validation</code> rows from these records.  This can
-trigger potentially problematic behaviour when the original registry
+trigger potentially problematic behavior when the original registry
 updates  its resource record in that naive implementations will lose all
-third-party validation rows; this may actually be the correct behaviour,
+third-party validation rows; this may actually be the correct behavior,
 since an update of the registry record might very well indicate
 validation-relevant changes in the underlying services.  Implementations
 are free to handle or ignore validation results as they see fit, and
@@ -1454,7 +1498,7 @@ queries trying them on multiple registries may improve recall.</dd>
 containing the hash sign (#), concatenated by hash signs, the second is
 a word not containing the hash sign.  It returns 1 if, compared
 case-insensitively, the second argument is in the list of words encoded in
-the first argument.  The behaviour for second
+the first argument.  The behavior for second
 arguments containing a hash sign is undefined.</dd>
 </dl>
 
@@ -2313,6 +2357,8 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 <div class="section"><h3><a id="changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></h3>
 
 <ul>
+  <li>New rules on string normalization: strings must be
+  whitespace-stripped, empty strings must be mapped to NULL.</li>
   <li>Added a <code>/full</code> details xpath from VORegistry (this had
   been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
