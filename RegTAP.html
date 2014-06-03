@@ -382,6 +382,47 @@ the same set of resource records.</p>
 </div>  <!-- subsection design -->
 
 <div class="section">
+<h2><a id="primarykeys">Primary Keys</a></h2>
+
+<p>The primary key in the Registry as an abstract concept is a resource
+record's IVORN.  Hence, for all tables having primary keys at all, the
+<code>ivoid</code> column is part of its primary key.  This
+specification does not require implementations to actually declare
+primary keys in the underlying database, and no aspect of user-visible
+behavior depends on such explicit declarations; in particular, this
+specification makes no requirements on the contents of
+<code>tap_schema.keys</code>.</p>
+
+<p>We nevertheless make recommendations on explicit primary keys, as
+we expect definitions according to our recommendations will enhance
+robustness of services.</p>
+
+<p>In several RegTAP tables&#8212;<code>capability</code>,
+<code>res_schema</code>, <code>res_table</code>, and
+<code>interface</code>&#8212;artificial primary keys are necessary, as
+in VOResource XML sibling elements are not otherwise distinguished.  To
+allow such artificial primary keys, a column is added to each table, the
+name of which ends in <code>_index</code> (<code>cap_index</code>,
+<code>schema_index</code>, <code>table_index</code>, and
+<code>intf_index</code>).</p>
+
+<p>The type and content of these <code>X_index</code> columns is
+implementation-defined, and clients must not make assumptions on their
+content except that the pair <code>ivoid, X_index</code> is a primary
+key for the relation (plus, of course, that references from other tables
+correctly resolve).  In the tables of columns given below, the
+<code>X_index</code> columns have "(key)" given for type.  Implementors
+obviously have to insert whatever ADQL type is appropriate for their
+choice or <code>X_index</code> implementation.</p>
+
+<p>Obvious implementations for <code>X_index</code> include having
+<code>X_index</code> enumerate the sibling elements or using some sort
+of UUID.</p>
+
+</div>
+
+
+<div class="section">
 <h2><a id="stringnorm">Notes on string normalization</a></h2>
 
 <p>In the interest of consistent behavior between different RegTAP
@@ -651,7 +692,7 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP#1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behavior of a resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Table<br/>Utype</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
 <tr class="data even"><td><a href="#table_interface">rr.interface</a><br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
 <tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br/>xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
 <tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br/>xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
@@ -765,23 +806,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data even"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
+<tr class="data even"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
+<tr class="data"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
+<tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
 <tr class="data even"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
 <tr class="data"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource (multiple values are separated by hashes).</td></tr>
-<tr class="data even"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="data even"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data even"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="data"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data even"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
-<tr class="data"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="data even"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="data"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
-<tr class="data even"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
-<tr class="data"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="data even"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="data"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -957,15 +998,14 @@ contains the members of the base type <code>vr:Capability</code>.
 Members of derived types are kept in the <code>res_detail</code> table
 (see <span class="xref">table_res_detail</span>).</p>
 
-<p>The table has an
-integer-typed column <code>cap_index</code> to disambiguate multiple
-capabilities on a single resource.  Operators are free to choose the
-actual values as convenient, although it is recommended to just
-enumerate the capabilities in their physical sequence per-resource.</p>
+<p>The table has a
+<code>cap_index</code> to disambiguate multiple
+capabilities on a single resource.  See section <span
+class="xref">primarykeys</span> for details.</p>
 
 <!-- GENERATED: maketable.sh rr.capability -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>Running number of this capability within the resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier of this capability within the resource.</td></tr>
 <tr class="data"><td>cap_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
 <tr class="data even"><td>cap_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
 <tr class="data"><td>standard_id <br/>xpath:@standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
@@ -995,19 +1035,14 @@ using the <code>ivo_hasword</code> function.</p>
 <code>schema</code> element.  It has been renamed to avoid clashes with
 the SQL reserved word <code>SCHEMA</code>.</p>
 
-<p>The table has an integer-typed column <code>schema_index</code>
-to disambiguate multiple schema elements on a single resource.
-Operators are free to choose the actual values as convenient, although
-it is recommended to just enumerate the schema elements in their
-physical sequence per-resource.  The xpath
-<code>count(preceding-sibling::schema)</code> gives one possible
-set of values for this column; it has not been prescribed via a utype,
-though, since other enumeration schemes are valid as well.</p>
+<p>The table has a column <code>schema_index</code> to disambiguate
+multiple schema elements on a single resource.  See section <span
+class="xref">primarykeys</span> for details.</p>
 
 
 <!-- GENERATED: maketable.sh rr.res_schema -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the res_schema rows belonging to a resource.</td></tr>
+<tr class="data even"><td>schema_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the res_schema rows belonging to a resource.</td></tr>
 <tr class="data"><td>schema_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
 <tr class="data even"><td>schema_name <br/>xpath:name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
 <tr class="data"><td>schema_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
@@ -1042,18 +1077,19 @@ resource.  Ingestors should also accept such tables, as there are still
 numerous active VODataService 1.0 resources in the Registry at the time
 of writing (this is the reason for the alternative in the table xpath).</p>
 
-<p>The table contains an integer-typed column <code>table_index</code> to
-disambiguate multiple tables on a single resource.  Operators are free to
-choose the actual values as convenient, although it is recommended to just
-enumerate the tables in their physical sequence per-resource (but not per
-schema&#8212;<code>table_index</code> MUST be unique within a resource).</p>
+<p>The table contains a column <code>table_index</code> to disambiguate
+multiple tables on a single resource.  See section <span
+class="xref">primarykeys</span> for details.  Note that if the sibling
+count is used as implemenation of <code>table_index</code>, the count
+must be per resource an <em>not</em> per schema&#8212;, as
+<code>table_index</code> MUST be unique within a resource.</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>schema_index <br/>N/A</td><td>adql:SMALLINT</td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
+<tr class="data even"><td>schema_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
 <tr class="data"><td>table_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
 <tr class="data even"><td>table_name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
-<tr class="data"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>An artificial counter for the tables belonging to a resource</td></tr>
+<tr class="data"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the tables belonging to a resource</td></tr>
 <tr class="data even"><td>table_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
 <tr class="data"><td>table_type <br/>xpath:@type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
 <tr class="data even"><td>table_utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
@@ -1108,7 +1144,7 @@ to vs; hence, this column will contain one of NULL,
 
 <!-- GENERATED: maketable.sh rr.table_column -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>table_index <br/>N/A</td><td>adql:INTEGER</td><td>Index of the table this column belongs to.</td></tr>
+<tr class="data even"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the table this column belongs to.</td></tr>
 <tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
 <tr class="data even"><td>ucd <br/>xpath:ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
@@ -1166,11 +1202,9 @@ of VOResource, implementations can expect this to be
 <code>maxOccurs="1"</code>.  Meanwhile, implementation behavior in the
 presence of multiple access URLs in an interface is undefined.</p>
 
-<p>The table contains an
-integer-typed column <code>intf_index</code> to disambiguate multiple
-interfaces of one resource.  Operators are free to choose the
-actual values as convenient, although it is recommended to just
-enumerate the interfaces in their physical sequence per resource.</p>
+<p>The table contains a column <code>intf_index</code> to disambiguate
+multiple interfaces of one resource. See section <span
+class="xref">primarykeys</span> for details.</p>
 
 <p>The <code>query_type</code> column is a hash-joined list (analogous
 to <code>waveband</code>, etc. in the resource table), as
@@ -1207,8 +1241,8 @@ interface.</dd>
 
 <!-- GENERATED: maketable.sh rr.interface -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability.</td></tr>
-<tr class="data"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>A running number for the interfaces of a resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability.</td></tr>
+<tr class="data"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the interfaces of a resource.</td></tr>
 <tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
 <tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
 <tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
@@ -1249,7 +1283,7 @@ joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>intf_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the interface this parameter belongs to.</td></tr>
+<tr class="data even"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the interface this parameter belongs to.</td></tr>
 <tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the parameter.</td></tr>
 <tr class="data even"><td>ucd <br/>xpath:ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
 <tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
@@ -1378,7 +1412,7 @@ VO application or research study.</dd>
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>validated_by <br/>xpath:validationLevel/@validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
 <tr class="data"><td>val_level <br/>xpath:validationLevel</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1475,7 +1509,7 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 
 <!-- GENERATED: maketable.sh rr.res_detail -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td>adql:SMALLINT</td><td>The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.</td></tr>
 <tr class="data"><td>detail_xpath <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The xpath of the data item</td></tr>
 <tr class="data even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(Atomic) value of the member</td></tr>
 </tbody></table></div>
@@ -2098,19 +2132,9 @@ SQL types are those that require numeric values, viz.,
       <tr>
         <td>small integer</td>
         <td><code>SMALLINT</code></td>
-        <td>capability.cap_index<br />
-          res_schema.schema_index<br />
-          res_table.schema_index<br />
-          table_column.std<br />
-          interface.cap_index<br />
-          interface.intf_index<br />
-          intf_param.intf_index<br />
+        <td>table_column.std<br />
           intf_param.std<br />
           validation.level<br />
-          validation.cap_index<br />
-          res_detail.cap_index<br />
-          res_table.table_index<br />
-          table_column.table_index
         </td>
       </tr>
     </tbody>
@@ -2364,6 +2388,9 @@ PR-20140227</a></h3>
 <ul>
   <li>New rules on string normalization: strings must be
   whitespace-stripped, empty strings must be mapped to NULL.</li>
+  <li>Dropped requirements that the <code>_index</code> columns are
+  integers (let alone small integers); added a section discussing in
+  what sense they are implementation defined.</li>
   <li>Added a <code>/full</code> details xpath from VORegistry (this had
   been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
