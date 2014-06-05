@@ -1500,16 +1500,20 @@ Additionally, servers MAY employ techniques to improve recall, in
 particular stemming.  Registry clients must hence expect different results
 from different servers when using <code>ivo_hasword</code>; for such
 queries trying them on multiple registries may improve recall.</dd>
-<dt><code>ivo_hashlist_has(hashlist VARCHAR(*), item VARCHAR(*))-&gt;INTEGER</code></dt>
+<dt><code>ivo_hashlist_has(hashlist VARCHAR(*), item VARCHAR(*)) -&gt; INTEGER</code></dt>
 <dd>The function takes two strings; the first is a list of words not
 containing the hash sign (#), concatenated by hash signs, the second is
 a word not containing the hash sign.  It returns 1 if, compared
 case-insensitively, the second argument is in the list of words encoded in
 the first argument.  The behavior for second
 arguments containing a hash sign is undefined.</dd>
+<dt><code>ivo_string_agg(expression VARCHAR(*), delimiter VARCHAR(*)) -&gt; VARCHAR(*)</code></dt>
+<dd>An aggregate function returning all values of
+<code>expression</code> within a GROUP contcatenated with 
+<code>delimiter</code>.</dd>
 </dl>
 
-<p>Reference implementations of the three functions for the PostgreSQL
+<p>Reference implementations of the four functions for the PostgreSQL
 database system are given in Appendix <span class="xref"><a href="#appPGDefs">B</a></span>.</p>
 
 </div><!-- section adqludf -->
@@ -1976,6 +1980,9 @@ expressions in the ADQL translation layer whenever possible.</p>
       ELSE 0 
     END
   $func$ LANGUAGE SQL;
+
+  -- ivo_string_agg directly corresponds to string_agg; this translation
+  -- should be done in the ADQL translator.
 </pre>
 
 </div> <!-- section appPGDefs -->
@@ -2360,6 +2367,8 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
   been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Added a <code>/capability/interface/securityMethod/@standardID</code>
   details xpath from vr:Interface.</li>
+  <li>Added requirement to implement the <code>ivo_string_agg</code>
+  user defined function.</li>
   <li>New rules on string normalization: strings must be
   whitespace-stripped, empty strings must be mapped to NULL.</li>
   <li>Dropped requirements that the <code>_index</code> columns are
