@@ -1180,6 +1180,20 @@ presence of multiple access URLs in an interface is undefined.</p>
 <p>The table contains a column <code>intf_index</code> to disambiguate
 multiple interfaces of one resource. See section <span class="xref"><a href="#primarykeys">3</a></span> for details.</p>
 
+<p>In VOResource, interfaces can have zero or more <code>securityMethod</code>
+children to convey support for authentication and authorization methods.  At
+the time of writing, only a <code>standardId</code> attribute is defined on
+these, and the Registry only contains a single resource record using
+<code>securityMethod</code>.  It was therefore decided to map this information
+into the <code>res_detail</code> table using the detail xpath
+<code>/capability/interface/securityMethod/@standardID</code>, with
+<code>cap_index</code> set so the embedding capability is referenced;
+this implies that RegTAP does not allow distinguishing between
+interfaces for security methods.  If <code>securityMethod</code> will
+come into common use as the VO evolves, this design will be reconsidered
+if reliable RegTAP-based discovery of access URLs in multi-interface
+multi-authentication scenarios is found necessary.</p>
+
 <p>The <code>query_type</code> column is a hash-joined list (analogous
 to <code>waveband</code>, etc. in the resource table), as
 the XML schema allows listing up to two request methods.</p>
@@ -1335,49 +1349,10 @@ validation-relevant changes in the underlying services.  Implementations
 are free to handle or ignore validation results as they see fit, and
 they may add validation results of their own.</p>
 
-<p>For convenicence, we repeat the definition of the validation
-levels from <cite>[<a href="#std:RM">std:RM</a>]</cite>:</p>
-<blockquote>
-<dl>
-<dt>0</dt>
-<dd>The resource has a description that is stored in a registry.  This
-level does not imply a compliant description.</dd>
-
-<dt>1</dt>
-<dd>In addition to meeting the level 0 definition, the resource
-description conforms syntactically to this standard and to the encoding
-scheme used. </dd>
-
-<dt>2</dt>
-<dd>In addition to meeting the level 1 definition, the resource
-description refers to an existing resource that has been demonstrated to
-be functionally compliant.  When the resource is a service, it is
-considered to exist and to be functionally compliant if use of the
-Service.InterfaceURL or Service.BaseURL responds without error when used
-as intended by the resource.  If the service is a standard one, it
-must also demonstrate the response is syntactically compliant with the
-service standard in order to be considered functionally compliant.  If
-the resource is not a service, then the ReferenceURL must be shown to
-return a document without error.</dd>
-
-<dt>3</dt>
-<dd>In addition to meeting the level 2 definition, the resource
-description has been inspected by a human and judged to comply
-semantically to this standard as well as meeting any additional minimum
-quality criteria (e.g., providing values for important but non-required
-metadata) set by the human inspector. [...]</dd>
-
-
-<dt>4</dt>
-
-<dd>In addition to meeting the level 3 definition, the resource
-description meets additional quality criteria set by the human inspector
-and is therefore considered an excellent description of the resource.
-Consequently, the resource is expected to operate well as part of a
-VO application or research study.</dd>
-
-</dl>
-</blockquote>
+<p>The validation levels are defined in <cite>[<a href="#std:RM">std:RM</a>]</cite> and
+currently range from 0 (description stored in a registry) to 
+4 (inspected by a human to be technically and scientifically
+correct).</p>
 
 <!-- GENERATED: maketable.sh rr.validation -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
@@ -1886,6 +1861,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/defaultMaxRecords (!)</dt> <dd>The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).</dd>
 <dt>/capability/executionDuration/default</dt> <dd>The run time limit for newly-created jobs, given in seconds (tr).</dd>
 <dt>/capability/imageServiceType (!)</dt> <dd>The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).</dd>
+<dt>/capability/interface/securityMethod/@standardID (!)</dt><dd>A description of a security mechanism.  Although this really is a property of an interface, the reference here goes to the embedding capability, which is sufficient for discovery of the existence of such interfaces.  If the capability holds multiple interfaces, clients need other means (e.g., VOSI capabilities) to figure out the mapping between access URLs and suported security methods.</dd>
 <dt>/capability/language/name (!)</dt> <dd>A short, human-readable name of a language understood by the TAP service (tr).</dd>
 <dt>/capability/language/version/@ivo-id (!)</dt> <dd>The IVORN of a language supported by a TAP service (tr).</dd>
 <dt>/capability/maxAperture</dt> <dd>The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method (ssap).</dd>
@@ -2380,13 +2356,15 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
 <div class="section"><h3><a id="changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></h3>
 
 <ul>
+  <li>Added a <code>/full</code> details xpath from VORegistry (this had
+  been forgotten due to limitations in the makeutypes stylesheet).</li>
+  <li>Added a <code>/capability/interface/securityMethod/@standardID</code>
+  details xpath from vr:Interface.</li>
   <li>New rules on string normalization: strings must be
   whitespace-stripped, empty strings must be mapped to NULL.</li>
   <li>Dropped requirements that the <code>_index</code> columns are
   integers (let alone small integers); added a section discussing in
   what sense they are implementation defined.</li>
-  <li>Added a <code>/full</code> details xpath from VORegistry (this had
-  been forgotten due to limitations in the makeutypes stylesheet).</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
   list in Appendix <span class="xref"><a href="#d_u_list">A</a></span></li>
   <li>Clarified translation of column/@std and param/@std</li>
