@@ -3,16 +3,16 @@ ivoadoc toolkit, see somewhere at http://code.google.com/p/volute/ -->
 <!DOCTYPE html
   PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head profile="http://www.w3.org/1999/xhtml/vocab">
-<title>IVOA Registry Relational Schema IVOA Proposed Recommendation  27 February 2014</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-<meta name="author" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
-<meta name="maintainedBy" content="Markus Demleitner, gavo@ari.uni-heidelberg.de"/>
+<head profile="http://www.w3.org/1999/xhtml/vocab"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>IVOA Registry Relational Schema - IVOA Proposed Recommendation  27 February 2014</title>
 
-<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_a.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_wd.css"/>
-<link rel="stylesheet" type="text/css" href="./ivoadoc/XMLPrint.css"/>
-<link rel="stylesheet" type="text/css" href="./ivoadoc/ivoa-extras.css"/>
+<meta name="author" content="Markus Demleitner, gavo@ari.uni-heidelberg.de" />
+<meta name="maintainedBy" content="Markus Demleitner, gavo@ari.uni-heidelberg.de" />
+
+<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_a.css" />
+<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_pr.css" />
+<link rel="stylesheet" type="text/css" href="./ivoadoc/XMLPrint.css" />
+<link rel="stylesheet" type="text/css" href="./ivoadoc/ivoa-extras.css" />
 
 <style type="text/css" xml:space="preserve">
 
@@ -55,7 +55,7 @@ th.thVertical {
   padding-left: 4px;
   padding-right: 40px;
   border-collapse: collapse;
-  border:2px solid white;
+  border:1px solid grey;
 }
 
 tr.even {
@@ -65,12 +65,12 @@ tr.even {
 }
 
 </style>
-<link rel="stylesheet" type="text/css" href="http://www.ivoa.net/misc/ivoa_pr.css"/></head>
+</head>
 <body>
 <div class="head">
 <div id="titlehead" style="position:relative;height:170px;width: 500px">
   <div id="logo" style="position:absolute;width:300px;height:169px;left: 10px;top: 0px;">
-    <img src="http://www.ivoa.net/pub/images/IVOA_wb_300.jpg" alt="IVOA logo"/>
+    <img src="http://www.ivoa.net/pub/images/IVOA_wb_300.jpg" alt="IVOA logo" />
   </div>
   <div id="logo-title" style="position:absolute;width:200px;height:115px;left: 300px;top: 5px;">
     <p>
@@ -116,7 +116,7 @@ tr.even {
   </div>
 </div>
 
-<h1>IVOA Registry Relational Schema<br/>
+<h1>IVOA Registry Relational Schema<br />
 Version <span class="docversion">1.0</span></h1>
 <h2 class="subtitle">IVOA Proposed Recommendation  27 February 2014</h2>
 
@@ -134,15 +134,15 @@ Version <span class="docversion">1.0</span></h1>
       <dd>(Unpublished) Internal Working Draft 2012-11-12 (Volute rev. 1864)</dd>
 <dt>Authors:</dt>
 <dd>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner">Markus Demleitner</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison">Paul Harrison</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro">Marco Molinaro</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene">Gretchen Greene</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower">Theresa Dower</a><br/>
-      <a href="http://wiki.ivoa.net/twiki/bin/view/IVOA/MenelaosPerdikeas">Menelaos Perdikeas</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner">Markus Demleitner</a><br />
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison">Paul Harrison</a><br />
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro">Marco Molinaro</a><br />
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene">Gretchen Greene</a><br />
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower">Theresa Dower</a><br />
+      <a href="http://wiki.ivoa.net/twiki/bin/view/IVOA/MenelaosPerdikeas">Menelaos Perdikeas</a><br />
 </dd>
 </dl>
-<hr/>
+<hr />
 
 <h2>Abstract</h2>
 
@@ -184,7 +184,7 @@ IETF standard RFC 2119 <cite>[<a href="#std:RFC2119">std:RFC2119</a>]</cite>.</p
 
 
 <h2>Contents</h2>
-<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#primarykeys"><span class="secnum">3. </span>Primary Keys</a></li><li><a href="#stringnorm"><span class="secnum">4. </span>Notes on string handling</a><ul><li><a href="#whitenorm"><span class="secnum">4.1. </span>Whitespace normalization</a></li><li><a href="#nullnorm"><span class="secnum">4.2. </span>NULL/Empty string normalization</a></li><li><a href="#casenorm"><span class="secnum">4.3. </span>Case normalization</a></li><li><a href="#utfreq"><span class="secnum">4.4. </span>Non-ASCII characters</a></li></ul></li><li><a href="#qnameatts"><span class="secnum">5. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">6. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">7. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">8. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">8.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">8.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">8.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">8.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">8.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">8.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">8.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">8.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">8.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">8.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">8.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">8.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">8.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">9. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">10. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"/>References</a></li></ul></div>
+<?toc?><div id="toc" class="toc"><ul><li><a href="#intro"><span class="secnum">1. </span>Introduction</a><ul><li><a href="#terms"><span class="secnum">1.1. </span>Terminology</a></li><li><a href="#rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></li></ul></li><li><a href="#design"><span class="secnum">2. </span>Design Considerations</a></li><li><a href="#primarykeys"><span class="secnum">3. </span>Primary Keys</a></li><li><a href="#stringnorm"><span class="secnum">4. </span>Notes on string handling</a><ul><li><a href="#whitenorm"><span class="secnum">4.1. </span>Whitespace normalization</a></li><li><a href="#nullnorm"><span class="secnum">4.2. </span>NULL/Empty string normalization</a></li><li><a href="#casenorm"><span class="secnum">4.3. </span>Case normalization</a></li><li><a href="#utfreq"><span class="secnum">4.4. </span>Non-ASCII characters</a></li></ul></li><li><a href="#qnameatts"><span class="secnum">5. </span>QNames in VOResource attributes</a></li><li><a href="#vorutypes"><span class="secnum">6. </span>XPaths</a></li><li><a href="#registration"><span class="secnum">7. </span>Discovering Relational Registries</a></li><li><a href="#vortables"><span class="secnum">8. </span>VOResource Tables</a><ul><li><a href="#table_resource"><span class="secnum">8.1. </span>The resource Table</a></li><li><a href="#table_res_role"><span class="secnum">8.2. </span>The res_role Table</a></li><li><a href="#table_res_subject"><span class="secnum">8.3. </span>The res_subject Table</a></li><li><a href="#table_capability"><span class="secnum">8.4. </span>The capability Table</a></li><li><a href="#table_res_schema"><span class="secnum">8.5. </span>The res_schema Table</a></li><li><a href="#table_res_table"><span class="secnum">8.6. </span>The res_table Table</a></li><li><a href="#table_table_column"><span class="secnum">8.7. </span>The table_column Table</a></li><li><a href="#table_interface"><span class="secnum">8.8. </span>The interface Table</a></li><li><a href="#table_intf_param"><span class="secnum">8.9. </span>The intf_param Table</a></li><li><a href="#table_relationship"><span class="secnum">8.10. </span>The relationship Table</a></li><li><a href="#table_validation"><span class="secnum">8.11. </span>The validation Table</a></li><li><a href="#table_res_date"><span class="secnum">8.12. </span>The res_date Table</a></li><li><a href="#table_res_detail"><span class="secnum">8.13. </span>The res_detail Table</a></li></ul></li><li><a href="#adqludf"><span class="secnum">9. </span>ADQL User Defined Functions</a></li><li><a href="#sample_queries"><span class="secnum">10. </span>Common Queries to the Relational Registry</a></li><li><a href="#d_u_list"><span class="secnum">A. </span>XPaths for res_details</a></li><li><a href="#appPGDefs"><span class="secnum">B. </span>The Extra UDFs in PL/pgSQL</a></li><li><a href="#appBP"><span class="secnum">C. </span>Implementation notes</a></li><li><a href="#appMkut"><span class="secnum">D. </span>XSLT to enumerate Relational Registry XPaths</a></li><li><a href="#changes"><span class="secnum">E. </span>Changes from Previous Versions</a><ul><li><a href="#changes-20140227"><span class="secnum">E.1. </span>Changes from PR-20140227</a></li><li><a href="#changes-20131203"><span class="secnum">E.2. </span>Changes from WD-20131203</a></li><li><a href="#changes-20130909"><span class="secnum">E.3. </span>Changes from WD-20130909</a></li><li><a href="#changes-20130411"><span class="secnum">E.4. </span>Changes from WD-20130411</a></li><li><a href="#changes-20130305"><span class="secnum">E.5. </span>Changes from WD-20130305</a></li><li><a href="#changes-20121112"><span class="secnum">E.6. </span>Changes from WD-20121112</a></li></ul></li><li><a href="#references"><span class="secnum"></span>References</a></li></ul></div>
 
 </div><!-- class="head" -->
 
@@ -264,7 +264,7 @@ incompatibilities.</p>
 <div class="section"><h3><a id="rolewithinivoa"><span class="secnum">1.2. </span>The Relational Registry within the VO Architecture</a></h3>
 
 <div class="figure">
-<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" align="middle"/>
+<img src="RegTAP-arch.png" alt="The Relational Registry within the VO architecture" align="middle" />
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
 diagram with the IVOA Registry Relational Specification (tagged with "Relational Registry") and
 the related standards marked up.</p>
@@ -716,28 +716,28 @@ relationships.  Finally, lowercasing requirements
 <code>ivo://ivoa.net/std/RegTAP#1.0</code>:</p>
 
 <!-- GENERATED: gettables.sh -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Table<br/>Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br/>xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
-<tr class="data even"><td><a href="#table_interface">rr.interface</a><br/>xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
-<tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br/>xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
-<tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br/>xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Table<br />Utype</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td><a href="#table_capability">rr.capability</a><br />xpath:/capability/</td><td> Pieces of behaviour of a resource.</td></tr>
+<tr class="data even"><td><a href="#table_interface">rr.interface</a><br />xpath:/capability/interface/</td><td> Information on access modes of a capability.</td></tr>
+<tr class="data"><td><a href="#table_intf_param">rr.intf_param</a><br />xpath:/capability/interface/param/</td><td> Input parameters for services.</td></tr>
+<tr class="data even"><td><a href="#table_relationship">rr.relationship</a><br />xpath:/content/relationship/</td><td> Relationships between resources, e.g., mirroring, derivation, but
 also providing access to data within a resource.</td></tr>
-<tr class="data"><td><a href="#table_res_date">rr.res_date</a><br/>xpath:/curation/</td><td> A date associated with an event in the life cycle of the resource.
+<tr class="data"><td><a href="#table_res_date">rr.res_date</a><br />xpath:/curation/</td><td> A date associated with an event in the life cycle of the resource.
 This could be creation or update. The role column can be used to
 clarify.</td></tr>
-<tr class="data even"><td><a href="#table_res_detail">rr.res_detail</a><br/>N/A</td><td> XPath-value pairs for members of resource or capability and their
+<tr class="data even"><td><a href="#table_res_detail">rr.res_detail</a><br />N/A</td><td> XPath-value pairs for members of resource or capability and their
 derivations that are less used and/or from VOResource extensions. The
 pairs refer to a resource if cap_index is NULL, to the referenced
 capability otherwise.</td></tr>
-<tr class="data"><td><a href="#table_res_role">rr.res_role</a><br/>N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
+<tr class="data"><td><a href="#table_res_role">rr.res_role</a><br />N/A</td><td> Entities, i.e., persons or organizations, operating on resources:
 creators, contacts, publishers, contributors.</td></tr>
-<tr class="data even"><td><a href="#table_res_schema">rr.res_schema</a><br/>xpath:/tableset/schema/</td><td> Sets of tables related to resources.</td></tr>
-<tr class="data"><td><a href="#table_res_subject">rr.res_subject</a><br/>xpath:/content/</td><td> Topics, object types, or other descriptive keywords about the
+<tr class="data even"><td><a href="#table_res_schema">rr.res_schema</a><br />xpath:/tableset/schema/</td><td> Sets of tables related to resources.</td></tr>
+<tr class="data"><td><a href="#table_res_subject">rr.res_subject</a><br />xpath:/content/</td><td> Topics, object types, or other descriptive keywords about the
 resource.</td></tr>
-<tr class="data even"><td><a href="#table_res_table">rr.res_table</a><br/>xpath:/(tableset/schema/|)table/</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
-<tr class="data"><td><a href="#table_resource">rr.resource</a><br/>xpath:/</td><td> The resources, i.e., services, data collections, organizations, etc.,
+<tr class="data even"><td><a href="#table_res_table">rr.res_table</a><br />xpath:/(tableset/schema/|)table/</td><td> (Relational) tables that are part of schemata or resources.</td></tr>
+<tr class="data"><td><a href="#table_resource">rr.resource</a><br />xpath:/</td><td> The resources, i.e., services, data collections, organizations, etc.,
 present in this registry.</td></tr>
-<tr class="data even"><td><a href="#table_table_column">rr.table_column</a><br/>xpath:/(tableset/schema/|)/table/column/</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
-<tr class="data"><td><a href="#table_validation">rr.validation</a><br/>xpath:/(capability|)</td><td>Validation levels for resources and capabilities.</td></tr>
+<tr class="data even"><td><a href="#table_table_column">rr.table_column</a><br />xpath:/(tableset/schema/|)/table/column/</td><td> Metadata on columns of tables pertaining to resources.</td></tr>
+<tr class="data"><td><a href="#table_validation">rr.validation</a><br />xpath:/(capability|)</td><td>Validation levels for resources and capabilities.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -829,23 +829,23 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>adql:VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
-<tr class="data"><td>created <br/>xpath:@created</td><td>adql:TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data even"><td>short_name <br/>xpath:shortName</td><td>adql:VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data"><td>res_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>The full name given to the resource</td></tr>
-<tr class="data even"><td>updated <br/>xpath:@updated</td><td>adql:TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
-<tr class="data even"><td>res_description <br/>xpath:content/description</td><td>adql:VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
-<tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>adql:VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
-<tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>adql:VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
-<tr class="data"><td>content_type <br/>xpath:content/type</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
-<tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>adql:VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
-<tr class="data"><td>source_value <br/>xpath:content/source</td><td>adql:VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
-<tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>adql:VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
-<tr class="data"><td>region_of_regard <br/>xpath:coverage/regionOfRegard</td><td>adql:REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
-<tr class="data even"><td>waveband <br/>xpath:coverage/waveband</td><td>adql:VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
-<tr class="data"><td>rights <br/>xpath:rights</td><td>adql:VARCHAR(*)</td><td>Information about rights held in and over the resource (multiple values are separated by hashes).</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:identifier</td><td>VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
+<tr class="data even"><td>res_type <br />xpath:@xsi:type</td><td>VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<tr class="data"><td>created <br />xpath:@created</td><td>TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data even"><td>short_name <br />xpath:shortName</td><td>VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
+<tr class="data"><td>res_title <br />xpath:title</td><td>VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data even"><td>updated <br />xpath:@updated</td><td>TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
+<tr class="data"><td>content_level <br />xpath:content/contentLevel</td><td>VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
+<tr class="data even"><td>res_description <br />xpath:content/description</td><td>VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
+<tr class="data"><td>reference_url <br />xpath:content/referenceURL</td><td>VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
+<tr class="data even"><td>creator_seq <br />xpath:curation/creator/name</td><td>VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
+<tr class="data"><td>content_type <br />xpath:content/type</td><td>VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
+<tr class="data even"><td>source_format <br />xpath:content/source/@format</td><td>VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
+<tr class="data"><td>source_value <br />xpath:content/source</td><td>VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
+<tr class="data even"><td>res_version <br />xpath:curation/version</td><td>VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
+<tr class="data"><td>region_of_regard <br />xpath:coverage/regionOfRegard</td><td>REAL</td><td>A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.</td></tr>
+<tr class="data even"><td>waveband <br />xpath:coverage/waveband</td><td>VARCHAR(*)</td><td>A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.</td></tr>
+<tr class="data"><td>rights <br />xpath:rights</td><td>VARCHAR(*)</td><td>Information about rights held in and over the resource (multiple values are separated by hashes).</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -960,14 +960,14 @@ regrettable, situation would
 probably require a change in the VOResource schema.</p>
 
 <!-- GENERATED: maketable.sh rr.res_role -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>role_name <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
-<tr class="data"><td>role_ivoid <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
-<tr class="data even"><td>street_address <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
-<tr class="data"><td>email <br/>N/A</td><td>adql:VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
-<tr class="data even"><td>telephone <br/>N/A</td><td>adql:VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
-<tr class="data"><td>logo <br/>N/A</td><td>adql:VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
-<tr class="data even"><td>base_role <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>role_name <br />N/A</td><td>VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
+<tr class="data"><td>role_ivoid <br />N/A</td><td>VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
+<tr class="data even"><td>street_address <br />N/A</td><td>VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
+<tr class="data"><td>email <br />N/A</td><td>VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
+<tr class="data even"><td>telephone <br />N/A</td><td>VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
+<tr class="data"><td>logo <br />N/A</td><td>VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
+<tr class="data even"><td>base_role <br />N/A</td><td>VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -994,8 +994,8 @@ subjects are kept in a separate table rather than being hash-joined like other
 string-like 1:n members of resource.</p>
 
 <!-- GENERATED: maketable.sh rr.res_subject -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>res_subject <br/>xpath:subject</td><td>adql:VARCHAR(*)</td><td>Topics, object types, or other descriptive keywords about the resource.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>res_subject <br />xpath:subject</td><td>VARCHAR(*)</td><td>Topics, object types, or other descriptive keywords about the resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1023,11 +1023,11 @@ Members of derived types are kept in the <code>res_detail</code> table
 capabilities on a single resource.  See section <span class="xref"><a href="#primarykeys">3</a></span> for details.</p>
 
 <!-- GENERATED: maketable.sh rr.capability -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier of this capability within the resource.</td></tr>
-<tr class="data"><td>cap_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
-<tr class="data even"><td>cap_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
-<tr class="data"><td>standard_id <br/>xpath:@standardID</td><td>adql:VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier of this capability within the resource.</td></tr>
+<tr class="data"><td>cap_type <br />xpath:@xsi:type</td><td>VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
+<tr class="data even"><td>cap_description <br />xpath:description</td><td>VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
+<tr class="data"><td>standard_id <br />xpath:@standardID</td><td>VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1058,12 +1058,12 @@ multiple schema elements on a single resource.  See section <span class="xref"><
 
 
 <!-- GENERATED: maketable.sh rr.res_schema -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>schema_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the res_schema rows belonging to a resource.</td></tr>
-<tr class="data"><td>schema_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
-<tr class="data even"><td>schema_name <br/>xpath:name </td><td>adql:VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
-<tr class="data"><td>schema_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
-<tr class="data even"><td>schema_utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>schema_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the res_schema rows belonging to a resource.</td></tr>
+<tr class="data"><td>schema_description <br />xpath:description</td><td>VARCHAR(*)</td><td>A free text description of the tableset explaining in general how all of the tables are related.</td></tr>
+<tr class="data even"><td>schema_name <br />xpath:name </td><td>VARCHAR(*)</td><td>A name for the set of tables.</td></tr>
+<tr class="data"><td>schema_title <br />xpath:title</td><td>VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table set.</td></tr>
+<tr class="data even"><td>schema_utype <br />xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this schema as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1100,14 +1100,14 @@ must be per resource an <em>not</em> per schema, as
 <code>table_index</code> MUST be unique within a resource.</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>schema_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
-<tr class="data"><td>table_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
-<tr class="data even"><td>table_name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
-<tr class="data"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the tables belonging to a resource</td></tr>
-<tr class="data even"><td>table_title <br/>xpath:title</td><td>adql:VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
-<tr class="data"><td>table_type <br/>xpath:@type</td><td>adql:VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
-<tr class="data even"><td>table_utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>schema_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
+<tr class="data"><td>table_description <br />xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
+<tr class="data even"><td>table_name <br />xpath:name</td><td>VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
+<tr class="data"><td>table_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the tables belonging to a resource</td></tr>
+<tr class="data even"><td>table_title <br />xpath:title</td><td>VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
+<tr class="data"><td>table_type <br />xpath:@type</td><td>VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
+<tr class="data even"><td>table_utype <br />xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1157,21 +1157,21 @@ to vs; hence, this column will contain one of NULL,
 <code>vs:simpledatatype</code>, and <code>vs:votabletype</code>.</p>
 
 <!-- GENERATED: maketable.sh rr.table_column -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the table this column belongs to.</td></tr>
-<tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the column.</td></tr>
-<tr class="data even"><td>ucd <br/>xpath:ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
-<tr class="data even"><td>utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
-<tr class="data"><td>std <br/>xpath:@std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr class="data even"><td>datatype <br/>xpath:dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
-<tr class="data"><td>extended_schema <br/>xpath:dataType/@extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
-<tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
-<tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
-<tr class="data"><td>type_system <br/>xpath:dataType/@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:simpledatatype, vs:votabletype, and vs:taptype.</td></tr>
-<tr class="data even"><td>flag <br/>xpath:flag</td><td>adql:VARCHAR(*)</td><td>Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
-<tr class="data"><td>column_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>table_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the table this column belongs to.</td></tr>
+<tr class="data"><td>name <br />xpath:name</td><td>VARCHAR(*)</td><td>The name of the column.</td></tr>
+<tr class="data even"><td>ucd <br />xpath:ucd</td><td>VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="data"><td>unit <br />xpath:unit</td><td>VARCHAR(*)</td><td>The unit associated with all values in the column.</td></tr>
+<tr class="data even"><td>utype <br />xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this column represents.</td></tr>
+<tr class="data"><td>std <br />xpath:@std</td><td>SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr class="data even"><td>datatype <br />xpath:dataType</td><td>VARCHAR(*)</td><td>The type of the data contained in the column.</td></tr>
+<tr class="data"><td>extended_schema <br />xpath:dataType/@extendedSchema</td><td>VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="data even"><td>extended_type <br />xpath:dataType/@extendedType</td><td>VARCHAR(*)</td><td>A custom type for the values this column contains.</td></tr>
+<tr class="data"><td>arraysize <br />xpath:dataType/@arraysize</td><td>VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
+<tr class="data even"><td>delim <br />xpath:dataType/@delim</td><td>VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
+<tr class="data"><td>type_system <br />xpath:dataType/@xsi:type</td><td>VARCHAR(*)</td><td>The type system used, as a QName with a canonical prefix; this will ususally be one of vs:simpledatatype, vs:votabletype, and vs:taptype.</td></tr>
+<tr class="data even"><td>flag <br />xpath:flag</td><td>VARCHAR(*)</td><td>Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".</td></tr>
+<tr class="data"><td>column_description <br />xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the column's contents.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1266,17 +1266,17 @@ interface.</dd>
 </dl>
 
 <!-- GENERATED: maketable.sh rr.interface -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability.</td></tr>
-<tr class="data"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the interfaces of a resource.</td></tr>
-<tr class="data even"><td>intf_type <br/>xpath:@xsi:type</td><td>adql:VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
-<tr class="data"><td>intf_role <br/>xpath:@role</td><td>adql:VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
-<tr class="data even"><td>std_version <br/>xpath:@version</td><td>adql:VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
-<tr class="data"><td>query_type <br/>xpath:queryType</td><td>adql:VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (get or post) supported by the service.</td></tr>
-<tr class="data even"><td>result_type <br/>xpath:resultType</td><td>adql:VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
-<tr class="data"><td>wsdl_url <br/>xpath:wsdlURL</td><td>adql:VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
-<tr class="data even"><td>url_use <br/>xpath:accessURL/@use</td><td>adql:VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').</td></tr>
-<tr class="data"><td>access_url <br/>xpath:accessURL</td><td>adql:VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability.</td></tr>
+<tr class="data"><td>intf_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the interfaces of a resource.</td></tr>
+<tr class="data even"><td>intf_type <br />xpath:@xsi:type</td><td>VARCHAR(*)</td><td>The type of the interface (vr:webbrowser, vs:paramhttp, etc).</td></tr>
+<tr class="data"><td>intf_role <br />xpath:@role</td><td>VARCHAR(*)</td><td>An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.</td></tr>
+<tr class="data even"><td>std_version <br />xpath:@version</td><td>VARCHAR(*)</td><td>The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.</td></tr>
+<tr class="data"><td>query_type <br />xpath:queryType</td><td>VARCHAR(*)</td><td>Hash-joined list of expected HTTP method (get or post) supported by the service.</td></tr>
+<tr class="data even"><td>result_type <br />xpath:resultType</td><td>VARCHAR(*)</td><td>The MIME type of a document returned in the HTTP response.</td></tr>
+<tr class="data"><td>wsdl_url <br />xpath:wsdlURL</td><td>VARCHAR(*)</td><td>The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.</td></tr>
+<tr class="data even"><td>url_use <br />xpath:accessURL/@use</td><td>VARCHAR(*)</td><td>A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').</td></tr>
+<tr class="data"><td>access_url <br />xpath:accessURL</td><td>VARCHAR(*)</td><td>The URL at which the interface is found.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1307,20 +1307,20 @@ both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
 joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the interface this parameter belongs to.</td></tr>
-<tr class="data"><td>name <br/>xpath:name</td><td>adql:VARCHAR(*)</td><td>The name of the parameter.</td></tr>
-<tr class="data even"><td>ucd <br/>xpath:ucd</td><td>adql:VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="data"><td>unit <br/>xpath:unit</td><td>adql:VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
-<tr class="data even"><td>utype <br/>xpath:utype</td><td>adql:VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this parameter represents.</td></tr>
-<tr class="data"><td>std <br/>xpath:@std</td><td>adql:SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr class="data even"><td>datatype <br/>xpath:dataType</td><td>adql:VARCHAR(*)</td><td>The type of the data contained in the parameter.</td></tr>
-<tr class="data"><td>extended_schema <br/>xpath:dataType/@extendedSchema</td><td>adql:VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>adql:VARCHAR(*)</td><td>A custom type for the values this parameter contains.</td></tr>
-<tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>adql:VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
-<tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>adql:VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
-<tr class="data"><td>param_use <br/>xpath:@use</td><td>adql:VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
-<tr class="data even"><td>param_description <br/>xpath:description</td><td>adql:VARCHAR(*)</td><td>A free-text description of the parameter's contents.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>intf_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the interface this parameter belongs to.</td></tr>
+<tr class="data"><td>name <br />xpath:name</td><td>VARCHAR(*)</td><td>The name of the parameter.</td></tr>
+<tr class="data even"><td>ucd <br />xpath:ucd</td><td>VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="data"><td>unit <br />xpath:unit</td><td>VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
+<tr class="data even"><td>utype <br />xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this parameter represents.</td></tr>
+<tr class="data"><td>std <br />xpath:@std</td><td>SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr class="data even"><td>datatype <br />xpath:dataType</td><td>VARCHAR(*)</td><td>The type of the data contained in the parameter.</td></tr>
+<tr class="data"><td>extended_schema <br />xpath:dataType/@extendedSchema</td><td>VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="data even"><td>extended_type <br />xpath:dataType/@extendedType</td><td>VARCHAR(*)</td><td>A custom type for the values this parameter contains.</td></tr>
+<tr class="data"><td>arraysize <br />xpath:dataType/@arraysize</td><td>VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
+<tr class="data even"><td>delim <br />xpath:dataType/@delim</td><td>VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
+<tr class="data"><td>param_use <br />xpath:@use</td><td>VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
+<tr class="data even"><td>param_description <br />xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the parameter's contents.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1345,10 +1345,10 @@ between the two representations in the database ingestor.</p>
 
 
 <!-- GENERATED: maketable.sh rr.relationship -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>relationship_type <br/>xpath:relationshipType</td><td>adql:VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
-<tr class="data"><td>related_id <br/>xpath:relatedResource/@ivo-id</td><td>adql:VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
-<tr class="data even"><td>related_name <br/>xpath:relatedResource</td><td>adql:VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>relationship_type <br />xpath:relationshipType</td><td>VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
+<tr class="data"><td>related_id <br />xpath:relatedResource/@ivo-id</td><td>VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
+<tr class="data even"><td>related_name <br />xpath:relatedResource</td><td>VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1393,10 +1393,10 @@ currently range from 0 (description stored in a registry) to
 correct).</p>
 
 <!-- GENERATED: maketable.sh rr.validation -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>validated_by <br/>xpath:validationLevel/@validatedBy</td><td>adql:VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
-<tr class="data"><td>val_level <br/>xpath:validationLevel</td><td>adql:SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>validated_by <br />xpath:validationLevel/@validatedBy</td><td>VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
+<tr class="data"><td>val_level <br />xpath:validationLevel</td><td>SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
+<tr class="data even"><td>cap_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1419,9 +1419,9 @@ addresses the entire resource).</p>
 <code>vr:Curation</code>'s date children.</p>
 
 <!-- GENERATED: maketable.sh rr.res_date -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>date_value <br/>xpath:date</td><td>adql:TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
-<tr class="data"><td>value_role <br/>xpath:date/@role</td><td>adql:VARCHAR(*)</td><td>A string indicating what the date refers to, e.g., created, availability, updated.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>date_value <br />xpath:date</td><td>TIMESTAMP</td><td>A date associated with an event in the life cycle of the resource.</td></tr>
+<tr class="data"><td>value_role <br />xpath:date/@role</td><td>VARCHAR(*)</td><td>A string indicating what the date refers to, e.g., created, availability, updated.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1489,10 +1489,10 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 
 
 <!-- GENERATED: maketable.sh rr.res_detail -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br/>Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>adql:VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.</td></tr>
-<tr class="data"><td>detail_xpath <br/>N/A</td><td>adql:VARCHAR(*)</td><td>The xpath of the data item</td></tr>
-<tr class="data even"><td>detail_value <br/>N/A</td><td>adql:VARCHAR(*)</td><td>(Atomic) value of the member</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical">Name<br />Utype</th><th class="thVertical">Type</th><th class="thVertical">Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br />xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
+<tr class="data even"><td>cap_index <br />N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.</td></tr>
+<tr class="data"><td>detail_xpath <br />N/A</td><td>VARCHAR(*)</td><td>The xpath of the data item</td></tr>
+<tr class="data even"><td>detail_value <br />N/A</td><td>VARCHAR(*)</td><td>(Atomic) value of the member</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1547,8 +1547,9 @@ the first argument.  The behavior for second
 arguments containing a hash sign is undefined.</dd>
 <dt><code>ivo_string_agg(expression VARCHAR(*), delimiter VARCHAR(*)) -&gt; VARCHAR(*)</code></dt>
 <dd>An aggregate function returning all values of
-<code>expression</code> within a GROUP contcatenated with 
-<code>delimiter</code>.</dd>
+<code>expression</code> within a GROUP concatenated with 
+<code>delimiter</code>.  NULLs in the aggregate do not contribute, an empty 
+aggregate yields an empty string.</dd>
 </dl>
 
 <p>Reference implementations of the four functions for the PostgreSQL
@@ -2067,11 +2068,11 @@ into account.</p>
         <td>ivo-id</td>
         <td><code>VARCHAR(255)</code></td>
         <td>
-          {all_tables}.ivoid<br/>
-          res_role.role_ivoid<br/>
-          capability.standard_id<br/>
-          relationship.related_id<br/>
-          validation.validated_by<br/>
+          {all_tables}.ivoid<br />
+          res_role.role_ivoid<br />
+          capability.standard_id<br />
+          relationship.related_id<br />
+          validation.validated_by<br />
           res_detail.detail_value for several values of detail_xpath
         </td>
       </tr>
@@ -2104,9 +2105,9 @@ SQL types are those that require numeric values, viz.,
       <tr>
         <td>small integer</td>
         <td><code>SMALLINT</code></td>
-        <td>table_column.std<br/>
-          intf_param.std<br/>
-          validation.level<br/>
+        <td>table_column.std<br />
+          intf_param.std<br />
+          validation.level<br />
         </td>
       </tr>
     </tbody>
@@ -2138,16 +2139,16 @@ will not be sufficient for their resource xpaths.</p>
     </thead>
     <tbody>
       <tr>
-        <td>Utype(s)<br/>UCD(s)<br/>Units<br/>xpaths</td>
+        <td>Utype(s)<br />UCD(s)<br />Units<br />xpaths</td>
         <td><code>VARCHAR(128)</code></td>
-        <td>res_schema.schema_utype<br/>
-          res_table.table_utype<br/>
-          table_column.ucd<br/>
-          table_column.unit<br/>
-          table_column.utype<br/>
-          intf_param.ucd<br/>
-          intf_param.unit<br/>
-          intf_param.utype<br/>
+        <td>res_schema.schema_utype<br />
+          res_table.table_utype<br />
+          table_column.ucd<br />
+          table_column.unit<br />
+          table_column.utype<br />
+          intf_param.ucd<br />
+          intf_param.unit<br />
+          intf_param.utype<br />
           res_detail.detail_xpath
         </td>
       </tr>
@@ -2181,16 +2182,16 @@ permit truncation at 255 characters.</p>
         <td>e-mail</td>
         <td><code>VARCHAR(128)</code></td>
         <td>
-          res_role.email<br/>
+          res_role.email<br />
         </td>
       </tr>
 
       <tr>
         <td>URLs</td>
         <td><code>VARCHAR(255)</code></td>
-        <td>resource.reference_url<br/>
-          res_role.logo<br/>
-          interface.wsdl_url<br/>
+        <td>resource.reference_url<br />
+          res_role.logo<br />
+          interface.wsdl_url<br />
           interface.access_url
         </td>
       </tr>
@@ -2215,37 +2216,37 @@ of powers of two are considered.</p>
     </thead>
     <tbody>
       <tr>
-        <td rowspan="4">predefined<br/>values</td>
+        <td rowspan="4">predefined<br />values</td>
         <td><code>VARCHAR(255)</code></td>
-        <td>resource.content_level<br/>
+        <td>resource.content_level<br />
           resource.content_type
         </td>
       </tr>
       <tr>
         <td><code>VARCHAR(64)</code></td>
         <td>
-          resource.rights<br/>
+          resource.rights<br />
           resource.waveband</td>
       </tr>
       <tr>
         <td><code>VARCHAR(32)</code></td>
-        <td>resource.res_type<br/>
-          capability.cap_type<br/>
-          res_table.table_type<br/>
-          table_column.flag<br/>
-          table_column.datatype<br/>
-          table_column.extended_schema<br/>
-          table_column.extended_type<br/>
-          table_column.type_system<br/>
-          interface.result_type<br/>
-          intf_param.datatype<br/>
-          intf_param.extended_schema<br/>
-          intf_param.extended_type<br/>
+        <td>resource.res_type<br />
+          capability.cap_type<br />
+          res_table.table_type<br />
+          table_column.flag<br />
+          table_column.datatype<br />
+          table_column.extended_schema<br />
+          table_column.extended_type<br />
+          table_column.type_system<br />
+          interface.result_type<br />
+          intf_param.datatype<br />
+          intf_param.extended_schema<br />
+          intf_param.extended_type<br />
         </td>
       </tr>
       <tr>
         <td><code>VARCHAR(4)</code></td>
-        <td>interface.query_type<br/>
+        <td>interface.query_type<br />
           interface.url_use
         </td>
       </tr>
@@ -2279,52 +2280,52 @@ the column designations for the TEXT datatype:</p>
       <tr>
         <td rowspan="6">free string values</td>
         <td><code>TEXT</code></td>
-        <td>resource.res_description (7801)<br/>
-          resource.creator_seq (712)<br/>
-          res_role.role_name (712)<br/>
-          res_schema.schema_description (934)<br/>
-          res_table.table_description (934)<br/>
-          table_column.description (3735)<br/>
+        <td>resource.res_description (7801)<br />
+          resource.creator_seq (712)<br />
+          res_role.role_name (712)<br />
+          res_schema.schema_description (934)<br />
+          res_table.table_description (934)<br />
+          table_column.description (3735)<br />
           intf_param.description (347)
-          capability.cap_description (100)<br/>
+          capability.cap_description (100)<br />
         </td>
       </tr><tr>
         <td><code>VARCHAR(255)</code></td>
-        <td>resource.res_title<br/>
-          res_role.address<br/>
-          res_schema.schema_title<br/>
-          res_table.table_title<br/>
-          relationship.related_name<br/>
+        <td>resource.res_title<br />
+          res_role.address<br />
+          res_schema.schema_title<br />
+          res_table.table_title<br />
+          relationship.related_name<br />
           res_detail.detail_value
         </td>
       </tr><tr>
         <td><code>VARCHAR(128)</code></td>
-        <td>resource.version<br/>
-          resource.source_value<br/>
-          res_subject.res_subject<br/>
+        <td>resource.version<br />
+          resource.source_value<br />
+          res_subject.res_subject<br />
         </td>
       </tr><tr>
         <td><code>VARCHAR(64)</code></td>
-        <td>res_table.table_name<br/>
-          table_column.name<br/>
+        <td>res_table.table_name<br />
+          table_column.name<br />
           intf_param.name
         </td>
       </tr><tr>
         <td><code>VARCHAR(32)</code></td>
-        <td>resource.source_format<br/>
-          res_role.telephone<br/>
-          res_schema.schema_name<br/>
-          interface.intf_type<br/>
-          interface.intf_role<br/>
-          relationship_type<br/>
+        <td>resource.source_format<br />
+          res_role.telephone<br />
+          res_schema.schema_name<br />
+          interface.intf_type<br />
+          interface.intf_role<br />
+          relationship_type<br />
           res_date.value_role
         </td>
       </tr><tr>
         <td><code>VARCHAR(16)</code></td>
-        <td>resource.short_name<br/>
-          table_column.arraysize<br/>
-          intf_param.arraysize<br/>
-          interface.std_version<br/>
+        <td>resource.short_name<br />
+          table_column.arraysize<br />
+          intf_param.arraysize<br />
+          interface.std_version<br />
           intf_param.use
         </td>
       </tr>
@@ -2414,6 +2415,7 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
   <li>Dropped requirements that the <code>_index</code> columns are
   integers (let alone small integers); added a section discussing in
   what sense they are implementation defined.</li>
+  <li>Dropped adql: prefixes on TAP_SCHEMA.columns datatypes.</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
   list in Appendix <span class="xref"><a href="#d_u_list">A</a></span></li>
   <li>Clarified translation of column/@std and param/@std</li>
@@ -2464,7 +2466,7 @@ in explicit call-templates in the the template for root below. --&gt;</div><div 
   <code>res_detail.detail_xpath</code>.</li>
   <li>Renamed some columns and the subject table to relieve the need of quoting
   in MS SQL Server (or, in the case or <code>use_param</code>, maintain
-  consistency after the renaming):<br/>
+  consistency after the renaming):<br />
     <table>
       <tr><th>Old</th><th>New</th></tr>
       <tr><td>resource.version</td><td>resource.res_version</td></tr>
@@ -2528,7 +2530,7 @@ clashes with reserved SQL words.</li>
 
 </div> <!-- appendices -->
 
-<div class="section-nonum"><h2><a id="references"><span class="secnum"/>References</a></h2>
+<div class="section-nonum"><h2><a id="references"><span class="secnum"></span>References</a></h2>
 
 <?bibliography ivoadoc/refs?><dl>
 

@@ -13,4 +13,5 @@ sed -e 's/title="[^"]*"//g;
 	s/class="results"/& frame="box" rules="rows"/g;
 	s/join<\/td><td[^>]*>/<br\/>/g;
 	/_index/s/adql:SMALLINT/<a href="#primarykeys">(key)<\/a>/g;
+	s/adql://g;
 	s/Name<\/th><th[^>]*>/Name<br\/>/g;'
