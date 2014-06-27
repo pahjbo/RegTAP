@@ -130,6 +130,8 @@ Version <span class="docversion"/></h1>
       <dd><a href="http://www.ivoa.net/documents/RegTAP/"
       shape="rect">http://www.ivoa.net/documents/RegTAP/</a></dd>
     <dt>Previous versions:</dt>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20140227">http://www.ivoa.net/documents/RegTAP/20140227</a></dd>
+      <dd><a href="http://www.ivoa.net/documents/RegTAP/20130909">http://www.ivoa.net/documents/RegTAP/20130909</a></dd>
       <dd><a href="http://www.ivoa.net/documents/RegTAP/20131203">http://www.ivoa.net/documents/RegTAP/20131203</a></dd>
       <dd><a href="http://www.ivoa.net/documents/RegTAP/20130909">http://www.ivoa.net/documents/RegTAP/20130909</a></dd>
       <dd><a href="http://www.ivoa.net/documents/RegTAP/20130411">http://www.ivoa.net/documents/RegTAP/20130411</a></dd>
@@ -137,11 +139,11 @@ Version <span class="docversion"/></h1>
       <dd>(Unpublished) Internal Working Draft 2012-11-12 (Volute rev. 1864)</dd>
 <dt>Authors:</dt>
 <dd>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner">Markus Demleitner</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison">Paul Harrison</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro">Marco Molinaro</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene">Gretchen Greene</a><br/>
-      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower">Theresa Dower</a><br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarkusDemleitner">Markus Demleitner</a>,<br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/PaulHarrison">Paul Harrison</a>,<br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/MarcoMolinaro">Marco Molinaro</a>,<br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/GretchenGreene">Gretchen Greene</a>,<br/>
+      <a href="http://www.ivoa.net/cgi-bin/twiki/bin/view/IVOA/TheresaDower">Theresa Dower</a>,<br/>
       <a href="http://wiki.ivoa.net/twiki/bin/view/IVOA/MenelaosPerdikeas">Menelaos Perdikeas</a><br/>
 </dd>
 </dl>
@@ -197,7 +199,7 @@ roughly 14000 such resource records active within the VO, originating
 from about 20 publishing registries.</p>
 
 <p>The protocol spoken by these
-publishing registries, OAI-PMH only allows restricting queries by
+publishing registries, OAI-PMH, only allows restricting queries by
 modification date and identifier and is hence not suitable for data discovery.
 Even if it were, data discovery would at least be fairly time consuming if
 each client had to query dozens or, potentially, hundreds of
@@ -222,7 +224,7 @@ the VOResource XML format <cite>std:VOR</cite>.  The simplification
 yields 13 tables.  For each table, TAP_SCHEMA metadata is given together
 with rules for how to fill these tables from VOResource-serialized
 metadata records as well as conditions on foreign keys and
-recommendations on indices.</p>
+recommendations on indexes.</p>
 
 <p>The resulting set of tables has a modest size by today's standards,
 but is still non-trivial.  The largest table, <code>table_column</code>,
@@ -238,7 +240,7 @@ query astronomical data servers.</p>
 
 <p>The set of tables and their metadata specified here, together with
 the mapping from VOResource ("ingestion rules") is collectively
-called "relational registry schema" or relational registry for
+called "relational registry schema" or "relational registry" for
 short.</p>
 
 <p>The specificiation additionally talks about how to embed these into TAP
@@ -250,9 +252,9 @@ introduce a new term for it.  Hence, the entire standard is now known as
 
 <p>Historically, we intended to follow the ObsCore/ObsTAP model and
 talked about RegTAP.  As changing this acronym is technically painful
-(e.g., identifiers and URLs would need to be adapted), we kept it after
+(e.g., identifiers and URLs would need to be adapted), we kept it even after
 the distinction between the schema and its mapping on the one hand and
-the its combination with a TAP service on the other went away.  This
+its combination with a TAP service on the other went away.  This
 means that the official acronym for "IVOA registry relational schema" is
 RegTAP.  This aesthetic defect seems preferable to causing actual
 incompatibilities.</p>
@@ -277,7 +279,7 @@ following ways:</p>
 <dt>VOResource, v1.03 <cite>std:VOR</cite></dt>
 <dd>VOResource sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
-refers to concepts laid down there via XPaths <cite>std:XPATH</cite>.</dd>
+refers to concepts laid down there via xpaths <cite>std:XPATH</cite>.</dd>
 
 
 <dt>VODataService, v1.1 <cite>std:VODS11</cite></dt>
@@ -519,9 +521,13 @@ faithfully store MUST be replaced by a question mark character ("?").</p>
 <p>RegTAP services MUST interpret incoming ADQL as encoded in UTF-8,
 again replacing unsupported characters with question marks.</p>
 
-<p>On result generation, non-ASCII characters not supported by the
-output format chosen by the user or the service itself MUST be replaced
-by question marks.</p>
+<p>We leave character replacement on result generation unspecified, as
+best-effort representations (e.g., "Angstrom" instead of "Ångström")
+should not impact interoperability but significantly improve user
+experience over consistent downgrading.  In VOTable output,
+implementations SHOULD support full Unicode in at least the fields
+enumerated above.  Clients are advised to retrieve results in VOTable or
+other encoding-aware formats.</p>
 
 <p>Note that with VOTable 1.3, non-ASCII in char-typed fields, while
 supported by most clients in TABLEDATA serialization, is technically
@@ -585,7 +591,7 @@ specification:</p>
 </div>
 
 <div class="section">
-<h2><a id="vorutypes">XPaths</a></h2>
+<h2><a id="vorutypes">Xpaths</a></h2>
 
 <p>This specification piggybacks on top of the well-established
 VOResource standard.  This means that it does not define a full data model,
@@ -599,7 +605,7 @@ generality.</p>
 <p>All xpaths given in this specifiation are assumed to be relative to
 the enclosing <code>vr:Resource</code> element; these are called
 "resource xpaths" in the following.  If resource xpaths are to be
-applied to an OAI-PMH response, the xpath expression
+applied to an OAI-PMH response, the Xpath expression
 <code>*/*/*/oai:metadata/ri:Resource</code> must be prepended to it,
 with the canonical prefixes from section <span
 class="xref">qnameatts</span> implied.  The resource xpaths themselves
@@ -643,7 +649,7 @@ OAI-PMH response, the xpath would be
 </p>
 
 <p>While clients MUST NOT rely on these utypes in either TAP_SCHEMA or the
-metadata delievered with TAP replies, service operators SHOULD provide them, in
+metadata delivered with TAP replies, service operators SHOULD provide them, in
 particular when there are local extensions to the relational registry in their
 services.  Giving xpaths for extra columns and tables helps human
 interpretation of them at least when the defining schema files are
@@ -722,7 +728,7 @@ table, recommendations on explicit primary and foreign keys as well as
 indexed columns are given, where it is understood that primary and
 foreign keys are already indexed in order to allow efficient joins;
 these parts are not normative, but operators should ensure decent
-performance for queries assuming the presence of the given indices and
+performance for queries assuming the presence of the given indexes and
 relationships.  Finally, lowercasing requirements
 (normative) are given.</p>
 
@@ -793,7 +799,7 @@ writing define the following values for <code>res_type</code>:</p>
 <dl>
 <dt>vg:authority</dt>
 <dd>A naming authority (these records allow resolving who is responsible
-for IVORNs with a certain authority; cf. <cite>std:VOID</cite>)</dd>
+for IVORNs with a certain authority; cf. <cite>std:VOID</cite>).</dd>
 <dt>vg:registry</dt>
 <dd>A registry is considered a publishing registry if it contains a
 capability element with <code>xsi:type="vg:Harvest"</code>.  Old,
@@ -808,12 +814,12 @@ supporting it.</dd>
 serve as a publisher of other resources.</dd>
 <dt>vr:resource</dt>
 <dd>Any entity or component of a VO application that is describable and
-identifiable by a IVOA Identifier; while it is technically possible to
+identifiable by an IVOA identifier; while it is technically possible to
 publish such records, the authors of such records should probably be
 asked to use a more specific type.</dd>
 <dt>vr:service</dt>
 <dd>A resource that can be invoked by a client to perform some action on
-its behalf</dd>
+its behalf.</dd>
 <dt>vs:catalogservice</dt>
 <dd>A service that interacts with one or more specified tables having
 some coverage of the sky, time, and/or frequency.</dd>
@@ -845,17 +851,17 @@ registry .</p>
 
 
 <!-- GENERATED: maketable.sh rr.resource -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers</td></tr>
-<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc)</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:identifier</td><td>VARCHAR(*)</td><td>Unambiguous reference to the resource conforming to the IVOA standard for identifiers.</td></tr>
+<tr class="data even"><td>res_type <br/>xpath:@xsi:type</td><td>VARCHAR(*)</td><td>Resource type (something like vs:datacollection, vs:catalogservice, etc).</td></tr>
 <tr class="data"><td>created <br/>xpath:@created</td><td>TIMESTAMP</td><td>The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
 <tr class="data even"><td>short_name <br/>xpath:shortName</td><td>VARCHAR(*)</td><td>A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.</td></tr>
-<tr class="data"><td>res_title <br/>xpath:title</td><td>VARCHAR(*)</td><td>The full name given to the resource</td></tr>
+<tr class="data"><td>res_title <br/>xpath:title</td><td>VARCHAR(*)</td><td>The full name given to the resource.</td></tr>
 <tr class="data even"><td>updated <br/>xpath:@updated</td><td>TIMESTAMP</td><td>The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.</td></tr>
-<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience</td></tr>
+<tr class="data"><td>content_level <br/>xpath:content/contentLevel</td><td>VARCHAR(*)</td><td>A hash-separated list of content levels specifying the intended audience.</td></tr>
 <tr class="data even"><td>res_description <br/>xpath:content/description</td><td>VARCHAR(*)</td><td>An account of the nature of the resource.</td></tr>
 <tr class="data"><td>reference_url <br/>xpath:content/referenceURL</td><td>VARCHAR(*)</td><td>URL pointing to a human-readable document describing this resource.</td></tr>
 <tr class="data even"><td>creator_seq <br/>xpath:curation/creator/name</td><td>VARCHAR(*)</td><td>The creator(s) of the resource in the order given by the resource record author, separated by semicolons.</td></tr>
-<tr class="data"><td>content_type <br/>xpath:content/type</td><td>VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource</td></tr>
+<tr class="data"><td>content_type <br/>xpath:content/type</td><td>VARCHAR(*)</td><td>A hash-separated list of natures or genres of the content of the resource.</td></tr>
 <tr class="data even"><td>source_format <br/>xpath:content/source/@format</td><td>VARCHAR(*)</td><td>The format of source_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).</td></tr>
 <tr class="data"><td>source_value <br/>xpath:content/source</td><td>VARCHAR(*)</td><td>A bibliographic reference from which the present resource is derived or extracted.</td></tr>
 <tr class="data even"><td>res_version <br/>xpath:curation/version</td><td>VARCHAR(*)</td><td>Label associated with creation or availablilty of a version of a resource.</td></tr>
@@ -978,13 +984,13 @@ probably require a change in the VOResource schema.</p>
 
 <!-- GENERATED: maketable.sh rr.res_role -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>role_name <br/>N/A</td><td>VARCHAR(*)</td><td>The real-world name or title of a person or organization</td></tr>
-<tr class="data"><td>role_ivoid <br/>N/A</td><td>VARCHAR(*)</td><td>An IVOA identifier of a person or organization</td></tr>
-<tr class="data even"><td>street_address <br/>N/A</td><td>VARCHAR(*)</td><td>A mailing address for a person or organization</td></tr>
-<tr class="data"><td>email <br/>N/A</td><td>VARCHAR(*)</td><td>An email address the entity can be reached at</td></tr>
-<tr class="data even"><td>telephone <br/>N/A</td><td>VARCHAR(*)</td><td>A telephone number the entity can be reached at</td></tr>
-<tr class="data"><td>logo <br/>N/A</td><td>VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity</td></tr>
-<tr class="data even"><td>base_role <br/>N/A</td><td>VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator</td></tr>
+<tr class="data even"><td>role_name <br/>N/A</td><td>VARCHAR(*)</td><td>The real-world name or title of a person or organization.</td></tr>
+<tr class="data"><td>role_ivoid <br/>N/A</td><td>VARCHAR(*)</td><td>An IVOA identifier of a person or organization.</td></tr>
+<tr class="data even"><td>street_address <br/>N/A</td><td>VARCHAR(*)</td><td>A mailing address for a person or organization.</td></tr>
+<tr class="data"><td>email <br/>N/A</td><td>VARCHAR(*)</td><td>An email address the entity can be reached at.</td></tr>
+<tr class="data even"><td>telephone <br/>N/A</td><td>VARCHAR(*)</td><td>A telephone number the entity can be reached at.</td></tr>
+<tr class="data"><td>logo <br/>N/A</td><td>VARCHAR(*)</td><td>URL pointing to a graphical logo, which may be used to help identify the entity.</td></tr>
+<tr class="data even"><td>base_role <br/>N/A</td><td>VARCHAR(*)</td><td>The role played by this entity; this is one of contact, publisher, and creator.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1023,7 +1029,7 @@ string-like 1:n members of resource.</p>
 case-insensitive and pattern queries using the index.</p>
 
 <p>The <code>ivoid</code> column MUST be lowercased during
-ingestion.  Clients are advised query the <code>res_subject</code> column
+ingestion.  Clients are advised to query the <code>res_subject</code> column
 case-insensitively, e.g., using <code>ivo_nocasematch</code>.</p>
 
 </div> <!-- subsection table_subject -->
@@ -1046,7 +1052,7 @@ class="xref">primarykeys</span> for details.</p>
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier of this capability within the resource.</td></tr>
 <tr class="data"><td>cap_type <br/>xpath:@xsi:type</td><td>VARCHAR(*)</td><td>The type of capability covered here.</td></tr>
-<tr class="data even"><td>cap_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service</td></tr>
+<tr class="data even"><td>cap_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A human-readable description of what this capability provides as part of the over-all service.</td></tr>
 <tr class="data"><td>standard_id <br/>xpath:@standardID</td><td>VARCHAR(*)</td><td>A URI for a standard this capability conforms to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
@@ -1119,17 +1125,17 @@ of writing (this is the reason for the alternative in the table xpath).</p>
 <p>The table contains a column <code>table_index</code> to disambiguate
 multiple tables on a single resource.  See section <span
 class="xref">primarykeys</span> for details.  Note that if the sibling
-count is used as implemenation of <code>table_index</code>, the count
-must be per resource an <em>not</em> per schema, as
+count is used as implementation of <code>table_index</code>, the count
+must be per resource and <em>not</em> per schema, as
 <code>table_index</code> MUST be unique within a resource.</p>
 
 <!-- GENERATED: maketable.sh rr.res_table -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>schema_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).</td></tr>
-<tr class="data"><td>table_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the table's contents</td></tr>
+<tr class="data"><td>table_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the table's contents.</td></tr>
 <tr class="data even"><td>table_name <br/>xpath:name</td><td>VARCHAR(*)</td><td>The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.</td></tr>
-<tr class="data"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the tables belonging to a resource</td></tr>
-<tr class="data even"><td>table_title <br/>xpath:title</td><td>VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table</td></tr>
+<tr class="data"><td>table_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>An arbitrary identifier for the tables belonging to a resource.</td></tr>
+<tr class="data even"><td>table_title <br/>xpath:title</td><td>VARCHAR(*)</td><td>A descriptive, human-interpretable name for the table.</td></tr>
 <tr class="data"><td>table_type <br/>xpath:@type</td><td>VARCHAR(*)</td><td>A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.</td></tr>
 <tr class="data even"><td>table_utype <br/>xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a concept in a data model that the data in this table as a whole represent.</td></tr>
 </tbody></table></div>
@@ -1230,7 +1236,7 @@ the <code>interface</code>  table means that an interface in the
 relational registry can only have one access URL, where in VOResource it
 can have many.  In practice, this particular VOResource capability has
 not been used by registry record authors.  Since access URLs are
-probably the item most queried for, it seems warranted to save one
+http://www.tfiu.de/probably the item most queried for, it seems warranted to save one
 indirection when querying for them.</p>
 
 <p>This specification deprecates the <code>maxOccurs="unbounded"</code>
@@ -1277,8 +1283,9 @@ types are mentioned in IVOA-recommended schemata:</p>
 
 <dl>
 <dt>vs:paramhttp</dt>
-<dd>A service invoked via an HTTP query with either form-urlencoded or
-multipart form-data parameters.</dd>
+<dd>A service invoked via an HTTP query, usually with some form of
+structured parameters. This type is used for interfaces speaking
+standard IVOA protocols.</dd>
 <dt>vr:webbrowser</dt>
 <dd>A (form-based) interface intended to be accessed interactively by a
 user via a web browser.</dd>
@@ -1335,20 +1342,20 @@ both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
 joined.</p>
 
 <!-- GENERATED: maketable.sh rr.intf_param -->
-<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the interface this parameter belongs to.</td></tr>
-<tr class="data"><td>name <br/>xpath:name</td><td>VARCHAR(*)</td><td>The name of the parameter.</td></tr>
-<tr class="data even"><td>ucd <br/>xpath:ucd</td><td>VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
-<tr class="data"><td>unit <br/>xpath:unit</td><td>VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
-<tr class="data even"><td>utype <br/>xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this parameter represents.</td></tr>
-<tr class="data"><td>std <br/>xpath:@std</td><td>SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
-<tr class="data even"><td>datatype <br/>xpath:dataType</td><td>VARCHAR(*)</td><td>The type of the data contained in the parameter.</td></tr>
-<tr class="data"><td>extended_schema <br/>xpath:dataType/@extendedSchema</td><td>VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
-<tr class="data even"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>VARCHAR(*)</td><td>A custom type for the values this parameter contains.</td></tr>
-<tr class="data"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
-<tr class="data even"><td>delim <br/>xpath:dataType/@delim</td><td>VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
-<tr class="data"><td>param_use <br/>xpath:@use</td><td>VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
-<tr class="data even"><td>param_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the parameter's contents.</td></tr>
+<div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>intf_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the interface this parameter belongs to.</td></tr>
+<tr class="data even"><td>name <br/>xpath:name</td><td>VARCHAR(*)</td><td>The name of the parameter.</td></tr>
+<tr class="data"><td>ucd <br/>xpath:ucd</td><td>VARCHAR(*)</td><td>A unified content descriptor that describes the scientific content of the parameter.</td></tr>
+<tr class="data even"><td>unit <br/>xpath:unit</td><td>VARCHAR(*)</td><td>The unit associated with all values in the parameter.</td></tr>
+<tr class="data"><td>utype <br/>xpath:utype</td><td>VARCHAR(*)</td><td>An identifier for a role in a data model that the data in this parameter represents.</td></tr>
+<tr class="data even"><td>std <br/>xpath:@std</td><td>SMALLINT</td><td>If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.</td></tr>
+<tr class="data"><td>datatype <br/>xpath:dataType</td><td>VARCHAR(*)</td><td>The type of the data contained in the parameter.</td></tr>
+<tr class="data even"><td>extended_schema <br/>xpath:dataType/@extendedSchema</td><td>VARCHAR(*)</td><td>An identifier for the schema that the value given by the extended attribute is drawn from.</td></tr>
+<tr class="data"><td>extended_type <br/>xpath:dataType/@extendedType</td><td>VARCHAR(*)</td><td>A custom type for the values this parameter contains.</td></tr>
+<tr class="data even"><td>arraysize <br/>xpath:dataType/@arraysize</td><td>VARCHAR(*)</td><td>The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.</td></tr>
+<tr class="data"><td>delim <br/>xpath:dataType/@delim</td><td>VARCHAR(*)</td><td>The string that is used to delimit elements of an array value when arraysize is not '1'.</td></tr>
+<tr class="data even"><td>param_use <br/>xpath:@use</td><td>VARCHAR(*)</td><td>An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).</td></tr>
+<tr class="data"><td>param_description <br/>xpath:description</td><td>VARCHAR(*)</td><td>A free-text description of the parameter's contents.</td></tr>
+<tr class="data even"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1375,8 +1382,8 @@ between the two representations in the database ingestor.</p>
 
 <!-- GENERATED: maketable.sh rr.relationship -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
-<tr class="data even"><td>relationship_type <br/>xpath:relationshipType</td><td>VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to, or something user-defined.</td></tr>
-<tr class="data"><td>related_id <br/>xpath:relatedResource/@ivo-id</td><td>VARCHAR(*)</td><td>The URI form of the IVOA identifier for the resource refered to.</td></tr>
+<tr class="data even"><td>relationship_type <br/>xpath:relationshipType</td><td>VARCHAR(*)</td><td>The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to.</td></tr>
+<tr class="data"><td>related_id <br/>xpath:relatedResource/@ivo-id</td><td>VARCHAR(*)</td><td>The IVOA identifier for the resource referred to.</td></tr>
 <tr class="data even"><td>related_name <br/>xpath:relatedResource</td><td>VARCHAR(*)</td><td>The name of resource that this resource is related to.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
@@ -1399,7 +1406,7 @@ between the two representations in the database ingestor.</p>
 <code>vr:validationLevel</code>-typed members of both <code>vr:Resource</code>
 and <code>vr:Capability</code>.</p>
 
-<p>If the <code>cap_index</code> column in <code>NULL</code> the
+<p>If the <code>cap_index</code> column is <code>NULL</code>, the
 validation comprises the entire resource.  Otherwise, only the
 referenced capability has been validated.</p>
 
@@ -1426,7 +1433,7 @@ correct).</p>
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>validated_by <br/>xpath:validationLevel/@validatedBy</td><td>VARCHAR(*)</td><td>The IVOA ID of the registry or organisation that assigned the validation level.</td></tr>
 <tr class="data"><td>val_level <br/>xpath:validationLevel</td><td>SMALLINT</td><td>A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.</td></tr>
-<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>If non-NULL, the validation only refers to the the capability referenced here.</td></tr>
+<tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>If non-NULL, the validation only refers to the capability referenced here.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1476,7 +1483,7 @@ string-valued or sets of strings can be represented in this table.</p>
 
 <p>As long as the metadata that needs to be represented in the
 relational registry for new VOResource extensions is simple enough, no changes to the schema defined
-here will be neccessary as these are introduced.  Instead, the extension itself simply defines
+here will be necessary as these are introduced.  Instead, the extension itself simply defines
 new xpaths to be added in <code>res_detail</code>.</p>
 
 <p>Some complex metadata&#8212;<code>tr:languageFeature</code> or
@@ -1524,8 +1531,8 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <!-- GENERATED: maketable.sh rr.res_detail -->
 <div class="tablewrap"><table class="results" frame="box" rules="rows"><thead><tr><th class="thVertical" >Name<br/>Utype</th><th class="thVertical" >Type</th><th class="thVertical" >Description</th></tr></thead><tbody><tr class="data"><td>ivoid <br/>xpath:/identifier</td><td>VARCHAR(*)</td><td>The parent resource.</td></tr>
 <tr class="data even"><td>cap_index <br/>N/A</td><td><a href="#primarykeys">(key)</a></td><td>The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.</td></tr>
-<tr class="data"><td>detail_xpath <br/>N/A</td><td>VARCHAR(*)</td><td>The xpath of the data item</td></tr>
-<tr class="data even"><td>detail_value <br/>N/A</td><td>VARCHAR(*)</td><td>(Atomic) value of the member</td></tr>
+<tr class="data"><td>detail_xpath <br/>N/A</td><td>VARCHAR(*)</td><td>The xpath of the data item.</td></tr>
+<tr class="data even"><td>detail_value <br/>N/A</td><td>VARCHAR(*)</td><td>(Atomic) value of the member.</td></tr>
 </tbody></table></div>
 <!-- /GENERATED -->
 
@@ -1533,7 +1540,7 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 <code>resource</code>.  It is recommended to maintain indexes on
 at least the columns
 <code>detail_xpath</code> and <code>detail_value</code>, where the
-indices on <code>detail_value</code> should ideally work for both direct
+index on <code>detail_value</code> should ideally work for both direct
 comparisons and searches using the <code>ivo_nocasematch</code>
 function.</p>
 
@@ -1744,7 +1751,7 @@ WHERE ivoid LIKE 'ivo://org.gavo.dc%'
 <p class="problem"><strong>Problem:</strong> What registry records are there from a given
 publisher?</p>
 
-<p>This uses the <span property="table">rr.res_role</span> table both
+<p>This uses the <span property="table">rr.res_role</span> table both to
 match names (in this case, a publisher that has "gavo" in its name) and
 to ascertain the named entity actually publishes the resource (rather
 than, e.g., just being the contact in case of trouble).  The result is a
@@ -1775,7 +1782,7 @@ WHERE role_ivoid='ivo://ned.ipac/ned'
 <p class="problem"><strong>Problem:</strong> What registry records are
 there originating from registry X?</p>
 
-<p>This is mainly a query interesting for registry maintainers.  Sill,
+<p>This is mainly a query interesting for registry maintainers.  Still,
 it is a nice example for joining with the
 <span property="table">rr.res_detail</span> table, in this case to
 first get a list of all authorities managed by the CDS registry.</p>
@@ -1802,7 +1809,10 @@ registry</p>
 this combines <span property="table">rr.res_detail</span> pairs with
 <span property="table">rr.capability</span> and <span
 property="table">rr.interface</span> to locate the desired protocol
-endpoints.</p>
+endpoints.  As clients should not usally be concerned with minor
+versions of protocols unless  they rely on additions made in later
+versions, this query will return endpoints supporting "version 1" rather
+than exactly version 1.0.</p>
 
 <pre class="samplequery" property="query">
 SELECT access_url
@@ -1812,8 +1822,9 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id='ivo://ivoa.net/std/tap'
   AND intf_type='vs:paramhttp'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.0')
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.%')
 </pre>
+
 </div>
 
 <div class="query-example" typeof="example" id="example-glotsquery">
@@ -1935,7 +1946,7 @@ editorial oversight in the preparation of this list, and the xpaths from the
 schema files are normative.  Errata to this list will be issued in such
 cases.</p>
 
-<p>The xpaths are sufficient for locating the respective metdata as per
+<p>The xpaths are sufficient for locating the respective metadata as per
 section <span class="xref">vorutypes</span>.  With the explanations we
 give the canonical prefixes for the XML namespaces from which the items
 originate, which is where further information can be found.</p>
@@ -1943,7 +1954,7 @@ originate, which is where further information can be found.</p>
 <dl id="resutypes">
 <dt>/accessURL (!)</dt> <dd>For data collection resources, this is
 the URL that can be used to download the data contained.  Do
-<em>not</em> enter accessURLs from interfaces into res_detail. (vs).</dd>
+<em>not</em> enter accessURLs from interfaces into res_detail (vs).</dd>
 <dt>/capability/executionDuration/hard</dt> <dd>The hard run time limit, given in seconds (tr).</dd>
 <dt>/capability/complianceLevel</dt> <dd>The category indicating the level to which this instance complies with the SSA standard (ssap).</dd>
 <dt>/capability/creationType (!)</dt> <dd>The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).</dd>
@@ -1953,7 +1964,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/defaultMaxRecords (!)</dt> <dd>The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).</dd>
 <dt>/capability/executionDuration/default</dt> <dd>The run time limit for newly-created jobs, given in seconds (tr).</dd>
 <dt>/capability/imageServiceType (!)</dt> <dd>The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).</dd>
-<dt>/capability/interface/securityMethod/@standardID (!)</dt><dd>A description of a security mechanism.  Although this really is a property of an interface, the reference here goes to the embedding capability, which is sufficient for discovery of the existence of such interfaces.  If the capability holds multiple interfaces, clients need other means (e.g., VOSI capabilities) to figure out the mapping between access URLs and suported security methods.</dd>
+<dt>/capability/interface/securityMethod/@standardID (!)</dt><dd>A description of a security mechanism.  Although this really is a property of an interface, the reference here goes to the embedding capability, which is sufficient for discovery of the existence of such interfaces.  If the capability holds multiple interfaces, clients need other means (e.g., VOSI capabilities) to figure out the mapping between access URLs and supported security methods.</dd>
 <dt>/capability/language/name (!)</dt> <dd>A short, human-readable name of a language understood by the TAP service (tr).</dd>
 <dt>/capability/language/version/@ivo-id (!)</dt> <dd>The IVORN of a language supported by a TAP service (tr).</dd>
 <dt>/capability/maxAperture</dt> <dd>The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method (ssap).</dd>
@@ -1965,7 +1976,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/maxImageSize</dt> <dd>A measure of the largest image the service can produce given as the maximum number of pixels along the first or second axes. (sia).</dd>
 <dt>/capability/maxQueryRegionSize/lat</dt> <dd>The maximum size in the latitude (Dec.) direction (sia).</dd>
 <dt>/capability/maxQueryRegionSize/long</dt> <dd>The maximum size in the longitude (R.A.) direction (sia).</dd>
-<dt>/capability/maxRecords (!)</dt> <dd>The largest number of items (records, rows, etc) that the service will return (cs, sia, vg, ssap).</dd>
+<dt>/capability/maxRecords (!)</dt> <dd>The largest number of items (records, rows, etc.) that the service will return (cs, sia, vg, ssap).</dd>
 <dt>/capability/maxSearchRadius (!)</dt> <dd>The largest search radius, in degrees, that will be accepted by the service without returning an error condition. Not providing this element or specifying a value of 180 indicates that there is no restriction. (ssap)</dd>
 <dt>/capability/maxSR (!)</dt> <dd>The largest search radius of a cone search service (cs).</dd>
 <dt>/capability/outputFormat/@ivo-id (!)</dt> <dd>An IVORN of an output format (tr).</dd>
@@ -1985,7 +1996,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/testQuery/pos/long</dt> <dd>The Right Ascension of the center of the search position in decimal degrees (ssap, sia).</dd>
 <dt>/capability/testQuery/pos/refframe</dt> <dd>A coordinate system reference frame name for a test query. If not provided, ICRS is assumed (ssap).</dd>
 <dt>/capability/testQuery/queryDataCmd</dt> <dd>Fully specified test query formatted as an URL argument list in the syntax specified by the SSA standard. The list must exclude the REQUEST argument (ssap).</dd>
-<dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs)</dd>
+<dt>/capability/testQuery/ra</dt> <dd>Right ascension in a test query (cs).</dd>
 <dt>/capability/testQuery/size</dt> <dd>The size of the search radius in an SSA search query (ssap).</dd>
 <dt>/capability/testQuery/size/lat</dt> <dd>Region size for a SIA test query in declination (sia).</dd>
 <dt>/capability/testQuery/size/long</dt> <dd>Region size for a SIA test query in RA (sia).</dd>
@@ -1999,7 +2010,7 @@ the URL that can be used to download the data contained.  Do
 <dt>/capability/verbosity (!)</dt> <dd><code>true</code> if the service supports the VERB keyword; <code>false</code>, otherwise (cs).</dd>
 <dt>/coverage/footprint (!)</dt> <dd>A URL of a footprint service for retrieving precise and up-to-date description of coverage (vs).</dd>
 <dt>/coverage/footprint/@ivo-id (!)</dt> <dd>The URI form of the IVOA identifier for the service describing the capability refered to by this element (vs).</dd>
-<dt>/deprecated (!)</dt> <dd>A sentinel that all versions of the referenced standard are deprectaed. The value is a human-readable explanation for the designation (vstd).</dd>
+<dt>/deprecated (!)</dt> <dd>A sentinel that all versions of the referenced standard are deprecated. The value is a human-readable explanation for the designation (vstd).</dd>
 <dt>/endorsedVersion (!)</dt> <dd>A version of a standard that is recommended for use (vstd).</dd>
 <dt>/facility (!)</dt> <dd>The observatory or facility used to collect the data contained or managed by this resource (vs).</dd>
 <dt>/format (!)</dt> <dd>The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).</dd>
@@ -2023,18 +2034,18 @@ languages, user defined functions, and the like cannot be
 represented in this table.  Since these pieces of metadata do not seem
 relevant to resource discovery and are geared towards other uses of the
 respective VOResource extensions, a more complex model does not seem
-warrented just so they can be exposed.</p>
+warranted just so they can be exposed.</p>
 </div> <!-- section d_u_list -->
 
 <div class="section"><h2><a id="appPGDefs">The Extra UDFs in
 PL/pgSQL</a></h2>
 
 <p>What follows are (non-normative) 
-implementations of the three user defined functions
+implementations of three of the user defined functions
 specificed in section <span class="xref">adqludf</span> in the SQL dialect
 of PostgreSQL (e.g., <cite>doc:Postgres92</cite>).</p>
 
-<p>Note that PostgreSQL cannot use fulltext indices on the respective
+<p>Note that PostgreSQL cannot use fulltext indexes on the respective
 columns if the functions are defined in this way for (fairly subtle)
 reasons connected with NULL value handling.  While workarounds are
 conceivable, they come with potentially unwelcome side effects, at least
@@ -2165,7 +2176,7 @@ SQL types are those that require numeric values, viz.,
 </div>
 
 <p>The fields containing Utypes, UCDs, and Units are treated in parallel
-here. The 2013 registry data indicates a length of 128 characters is
+here. The 2013 registry data indicates that a length of 128 characters is
 sufficient for real-world purposes; actually, at least UCDs and Units
 could of course grow without limitations, but it seems unreasonable
 anything longer than a typical line might actually be useful.  As far as
@@ -2424,13 +2435,13 @@ PR-20140227</a></h3>
   what sense they are implementation defined.</li>
   <li>Dropped adql: prefixes on TAP_SCHEMA.columns datatypes.</li>
   <li>Now declaring a precedence of xpaths generated by rules over the
-  list in Appendix <span class="xref">d_u_list</span></li>
-  <li>Clarified translation of column/@std and param/@std</li>
-  <li>Now recommending to contrain on <code>intf_type</code>
+  list in Appendix <span class="xref">d_u_list</span>.</li>
+  <li>Clarified translation of column/@std and param/@std.</li>
+  <li>Now recommending to constrain on <code>intf_type</code>
   (rather than <code>intf_role</code>, as before) when locating standard
   interfaces.</li>
   <li>Redactional changes from RFC (e.g., in column descriptions, some 
-  clarifications, typo fixes)</li>
+  clarifications, typo fixes).</li>
 </ul>
 </div> <!-- section changes-20140227 -->
 
@@ -2455,7 +2466,7 @@ WD-20131203</a></h3>
 
 <ul>
   <li>Updates for REC of SimpleDALRegExt, which contains versions 1.1 of
-  both the sia and the ssap XML schemas; thisi means there are now additional
+  both the sia and the ssap XML schemas; this means there are now additional
   namespace URIs to take into accound, as well as new res_detail xpaths
   <code>/capability/maxSearchRadius</code>, 
   <code>/capability/maxImageSize</code>, and 
@@ -2496,7 +2507,7 @@ WD-20131203</a></h3>
   lesser evil.</li>
   <li><code>resource.region_of_regard</code> now must have unit metadata
   declared.</li>
-  <li>We now explicitely deprecate multiple access urls per interface
+  <li>We now explicitely deprecate multiple access URLs per interface
   and announce that single access URLs will be enforced in future
   VOResource versions.</li>
 </ul>
@@ -2526,7 +2537,7 @@ it was too long to be included in the running text.</li>
 but are instead kept in rr.res_details rows.</li>
 <li>For VOResource compliance, intf_param has no flag column any more.</li>
 <li>res_role.base_utype is renamed to res_role.base_role and no longer
-pretends to be a utype fragments; also, the content is now a simple
+pretends to be a utype fragment; also, the content is now a simple
 word..</li>
 <li>intf_param.use is now called intf_param.use_param to avoid possible
 clashes with reserved SQL words.</li>
