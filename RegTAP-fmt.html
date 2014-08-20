@@ -566,9 +566,9 @@ specification:</p>
 <tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
 <tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
 <tr><td>ri</td><td>http://www.ivoa.net/xml/RegistryInterface/v1.0</td></tr>
-<tr><td>slap</td><td>http://www.ivoa.net/xml/SLAP/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.1</td></tr>
+<tr><td>slap</td><td>http://www.ivoa.net/xml/SLAP/v1.0</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.1</td></tr>
 <tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
@@ -625,7 +625,7 @@ using them to denote the xpaths.</p>
 obtained from the xpaths by simply prepending them with
 <code>xpath:</code>.  To avoid repetition, we allow relative xpaths:
 when the xpath in a column utype does not start with a slash, it is
-understood that is must be concatenated with the table utype to obtain
+understood that it must be concatenated with the table utype to obtain
 the full xpath.</p>
 
 <p>For illustration, if a table has a utype of
@@ -869,8 +869,8 @@ using the the <code>ivo_hasword</code> function, and to use
 <code>content_type</code>,
 <code>waveband</code>, and <code>rights</code>.</p>
 
-<p>The row for <code>region_of_regard</code> 
-<code>TAP_SCHEMA.tables</code> must have <code>deg</code> in its
+<p>The row for <code>region_of_regard</code> in
+<code>TAP_SCHEMA.tables</code> MUST have <code>deg</code> in its
 <code>unit</code> column.</p>
 
 </div> <!-- subsection table_resource -->
@@ -960,7 +960,7 @@ predict what <code>role_name</code> will contain; it could be a single
 name, where again the actual format is unpredictable
 (full first name, initials in front or behind, or
 even a project name), but it could as well be a full author list.  Thus,
-when matching against <code>role_names</code>, you will have to use
+when matching against <code>role_name</code>, you will have to use
 rather lenient regular expressions.  Changing this, admittedly
 regrettable, situation would
 probably require a change in the VOResource schema.</p>
@@ -1209,8 +1209,8 @@ VOResource.  The integration of <code>accessURL</code>  into
 the <code>interface</code>  table means that an interface in the
 relational registry can only have one access URL, where in VOResource it
 can have many.  In practice, this particular VOResource capability has
-not been used by registry record authors.  Since access URLs are
-http://www.tfiu.de/probably the item most queried for, it seems warranted to save one
+not been used by registry record authors.  Since access URLs are 
+probably the item most queried for, it seems warranted to save one
 indirection when querying for them.</p>
 
 <p>This specification deprecates the <code>maxOccurs="unbounded"</code>
@@ -2543,125 +2543,7 @@ clashes with reserved SQL words.</li>
 
 <div class="section-nonum"><h2><a id="references"><span class="secnum"></span>References</a></h2>
 
-<?bibliography ivoadoc/refs?><dl>
-
-<dt><a name="std:RI1">[std:RI1] Kevin Benson, Ray Plante, Elizabeth Auden,
-  Matthew Graham, Gretchen Greene, Martin Hill, Tony Linde, Dave Morris, Wil
-  O'Mullane, Guy Rixon, Aurélien Stébé, and Kona Andrews, Kevin Benson and
-  Ray Plante, editors.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/RegistryInterface/">IVOA registry
-  interfaces version 1.0</a>.
-  IVOA Recommendation, 2009.
-</dd>
-
-<dt><a name="std:RFC2119">[std:RFC2119] Scott Bradner.</a></dt> <dd>
-  <a href="http://www.ietf.org/rfc/rfc2119.txt">Key words for use in RFCs to
-  indicate requirement levels</a>.
-  RFC 2119, March 1997.
-</dd>
-
-<dt><a name="std:XMLNS">[std:XMLNS] Tim Bray, Dave Hollander, Andrew Layman,
-  Richard Tobin, and Henry S. Thompson.</a></dt> <dd>
-  <a href="http://www.w3.org/TR/2009/REC-xml-names-20091208/">Namespaces in
-  XML 1.0 (third edition)</a>.
-  W3C Recommendation, December 2009.
-</dd>
-
-<dt><a name="std:XPATH">[std:XPATH] James Clark and Steve DeRose.</a></dt> <dd>
-  <a href="http://www.w3.org/TR/1999/REC-xpath-19991116">Xml path language
-  (xpath), version 1.0</a>.
-  W3C Recommendation, 1999.
-</dd>
-
-<dt><a name="std:UNICODE">[std:UNICODE] The Unicode Consortium.</a></dt> <dd>
-  <a href="http://www.unicode.org/versions/Unicode6.1.0">The unicode standard,
-  version 6.1 core specification</a>, 2012.
-</dd>
-
-<dt><a name="std:TAPREGEXT">[std:TAPREGEXT] Markus Demleitner, Patrick Dowler,
-  Ray Plante, Guy Rixon, and Mark Taylor.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/TAPRegExt">TAPRegExt: a
-  VOResource schema extension for describing TAP services, version 1.0</a>.
-  IVOA Recommendation, August 2012.
-</dd>
-
-<dt><a name="std:TAP">[std:TAP] Patrick Dowler, Guy Rixon, and Doug
-  Tody.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/TAP">Table access protocol version
-  1.0</a>.
-  IVOA Recommendation, March 2010.
-</dd>
-
-<dt><a name="std:RM">[std:RM] Robert Hanisch, IVOA Resource Registry Working
-  Group, and NVO Metadata Working Group, R Hanisch, editor.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/latest/RM.html">Resource metadata for
-  the virtual observatory</a>.
-  IVOA Recommendation, 2007.
-</dd>
-
-<dt><a name="std:STDREGEXT">[std:STDREGEXT] Paul Harrison, Douglas Burke, Ray
-  Plante, Guy Rixon, and Dave Morris.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/StandardsRegExt/20120508/REC-StandardsRegExt-1.0-20120508.html">StandardsRegExt: a VOResource schema extension for describing IVOA
-  standards, version 1.0</a>.
-  IVOA Recommendation, May 2012.
-</dd>
-
-<dt><a name="doc:Postgres92">[doc:Postgres92]
-  http://www.postgresql.org/docs/9.2/static/index.html.</a></dt> <dd>
-  <a href="http://www.postgresql.org/docs/9.2/static/index.html">PostgreSQL
-  9.2.1 documentation</a>.
-  [Online].
-</dd>
-
-<dt><a name="std:OBSCORE">[std:OBSCORE] Mireille Louys, Francois Bonnarel,
-  David Schade, Patrick Dowler, Alberto Micol, Daniel Durand, Doug Tody,
-  Laurent Michel, Jesus Salgado, Igor Chilingarian, Bruno Rino, Juan
-  de Dios Santander, and Petr Skoda, Doug Tody, Alberto Micol, Daniel Durand,
-  and Mireille Louys, editors.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/ObsCore/20111028/REC-ObsCore-v1.0-20111028.pdf">Observation data model core components and its implementation in the Table
-  Access Protocol, version 1.0</a>.
-  IVOA Recommendation, 2011.
-</dd>
-
-<dt><a name="std:ADQL">[std:ADQL] Iñaki Ortiz, Jeff Lusted, Pat Dowler,
-  Alexander Szalay, Yuji Shirasaki, Maria A. Nieto-Santisteba, Masatoshi
-  Ohishi, William O'Mullane, Pedro Osuna, the VOQL-TEG, and the VOQL
-  Working Group, Pedro Osuna and Iñaki Ortiz, editors.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/latest/ADQL.html">IVOA astronomical
-  data query language</a>.
-  IVOA Recommendation, 2008.
-</dd>
-
-<dt><a name="std:VOR">[std:VOR] Raymond Plante, Kevin Benson, Matthew Graham,
-  Gretchen Greene, Paul Harrison, Gerard Lemson, Tony Linde, Guy Rixon, and
-  Aurélien Stébé.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/REC/ReR/VOResource-20080222.html">VOResource: an XML encoding schema for resource metadata version
-  1.03</a>.
-  IVOA Recommendation, February 2008.
-</dd>
-
-<dt><a name="std:DALREGEXT">[std:DALREGEXT] Raymond Plante, Jesus Delago, Paul
-  Harrison, and Doug Tody.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/SimpleDALRegExt/20120517/PR-SimpleDALRegExt-20120517.html">SimpleDALRegExt: Describing simple data access services, version 1.0</a>.
-  IVOA Proposed Recommendation, May 2012.
-</dd>
-
-<dt><a name="std:VOID">[std:VOID] Raymond Plante, Tony Linde, Roy Williams, and
-  Keith Noddle.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/REC/Identifiers/Identifiers-20070302.html">IVOA identifiers, version 1.03</a>.
-  IVOA Recommendation, March 2007.
-</dd>
-
-<dt><a name="std:VODS11">[std:VODS11] Raymond Plante, Aurélien Stébé, Kevin
-  Benson, Patrick Dowler, Matthew Graham, Gretchen Greene, Paul Harrison,
-  Gerard Lemson, Tony Linde, and Guy Rixon.</a></dt> <dd>
-  <a href="http://www.ivoa.net/Documents/VODataService/">VODataService: a
-  VOResource schema extension for describing collections and services version
-  1.1</a>.
-  IVOA Recommendation, December 2010.
-</dd>
-
-</dl>
+<?bibliography ivoadoc/refs?>
 
 </div> <!-- section references -->
 

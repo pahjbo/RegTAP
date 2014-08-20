@@ -575,9 +575,9 @@ specification:</p>
 <tr><td>dc</td><td>http://purl.org/dc/elements/1.1/</td></tr>
 <tr><td>oai</td><td>http://www.openarchives.org/OAI/2.0/</td></tr>
 <tr><td>ri</td><td>http://www.ivoa.net/xml/RegistryInterface/v1.0</td></tr>
-<tr><td>slap</td><td>http://www.ivoa.net/xml/SLAP/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.0</td></tr>
 <tr><td>sia</td><td>http://www.ivoa.net/xml/SIA/v1.1</td></tr>
+<tr><td>slap</td><td>http://www.ivoa.net/xml/SLAP/v1.0</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.0</td></tr>
 <tr><td>ssap</td><td>http://www.ivoa.net/xml/SSA/v1.1</td></tr>
 <tr><td>tr</td><td>http://www.ivoa.net/xml/TAPRegExt/v1.0</td></tr>
@@ -636,7 +636,7 @@ using them to denote the xpaths.</p>
 obtained from the xpaths by simply prepending them with
 <code>xpath:</code>.  To avoid repetition, we allow relative xpaths:
 when the xpath in a column utype does not start with a slash, it is
-understood that is must be concatenated with the table utype to obtain
+understood that it must be concatenated with the table utype to obtain
 the full xpath.</p>
 
 <p>For illustration, if a table has a utype of
@@ -885,8 +885,8 @@ using the the <code>ivo_hasword</code> function, and to use
 <code>content_type</code>,
 <code>waveband</code>, and <code>rights</code>.</p>
 
-<p>The row for <code>region_of_regard</code> 
-<code>TAP_SCHEMA.tables</code> must have <code>deg</code> in its
+<p>The row for <code>region_of_regard</code> in  
+<code>TAP_SCHEMA.tables</code> MUST have <code>deg</code> in its
 <code>unit</code> column.</p>
 
 </div> <!-- subsection table_resource -->
@@ -977,7 +977,7 @@ predict what <code>role_name</code> will contain; it could be a single
 name, where again the actual format is unpredictable
 (full first name, initials in front or behind, or
 even a project name), but it could as well be a full author list.  Thus,
-when matching against <code>role_names</code>, you will have to use
+when matching against <code>role_name</code>, you will have to use
 rather lenient regular expressions.  Changing this, admittedly
 regrettable, situation would
 probably require a change in the VOResource schema.</p>
@@ -1236,7 +1236,7 @@ the <code>interface</code>  table means that an interface in the
 relational registry can only have one access URL, where in VOResource it
 can have many.  In practice, this particular VOResource capability has
 not been used by registry record authors.  Since access URLs are
-http://www.tfiu.de/probably the item most queried for, it seems warranted to save one
+probably the item most queried for, it seems warranted to save one
 indirection when querying for them.</p>
 
 <p>This specification deprecates the <code>maxOccurs="unbounded"</code>
