@@ -265,7 +265,7 @@ incompatibilities.</p>
 <h3><a id="rolewithinivoa">The Relational Registry within the VO Architecture</a></h3>
 
 <div class="figure">
-<img src="RegTAP-arch.png" 
+<img src="RegTAP-arch.png" width="60%"
   alt="The Relational Registry within the VO architecture" align="middle"/>
 <p class="figurecaption"><strong>Figure 1:</strong> IVOA Architecture
 diagram with the IVOA Registry Relational Specification (tagged with "Relational Registry") and
@@ -731,6 +731,16 @@ these parts are not normative, but operators should ensure decent
 performance for queries assuming the presence of the given indexes and
 relationships.  Finally, lowercasing requirements
 (normative) are given.</p>
+
+<div class="figure">
+<img src="schema.png" alt="A sketch of the Relational Registry model"
+  align="middle" width="80%"/>
+<p class="figurecaption"><strong>Figure 2:</strong> A sketch of the
+Relational Registry schema, adapted from <cite>regtap-adass</cite>.  
+Only the columns considered
+most interesting for client use are shown.  Arrows indicate foreign
+key relationships.</p>
+</div>
 
 
 <p>The following tables make up the data model
@@ -1637,7 +1647,7 @@ a join:</p>
 SELECT ivoid, access_url 
 FROM rr.capability
 NATURAL JOIN rr.interface
-WHERE standard_id='ivo://ivoa.net/std/tap'
+WHERE standard_id like 'ivo://ivoa.net/std/tap%'
   AND intf_type='vs:paramhttp'
 </pre>
 

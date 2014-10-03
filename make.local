@@ -18,3 +18,13 @@ localinstall: RegTAP-fmt.html RegTAP.pdf
 	scp ivoadoc/ivoa-extras.css alnilam:/var/www/docs/ridraft/ivoadoc/
 	scp ivoadoc/XMLPrint.css alnilam:/var/www/docs/ridraft/ivoadoc/
 	scp RegTAP-fmt.html alnilam:/var/www/docs/ridraft/index.html
+
+schema.eps: schema.texfig
+	tex schema.texfig
+	dvips schema.dvi
+	ps2eps schema.ps
+	rm schema.dvi schema.log schema.ps
+
+schema.png: schema.eps
+	pstopnm -portrait -stdout -pbm -xsize 2400 $< | pnmscale -reduce 4 |\
+		pnmtopng -compression 9 > $@
