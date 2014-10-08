@@ -3,6 +3,8 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{longtable}
+\usepackage{listings}
+\lstloadlanguages{XML}
 
 \definecolor{rtcolor}{rgb}{0.15,0.4,0.3}
 \definecolor{tapcolor}{rgb}{0.4,0.1,0.1}
@@ -10,6 +12,8 @@
 \newcommand{\rtent}[1]{\texttt{\color{rtcolor} #1}}
 \newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
 \newcommand{\vorent}[1]{\textsc{#1}}
+
+\newcommand{\sptablerule}{\noalign{\vspace{2pt}}\hline\noalign{\vspace{2pt}}}
 
 \newenvironment{inlinetable}{\vfil\penalty8000\vfilneg%
     \hbox to\hsize\bgroup\hss}
@@ -2678,11 +2682,13 @@ length of roughly 100 characters, we propose that a maximum length of
 255 should be sufficient even when taking possible fragment identifiers
 into account.
 
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
-\textbf{Datatype suggested}&
+\textbf{Datatype}&
 \textbf{Pertinent Fields}\\
+\sptablerule
 ivo-id&\texttt{VARCHAR(255)}&
           {all\_tables}.ivoid\hfil\break
           res\_role.role\_ivoid\hfil\break
@@ -2690,8 +2696,9 @@ ivo-id&\texttt{VARCHAR(255)}&
           relationship.related\_id\hfil\break
           validation.validated\_by\hfil\break
           res\_detail.detail\_value for several values of detail\_xpath\\
+\sptablerule
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 The relational registry also contains some date-time values. The most
 straightforward implementation certainly is to use SQL timestamps.
@@ -2701,17 +2708,21 @@ SQL types are those that require numeric values, viz.,
 \texttt{INTEGER}.  The following table summarizes these:
 
 
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
 \textbf{Datatype}&
 \textbf{Pertinent Fields}\\
+\sptablerule
 floating point&\texttt{REAL}&resource.region\_of\_regard\\
+\sptablerule
 small integer&\texttt{SMALLINT}&table\_column.std\hfil\break
           intf\_param.std\hfil\break
           validation.level\\
+\sptablerule
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 The fields containing Utypes, UCDs, and Units are treated in parallel
 here. The 2013 registry data indicates that a length of 128 characters is
@@ -2726,23 +2737,31 @@ conventions laid down in this document, it seems unlikely that future
 extensions to VOResource will be so deeply nested that 128 characters
 will not be sufficient for their resource xpaths.
 
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
-\textbf{Datatype suggested}&
+\textbf{Datatype}&
 \textbf{Pertinent Fields}\\
-Utype(s)\\UCD(s)\\Units\\xpaths&\texttt{VARCHAR(128)}&
-res\_schema.schema\_utype\hfil\break
-          res\_table.table\_utype\hfil\break
+\sptablerule
+Utype&\texttt{VARCHAR(128)}&res\_schema.schema\_utype\hfil\break
+res\_table.table\_utype\hfil\break
+table\_column.utype\hfil\break
+intf\_param.utype\\
+\sptablerule
+UCD&\texttt{VARCHAR(128)}&
           table\_column.ucd\hfil\break
+          intf\_param.ucd\\
+\sptablerule
+Unit&\texttt{VARCHAR(128)}&
           table\_column.unit\hfil\break
-          table\_column.utype\hfil\break
-          intf\_param.ucd\hfil\break
-          intf\_param.unit\hfil\break
-          intf\_param.utype\hfil\break
+          intf\_param.unit\\
+\sptablerule
+xpath&\texttt{VARCHAR(128)}&
           res\_detail.detail\_xpath \\
+\sptablerule
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 The relational registry further has an
 e-mail field, for which we chose 128 characters as a reasonable upper
@@ -2757,20 +2776,23 @@ services, URL lengths will probably rather tend down than up, we still
 permit truncation at 255 characters.
 
 
-
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
-\textbf{Datatype suggested}&
+\textbf{Datatype}&
 \textbf{Pertinent Fields}\\
+\sptablerule
 e-mail&\texttt{VARCHAR(128)}&
-          res\_role.email\\\\
+          res\_role.email\\
+\sptablerule
 URLs&\texttt{VARCHAR(255)}&resource.reference\_url\hfil\break
           res\_role.logo\hfil\break
           interface.wsdl\_url\hfil\break
           interface.access\_url \\
+\sptablerule
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 The next group of columns comprises those that have values taken from
 a controlled or finite vocabulary.
@@ -2778,18 +2800,21 @@ Trying to simplify the view,
 lengths in the form
 of powers of two are considered.
 
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
-\textbf{Datatype suggested}&
+\textbf{Datatype}&
 \textbf{Pertinent Fields}\\
-predefined\\values&\texttt{VARCHAR(255)}&resource.content\_level\hfil\break
-          resource.content\_type
-        \\
-\texttt{VARCHAR(64)}&
+\sptablerule
+long enumerations&\texttt{VARCHAR(255)}&resource.content\_level\hfil\break
+          resource.content\_type\\
+\sptablerule
+short enumerations&\texttt{VARCHAR(64)}&
           resource.rights\hfil\break
           resource.waveband\\
-\texttt{VARCHAR(32)}&resource.res\_type\hfil\break
+\sptablerule
+type names&\texttt{VARCHAR(32)}&resource.res\_type\hfil\break
           capability.cap\_type\hfil\break
           res\_table.table\_type\hfil\break
           table\_column.flag\hfil\break
@@ -2801,10 +2826,12 @@ predefined\\values&\texttt{VARCHAR(255)}&resource.content\_level\hfil\break
           intf\_param.datatype\hfil\break
           intf\_param.extended\_schema\hfil\break
           intf\_param.extended\_type\\
-\texttt{VARCHAR(4)}&interface.query\_type\hfil\break
+\sptablerule
+short terms&\texttt{VARCHAR(4)}&interface.query\_type\hfil\break
           interface.url\_use\\
+\sptablerule
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 
 Finally, there are the fields that actually contain what is
@@ -2821,12 +2848,13 @@ VARCHAR may be necessary at least for frequenly-searched fields, we give
 the maximal length of the fields in the 2013 registry in parentheses after
 the column designations for the TEXT datatype:
 
-
-\vspace{5pt}
-\noindent\begin{tabular}{llp{8cm}}
+\begin{inlinetable}
+\begin{tabular}{llp{6cm}}
+\sptablerule
 \textbf{Field type}&
-\textbf{Datatype suggested}&
-\textbf{Interested Fields}\\
+\textbf{Datatype}&
+\textbf{Pertinent Fields}\\
+\sptablerule
 free string values&\texttt{TEXT}&resource.res\_description
 (7801)\hfil\break
           resource.creator\_seq (712)\hfil\break
@@ -2835,40 +2863,38 @@ free string values&\texttt{TEXT}&resource.res\_description
           res\_table.table\_description (934)\hfil\break
           table\_column.description (3735)\hfil\break
           intf\_param.description (347)\hfil\break
-          capability.cap\_description (100)\hfil\break
-          \\
-\texttt{VARCHAR(255)}&resource.res\_title\hfil\break
+          capability.cap\_description (100)\\
+\sptablerule
+titles, etc.&\texttt{VARCHAR(255)}&resource.res\_title\hfil\break
           res\_role.address\hfil\break
           res\_schema.schema\_title\hfil\break
           res\_table.table\_title\hfil\break
           relationship.related\_name\hfil\break
-          res\_detail.detail\_value
-        \\
-\texttt{VARCHAR(128)}&resource.version\hfil\break
+          res\_detail.detail\_value\\
+\sptablerule
+expressions&\texttt{VARCHAR(128)}&resource.version\hfil\break
           resource.source\_value\hfil\break
-          res\_subject.res\_subject\hfil\break
-          \\
-\texttt{VARCHAR(64)}&res\_table.table\_name\hfil\break
+          res\_subject.res\_subject\\
+\sptablerule
+names&\texttt{VARCHAR(64)}&res\_table.table\_name\hfil\break
           table\_column.name\hfil\break
-          intf\_param.name
-        \\
-\texttt{VARCHAR(32)}&resource.source\_format\hfil\break
+          intf\_param.name\\
+\sptablerule
+misc.~short strings&\texttt{VARCHAR(32)}&resource.source\_format\hfil\break
           res\_role.telephone\hfil\break
           res\_schema.schema\_name\hfil\break
           interface.intf\_type\hfil\break
           interface.intf\_role\hfil\break
           relationship\_type\hfil\break
-          res\_date.value\_role
-        \\
-\texttt{VARCHAR(16)}&resource.short\_name\hfil\break
+          res\_date.value\_role\\
+\sptablerule
+misc.~particles&\texttt{VARCHAR(16)}&resource.short\_name\hfil\break
           table\_column.arraysize\hfil\break
           intf\_param.arraysize\hfil\break
           interface.std\_version\hfil\break
-          intf\_param.use
-        \\
-
+          intf\_param.use\\
 \end{tabular}
-\vspace{5pt}
+\end{inlinetable}
 
 % HTML section ends
 
@@ -2891,6 +2917,7 @@ Still, it is a useful tool when evaluating how to map a given extension
 to the relational registry.
 
 
+\lstinputlisting[language=XML,flexiblecolumns=true]{makeutypes.xslt}
 
 
 % HTML section ends
