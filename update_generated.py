@@ -1,25 +1,20 @@
 #!/usr/bin/env python
-# Update all generated sections in RegTAP.html
+# Update all generated sections in RegTAP.tex
 #
-# Generarated sections are between <!-- GENERATED: <command> -->
-# and <!-- /GENERATED -->.  They are supposed to contain the output of
+# Generarated sections are between % GENERATED: <command> 
+# and % /GENERATED.  They are supposed to contain the output of
 # <command>.  <command> get shell-expanded, but since it gets executed
 # anyway, it's not even worth doing shell injection.
 #
 # When this script finishes, it either has updated all sections or
 # stopped with an error message of a failed command, in which case the
 # original file is unchanged.
-#
-# Why no processing instruction or the like?  Well, I didn't want
-# some XML processor execute arbitrary commands.  This script, at least,
-# will only be used on RegTAP.html, and even there probably
-# not.
 
 import re
 import subprocess
 import sys
 
-S_NAME = "RegTAP.html" # and don't you dare make that generic...
+S_NAME = "RegTAP.tex" # and don't you dare make that generic...
 
 def ExecError(Exception):
 	def __init__(self, command, stderr):
@@ -37,15 +32,15 @@ def processOne(matchObj):
 
 	if f.returncode!=0:
 		raise ExecError(command, stderr)
-	return ("<!-- GENERATED: %s -->\n"%(command.strip())
+	return ("%% GENERATED: %s\n"%(command.strip())
 		+stdout
-		+"\n<!-- /GENERATED -->")
+		+"\n% /GENERATED")
 
 
 def processAll(content):
-	return re.sub(r"(?s)<!--\s+GENERATED:\s+(?P<command>.*?)-->"
+	return re.sub(r"(?sm)^%\s+GENERATED:\s+(?P<command>.*?)$"
 		".*?"
-		r"<!--\s+/GENERATED\s+-->", 
+		r"%\s+/GENERATED", 
 		processOne,
 		content)
 
