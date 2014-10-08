@@ -18,7 +18,9 @@ SOURCES = $(DOCNAME).tex
 
 # List of image files to be included in submitted package 
 # (whitespace-separated)
-FIGURES = RegTAP-arch.png schema.pdffig
+FIGURES = RegTAP-arch.png 
+
+VECTORFIGURES = schema.pdffig
 
 %.pdffig: %.psfig
 	ps2pdf -dEPSCrop $*.psfig $*.pdffig

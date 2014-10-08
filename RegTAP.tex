@@ -203,11 +203,6 @@ This standard also relates to other IVOA standards:
 easy queries given the constraints of ADQL 2.0.  Also,
 we give three functions that extend ADQL using the
 language's built-in facility for user-defined functions.
-\item[RegTAP-STC]This specification will be complemented by a schema of four tables, also
-under the \rtent{rr} schema making up the relational registry, that gives coverages of resources on the spatial,
-temporal, spectral and redshift axes.  These will be defined in a
-separate document.
-
 \end{description}
 
 
@@ -2097,7 +2092,7 @@ case-insensitively (e.g., all IVORNs).
 
 TAP Servers implementing the 
 \texttt{ivo://ivoa.net/std/RegTAP\#1.0} data model MUST 
-implement the following three functions in their ADQL 2.0 language,
+implement the following four functions in their ADQL 2.0 language,
 with signatures written as recommended in \citep{std:TAPREGEXT}:
 
 
@@ -2909,6 +2904,13 @@ to the relational registry.
 
 
 % HTML section start
+
+\subsection{Changes from PR-20140627}
+
+\begin{itemize}
+\item Removed reference to a future STC extension.
+\item Migrated to ivoatex.
+\end{itemize}
 
 \subsection{Changes from
 PR-20140227}
