@@ -13,16 +13,12 @@
 \begin{table}[t]
 \small
 \hbox to\hsize{\hss
-\begin{tabular}{p{0.35\textwidth}p{0.64\textwidth}}\\
-\hline
-\noalign{\vspace{2pt}}
+\begin{tabular}{p{0.35\textwidth}p{0.64\textwidth}}
+\sptablerule
 \textbf{Name and UType}&amp;\textbf{Description}\\
-\noalign{\vspace{2pt}}
-\hline
-\noalign{\vspace{2pt}}
+\sptablerule
 <apply-templates/>
-\noalign{\vspace{2pt}}
-\hline
+\sptablerule
 \end{tabular}\hss}
 \caption{The tables making up the TAP data model \texttt{Registry 1.0}}
 \label{table:dm}
@@ -32,7 +28,7 @@
 
 <template match="v:TR">
 <value-of select="v:TD[1]"/>\hfil\break
-\scriptsize\ttfamily <value-of select="v:TD[2]"/>&amp;
+\makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
 <value-of select="v:TD[3]"/>\\
 </template>
 
