@@ -688,7 +688,7 @@ relationships.  Finally, lowercasing requirements
 Relational Registry schema, adapted from \citep{regtap-adass}.  
 Only the columns considered
 most interesting for client use are shown.  Arrows indicate foreign
-key relationships.}
+key-like relationships.}
 \end{figure}
 
 
@@ -942,7 +942,7 @@ using the the \rtent{ivo\_hasword} function, and to use
 \rtent{waveband}, and \rtent{rights}.
 
 The row for \rtent{region\_of\_regard} in  
-\tapent{TAP\_SCHEMA.tables} MUST have \texttt{deg} in its
+\tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
 \tapent{unit} column.
 
 
@@ -2983,7 +2983,7 @@ WD-20131203}
   namespace URIs to take into accound, as well as new res\_detail xpaths
   \texttt{/capability/maxSearchRadius}, 
   \texttt{/capability/maxImageSize}, and 
-  \texttt{/testQuery/pos/refframe}.{}
+  \texttt{/capability/testQuery/pos/refframe}.{}
 
 \item Reinstated makeutypes.xslt script; it's useful even with the new
   xpaths.{}
