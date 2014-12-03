@@ -2123,13 +2123,13 @@ found from
 \rtent{rr.interface}, this requires
 a join:
 
-
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access\_url 
+SELECT ivoid, access_url 
 FROM rr.capability
 NATURAL JOIN rr.interface
-WHERE standard\_id like 'ivo://ivoa.net/std/tap%'
-  AND intf\_type='vs:paramhttp'
+WHERE standard_id like 'ivo://ivoa.net/std/tap%'
+  AND intf_type='vs:paramhttp'
 \end{lstlisting}
 
 Other \rtent{standard\_id}s relevant here include:
@@ -2163,12 +2163,13 @@ title (which are in
 the query would become:
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url 
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
-  NATURAL JOIN rr.res\_subject
+  NATURAL JOIN rr.res_subject
 WHERE standard_id='ivo://ivoa.net/std/sia'
   AND intf_type='vs:paramhttp'
   AND (
@@ -2193,6 +2194,7 @@ below.  The access URL and the service standard come from
 \rtent{rr.capability}, respectively.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url 
 FROM rr.capability 
@@ -2213,13 +2215,14 @@ naturally joined with
 \rtent{rr.capability} and 
 \rtent{rr.interface}.
 :
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_\url 
+SELECT ivoid, access_url 
 FROM rr.capability 
-  NATURAL JOIN rr.table\_column
+  NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
-WHERE standard\_id='ivo://ivoa.net/std/conesearch'
-  AND intf\_type='vs:paramhttp'
+WHERE standard_id='ivo://ivoa.net/std/conesearch'
+  AND intf_type='vs:paramhttp'
   AND ucd='src.redshift'
 \end{lstlisting}
 
@@ -2240,6 +2243,7 @@ part'' of the IVO identifier, most naturally obtained from
 URIs, we make do with simple string matching:
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid 
 FROM rr.resource
@@ -2262,6 +2266,7 @@ table in the relational registry to find out more about these
 services.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid 
 FROM rr.res_role
@@ -2273,6 +2278,7 @@ or, if the publisher actually gives its ivo-id in the registry
 records,
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid 
 FROM rr.res_role
@@ -2291,11 +2297,12 @@ it is a nice example for joining with the
 first get a list of all authorities managed by the CDS registry.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
   SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
-  WHERE detail\_xpath='/managedAuthority' 
+  WHERE detail_xpath='/managedAuthority' 
     AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
 ON (resource.ivoid LIKE authpatterns.pat)
@@ -2318,6 +2325,7 @@ versions, this query will return endpoints supporting ``version 1'' rather
 than exactly version 1.0.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT access_url
 FROM rr.interface
@@ -2347,6 +2355,7 @@ and
 \rtent{rr.res\_table} for properties of tables.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url, name, ucd, column_description
 FROM rr.capability 
@@ -2369,6 +2378,7 @@ registry extension and is thus kept in
 \rtent{rr.res\_detail}:
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT access_url 
 FROM rr.res_detail 
@@ -2393,6 +2403,7 @@ it based on the IVORN of a service that in turn was obtained from
 contact person by requiring \texttt{base\_role='contact'}.
 
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT DISTINCT base_role, role_name, email 
 FROM rr.res_role 
@@ -2414,6 +2425,7 @@ instruments.  To locate the access options to the data itself, inspect
 from 
 \rtent{rr.capability}.
 
+%CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT * 
 FROM rr.relationship AS a
@@ -2895,8 +2907,7 @@ to the relational registry.
 \item Migrated to ivoatex.
 \end{itemize}
 
-\subsection{Changes from
-PR-20140227}
+\subsection{Changes from PR-20140227}
 
 \label{changes-20140227}
 
@@ -2943,8 +2954,7 @@ PR-20140227}
 % section changes-20140227
 % HTML section start
 
-\subsection{Changes from
-WD-20131203}
+\subsection{Changes from WD-20131203}
 
 \label{changes-20131203}
 
