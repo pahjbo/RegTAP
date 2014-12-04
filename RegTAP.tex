@@ -37,6 +37,8 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{http://www.ivoa.net/documents/RegTAP/20141030}
+\previousversion[http://www.ivoa.net/documents/RegTAP/20140227]{http://www.ivoa.net/documents/RegTAP/20140227}
 \previousversion[http://www.ivoa.net/documents/RegTAP/20140627]{http://www.ivoa.net/documents/RegTAP/20140627}
 \previousversion[http://www.ivoa.net/documents/RegTAP/20140227]{http://www.ivoa.net/documents/RegTAP/20140227}
 \previousversion[http://www.ivoa.net/documents/RegTAP/20131203]{http://www.ivoa.net/documents/RegTAP/20131203}
@@ -62,8 +64,6 @@ that comprise a useful subset of the information contained in the
 registry records, as well as the table's data content in terms of the
 XML VOResource data model.  The general design of the system is geared
 towards allowing easy authoring of queries.
-
-
 \end{abstract}
 
 
@@ -402,14 +402,15 @@ lower case.
 
 This conversion MUST cover all ASCII letters, i.e., A through Z.  
 The conversion SHOULD take place according to
-algorithm R2 in section 3.13, ``Default Case Algorithms'' of 
+algorithm R2 in section 3.13, ``Default Case Algorithms'' of the Unicode
+Standard
 \citep{std:UNICODE}.  In practice, non-ASCII characters are not expected
 to occur in columns for which lowercasing is required.
 
 Analogously, case-insensitive comparisons as required by some of the
 user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
-to D144 in \citep{std:UNICODE}.
+to D144 in the Unicode Standard.
 
 
 % HTML section ends
@@ -476,7 +477,7 @@ VOResource and its extensions make use of XML QNames in attribute
 values, most prominently in \texttt{xsi:type}.  The standard
 representation of these QNames in XML instance documents makes use of an
 abbreviated notation employing prefixes declared using the xmlns mechanism
-as discussed in \citep{std:XMLNS}.  Within an ADQL-exposed database, no
+as discussed in \citet{std:XMLNS}.  Within an ADQL-exposed database, no
 standard mechanism exists that could provide a similar mapping of URLs
 and abbreviations.  The correct way to handle this problem would thus be
 to have full QNames in the database (e.g.,
@@ -592,12 +593,12 @@ services.  Giving xpaths for extra columns and tables helps human
 interpretation of them at least when the defining schema files are
 available.
 
-Resource xpaths are also used in the res\_details table (section
+Resource xpaths are also used in the \rtent{res\_details} table (section
 \ref{table_res_detail}).  These are normal xpaths
 (although again understood relative to the enclosing Resource element),
 which, in particular, means that they are case sensitive.  On the other
 hand, to clients they are simply opaque strings, i.e., clients cannot
-just search for any xpaths into VOResource within res\_details.
+just search for any xpaths into VOResource within \rtent{res\_details}.
 
 
 % HTML section ends
@@ -613,7 +614,7 @@ The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.0} with the IVORN
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.0}$$ in the service's
-capabilities (see \citep{std:TAPREGEXT}).  Technically, this
+capabilities (cf.~\citet{std:TAPREGEXT}).  Technically, this
 entails adding
 
 
@@ -655,7 +656,7 @@ queries to it.
 \label{vortables}
 
 In the following table descriptions, the names of tables
-(cf.~\ref{table:dm}) and columns
+(cf.~Table \ref{table:dm}) and columns
 are normative and MUST be used as given, and all-lowercase.  On the
 values in the \tapent{utype} columns within \tapent{TAP\_SCHEMA},
 see section \ref{vorutypes}.  All columns defined in
@@ -685,7 +686,7 @@ relationships.  Finally, lowercasing requirements
 
 \includegraphics[width=\textwidth]{schema.pdffig}
 \caption{A sketch of the
-Relational Registry schema, adapted from \citep{regtap-adass}.  
+Relational Registry schema, adapted from \citet{regtap-adass}.  
 Only the columns considered
 most interesting for client use are shown.  Arrows indicate foreign
 key-like relationships.}
@@ -769,7 +770,8 @@ The \rtent{rr.resource} table contains most atomic members of
 itself.  Members of derived types are, in general, handled through 
 the \rtent{res\_detail}
 table even if 1:1 (see \ref{table_res_detail}).  The
-content\_level, content\_type, waveband, and rights members are 1:n but still appear
+\rtent{content\_level}, \rtent{content\_type}, \rtent{waveband}, 
+and \rtent{rights} members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
 characters (\#).  Use the \rtent{ivo\_hashlist\_has} ADQL extension
 function to check for the presence of a single value.  This convention
@@ -798,7 +800,7 @@ writing define the following values for \rtent{res\_type}:
 
 \begin{description}
 \item[vg:authority]A naming authority (these records allow resolving who is responsible
-for IVORNs with a certain authority; cf. \citep{std:VOID}).
+for IVORNs with a certain authority; cf. \citet{std:VOID}).
 \item[vg:registry]A registry is considered a publishing registry if it contains a
 capability element with \texttt{xsi:type="vg:Harvest"}.  Old,
 RegistryInterface 1-compliant registries also use this type with a
@@ -1499,7 +1501,7 @@ not been used by registry record authors.  Since access URLs are
 probably the item most queried for, it seems warranted to save one
 indirection when querying for them.
 
-This specification deprecates the \texttt{maxOccurs="unbounded"}
+This specification deprecates the \texttt{maxOccurs=\dquote unbounded"}
 in the definition of \vorent{Interface}'s \vorent{accessURL}
 child in the XML schema
 \texttt{http://www.ivoa.net/xml/VOResource/v1.0}; in future versions
@@ -1822,7 +1824,7 @@ validation-relevant changes in the underlying services.  Implementations
 are free to handle or ignore validation results as they see fit, and
 they may add validation results of their own.
 
-The validation levels are defined in \citep{std:RM} and
+The validation levels are defined in \citet{std:RM} and
 currently range from 0 (description stored in a registry) to 
 4 (inspected by a human to be technically and scientifically
 correct).
@@ -2049,7 +2051,7 @@ case-insensitively (e.g., all IVORNs).
 TAP Servers implementing the 
 \texttt{ivo://ivoa.net/std/RegTAP\#1.0} data model MUST 
 implement the following four functions in their ADQL 2.0 language,
-with signatures written as recommended in \citep{std:TAPREGEXT}:
+with signatures written as recommended in \citet{std:TAPREGEXT}:
 
 
 \begin{bigdescription}
@@ -2897,6 +2899,11 @@ to the relational registry.
 
 \label{changes}
 
+\subsection{Changes from PR-2014-10-30}
+
+\begin{itemize}
+\item No changes to specification content (only minor typo fixes).
+\end{itemize}
 
 % HTML section start
 
