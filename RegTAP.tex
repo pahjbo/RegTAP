@@ -14,16 +14,7 @@
 
 \newcommand{\rtent}[1]{\texttt{\color{rtcolor} #1}}
 \newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
-\newcommand{\vorent}[1]{\textsc{#1}}
 
-
-\iftth
-  \newenvironment{inlinetable}{}{}
-\else
-\newenvironment{inlinetable}{\vskip 1ex\vfil\penalty8000\vfilneg%
-    \hbox to\hsize\bgroup\hss}
-  {\hss\egroup\vspace{8pt}}
-\fi
 
 \ivoagroup{Registry}
 
@@ -684,7 +675,7 @@ relationships.  Finally, lowercasing requirements
 
 \begin{figure}
 
-\includegraphics[width=\textwidth]{schema.pdffig}
+\includegraphics[width=\textwidth]{schema.pdf}
 \caption{A sketch of the
 Relational Registry schema, adapted from \citet{regtap-adass}.  
 Only the columns considered
