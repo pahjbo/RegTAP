@@ -14,13 +14,13 @@ DOCTYPE = REC
 
 # Source file for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex
+SOURCES = $(DOCNAME).tex makeutypes.xslt
 
 # List of image files to be included in submitted package 
 # (whitespace-separated)
 FIGURES = RegTAP-arch.png 
 
-VECTORFIGURES = schema.pdffig
+VECTORFIGURES = schema.pdf
 
 %.pdffig: %.psfig
 	ps2pdf -dEPSCrop $*.psfig $*.pdffig

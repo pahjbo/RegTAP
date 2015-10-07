@@ -2294,11 +2294,12 @@ first get a list of all authorities managed by the CDS registry.
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
-  SELECT 'ivo://' || detail_value || '%' AS pat FROM rr.res_detail
+  SELECT 'ivo://' || detail_value || '%' AS pat
+  FROM rr.res_detail
   WHERE detail_xpath='/managedAuthority' 
     AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
-ON (resource.ivoid LIKE authpatterns.pat)
+ON (1=ivo_nocasematch(resource.ivoid, authpatterns.pat))
 \end{lstlisting}
 
 \subsection{Locate RegTAP services}
