@@ -686,68 +686,6 @@ key-like relationships.}
 
 % GENERATED: gettables.sh
 
-\begin{table}[t]
-\small
-\hbox to\hsize{\hss
-\begin{tabular}{p{0.35\textwidth}p{0.64\textwidth}}
-\sptablerule
-\textbf{Name and UType}&\textbf{Description}\\
-\sptablerule
-rr.capability\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
- Pieces of behaviour of a resource.\\
-rr.interface\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/interface/}&
- Information on access modes of a capability.\\
-rr.intf\_param\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/interface/param/}&
- Input parameters for services.\\
-rr.relationship\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/relationship/}&
- Relationships between resources, e.g., mirroring, derivation, but
-also providing access to data within a resource.\\
-rr.res\_date\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/curation/}&
- A date associated with an event in the life cycle of the resource.
-This could be creation or update. The role column can be used to
-clarify.\\
-rr.res\_detail\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
- XPath-value pairs for members of resource or capability and their
-derivations that are less used and/or from VOResource extensions. The
-pairs refer to a resource if cap\_index is NULL, to the referenced
-capability otherwise.\\
-rr.res\_role\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
- Entities, i.e., persons or organizations, operating on resources:
-creators, contacts, publishers, contributors.\\
-rr.res\_schema\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/tableset/schema/}&
- Sets of tables related to resources.\\
-rr.res\_subject\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/}&
- Topics, object types, or other descriptive keywords about the
-resource.\\
-rr.res\_table\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)table/}&
- (Relational) tables that are part of schemata or resources.\\
-rr.resource\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/}&
- The resources, i.e., services, data collections, organizations, etc.,
-present in this registry.\\
-rr.table\_column\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
- Metadata on columns of a resource's tables.\\
-rr.validation\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability|)}&
-Validation levels for resources and capabilities.\\
-
-\sptablerule
-\end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.0}}
-\label{table:dm}
-\end{table}
-
 % /GENERATED
 
  % HTML section start
@@ -2026,14 +1964,51 @@ use the \rtent{ivo\_nocasematch} function to search in
 \rtent{detail\_value} if the values are to be compared
 case-insensitively (e.g., all IVORNs).
 
+\subsection{The alt\_identifier Table}
+\label{table_alt_identifier}
 
-% HTML section ends
+Since its version 1.1, VOResource allows the annotation of various
+elements (initially, the record itself and creators) with alternate
+identifiers (the \vorent{altIdentifier} element).  Examples of these are
+DOIs, ORCIDs, and bibcodes.
 
-% subsection table\_res\_detail
-% HTML section ends
+Considering that that the typical query against the alternate
+identifiers can be expected to be of the type ``records having to do
+with \emph{identifier}'' and since the different identifier types cannot
+not clash since they are stored in URI form,  RegTAP does not keep track
+where an alternate identifier was encountered.  Instead, the
+\rtent{alt\_identifier} table just links IVOIDs and alternate
+identifiers:
 
-% section vortables
-% HTML section start
+
+% GENERATED: maketable.sh rr.alt_identifier
+
+\begin{inlinetable}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.alt\_identifier} table}}\\
+\sptablerule
+ivoid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
+\footnotesize VARCHAR(*)&
+The parent resource.\\
+alt\_identifier\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize VARCHAR(*)&
+An identifier for the record or a creator in URI form\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.  It is recommended to maintain an index on
+the \rtent{alt\_identifier} column.
+
 
 \section{ADQL User Defined Functions}
 
@@ -2890,6 +2865,12 @@ to the relational registry.
 \section{Changes from Previous Versions}
 
 \label{changes}
+
+\subsection{Changes from REC-1.0}
+
+\begin{itemize}
+\item Added the \rtent{alt\_identifier} table.
+\end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
 
