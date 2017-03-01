@@ -699,8 +699,8 @@ The \rtent{rr.resource} table contains most atomic members of
 itself.  Members of derived types are, in general, handled through 
 the \rtent{res\_detail}
 table even if 1:1 (see \ref{table_res_detail}).  The
-\rtent{content\_level}, \rtent{content\_type}, \rtent{waveband}, 
-and \rtent{rights} members are 1:n but still appear
+\rtent{content\_level}, \rtent{content\_type}, and \rtent{waveband}, 
+members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
 characters (\#).  Use the \rtent{ivo\_hashlist\_has} ADQL extension
 function to check for the presence of a single value.  This convention
@@ -845,10 +845,6 @@ waveband\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/waveband}&
 \footnotesize VARCHAR(*)&
 A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.\\
-rights\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:rights}&
-\footnotesize VARCHAR(*)&
-Information about rights held in and over the resource (multiple values are separated by hashes).\\
 
 \sptablerule
 \end{tabular}
@@ -869,8 +865,8 @@ Clients are advised to query the \rtent{res\_description} and
 \rtent{res\_title}  columns
 using the the \rtent{ivo\_hasword} function, and to use
 \rtent{ivo\_hashlist\_has} on \rtent{content\_level},
-\rtent{content\_type},
-\rtent{waveband}, and \rtent{rights}.
+\rtent{content\_type}, and
+\rtent{waveband}.
 
 The row for \rtent{region\_of\_regard} in  
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
@@ -2507,6 +2503,10 @@ the URL that can be used to download the data contained.  Do
 \item[/instrument/@ivo-id (!)]IVORN of the instrument used to collect the data contained or managed by a resource (vr).
 \item[/managedAuthority (!)]An authority identifier managed by a registry (vg).
 \item[/managingOrg (!)]The organization that manages or owns this authority (vg).
+\item[/rights]Free-text information on usage conditions for a resource
+(vr).
+\item[/rights/@rightsURI (!)]A formal identifier for a license a
+resource is made available under (vr).
 \item[/schema/@namespace (!)]An identifier for a schema described by a standard (vstd).
 
 \end{description}
@@ -2598,7 +2598,7 @@ implementing the relational registry model on actual RDBMSes, originating
 partly from an analysis of the data content of the VO registry in February
 2013, partly from a consideration of limits in various XML schema documents.
 This concerns, in particular, minimum lengths for columns of type
-adql:VARCHAR.  Implementations MUST NOT truncate strings of length equal
+VARCHAR.  Implementations MUST NOT truncate strings of length equal
 to or smaller than the minimal lengths given here; the limitations are
 not, however, upper limits, and indeed, when choosing an implementation
 strategy it is in general preferable to not impose artificial length
@@ -2748,7 +2748,6 @@ long enumerations&\texttt{VARCHAR(255)}&resource.content\_level\hfil\break
           resource.content\_type\\
 \sptablerule
 short enumerations&\texttt{VARCHAR(64)}&
-          resource.rights\hfil\break
           resource.waveband\\
 \sptablerule
 type names&\texttt{VARCHAR(32)}&resource.res\_type\hfil\break
@@ -2857,11 +2856,6 @@ to the relational registry.
 \lstinputlisting[language=XML,flexiblecolumns=true]{makeutypes.xslt}
 
 
-% HTML section ends
-
-% section appMkut
-% HTML section start
-
 \section{Changes from Previous Versions}
 
 \label{changes}
@@ -2870,6 +2864,12 @@ to the relational registry.
 
 \begin{itemize}
 \item Added the \rtent{alt\_identifier} table.
+\item Removed the \rtent{rights} column from the \rtent{resource} table
+(it's now free text, so hash-separation doesn't work any more),
+moved it and VOResource 1.1's rightsURI to \rtent{res\_details}.  This
+technically might constitute an API change, but since we don't believe
+rights has been used anywhere, we believe we are still within a minor
+change.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
@@ -3034,11 +3034,6 @@ validation.level&validation.val\_level\\
   VOResource versions.{}
 
 \end{itemize}
-
-% HTML section ends
-
-% subsection changes-20130411
-% HTML section start
 
 \subsection{Changes from WD-20130305}
 
