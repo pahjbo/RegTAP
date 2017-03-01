@@ -2448,6 +2448,8 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/executionDuration/default]The run time limit for newly-created jobs, given in seconds (tr).
 \item[/capability/imageServiceType (!)]The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).
 \item[/capability/interface/securityMethod/@standardID (!)]A description of a security mechanism.  Although this really is a property of an interface, the reference here goes to the embedding capability, which is sufficient for discovery of the existence of such interfaces.  If the capability holds multiple interfaces, clients need other means (e.g., VOSI capabilities) to figure out the mapping between access URLs and supported security methods.
+\item[/capability/interface/testQueryString] A query string that can be
+used to validate one of the interfaces of a capability (vr).
 \item[/capability/language/name (!)]A short, human-readable name of a language understood by the TAP service (tr).
 \item[/capability/language/version/@ivo-id (!)]The IVORN of a language supported by a TAP service (tr).
 \item[/capability/maxAperture]The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method (ssap).
@@ -2866,10 +2868,17 @@ to the relational registry.
 \item Added the \rtent{alt\_identifier} table.
 \item Removed the \rtent{rights} column from the \rtent{resource} table
 (it's now free text, so hash-separation doesn't work any more),
-moved it and VOResource 1.1's rightsURI to \rtent{res\_details}.  This
+moved it and VOResource 1.1's rightsURI to \rtent{res\_detail}.  This
 technically might constitute an API change, but since we don't believe
 rights has been used anywhere, we believe we are still within a minor
 change.
+\item Added a \texttt{/capability/interface/testQueryString} xpath for
+\rtent{res\_detail} to cover VOResource 1.1's \vorent{testQueryString}
+interface child.  Note that this is not really enough to feed
+validators, as a capability can have multiple interfaces and
+\rtent{res\_detail} only tells apart capabilitities.  Consider
+alternative extra column in \rtent{interface} (but:
+\vorent{testQueryString} would have to be single).
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
