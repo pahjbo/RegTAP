@@ -2005,6 +2005,39 @@ The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain an index on
 the \rtent{alt\_identifier} column.
 
+\subsection{The standard\_key Table}
+\label{table_stanard_key}
+
+The StandardsRegExt extension defines an element \vorent{key} that
+allows managing small vocabularies and similar standards-related
+artefacts by defining a set of names and associating them with
+descriptions.  This table allows the resolution to descriptions without
+having to retrieve the original registry records.
+
+% GENERATED: maketable.sh rr.standard_key
+
+\begin{inlinetable}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.standard\_key} table}}\\
+\sptablerule
+ivoid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
+\footnotesize VARCHAR(*)&
+The parent resource.\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.  This table is not expected to grow beyond a few dozen
+entries in the foreeable future.  Hence, it is probably not necessary to
+maintain indices of any sort.
 
 \section{ADQL User Defined Functions}
 
