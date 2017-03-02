@@ -1421,28 +1421,20 @@ The \rtent{interface} table subsumes both the
 VOResource.  The integration of \vorent{access\-URL}  into
 the \rtent{interface}  table means that an interface in the
 relational registry can only have one access URL, where in VOResource it
-can have many.  In practice, this particular VOResource capability has
-not been used by registry record authors.  Since access URLs are
-probably the item most queried for, it seems warranted to save one
-indirection when querying for them.
-
-This specification deprecates the \texttt{maxOccurs=\dquote unbounded"}
-in the definition of \vorent{Interface}'s \vorent{accessURL}
-child in the XML schema
-\texttt{http://www.ivoa.net/xml/VOResource/v1.0}; in future versions
-of VOResource, implementations can expect this to be
-\texttt{maxOccurs="1"}.  Meanwhile, implementation behavior in the
-presence of multiple access URLs in an interface is undefined.
+can have many.  VOResource 1.1 deprecated that capability (that was
+never really used in practice anyway) and replaced it with
+\vorent{mirrorURL}.
+In the unlikely case multiple \vorent{accessURL} are defined in a single
+interface nevertheless, implementation behavior for a RegTAP service is
+undefined.
 
 The table contains a column \rtent{intf\_index} to disambiguate
 multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
 In VOResource, interfaces can have zero or more \vorent{securityMethod}
-children to convey support for authentication and authorization methods.  At
-the time of writing, only a \vorent{standardId} attribute is defined on
-these, and the Registry only contains a single resource record using
-\vorent{securityMethod}.  It was therefore decided to map this information
-into the \rtent{res\_detail} table using the detail xpath
+children to convey support for authentication and authorization methods.
+RegTAP keeps this information in
+the \rtent{res\_detail} table using the detail xpath
 \texttt{/capability/interface/securityMethod/@standardID}, with
 \rtent{cap\_index} set so the embedding capability is referenced;
 this implies that RegTAP does not allow distinguishing between
@@ -1454,6 +1446,19 @@ multi-authentication scenarios is found necessary.
 The \rtent{query\_type} column is a hash-joined list (analogous
 to \rtent{waveband}, etc. in the resource table), as
 the XML schema allows listing up to two request methods.
+
+The \rtent{mirror\_url} column is used to keep all mirror URLs in one
+field, again separating values with hash characters.  This design was
+chosen over a native array since arrays of variable-length strings are
+not supported by VOTable, and emulating them is a major implementation
+liability.  It was chosen over a separate database table implementing
+the 1:n relation because the hash -- a fragment identifier in URIs, and
+access fragments are meaningless for URLs -- happens to be a safe and
+convenient separator for the datatype, and thus there is no semantic
+cost attached to using an array emulation that is simpler on both client
+and server.  Note that contrary to \rtent{query\_type} and similar
+hash-joined lists of enumerated values, \emph{no} case normalisation
+may take place in \rtent{mirror\_url}
 
 This table only contains interface elements from within capabilities.
 Interface elements in StandardsRegExt records are ignored in the
@@ -1535,6 +1540,10 @@ access\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL}&
 \footnotesize VARCHAR(*)&
 The URL at which the interface is found.\\
+mirror\_url\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:mirrorURL}&
+\footnotesize VARCHAR(*)&
+Secondary access URLs of this interface, separated by hash characters.\\
 
 \sptablerule
 \end{tabular}
