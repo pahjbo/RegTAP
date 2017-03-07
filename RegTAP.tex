@@ -58,10 +58,6 @@ towards allowing easy authoring of queries.
 \end{abstract}
 
 
-% class=``head''
-
-% HTML section start
-
 \section{Introduction}
 
 \label{intro}
@@ -111,8 +107,6 @@ directly by advanced users, using the same TAP clients they employ to
 query astronomical data servers.
 
 
-% HTML section start
-
 \subsection{Terminology}
 
 \label{terms}
@@ -138,11 +132,6 @@ means that the official acronym for ``IVOA registry relational schema'' is
 RegTAP.  This aesthetic defect seems preferable to causing actual
 incompatibilities.
 
-
-% HTML section ends
-
-% subsection terms
-% HTML section start
 
 \subsection{The Relational Registry within the VO Architecture}
 
@@ -209,14 +198,6 @@ language's built-in facility for user-defined functions.
 \end{description}
 
 
-% HTML section ends
-
-% subsection rolewithinivoa
-% HTML section ends
-
-% section introduction
-% HTML section start
-
 \section{Design Considerations}
 
 \label{design}
@@ -264,11 +245,6 @@ different results on different implementations, even if they operate on
 the same set of resource records.
 
 
-% HTML section ends
-
-% subsection design
-% HTML section start
-
 \section{Primary Keys}
 
 \label{primarykeys}
@@ -309,10 +285,6 @@ Obvious implementations for \texttt{X\_index} include having
 of UUID.
 
 
-% HTML section ends
-
-% HTML section start
-
 \section{Notes on string handling}
 
 \label{stringnorm}
@@ -325,7 +297,6 @@ content -- during ingestion from VOResource XML to database
 tables.
 
 
-% HTML section start
 
 \subsection{Whitespace normalization}
 
@@ -349,11 +320,6 @@ constraints will be used (e.g., LIKE-based regular expressions or the
 \rtent{ivo\_hasword} user defined function defined below).
 
 
-% HTML section ends
-
-% subsection whitenorm
-% HTML section start
-
 \subsection{NULL/Empty string normalization}
 
 \label{nullnorm}
@@ -370,11 +336,6 @@ database.  Clients expressing constraints on the presence (or absence)
 of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 (or \texttt{IS NULL}) operators.
 
-
-% HTML section ends
-
-% subsection nullnorm
-% HTML section start
 
 \subsection{Case normalization}
 
@@ -403,11 +364,6 @@ user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
 to D144 in the Unicode Standard.
 
-
-% HTML section ends
-
-% subsection casenorm
-% HTML section start
 
 \subsection{Non-ASCII characters}
 
@@ -451,14 +407,6 @@ change the definitions of char and unicodeChar to better match modern
 standards and requirements.  RegTAP implementors are encouraged to take
 these up.
 
-
-% HTML section ends
-
-% subsection utfreq
-% HTML section ends
-
-% section stringnorm
-% HTML section start
 
 \section{QNames in VOResource attributes}
 
@@ -512,9 +460,6 @@ xsi&http://www.w3.org/2001/XMLSchema-instance\\
 \end{tabular}
 \end{inlinetable}
 
-% HTML section ends
-
-% HTML section start
 
 \section{Xpaths}
 
@@ -592,10 +537,6 @@ hand, to clients they are simply opaque strings, i.e., clients cannot
 just search for any xpaths into VOResource within \rtent{res\_details}.
 
 
-% HTML section ends
-
-% subsection vorutypes
-% HTML section start
 
 \section{Discovering Relational Registries}
 
@@ -637,10 +578,6 @@ model in order to not invite clients expecting the VO registry to send
 queries to it.
 
 
-% HTML section ends
-
-% subsection registration
-% HTML section start
 
 \section{VOResource Tables}
 
@@ -686,9 +623,88 @@ key-like relationships.}
 
 % GENERATED: gettables.sh
 
+\begin{table}[t]
+\small
+\hbox to\hsize{\hss
+\begin{tabular}{p{0.35\textwidth}p{0.64\textwidth}}
+\sptablerule
+\textbf{Name and UType}&\textbf{Description}\\
+\sptablerule
+rr.alt\_identifier\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(curation/creator/|)altIdentifier}&
+ An alternate identifier associated with this record. This can be a
+resiource identifier like a DOI (in URI form, e.g.,
+doi:10.1016/j.epsl.2011.11.037), or a person identifier of a creator
+(typically an ORCID in URI form, e.g., orcid:000-0000-0000-000X).\\
+rr.authorities\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+ A mapping between the registries and the authorities they claim to
+manage.\\
+rr.capability\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
+ Pieces of behaviour of a resource.\\
+rr.interface\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/interface/}&
+ Information on access modes of a capability.\\
+rr.intf\_param\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/interface/param/}&
+ Input parameters for services.\\
+rr.registries\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+ Administrative table: publishing registries we harvest, together with
+the dates of last full and incremental harvests.\\
+rr.relationship\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/relationship/}&
+ Relationships between resources, e.g., mirroring, derivation, but
+also providing access to data within a resource.\\
+rr.res\_date\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/curation/}&
+ A date associated with an event in the life cycle of the resource.
+This could be creation or update. The role column can be used to
+clarify.\\
+rr.res\_detail\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+ XPath-value pairs for members of resource or capability and their
+derivations that are less used and/or from VOResource extensions. The
+pairs refer to a resource if cap\_index is NULL, to the referenced
+capability otherwise.\\
+rr.res\_role\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+ Entities, i.e., persons or organizations, operating on resources:
+creators, contacts, publishers, contributors.\\
+rr.res\_schema\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/tableset/schema/}&
+ Sets of tables related to resources.\\
+rr.res\_subject\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/}&
+ Topics, object types, or other descriptive keywords about the
+resource.\\
+rr.res\_table\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)table/}&
+ (Relational) tables that are part of schemata or resources.\\
+rr.resource\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/}&
+ The resources, i.e., services, data collections, organizations, etc.,
+present in this registry.\\
+rr.standard\_key\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/key}&
+ A term defined in the connection with a standard document; usually,
+these are referenced using ivoid#key.\\
+rr.table\_column\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
+ Metadata on columns of a resource's tables\\
+rr.validation\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability|)}&
+Validation levels for resources and capabilities.\\
+
+\sptablerule
+\end{tabular}\hss}
+\caption{The tables making up the TAP data model \texttt{Registry 1.0}}
+\label{table:dm}
+\end{table}
+
 % /GENERATED
 
- % HTML section start
 
 \subsection{The resource Table}
 
@@ -873,11 +889,6 @@ The row for \rtent{region\_of\_regard} in
 \tapent{unit} column.
 
 
-% HTML section ends
-
-% subsection table\_resource
-% HTML section start
-
 \subsection{The res\_role Table}
 
 \label{table_res_role}
@@ -996,11 +1007,6 @@ Clients are advised to query the remaining columns, in particular
 case-insensitively, e.g., using \rtent{ivo\_nocasematch}.
 
 
-% HTML section ends
-
-% subsection table\_res\_role
-% HTML section start
-
 \subsection{The res\_subject Table}
 
 \label{table_res_subject}
@@ -1047,10 +1053,6 @@ ingestion.  Clients are advised to query the \rtent{res\_subject} column
 case-insensitively, e.g., using \rtent{ivo\_nocasematch}.
 
 
-% HTML section ends
-
-% subsection table\_subject
-% HTML section start
 
 \subsection{The capability Table}
 
@@ -1117,10 +1119,6 @@ Clients are advised to query the \rtent{cap\_description} column
 using the \rtent{ivo\_hasword} function.
 
 
-% HTML section ends
-
-% subsection table\_capability
-% HTML section start
 
 \subsection{The res\_schema Table}
 
@@ -1188,10 +1186,6 @@ and \rtent{schema\_title} columns
 using the the \rtent{ivo\_hasword} function.
 
 
-% HTML section ends
-
-% subsection table\_res\_schema
-% HTML section start
 
 \subsection{The res\_table Table}
 
@@ -1278,10 +1272,6 @@ and \rtent{table\_title}  columns
 using the the \rtent{ivo\_hasword} function.
 
 
-% HTML section ends
-
-% subsection table\_res\_table
-% HTML section start
 
 \subsection{The table\_column Table}
 
@@ -1407,10 +1397,6 @@ the \rtent{flag} column using the \rtent{ivo\_hashlist\_has}
 function.
 
 
-% HTML section ends
-
-% subsection table\_table\_column
-% HTML section start
 
 \subsection{The interface Table}
 
@@ -1567,10 +1553,6 @@ Clients are advised to query \rtent{query\_type} using the the
 \rtent{ivo\_hashlist\_has} function.
 
 
-% HTML section ends
-
-% subsection table\_interface
-% HTML section start
 
 \subsection{The intf\_param Table}
 
@@ -1668,10 +1650,6 @@ where applicable, and \rtent{param\_description} taking the role
 of \rtent{column\_description}.
 
 
-% HTML section ends
-
-% subsection table\_intf\_param
-% HTML section start
 
 \subsection{The relationship Table}
 
@@ -1727,10 +1705,6 @@ The following columns MUST be lowercased during ingestion:
 \rtent{related\_id}.
 
 
-% HTML section ends
-
-% subsection table\_relationship
-% HTML section start
 
 \subsection{The validation Table}
 
@@ -1808,10 +1782,6 @@ The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{validated\_by}.
 
 
-% HTML section ends
-
-% subsection table\_validation
-% HTML section start
 
 \subsection{The res\_date Table}
 
@@ -1858,10 +1828,6 @@ The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{value\_role}.
 
 
-% HTML section ends
-
-% subsection table\_res\_date
-% HTML section start
 
 \subsection{The res\_detail Table}
 
@@ -2090,10 +2056,6 @@ Reference implementations of the four functions for the PostgreSQL
 database system are given in Appendix \ref{appPGDefs}.
 
 
-% HTML section ends
-
-% section adqludf
-% HTML section start
 
 \section{Common Queries to the Relational Registry}
 
@@ -2568,10 +2530,6 @@ respective VOResource extensions, a more complex model does not seem
 warranted just so they can be exposed.
 
 
-% HTML section ends
-
-% section d\_u\_list
-% HTML section start
 
 \section{The Extra UDFs in
 PL/pgSQL}
@@ -2628,10 +2586,6 @@ expressions in the ADQL translation layer whenever possible.
 \end{lstlisting}
 
 
-% HTML section ends
-
-% section appPGDefs
-% HTML section start
 
 \section{Implementation notes}
 
@@ -2876,11 +2830,6 @@ misc.~particles&\texttt{VARCHAR(16)}&resource.short\_name\hfil\break
 \end{tabular}
 \end{inlinetable}
 
-% HTML section ends
-
-% section appBD - RDB impl.notes
-% HTML section start
-
 \section{XSLT to enumerate Relational
 Registry XPaths}
 
@@ -2929,7 +2878,6 @@ alternative extra column in \rtent{interface} (but:
 \item No changes to specification content (only minor typo fixes).
 \end{itemize}
 
-% HTML section start
 
 \subsection{Changes from PR-20140627}
 
@@ -2980,11 +2928,6 @@ alternative extra column in \rtent{interface} (but:
 
 \end{itemize}
 
-% HTML section ends
-
-% section changes-20140227
-% HTML section start
-
 \subsection{Changes from WD-20131203}
 
 \label{changes-20131203}
@@ -3007,11 +2950,6 @@ alternative extra column in \rtent{interface} (but:
 
 \end{itemize}
 
-% HTML section ends
-
-% section changes-20131203
-% HTML section start
-
 \subsection{Changes from WD-20130909}
 
 \label{changes-20130909}
@@ -3030,11 +2968,6 @@ alternative extra column in \rtent{interface} (but:
   xpaths.{}
 
 \end{itemize}
-
-% HTML section ends
-
-% section changes-20130909
-% HTML section start
 
 \subsection{Changes from WD-20130411}
 
@@ -3090,7 +3023,6 @@ validation.level&validation.val\_level\\
 
 \label{changes-20130305}
 
-Changes from WD-20130305
 \begin{itemize}
 
 \item intf\_index is now required to be unique within a resource, not a
@@ -3107,15 +3039,10 @@ it was too long to be included in the running text.{}
 
 \end{itemize}
 
-% HTML section ends
-
-% HTML section start
-
 \subsection{Changes from WD-20121112}
 
 \label{changes-20121112}
 
-Changes from WD-20121112
 \begin{itemize}
 
 \item Adapted all utypes to better match future VO-DML utypes.{}
@@ -3138,13 +3065,6 @@ clashes with reserved SQL words.{}
 
 \end{itemize}
 
-% HTML section ends
-
-% changes-20121112
-% HTML section ends
-
-
-% appendices
 
 \bibliography{ivoatex/ivoabib,local}
 
