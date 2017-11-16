@@ -7,6 +7,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{longtable}
 \usepackage{listings}
+\usepackage{todonotes}
 \lstloadlanguages{XML,SQL}
 
 \definecolor{rtcolor}{rgb}{0.15,0.4,0.3}
@@ -2101,16 +2102,37 @@ As the capability type is in
 \rtent{rr.capability}, whereas the access URL can be
 found from 
 \rtent{rr.interface}, this requires
-a join:
+a (natural) join.
+
+Clients communicating with a RegTAP 1.1 service should request the new
+\rtent{security\_method\_id} column.  If this is non-null, the service
+requires some sort of authentication and should only presented to users
+if a client has the necessary infrastructure for the authentication
+system.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url 
+SELECT ivoid, access_url, security_method_id
 FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id like 'ivo://ivoa.net/std/tap%'
   AND intf_type='vs:paramhttp'
 \end{lstlisting}
+
+Clients only interested in services not requiring authentication should
+now use
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+SELECT ivoid, access_url
+FROM rr.capability
+NATURAL JOIN rr.interface
+WHERE standard_id like 'ivo://ivoa.net/std/tap%'
+  AND intf_type='vs:paramhttp'
+  AND security_method_id IS NULL
+\end{lstlisting}
+
+Analogous considerations apply to the other example queries
 
 Other \rtent{standard\_id}s relevant here include:
 
@@ -2145,7 +2167,7 @@ the query would become:
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url 
+SELECT ivoid, access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
@@ -2176,7 +2198,7 @@ below.  The access URL and the service standard come from
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url 
+SELECT ivoid, access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
@@ -2197,7 +2219,7 @@ naturally joined with
 :
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url 
+SELECT ivoid, access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
@@ -2317,6 +2339,7 @@ WHERE standard_id='ivo://ivoa.net/std/tap'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND 1=ivo_nocasematch(detail_value, 
     'ivo://ivoa.net/std/regtap#1.%')
+  AND security_method_id IS NULL
 \end{lstlisting}
 
 \subsection{TAP with Physics}
@@ -2338,7 +2361,9 @@ and
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url, name, ucd, column_description
+SELECT ivoid, 
+  name, ucd, column_description,
+  access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
@@ -2361,7 +2386,7 @@ registry extension and is thus kept in
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT access_url 
+SELECT access_url, security_method_id
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
@@ -2397,6 +2422,7 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/tap'
 \textbf{Problem:} Get the capabilities of all services serving a
 specific resource (typically, a data collection).
 
+\todo{discuss this in the context of the DDC note}
 In the VO, data providers can register pure data collections without
 access options (or just furnished with a link to a download).  They can
 then declare that their data can be ``served-by'' some other resource,
@@ -2412,7 +2438,7 @@ SELECT *
 FROM rr.relationship AS a
   JOIN rr.capability AS b 
     ON (a.related_id=b.ivoid) 
-WHERE relationship_type='served-by'
+WHERE relationship_type='IsServiceFor'
 \end{lstlisting}
 
 
@@ -2882,9 +2908,11 @@ validators, as a capability can have multiple interfaces and
 alternative extra column in \rtent{interface} (but:
 \vorent{testQueryString} would have to be single).
 \item \vorent{securityMethod/@standardID} is now included in interface
-in a \texttt{security_method_id} column.  Consequently, the 
+in a \rtent{security\_method\_id} column.  Consequently, the 
 \texttt{/capability/interface/securityMethod/@standardID} res\_detail
 key has been removed (but services can of course still provide it).
+\item Now recommending the evaluation of \rtent{security\_method\_id} in
+the discovery of standard interfaces.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
