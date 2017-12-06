@@ -623,14 +623,7 @@ key-like relationships.}
 \sptablerule
 rr.alt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(curation/creator/|)altIdentifier}&
- An alternate identifier associated with this record. This can be a
-resiource identifier like a DOI (in URI form, e.g.,
-doi:10.1016/j.epsl.2011.11.037), or a person identifier of a creator
-(typically an ORCID in URI form, e.g., orcid:000-0000-0000-000X).\\
-rr.authorities\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
- A mapping between the registries and the authorities they claim to
-manage.\\
+ An alternate identifier associated with this record.\\
 rr.capability\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
  Pieces of behaviour of a resource.\\
@@ -646,23 +639,19 @@ rr.registries\hfil\break
 the dates of last full and incremental harvests.\\
 rr.relationship\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/relationship/}&
- Relationships between resources, e.g., mirroring, derivation, but
-also providing access to data within a resource.\\
+ Relationships between resources (like mirroring, derivation, serving
+a data collection).\\
 rr.res\_date\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/curation/}&
- A date associated with an event in the life cycle of the resource.
-This could be creation or update. The role column can be used to
-clarify.\\
+ A date associated with an event in the life cycle of the resource.\\
 rr.res\_detail\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
  XPath-value pairs for members of resource or capability and their
-derivations that are less used and/or from VOResource extensions. The
-pairs refer to a resource if cap\_index is NULL, to the referenced
-capability otherwise.\\
+derivations that are less used and/or from VOResource extensions.\\
 rr.res\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
- Entities, i.e., persons or organizations, operating on resources:
-creators, contacts, publishers, contributors.\\
+ Entities (persons or organizations) operating on resources: creators,
+contacts, publishers, contributors.\\
 rr.res\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/tableset/schema/}&
  Sets of tables related to resources.\\
@@ -675,13 +664,13 @@ rr.res\_table\hfil\break
  (Relational) tables that are part of schemata or resources.\\
 rr.resource\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/}&
- The resources, i.e., services, data collections, organizations, etc.,
+ The resources (like services, data collections, organizations)
 present in this registry.\\
 rr.table\_column\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
- Metadata on columns of a resource's tables\\
+ Metadata on columns of a resource's tables.\\
 rr.validation\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability|)}&
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability/|)validationLevel}&
 Validation levels for resources and capabilities.\\
 
 \sptablerule
@@ -1528,7 +1517,7 @@ Secondary access URLs of this interface, separated by hash characters.\\
 security\_method\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod/@standardId}&
 \footnotesize char(*)&
-An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation SSS: Authentication Mechanisms.\\
+An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation “SSO: Authentication Mechanisms.“\\
 
 \sptablerule
 \end{tabular}
@@ -2539,7 +2528,7 @@ expressions involving the functions given here with simple boolean
 expressions in the ADQL translation layer whenever possible.
 
 
-\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+\begin{lstlisting}[language=SQL,flexiblecolumns=true,basicstyle=\footnotesize]
   CREATE OR REPLACE FUNCTION 
     ivo_hasword(haystack TEXT, needle TEXT)
   RETURNS INTEGER AS $func$
@@ -2835,7 +2824,8 @@ Still, it is a useful tool when evaluating how to map a given extension
 to the relational registry.
 
 
-\lstinputlisting[language=XML,flexiblecolumns=true]{makeutypes.xslt}
+\lstinputlisting[language=XML,flexiblecolumns=true,basicstyle=\footnotesize
+  ]{makeutypes.xslt}
 
 
 \section{Changes from Previous Versions}

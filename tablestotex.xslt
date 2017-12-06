@@ -29,7 +29,7 @@
 <template match="v:TR">
 <value-of select="v:TD[1]"/>\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
-<value-of select="v:TD[3]"/>\\
+<value-of select="concat(substring-before(v:TD[3], '.'), '.')"/>\\
 </template>
 
 </stylesheet>

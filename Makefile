@@ -31,4 +31,6 @@ VECTORFIGURES = schema.pdf
 	ps2epsi $*.ps $*.psfig
 	rm $*.ps
 
+AUTHOR_EMAIL=msdemlei@ari.uni-heidelberg.de
+
 include ivoatex/Makefile
