@@ -22,6 +22,27 @@
 
 </template>
 
+<template name="string-replace">
+	<!-- exslt compatible... -->
+  <param name="string" />
+  <param name="search" />
+  <param name="replace" />
+  <choose>
+    <when test="contains($string, $search)">
+      <value-of select="substring-before($string,$search)" />
+      <value-of select="$replace" />
+      <call-template name="string-replace">
+        <with-param name="string" 
+          select="substring-after($string,$search)" />
+        <with-param name="search" select="$search" />
+        <with-param name="replace" select="$replace" />
+      </call-template>
+    </when>
+    <otherwise>
+      <value-of select="$string" />
+    </otherwise>
+  </choose>
+</template>
 
 <template match="v:TR">
 <value-of select="v:TD[1]"/>\hfil\break
@@ -29,7 +50,11 @@
 \footnotesize <value-of select="v:TD[3]"/>(<choose>
 	<when test="v:TD[4]='-1'">*</when>
 	<otherwise><value-of select="v:TD[4]"/></otherwise></choose>)&amp;
-<value-of select="v:TD[5]"/>\\
+<call-template name="string-replace">
+	<with-param name="string" select="v:TD[5]"/>
+	<with-param name="search" select="'#'"/>
+	<with-param name="replace" select="'\\#'"/>
+</call-template>\\
 </template>
 
 </stylesheet>

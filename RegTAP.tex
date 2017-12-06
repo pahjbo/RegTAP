@@ -29,18 +29,8 @@
 
 \editor{Markus Demleitner}
 
-\previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{http://www.ivoa.net/documents/RegTAP/20141030}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20140227]{http://www.ivoa.net/documents/RegTAP/20140227}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20140627]{http://www.ivoa.net/documents/RegTAP/20140627}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20140227]{http://www.ivoa.net/documents/RegTAP/20140227}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20131203]{http://www.ivoa.net/documents/RegTAP/20131203}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20130909]{http://www.ivoa.net/documents/RegTAP/20130909}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20130411]{http://www.ivoa.net/documents/RegTAP/20130411}
-\previousversion{Internal Working Draft 2013-03-05 (Volute
-rev. 2011)}
-\previousversion{ Internal Working Draft 2012-11-12 (Volute
-rev. 1864)}
-
+\previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
+\previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{PR-20141030}
 
 \title{IVOA Registry Relational Schema}
 
@@ -139,7 +129,7 @@ incompatibilities.
 \label{rolewithinivoa}
 
 
-\begin{figure}[thm]
+\begin{figure}[th]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{RegTAP-arch.png}
 \end{center}
@@ -687,10 +677,6 @@ rr.resource\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/}&
  The resources, i.e., services, data collections, organizations, etc.,
 present in this registry.\\
-rr.standard\_key\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/key}&
- A term defined in the connection with a standard document; usually,
-these are referenced using ivoid#key.\\
 rr.table\_column\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
  Metadata on columns of a resource's tables\\
@@ -1439,7 +1425,7 @@ compare the retrieved values against authentication methods they
 support.
 
 The \rtent{query\_type} column is a hash-joined list (analogous
-to \rtent{waveband}, etc. in the resource table), as
+to \rtent{waveband} in the resource table), as
 the XML schema allows listing up to two request methods.
 
 The \rtent{mirror\_url} column is used to keep all mirror URLs in one
@@ -1448,12 +1434,12 @@ chosen over a native array since arrays of variable-length strings are
 not supported by VOTable, and emulating them is a major implementation
 liability.  It was chosen over a separate database table implementing
 the 1:n relation because the hash -- a fragment identifier in URIs, and
-access fragments are meaningless for URLs -- happens to be a safe and
+access fragments are meaningless for access URLs -- happens to be a safe and
 convenient separator for the datatype, and thus there is no semantic
 cost attached to using an array emulation that is simpler on both client
 and server.  Note that contrary to \rtent{query\_type} and similar
 hash-joined lists of enumerated values, \emph{no} case normalisation
-may take place in \rtent{mirror\_url}
+may take place in \rtent{mirror\_url}.
 
 This table only contains interface elements from within capabilities.
 Interface elements in StandardsRegExt records are ignored in the
@@ -1992,40 +1978,6 @@ An identifier for the record or a creator in URI form\\
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain an index on
 the \rtent{alt\_identifier} column.
-
-\subsection{The standard\_key Table}
-\label{table_stanard_key}
-
-The StandardsRegExt extension defines an element \vorent{key} that
-allows managing small vocabularies and similar standards-related
-artefacts by defining a set of names and associating them with
-descriptions.  This table allows the resolution to descriptions without
-having to retrieve the original registry records.
-
-% GENERATED: maketable.sh rr.standard_key
-
-\begin{inlinetable}
-\small
-\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
-\sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.standard\_key} table}}\\
-\sptablerule
-ivoid\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
-The parent resource.\\
-
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-
-% /GENERATED
-
-The \rtent{ivoid} column should be an explicit foreign key into
-\rtent{resource}.  This table is not expected to grow beyond a few dozen
-entries in the foreeable future.  Hence, it is probably not necessary to
-maintain indices of any sort.
 
 \section{ADQL User Defined Functions}
 
