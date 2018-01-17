@@ -241,7 +241,7 @@ the same set of resource records.
 \label{primarykeys}
 
 The primary key in the Registry as an abstract concept is a resource
-record's IVORN.  Hence, for all tables having primary keys at all, the
+record's IVOID.  Hence, for all tables having primary keys at all, the
 \rtent{ivoid} column is part of its primary key.  This
 specification does not require implementations to actually declare
 primary keys in the underlying database, and no aspect of user-visible
@@ -338,7 +338,7 @@ containing values not usually intended for display are required to be
 converted to lower case; in the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
-compared are defined to be case-insensitive (e.g., UCDs, IVORNs).
+compared are defined to be case-insensitive (e.g., UCDs, IVOIDs).
 Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower case.
@@ -411,7 +411,7 @@ as discussed in \citet{std:XMLNS}.  Within an ADQL-exposed database, no
 standard mechanism exists that could provide a similar mapping of URLs
 and abbreviations.  The correct way to handle this problem would thus be
 to have full QNames in the database (e.g.,
-\texttt{{http://www.ivoa.net/xml/ConeSearch/v1.0}ConeSearch} for the
+\verb|{http://www.ivoa.net/xml/ConeSearch/v1.0}ConeSearch| for the
 canonical \vorent{cs:ConeSearch}).  This, of course, would make for
 excessively tedious and error-prone querying.
 
@@ -535,15 +535,15 @@ just search for any xpaths into VOResource within \rtent{res\_details}.
 
 The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
-data model \texttt{Registry 1.0} with the IVORN
+data model \texttt{Registry 1.1} with the IVOID
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.0}$$ in the service's
 capabilities (cf.~\citet{std:TAPREGEXT}).  Technically, this
 entails adding
 
 
 \begin{verbatim}
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.0"
-  >Registry 1.0</dataModel>
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.1"
+  >Registry 1.1</dataModel>
 \end{verbatim}
 
 as a child of the capability element with the type
@@ -588,6 +588,21 @@ the schema files of VOResource and its extensions with slight
 redaction).  Registry operators MAY provide additional columns in their
 tables, but they MUST provide all columns given in this
 specification.
+
+Many of the columns specified below are defined as haveing a ``string'' 
+data type.  This is to be translated into arrays of \texttt{char} or
+\texttt{unicodeChar} on VOTable output depending on the service
+operators' decisions as to the representation of non-ASCII data in the
+database.  For requirements and recommendations regarding national
+characters in RegTAP, see Sect.~\ref{utfreq}.  The length of these
+arrays is not defined by this standard, where, obviously, no artificial
+length limits should be posed by implementations.  Implementors who have
+to limit the length of strings in their databases are referred to
+appendix~\ref{appBP}.
+
+Some of the types are given as ``datatype+xtype''.  In these cases, the
+xtype MUST be given on output, and the serialisation rules from DALI
+\citep{2017ivoa.spec.0517D} followed.
 
 All table descriptions start out with brief remarks on the
 relationship of the table to the VOResource XML data model.  Then, the
@@ -721,7 +736,7 @@ writing define the following values for \rtent{res\_type}:
 
 \begin{description}
 \item[vg:authority]A naming authority (these records allow resolving who is responsible
-for IVORNs with a certain authority; cf. \citet{std:VOID}).
+for IVOID with a certain authority; cf. \citet{std:VOID}).
 \item[vg:registry]A registry is considered a publishing registry if it contains a
 capability element with \texttt{xsi:type="vg:Harvest"}.  Old,
 RegistryInterface 1-compliant registries also use this type with a
@@ -771,71 +786,71 @@ registry.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.resource} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.resource} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 Unambiguous reference to the resource conforming to the IVOA standard for identifiers.\\
 res\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
-\footnotesize char(*)&
+\footnotesize string&
 Resource type (something like vs:datacollection, vs:catalogservice, etc).\\
 created\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@created}&
-\footnotesize char(*)&
+\footnotesize string+timestamp&
 The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
 short\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:shortName}&
-\footnotesize char(*)&
+\footnotesize string&
 A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.\\
 res\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 The full name given to the resource.\\
 updated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@updated}&
-\footnotesize char(*)&
+\footnotesize string+timestamp&
 The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
 content\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/contentLevel}&
-\footnotesize char(*)&
+\footnotesize string&
 A hash-separated list of content levels specifying the intended audience.\\
 res\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 An account of the nature of the resource.\\
 reference\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/referenceURL}&
-\footnotesize char(*)&
+\footnotesize string&
 URL pointing to a human-readable document describing this resource.\\
 creator\_seq\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/creator/name}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 The creator(s) of the resource in the order given by the resource record author, separated by semicolons.\\
 content\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/type}&
-\footnotesize char(*)&
+\footnotesize string&
 A hash-separated list of natures or genres of the content of the resource.\\
 source\_format\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source/@format}&
-\footnotesize char(*)&
+\footnotesize string&
 The format of source\_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).\\
 source\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A bibliographic reference from which the present resource is derived or extracted.\\
 res\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/version}&
-\footnotesize char(*)&
+\footnotesize string&
 Label associated with creation or availablilty of a version of a resource.\\
 region\_of\_regard\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/regionOfRegard}&
-\footnotesize float(1)&
+\footnotesize real&
 A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.\\
 waveband\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/waveband}&
-\footnotesize char(*)&
+\footnotesize string&
 A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.\\
 
 \sptablerule
@@ -926,39 +941,39 @@ probably require a change in the VOResource schema.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_role} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_role} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 role\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 The real-world name or title of a person or organization.\\
 role\_ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 An IVOA identifier of a person or organization.\\
 street\_address\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A mailing address for a person or organization.\\
 email\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 An email address the entity can be reached at.\\
 telephone\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 A telephone number the entity can be reached at.\\
 logo\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 URL pointing to a graphical logo, which may be used to help identify the entity.\\
 base\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 The role played by this entity; this is one of contact, publisher, and creator.\\
 
 \sptablerule
@@ -999,15 +1014,15 @@ string-like 1:n members of resource.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_subject} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_subject} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 res\_subject\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:subject}&
-\footnotesize char(*)&
+\footnotesize string&
 Topics, object types, or other descriptive keywords about the resource.\\
 
 \sptablerule
@@ -1050,27 +1065,27 @@ capabilities on a single resource.  See section \ref{primarykeys} for details.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.capability} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.capability} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 An arbitrary identifier of this capability within the resource.\\
 cap\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
-\footnotesize char(*)&
+\footnotesize string&
 The type of capability covered here.\\
 cap\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A human-readable description of what this capability provides as part of the over-all service.\\
 standard\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@standardID}&
-\footnotesize char(*)&
+\footnotesize string&
 A URI for a standard this capability conforms to.\\
 
 \sptablerule
@@ -1114,31 +1129,31 @@ multiple schema elements on a single resource.  See section \ref{primarykeys} fo
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_schema} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_schema} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
 schema\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A free text description of the tableset explaining in general how all of the tables are related.\\
 schema\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name }&
-\footnotesize char(*)&
+\footnotesize string&
 A name for the set of tables.\\
 schema\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A descriptive, human-interpretable name for the table set.\\
 schema\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for a concept in a data model that the data in this schema as a whole represent.\\
 
 \sptablerule
@@ -1189,39 +1204,39 @@ must be per resource and \emph{not} per schema, as
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_table} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_table} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
 table\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A free-text description of the table's contents.\\
 table\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
-\footnotesize char(*)&
+\footnotesize string&
 The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.\\
 table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 An arbitrary identifier for the tables belonging to a resource.\\
 table\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A descriptive, human-interpretable name for the table.\\
 table\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@type}&
-\footnotesize char(*)&
+\footnotesize string&
 A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base\_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.\\
 table\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for a concept in a data model that the data in this table as a whole represent.\\
 
 \sptablerule
@@ -1283,67 +1298,67 @@ to vs; hence, this column will contain one of NULL,
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.table\_column} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.table\_column} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 Index of the table this column belongs to.\\
 name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
-\footnotesize char(*)&
+\footnotesize string&
 The name of the column.\\
 ucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
-\footnotesize char(*)&
+\footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
 unit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
-\footnotesize char(*)&
+\footnotesize string&
 The unit associated with all values in the column.\\
 utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for a role in a data model that the data in this column represents.\\
 std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize short(1)&
+\footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 datatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
-\footnotesize char(*)&
+\footnotesize string&
 The type of the data contained in the column.\\
 extended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
 extended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
-\footnotesize char(*)&
+\footnotesize string&
 A custom type for the values this column contains.\\
 arraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
-\footnotesize char(*)&
+\footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
 delim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
-\footnotesize char(*)&
+\footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
 type\_system\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@xsi:type}&
-\footnotesize char(*)&
+\footnotesize string&
 The type system used, as a QName with a canonical prefix; this will ususally be one of vs:simpledatatype, vs:votabletype, and vs:taptype.\\
 flag\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:flag}&
-\footnotesize char(*)&
+\footnotesize string&
 Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".\\
 column\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A free-text description of the column's contents.\\
 
 \sptablerule
@@ -1464,59 +1479,59 @@ interface.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.interface} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.interface} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 The index of the parent capability.\\
 intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 An arbitrary identifier for the interfaces of a resource.\\
 intf\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
-\footnotesize char(*)&
+\footnotesize string&
 The type of the interface (vr:webbrowser, vs:paramhttp, etc).\\
 intf\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@role}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.\\
 std\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@version}&
-\footnotesize char(*)&
+\footnotesize string&
 The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.\\
 query\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:queryType}&
-\footnotesize char(*)&
+\footnotesize string&
 Hash-joined list of expected HTTP method (get or post) supported by the service.\\
 result\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:resultType}&
-\footnotesize char(*)&
+\footnotesize string&
 The MIME type of a document returned in the HTTP response.\\
 wsdl\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:wsdlURL}&
-\footnotesize char(*)&
+\footnotesize string&
 The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.\\
 url\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL/@use}&
-\footnotesize char(*)&
+\footnotesize string&
 A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').\\
 access\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL}&
-\footnotesize char(*)&
+\footnotesize string&
 The URL at which the interface is found.\\
 mirror\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:mirrorURL}&
-\footnotesize char(*)&
+\footnotesize string&
 Secondary access URLs of this interface, separated by hash characters.\\
 security\_method\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod/@standardId}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation “SSO: Authentication Mechanisms.“\\
 
 \sptablerule
@@ -1561,63 +1576,63 @@ joined.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.intf\_param} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.intf\_param} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 The index of the interface this parameter belongs to.\\
 name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
-\footnotesize char(*)&
+\footnotesize string&
 The name of the parameter.\\
 ucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
-\footnotesize char(*)&
+\footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
 unit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
-\footnotesize char(*)&
+\footnotesize string&
 The unit associated with all values in the parameter.\\
 utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for a role in a data model that the data in this parameter represents.\\
 std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize short(1)&
+\footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 datatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
-\footnotesize char(*)&
+\footnotesize string&
 The type of the data contained in the parameter.\\
 extended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
 extended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
-\footnotesize char(*)&
+\footnotesize string&
 A custom type for the values this parameter contains.\\
 arraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
-\footnotesize char(*)&
+\footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
 delim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
-\footnotesize char(*)&
+\footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
 param\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@use}&
-\footnotesize char(*)&
+\footnotesize string&
 An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).\\
 param\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 A free-text description of the parameter's contents.\\
 
 \sptablerule
@@ -1645,7 +1660,7 @@ of \rtent{column\_description}.
 
 The relationship element is a slight denormalization of the
 \vorent{vr:Relation\-ship} type: Whereas in VOResource, a single
-relationship element can take several IVORNs, in the relational model,
+relationship element can take several IVOID, in the relational model,
 the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.
 
@@ -1656,23 +1671,23 @@ between the two representations in the database ingestor.
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.relationship} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.relationship} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 relationship\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relationshipType}&
-\footnotesize char(*)&
+\footnotesize string&
 The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to.\\
 related\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource/@ivo-id}&
-\footnotesize char(*)&
+\footnotesize string&
 The IVOA identifier for the resource referred to.\\
 related\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource}&
-\footnotesize char(*)&
+\footnotesize string&
 The name of resource that this resource is related to.\\
 
 \sptablerule
@@ -1732,23 +1747,23 @@ correct).
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.validation} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.validation} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 validated\_by\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel/@validatedBy}&
-\footnotesize char(*)&
+\footnotesize string&
 The IVOA ID of the registry or organisation that assigned the validation level.\\
 val\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel}&
-\footnotesize short(1)&
+\footnotesize integer&
 A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.\\
 cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 If non-NULL, the validation only refers to the capability referenced here.\\
 
 \sptablerule
@@ -1785,19 +1800,19 @@ The \rtent{res\_date} table contains information gathered from
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_date} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_date} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 date\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date}&
-\footnotesize char(*)&
+\footnotesize string+timestamp&
 A date associated with an event in the life cycle of the resource.\\
 value\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date/@role}&
-\footnotesize char(*)&
+\footnotesize string&
 A string indicating what the date refers to, e.g., created, availability, updated.\\
 
 \sptablerule
@@ -1852,7 +1867,7 @@ relevant to curation-type clients that, e.g., ascertain the continued
 operation of services.
 
 Some detail values must be interpreted case-insensitively; this
-concerns, in particular, IVORNs like the TAP data model type.  For other
+concerns, in particular, IVOID like the TAP data model type.  For other
 rows -- the test queries are immediate examples -- , changing the case
 will likely break the data.  In order to avoid having to give and
 implement case normalization rules by detail xpath, no case normalization 
@@ -1881,23 +1896,23 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.res\_detail} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_detail} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize short(1)&
+\footnotesize integer&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
 detail\_xpath\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 The xpath of the data item.\\
 detail\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize unicodeChar(*)&
+\footnotesize string&
 (Atomic) value of the member.\\
 
 \sptablerule
@@ -1921,7 +1936,7 @@ The following column MUST be lowercased during ingestion:
 \rtent{ivoid}.  Clients are advised to
 use the \rtent{ivo\_nocasematch} function to search in
 \rtent{detail\_value} if the values are to be compared
-case-insensitively (e.g., all IVORNs).
+case-insensitively (e.g., all IVOIDs).
 
 \subsection{The alt\_identifier Table}
 \label{table_alt_identifier}
@@ -1946,15 +1961,15 @@ identifiers:
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.alt\_identifier} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.alt\_identifier} table}}\\
 \sptablerule
 ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
-\footnotesize char(*)&
+\footnotesize string&
 The parent resource.\\
 alt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize char(*)&
+\footnotesize string&
 An identifier for the record or a creator in URI form\\
 
 \sptablerule
@@ -1999,7 +2014,7 @@ a word not containing the hash sign.  It returns 1 if, compared
 case-insensitively, the second argument is in the list of words encoded in
 the first argument.  The behavior for second
 arguments containing a hash sign is undefined.
-\term[\small\texttt{ivo\_string\_agg(expr VARCHAR(*), deli VARCHAR(*)) -> VARCHAR(*)}]An aggregate function returning all values of
+\term[\small\texttt{ivo\_string\_agg(expr VARCHAR(*), delim VARCHAR(*)) -> VARCHAR(*)}]An aggregate function returning all values of
 \texttt{expr} within a GROUP concatenated with 
 \texttt{delim}.  NULLs in the aggregate do not contribute, an empty 
 aggregate yields an empty string.
@@ -2113,7 +2128,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
-WHERE standard_id='ivo://ivoa.net/std/sia'
+WHERE standard_id like 'ivo://ivoa.net/std/sia%'
   AND intf_type='vs:paramhttp'
   AND (
     1=ivo_nocasematch(res_subject, '%spiral%')
@@ -2143,7 +2158,7 @@ SELECT ivoid, access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
-WHERE standard_id='ivo://ivoa.net/std/sia'
+WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
   AND intf_type='vs:paramhttp'
   AND 1=ivo_hashlist_has('infrared', waveband)
 \end{lstlisting}
@@ -2164,7 +2179,7 @@ SELECT ivoid, access_url, security_method_id
 FROM rr.capability 
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
-WHERE standard_id='ivo://ivoa.net/std/conesearch'
+WHERE standard_id LIKE 'ivo://ivoa.net/std/conesearch%'
   AND intf_type='vs:paramhttp'
   AND ucd='src.redshift'
 \end{lstlisting}
@@ -2275,7 +2290,7 @@ SELECT access_url
 FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
-WHERE standard_id='ivo://ivoa.net/std/tap'
+WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_type='vs:paramhttp'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND 1=ivo_nocasematch(detail_value, 
@@ -2309,7 +2324,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
-WHERE standard_id='ivo://ivoa.net/std/tap'
+WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_type='vs:paramhttp'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
@@ -2333,7 +2348,7 @@ FROM rr.res_detail
   NATURAL JOIN rr.interface 
 WHERE detail_xpath='/capability/dataSource' 
   AND intf_type='vs:paramhttp'
-  AND standard_id='ivo://ivoa.net/std/ssa'
+  AND standard_id LIKE 'ivo://ivoa.net/std/ssa%'
   AND detail_value='theory'
 \end{lstlisting}
 
@@ -2345,7 +2360,7 @@ WHERE detail_xpath='/capability/dataSource'
 fix it?
 
 This uses the \rtent{rr.res\_role} table and returns all information on
-it based on the IVORN of a service that in turn was obtained from
+it based on the IVOID of a service that in turn was obtained from
 \rtent{rr.interface}.  You could restrict to the actual technical
 contact person by requiring \texttt{base\_role='contact'}.
 
@@ -2425,7 +2440,7 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/complianceLevel]The category indicating the level to which this instance complies with the SSA standard (ssap).
 \item[/capability/creationType (!)]The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).
 \item[/capability/dataModel (!)]The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  
-\item[/capability/dataModel/@ivo-id (!)]The IVORN of the data model supported by a TAP service (tr).
+\item[/capability/dataModel/@ivo-id (!)]The IVOID of the data model supported by a TAP service (tr).
 \item[/capability/dataSource (!)]The category specifying where the data originally came from; one of survey, pointed, custom, theory, artificial (ssap).
 \item[/capability/defaultMaxRecords (!)]The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).
 \item[/capability/executionDuration/default]The run time limit for newly-created jobs, given in seconds (tr).
@@ -2433,20 +2448,20 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/interface/testQueryString] A query string that can be
 used to validate one of the interfaces of a capability (vr).
 \item[/capability/language/name (!)]A short, human-readable name of a language understood by the TAP service (tr).
-\item[/capability/language/version/@ivo-id (!)]The IVORN of a language supported by a TAP service (tr).
+\item[/capability/language/version/@ivo-id (!)]The IVOID of a language supported by a TAP service (tr).
 \item[/capability/maxAperture]The largest aperture that can be supported upon request via the APERTURE input parameter by a service that supports the special extraction creation method (ssap).
 \item[/capability/maxFileSize (!)]The maximum image file size in bytes (sia).
 \item[/capability/maxImageExtent/lat]The maximum size in the latitude (Dec.) direction (sia).
 \item[/capability/maxImageExtent/long]The maximum size in the longitude (R.A.) direction (sia).
-\item[/capability/maxImageSize/lat]The image size in the latitude (Dec.) direction in pixels (sia-1.0).
-\item[/capability/maxImageSize/long]The image size in the longitude (R.A.) direction in pixels (sia-1.0).
+\item[/capability/maxImageSize/lat]The maximum image size in the latitude (Dec.) direction in pixels (sia-1.0).
+\item[/capability/maxImageSize/long]The maximum image size in the longitude (R.A.) direction in pixels (sia-1.0).
 \item[/capability/maxImageSize]A measure of the largest image the service can produce given as the maximum number of pixels along the first or second axes. (sia).
 \item[/capability/maxQueryRegionSize/lat]The maximum size in the latitude (Dec.) direction (sia).
 \item[/capability/maxQueryRegionSize/long]The maximum size in the longitude (R.A.) direction (sia).
 \item[/capability/maxRecords (!)]The largest number of items (records, rows, etc.) that the service will return (cs, sia, vg, ssap).
 \item[/capability/maxSearchRadius (!)]The largest search radius, in degrees, that will be accepted by the service without returning an error condition. Not providing this element or specifying a value of 180 indicates that there is no restriction. (ssap)
 \item[/capability/maxSR (!)]The largest search radius of a cone search service (cs).
-\item[/capability/outputFormat/@ivo-id (!)]An IVORN of an output format (tr).
+\item[/capability/outputFormat/@ivo-id (!)]An IVOID of an output format (tr).
 \item[/capability/outputFormat/alias]A short, mnemonic identifier for a service's output format (tr).
 \item[/capability/outputFormat/mime (!)]The MIME type of an output format (tr).
 \item[/capability/outputLimit/default]The maximal output size for newly-created jobs (tr).
@@ -2473,7 +2488,7 @@ used to validate one of the interfaces of a capability (vr).
 \item[/capability/uploadLimit/default/@unit]The unit of the limit specified (tr).
 \item[/capability/uploadLimit/hard]Hard limit for the size of uploads on this service (tr).
 \item[/capability/uploadLimit/hard/@unit]The unit of the limit specified (tr).
-\item[/capability/uploadMethod/@ivo-id]The IVORN of an upload method supported by the service (tr).
+\item[/capability/uploadMethod/@ivo-id]The IVOID of an upload method supported by the service (tr).
 \item[/capability/verbosity (!)]\texttt{true} if the service supports the VERB keyword; \texttt{false}, otherwise (cs).
 \item[/coverage/footprint (!)]A URL of a footprint service for retrieving precise and up-to-date description of coverage (vs).
 \item[/coverage/footprint/@ivo-id (!)]The URI form of the IVOA identifier for the service describing the capability refered to by this element (vs).
@@ -2482,9 +2497,9 @@ used to validate one of the interfaces of a capability (vr).
 \item[/facility (!)]The observatory or facility used to collect the data contained or managed by this resource (vs).
 \item[/format (!)]The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).
 \item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res\_details}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
-\item[/full]If true, the registry attempts to collect all resource records known to the IVOA (vg).
+\item[/full]If \verb|"true"|, the registry attempts to collect all resource records known to the IVOA (vg).
 \item[/instrument (!)]The instrument used to collect the data contained or managed by a resource (vr).
-\item[/instrument/@ivo-id (!)]IVORN of the instrument used to collect the data contained or managed by a resource (vr).
+\item[/instrument/@ivo-id (!)]IVOID of the instrument used to collect the data contained or managed by a resource (vr).
 \item[/managedAuthority (!)]An authority identifier managed by a registry (vg).
 \item[/managingOrg (!)]The organization that manages or owns this authority (vg).
 \item[/rights]Free-text information on usage conditions for a resource
@@ -2590,7 +2605,7 @@ The \rtent{ivoid} field present in every table of this
 specification merits special consideration, on the one hand due to its
 frequency, but also since other IVOA identifiers stored in the
 relational registry should probably be treated analogously.
-Given that IVORNs in the 2013 data fields have a maximum
+Given that IVOIDs in the 2013 data fields have a maximum
 length of roughly 100 characters, we propose that a maximum length of 
 255 should be sufficient even when taking possible fragment identifiers
 into account.
@@ -2855,6 +2870,8 @@ in a \rtent{security\_method\_id} column.  Consequently, the
 key has been removed (but services can of course still provide it).
 \item Now recommending the evaluation of \rtent{security\_method\_id} in
 the discovery of standard interfaces.
+\item Updated data types in the description tables to be less aligned to
+either SQL or VOTable, rather using generic type names.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
@@ -2989,7 +3006,7 @@ validation.level&validation.val\_level\\
     accidentally were only present in rr.table\_column.{}
 
 \item Added warnings about having to match case-insensitively in
-  res\_detail.detail\_value for IVORN-valued rows.{}
+  res\_detail.detail\_value for IVOID-valued rows.{}
 
 \item Restored the foreign key from interface to capability.  Mandating
   ignoring interface elements from StandardsRegExt records really is the

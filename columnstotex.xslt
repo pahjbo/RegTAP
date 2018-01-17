@@ -13,7 +13,7 @@
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, ADQL types, and descriptions for the \rtent{rr.<value-of select="@name"/>} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.<value-of select="@name"/>} table}}\\
 \sptablerule
 <apply-templates/>
 \sptablerule
@@ -47,9 +47,22 @@
 <template match="v:TR">
 <value-of select="v:TD[1]"/>\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
-\footnotesize <value-of select="v:TD[3]"/>(<choose>
-	<when test="v:TD[4]='-1'">*</when>
-	<otherwise><value-of select="v:TD[4]"/></otherwise></choose>)&amp;
+\footnotesize <choose>
+<when test="(v:TD[3]='char' or v:TD[3]='unicodeChar') and v:TD[4]='*'"
+	>string</when>
+<otherwise>
+<choose>
+<when test="(v:TD[3]='char' or v:TD[3]='unicodeChar')">character</when>
+<when test="(v:TD[3]='short' or v:TD[3]='integer' or v:TD[3]='long')">integer</when>
+<when test="(v:TD[3]='float' or v:TD[3]='double')">real</when>
+<otherwise><value-of select="v:TD[3]"/></otherwise>
+</choose>
+<choose>
+	<when test="v:TD[4]='1'"></when>
+	<otherwise>[<value-of select="v:TD[4]"/>]</otherwise></choose>
+	</otherwise>
+</choose>
+<if test="string(v:TD[6])">+<value-of select="v:TD[6]"/></if>&amp;
 <call-template name="string-replace">
 	<with-param name="string" select="v:TD[5]"/>
 	<with-param name="search" select="'#'"/>
