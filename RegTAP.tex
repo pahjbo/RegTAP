@@ -593,14 +593,14 @@ redaction).  Registry operators MAY provide additional columns in their
 tables, but they MUST provide all columns given in this
 specification.
 
-Many of the columns specified below are defined as haveing a ``string'' 
+Many of the columns specified below are defined as having a ``string'' 
 data type.  This is to be translated into arrays of \texttt{char} or
 \texttt{unicodeChar} on VOTable output depending on the service
 operators' decisions as to the representation of non-ASCII data in the
 database.  For requirements and recommendations regarding national
 characters in RegTAP, see Sect.~\ref{utfreq}.  The length of these
 arrays is not defined by this standard, where, obviously, no artificial
-length limits should be posed by implementations.  Implementors who have
+length limits should be imposed by implementations.  Implementors who have
 to limit the length of strings in their databases are referred to
 appendix~\ref{appBP}.
 
