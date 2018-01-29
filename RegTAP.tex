@@ -717,6 +717,18 @@ characters (\#).  Use the \rtent{ivo\_hashlist\_has} ADQL extension
 function to check for the presence of a single value.  This convention
 saves on tables while not complicating common queries significantly.
 
+In VOResource documents, multiple \vorent{rights} elements are allowed
+on a single record.  This is mainly for compatiblity with DataCite, and
+multiple \vorent{rights} elements are discouraged by the VOResource
+specification at least for use within the VO.  RegTAP uses that freedom
+to include \rtent{rights} and \rtent{rights\_uri} columns in
+\rtent{rr.resource} directly.  These columns must be populated,
+respectively, with the content and the value of the rightsURI attribute
+of the \emph{first} \vorent{rights} element within a resource record
+(falling back to NULL).  RegTAP services may provide all \vorent{rights}
+and \vorent{rightsURI} values through \rtent{rr.res\_details} (see
+sect.~\ref{table_res_detail}).
+
 A local addition is the \rtent{creator\_seq} column.  It contains
 all content of the \vorent{name} elements below a resource element
 \vorent{curation} child's \vorent{creator} children, concatenated with a
@@ -807,7 +819,7 @@ The UTC date and time this resource metadata description was created. This times
 short\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:shortName}&
 \footnotesize string&
-A short name or abbreviation given to something. This name will be used where brief annotations for the resource name are required. Applications may use it to refer to the resource in a compact display. One word or a few letters is recommended. No more than sixteen characters are allowed.\\
+A short name or abbreviation given to something, for presentation in space-constrained fields (up to 16 characters).\\
 res\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
@@ -815,7 +827,7 @@ The full name given to the resource.\\
 updated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@updated}&
 \footnotesize string+timestamp&
-The UTC date this resource metadata description was last updated. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
+The UTC date this resource metadata description was last updated. Insignificant time fields should be set to zero.\\
 content\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/contentLevel}&
 \footnotesize string&
@@ -856,6 +868,14 @@ waveband\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/waveband}&
 \footnotesize string&
 A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.\\
+rights\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights}&
+\footnotesize string&
+A statement of usage conditions (license, attribution, embargo, etc).\\
+rights\_uri\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights/@rightsURI}&
+\footnotesize string&
+A URI identifying a license the data is made available under.\\
 
 \sptablerule
 \end{tabular}
@@ -2506,10 +2526,12 @@ used to validate one of the interfaces of a capability (vr).
 \item[/instrument/@ivo-id (!)]IVOID of the instrument used to collect the data contained or managed by a resource (vr).
 \item[/managedAuthority (!)]An authority identifier managed by a registry (vg).
 \item[/managingOrg (!)]The organization that manages or owns this authority (vg).
-\item[/rights]Free-text information on usage conditions for a resource
-(vr).
-\item[/rights/@rightsURI (!)]A formal identifier for a license a
-resource is made available under (vr).
+\item[/rights]Free-text information on usage conditions for a resource;
+clients should generally use the \rtent{rights} column in
+\rtent{rr.resource} (vr).
+\item[/rights/@rightsURI]A formal identifier for a license a
+resource is made available under; clients should generally use the
+\rtent{rights\_uri} column in \rtent{rr.resource} (vr).
 \item[/schema/@namespace (!)]An identifier for a schema described by a standard (vstd).
 
 \end{description}
@@ -2851,6 +2873,23 @@ to the relational registry.
 
 \label{changes}
 
+\subsection{Changes from WD-20171206}
+
+\begin{itemize}
+\item Made type information in the schema tables more generic; we now
+have string, integer, real, and string+timestamp.
+\item Added \rtent{rr.rights\_uri} to \rtent{resource} and re-added a
+\rtent{rights}.  We now only take data from the first rights element
+into \rtent{rr.resource} as hash-joining is not reliable with free-text.
+This technically might constitute an API change, but since we don't
+believe rights has (properly) been used anywhere, we still believe we are
+within the limits of a minor change.
+\item  Changed WD requirement to keep all \vorent{rights} and
+\vorent{rightsURI} in \rtent{res\_detail}; doing this is optional now,
+and normal clients should take rights information from
+\rtent{rr.resource}.
+\end{itemize}
+
 \subsection{Changes from REC-1.0}
 
 \begin{itemize}
@@ -3041,7 +3080,7 @@ cap\_index column, and its foreign key is just ivoid and intf\_index.{}
 \item The list of res\_details utypes was moved to an appendix since
 it was too long to be included in the running text.{}
 
-\item Redation for WD publication.{}
+\item Redaction for WD publication.{}
 
 \end{itemize}
 
