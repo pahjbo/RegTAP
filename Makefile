@@ -14,11 +14,11 @@ DOCTYPE = WD
 
 # Source file for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex makeutypes.xslt
+SOURCES = $(DOCNAME).tex role_diagram.pdf
 
 # List of image files to be included in submitted package 
 # (whitespace-separated)
-FIGURES = RegTAP-arch.png 
+FIGURES = 
 
 VECTORFIGURES = schema.pdf
 

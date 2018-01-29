@@ -1,0 +1,29 @@
+<!--
+Document authors: 
+
+Remove all <rec> elements in there referring to standards not related
+to the current one, then say 
+
+make archdiag.pdf
+
+For the time being, please keep both archdiag.pdf and archdiag.svg as
+created by this in the VCS.  This helps document builds on machines
+with missing dependencies.
+-->
+
+<archdiag xmlns="http://ivoa.net/archdiag">
+	<!-- Registry: x=55, y=150..450 -->
+	<rec name="VOResource" x="55" y="155"/>
+	<rec name="RegTAP" x="55" y="180"/>
+	<rec name="TAPRegExt" x="55" y="255"/>
+	<rec name="VODataService" x="55" y="350"/>
+	<rec name="StandardsRegExt" x="55" y="375"/>
+	<rec name="SimpleDALR.E." x="55" y="400"/>
+
+	<rec name="Identifiers" x="125" y="425"/>
+
+	<!-- DAL: x=655, y=155..435 -->
+	<rec name="ADQL" x="250" y="160"/>
+
+	<rec name="TAP" x="655" y="325"/>
+</archdiag>
