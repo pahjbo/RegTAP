@@ -8,6 +8,7 @@
 \tolerance=6000
 \hbadness=6000
 
+\usepackage{supertabular}
 \usepackage[utf8]{inputenc}
 \usepackage{longtable}
 \usepackage{listings}
@@ -61,8 +62,8 @@ In the Virtual Observatory (VO), registries provide a means for
 discovering useful resources, i.e., data and services.  Individual
 publishers offer the descriptions for their resources (``resource
 records'') in publishing registries.  At the time of writing, there are
-roughly 14000 such resource records active within the VO, originating
-from about 20 publishing registries.
+roughly 2000 such resource records active within the VO, originating
+from about 40 publishing registries.
 
 The protocol spoken by these
 publishing registries, OAI-PMH, only allows restricting queries by
@@ -75,7 +76,7 @@ To enable efficient data discovery nevertheless, there are services harvesting t
 resource records from the publishing registries and offering rich query
 languages.
 The IVOA Registry
-Interfaces specification \citep{std:RI1} defined, among other aspects of
+Interfaces specification \citep{std:RI1}\todo{update when RI1.1 is REC} defined, among other aspects of
 the VO registry system, such an interface
 using SOAP and an early draft of an XML-based query language.
 
@@ -164,10 +165,11 @@ introduced by them are reflected in the \rtent{res\_detail} table using
 xpaths into the registry documents.
 This document should not in general need updates
 for registry extension updates.  For completeness, we note the
-versions current as of this specification: SimpleDALRegExt 1.0
-\citep{std:DALREGEXT},
+versions current as of this specification: SimpleDALRegExt 1.1
+\citep{2017ivoa.spec.0530P},
 StandardsRegExt 1.0 \citep{std:STDREGEXT}, TAPRegExt 1.0
-\citep{std:TAPREGEXT}, Registry Interfaces 1.0 \citep{std:RI1}.
+\citep{std:TAPREGEXT}, Registry Interfaces 1.0
+\citep{std:RI1}\todo{Update when RI1.1 (and TAPRegExt 1.1?) is REC}.
 \item[TAP, v1.0 \citep{std:TAP}]The queries against the schema defined in the present document, and the results of
 these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
@@ -540,7 +542,7 @@ just search for any xpaths into VOResource within \rtent{res\_details}.
 The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.1} with the IVOID
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.0}$$ in the service's
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
 capabilities (cf.~\citet{std:TAPREGEXT}).  Technically, this
 entails adding
 
@@ -755,7 +757,7 @@ writing define the following values for \rtent{res\_type}:
 for IVOID with a certain authority; cf. \citet{std:VOID}).
 \item[vg:registry]A registry is considered a publishing registry if it contains a
 capability element with \texttt{xsi:type="vg:Harvest"}.  Old,
-RegistryInterface 1-compliant registries also use this type with a
+RegistryInterface 1.0-compliant registries also use this type with a
 capability of type \vorent{vg:Search}.  The relational registry as
 specified here, while superceding these old \vorent{vg:Search}
 capabilities, does \emph{not} use this type any more.  See section
@@ -851,7 +853,7 @@ A hash-separated list of natures or genres of the content of the resource.\\
 source\_format\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source/@format}&
 \footnotesize string&
-The format of source\_value. Recognized values include "bibcode", referring to a standard astronomical bibcode (http://cdsweb.u-strasbg.fr/simbad/refcode.html).\\
+The format of source\_value. This, in particular, can be ``bibcode''.\\
 source\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source}&
 \footnotesize string&
@@ -2012,7 +2014,7 @@ the \rtent{alt\_identifier} column.
 \label{adqludf}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.0} data model MUST 
+\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST 
 implement the following four functions in their ADQL 2.0 language,
 with signatures written as recommended in \citet{std:TAPREGEXT}:
 
@@ -2607,6 +2609,8 @@ expressions in the ADQL translation layer whenever possible.
 
 
 \section{Implementation notes}
+\todo{Does anyone object to removing this?  Speak up now or we'll remove
+it before REC-1.1}
 
 \label{appBP}
 
