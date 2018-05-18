@@ -188,8 +188,8 @@ This standard also relates to other IVOA standards:
 
 
 \begin{description}
-\item[ADQL, v2.0 \citep{std:ADQL}]The rules for ingestion are designed to allow
-easy queries given the constraints of ADQL 2.0.  Also,
+\item[ADQL, v2.1 \citep{XXX TODO}]The rules for ingestion are designed to allow
+easy queries given the constraints of ADQL 2.1.  Also,
 we give four functions that extend ADQL using the
 language's built-in facility for user-defined functions.
 \end{description}
@@ -1021,7 +1021,7 @@ The following columns MUST be lowercased during ingestion:
 \rtent{base\_role}.
 Clients are advised to query the remaining columns, in particular
 \rtent{role\_name},
-case-insensitively, e.g., using \rtent{ivo\_nocasematch}.
+case-insensitively, e.g., using \texttt{ILIKE}.
 
 
 \subsection{The res\_subject Table}
@@ -1067,7 +1067,7 @@ case-insensitive and pattern queries using the index.
 
 The \rtent{ivoid} column MUST be lowercased during
 ingestion.  Clients are advised to query the \rtent{res\_subject} column
-case-insensitively, e.g., using \rtent{ivo\_nocasematch}.
+case-insensitively, e.g., using \texttt{ILIKE}.
 
 
 
@@ -1898,8 +1898,7 @@ rows -- the test queries are immediate examples -- , changing the case
 will likely break the data.  In order to avoid having to give and
 implement case normalization rules by detail xpath, no case normalization 
 is done on detail values at all, and users and clients will have to use
-the \rtent{ivo\_nocasematch} user defined function (see section
-\ref{adqludf}) when locating
+ILIKE when locating
 case-insensitive values.  For the resource xpaths given in Appendix \ref{d_u_list}, this concerns all items with xpaths ending
 in \texttt{@ivo-id}.
 
@@ -1955,12 +1954,11 @@ The \rtent{ivoid} column should be an explicit foreign key into
 at least the columns
 \rtent{detail\_xpath} and \rtent{detail\_value}, where the
 index on \rtent{detail\_value} should ideally work for both direct
-comparisons and searches using the \rtent{ivo\_nocasematch}
-function.
+comparisons and searches using ILIKE.
 
 The following column MUST be lowercased during ingestion:
 \rtent{ivoid}.  Clients are advised to
-use the \rtent{ivo\_nocasematch} function to search in
+use ILIKE to search in
 \rtent{detail\_value} if the values are to be compared
 case-insensitively (e.g., all IVOIDs).
 
@@ -2014,8 +2012,11 @@ the \rtent{alt\_identifier} column.
 \label{adqludf}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST 
-implement the following four functions in their ADQL 2.0 language,
+\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST implement
+ADQL 2.1, and they MUST implement
+the ILIKE operator as specified in ADQL 2.1 (which includes its
+declaration in their capabilities record).  They furthermore MUST
+implement the following four functions in their ADQL language,
 with signatures written as recommended in \citet{std:TAPREGEXT}:
 
 
@@ -2024,7 +2025,9 @@ with signatures written as recommended in \citet{std:TAPREGEXT}:
 The function returns 1 if \texttt{pat}  matches
 \texttt{value}, 0 otherwise.
 \texttt{pat}  is defined as for the SQL LIKE operator, but the
-match is performed case-insensitively.
+match is performed case-insensitively.  This function corresponds to
+the ADQL 2.1 ILIKE operator, which should be used in preference over
+\texttt{ivo\_nocasematch}.
 
 \term[\small\texttt{ivo\_hasword(haystack VARCHAR(*), needle VARCHAR(*)) -> INTEGER}]The function takes two strings and returns 1 if the second is
 contained in the first one in a ``word'' sense, i.e., delimited by
@@ -2157,7 +2160,7 @@ FROM rr.capability
 WHERE standard_id like 'ivo://ivoa.net/std/sia%'
   AND intf_type='vs:paramhttp'
   AND (
-    1=ivo_nocasematch(res_subject, '%spiral%')
+    res_subject ILIKE '%spiral%'
     OR 1=ivo_hasword(res_description, 'spiral')
     OR 1=ivo_hasword(res_title, 'spiral'))
 \end{lstlisting}
@@ -2254,7 +2257,7 @@ services.
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid 
 FROM rr.res_role
-WHERE 1=ivo_nocasematch(role_name, '%gavo%')
+WHERE role_name ILIKE '%gavo%'
   AND base_role='publisher'
 \end{lstlisting}
 
@@ -2290,7 +2293,7 @@ RIGHT OUTER JOIN (
   WHERE detail_xpath='/managedAuthority' 
     AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
-ON (1=ivo_nocasematch(resource.ivoid, authpatterns.pat))
+ON (resource.ivoid ILIKE authpatterns.pat)
 \end{lstlisting}
 
 \subsection{Locate RegTAP services}
@@ -2319,8 +2322,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_type='vs:paramhttp'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 
-    'ivo://ivoa.net/std/regtap#1.%')
+  AND detail_value ILIKE 'ivo://ivoa.net/std/regtap#1.%'
   AND security_method_id IS NULL
 \end{lstlisting}
 
@@ -2610,7 +2612,7 @@ expressions in the ADQL translation layer whenever possible.
 
 \section{Implementation notes}
 \todo{Does anyone object to removing this?  Speak up now or we'll remove
-it before REC-1.1}
+it before REC-1.1 (Marco has volunteered to update it, though)}
 
 \label{appBP}
 
@@ -2892,6 +2894,7 @@ within the limits of a minor change.
 \vorent{rightsURI} in \rtent{res\_detail}; doing this is optional now,
 and normal clients should take rights information from
 \rtent{rr.resource}.
+\item Now requiring ADQL 2.1, and requiring the provision of ILIKE.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
