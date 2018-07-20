@@ -408,6 +408,57 @@ change the definitions of char and unicodeChar to better match modern
 standards and requirements.  RegTAP implementors are encouraged to take
 these up.
 
+\subsection{Vocabulary considerations}
+
+\label{vocab-use}
+
+Since version 1.1, VOResource employs RDF vocabularies to control terms
+used in several places; in version 1.1, this concerns
+\vorent{content/contentLevel}, \vorent{content/type},
+\vorent{date/role}, and \vorent{content/relationship/relationshipType}.
+Some of these vocabularies contain deprecated terms.  These are marked
+as being a \texttt{owl:DeprecatedProperty}, and the new, preferred term
+is given with a \texttt{owl:equivalentProperty} predicate.
+
+For instance, the relationship vocabulary contains the following term
+(in Turtle notation):
+
+\begin{verbatim}
+#service-for> a rdf:Property;
+  rdfs:label "is a service for";
+  rdfs:comment "This resource makes data...";
+  owl:equivalentProperty <#IsServiceFor>;
+  a owl:DeprecatedProperty.
+\end{verbatim}
+
+This means that VOResource 1.0 asks resource record authors to no longer
+use \emph{service-for} and use the DataCite-compatible
+\emph{isServiceFor} instead.
+
+In order to simplify the usage of vocabulary-controlled columns,
+services MUST translate the terms deprecated in VOResource 1.1 in this
+way (which are listed in appendix~\ref{app:voctrans} for convenience)
+into their equivalent new terms.
+
+Since the vocabularies are expected to develop independently of their
+originating standards, service operators furthermore SHOULD regularly
+revisit IVOA vocabularies to see if further translations should be done.
+While we expect the mechanism using the owl properties described above
+will be used to mark deprecated terms and their replacements in other
+IVOA vocabularies, a future common policy for IVOA vocabularies might
+recommend different mechanisms. These are considered equivalent for the
+purposes of RegTAP.
+
+Similar rules should be assumed for other IVOA vocabularies that may be
+used by VOResource extensions.
+
+One non-IVOA vocabulary is mentioned by VOResource: The Unified
+Astronomy Thesaurus UAT.\todo{MD researches how they deprecate, also:
+cite it properly}.
+Services SHOULD translate deprecated UAT terms encountered in
+\vorent{content/subject} to their preferred forms according to the latest
+released UAT version.
+
 
 \section{QNames in VOResource attributes}
 
@@ -432,7 +483,8 @@ For the representation of QNames within the database, these recommended
 prefixes are now mandatory. Future VOResource extensions define their
 mandatory prefixes themselves.
 
-Following the existing practice, minor version changes are not in
+Following the existing practice, minor version changes are not
+in\todo{update for schema versioning EN}
 general reflected in the recommended prefixes -- e.g., both VODataService
 1.0 and VODataService 1.1 use \texttt{vs:}.  For reference, here is
 a table of XML namespaces and prefixes for namespaces relevant to this
@@ -547,8 +599,8 @@ The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.1} with the IVOID
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
-capabilities (cf.~\citet{std:TAPREGEXT}).  Technically, this
-entails adding
+capabilities as governed by TAPRegExt \citep{std:TAPREGEXT}.  Technically, this
+entails adding\todo{add text on future utype/table-based discovery}
 
 
 \begin{verbatim}
@@ -909,6 +961,10 @@ The row for \rtent{region\_of\_regard} in
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
 \tapent{unit} column.
 
+The content of incoming \vorent{content/type} and \vorent{content/level}
+elements must be normalized according to the rules laid down in
+sect.~\ref{vocab-use} before further processing.
+
 
 \subsection{The res\_role Table}
 
@@ -1072,6 +1128,10 @@ case-insensitive and pattern queries using the index.
 The \rtent{ivoid} column MUST be lowercased during
 ingestion.  Clients are advised to query the \rtent{res\_subject} column
 case-insensitively, e.g., using \texttt{ILIKE}.
+
+The content of incoming \vorent{subject} 
+elements may be normalized according to the rules laid down in
+sect.~\ref{vocab-use}.
 
 
 
@@ -1737,6 +1797,9 @@ The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{relationship\_type},
 \rtent{related\_id}.
 
+The content of incoming \vorent{relationshipType}
+elements must be normalized according to the rules laid down in
+sect.~\ref{vocab-use} before lowercasing.
 
 
 \subsection{The validation Table}
@@ -1860,6 +1923,9 @@ The \rtent{ivoid} column should be an explicit foreign key into
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{value\_role}.
 
+The content of incoming \vorent{date/@type} 
+attributes must be normalized according to the rules laid down in
+sect.~\ref{vocab-use} before lowercasing.
 
 
 \subsection{The res\_detail Table}
@@ -2878,6 +2944,46 @@ to the relational registry.
 \lstinputlisting[language=XML,flexiblecolumns=true,basicstyle=\footnotesize
   ]{makeutypes.xslt}
 
+\section{Required vocabulary maps}
+\label{app:voctrans}
+
+As described in section~\ref{vocab-use}, RegTAP services should perform
+a regularization of terms from formal vocabularies; they must do so for
+the subset of deprecated terms known at the time of RegTAP~1.1's
+adoption as IVOA recommendation.  For convenience, here is a list of the
+required mappings.
+
+From \url{http://www.ivoa.net/rdf/voresource/date_role},
+release date 2016-08-17:
+
+\begin{inlinetable}
+\begin{tabular}{ll}
+\sptablerule
+\textbf{Deprecated}&\textbf{Preferred}\\
+\sptablerule
+representative&Collected\\
+creation&Created\\
+update&Updated\\
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+From 
+\url{http://www.ivoa.net/rdf/voresource/relationship_type}, release date
+2016-08-17:
+
+\begin{inlinetable}
+\begin{tabular}{ll}
+\sptablerule
+\textbf{Deprecated}&\textbf{Preferred}\\
+\sptablerule
+mirror-of&IsIdenticalTo\\
+service-for&IsServiceFor\\
+served-by&IsServedBy\\
+derived-from&IsDerivedFrom\\
+\sptablerule
+\end{tabular}
+\end{inlinetable}
 
 \section{Changes from Previous Versions}
 
@@ -2886,6 +2992,8 @@ to the relational registry.
 \subsection{Changes from WD-20171206}
 
 \begin{itemize}
+\item Now requiring that services map deprecated vocabulary terms to
+preferred ones.
 \item Made type information in the schema tables more generic; we now
 have string, integer, real, and string+timestamp.
 \item Added \rtent{rr.rights\_uri} to \rtent{resource} and re-added a
