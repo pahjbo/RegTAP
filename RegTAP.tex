@@ -535,7 +535,7 @@ applied to an OAI-PMH response, the Xpath expression
 with the canonical prefixes from section \ref{qnameatts} implied.  The resource xpaths themselves
 largely do not need explicit namespaces since VOResource elements are by
 default unqualified.  Elements and attributes from non-VOResource
-schemata have the canonical namespace prefixes, which in this
+schemata in such resource xpaths have the canonical namespace prefixes, which in this
 specification only applies to several \texttt{xsi:type} attribute
 names.
 
@@ -553,7 +553,7 @@ Since VOResource is directly modelled
 in XML Schema, the choice of XPath as the bridging formalism is 
 compelling, though, and utypes themselves are not necessary for the
 operation of a TAP service containing the relational registry.
-TAP, however, offers fields for utypes in its TAP\_SCHEMA.  Since they
+TAP, however, offers fields for utypes in its \tapent{TAP\_SCHEMA}.  Since they
 are not otherwise required, this specification takes the liberty of
 using them to denote the xpaths.
 
@@ -589,7 +589,13 @@ which, in particular, means that they are case sensitive.  On the other
 hand, to clients they are simply opaque strings, i.e., clients cannot
 just search for any xpaths into VOResource within \rtent{res\_details}.
 
-
+Non-normatively, we give an XSLT
+sheet\footnote{\auxiliaryurl{makeutypes.xslt}} producing resource xpaths
+for suitable VOResource extensions. It is, however, not fully general, 
+as it will only notice direct subclasses of VOResource's
+\vorent{Resource}, \vorent{Capability}, and \vorent{Interface} classes.
+If extensions derive from other extensions' subclasses of these classes,
+the stylesheet would need to be amended.
 
 \section{Discovering Relational Registries}
 
@@ -2925,24 +2931,6 @@ misc.~particles&\texttt{VARCHAR(16)}&resource.short\_name\hfil\break
 \end{tabular}
 \end{inlinetable}
 
-\section{XSLT to enumerate Relational
-Registry XPaths}
-
-\label{appMkut}
-
-The (non-normative) following XSL stylesheet emits xpaths as
-discussed in section \ref{vorutypes} when applied to a
-VOResource extension.  Considering readability and limitations of XSLT, this is
-not fully general -- if VOResource extensions started to inherit from other
-extensions' subclasses of Resource, Capability, or Interface, this stylesheet
-will need to be extended.
-
-Still, it is a useful tool when evaluating how to map a given extension
-to the relational registry.
-
-
-\lstinputlisting[language=XML,flexiblecolumns=true,basicstyle=\footnotesize
-  ]{makeutypes.xslt}
 
 \section{Required vocabulary maps}
 \label{app:voctrans}
@@ -3007,6 +2995,8 @@ within the limits of a minor change.
 and normal clients should take rights information from
 \rtent{rr.resource}.
 \item Now requiring ADQL 2.1, and requiring the provision of ILIKE.
+\item Replaced inline XSLT utype maker with a link to an external
+resource.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
@@ -3053,7 +3043,6 @@ either SQL or VOTable, rather using generic type names.
 \subsection{Changes from PR-20140227}
 
 \label{changes-20140227}
-
 
 \begin{itemize}
 
