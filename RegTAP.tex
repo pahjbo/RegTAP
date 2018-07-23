@@ -620,7 +620,7 @@ of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.1} with the IVOID
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
 capabilities as governed by TAPRegExt \citep{std:TAPREGEXT}.  Technically, this
-entails adding\todo{add text on future utype/table-based discovery}
+entails adding
 
 
 \begin{verbatim}
@@ -638,23 +638,33 @@ relational registry''} example in section
 \ref{sample_queries} shows a query that does
 this.
 
-It is recommended to additionally register a relational registry as a
-VODataService data collection and connect this and the TAP services
-with a pair of service-for/served-by relations.  This allows giving more
-metadata on the data content like, for example, the frequency of
-harvesting.
-
 Services implementing this data model that do not (strive to) offer
 the full data content of the VO registry (like domain-specific
 registries or experimental systems) MUST NOT declare the above data
 model in order to not invite clients expecting the VO registry to send
 queries to it.
 
+Section 5.2 of Registry Interfaces 1.1 additionally requires full RegTAP
+services to register a \xmlel{vg:Registry}-typed record with a (possibly
+auxiliary) TAP capability.  This record is being used by the RofR, and
+it opens up a migration path to a data-based discovery
+pattern\footnote{This would look for schema utypes and apprears
+desirable to enable multiple instances of a data model within one TAP
+service; the recommended discovery pattern for RegTAP might thus be 
+updated in RegTAP 1.3.}.
+
+
 
 
 \section{VOResource Tables}
 
 \label{vortables}
+
+All tables making up the RegTAP schema are in the \tapent{rr} schema.
+In \tapent{TAP\_SCHEMA}, this schema MUST be associated with a
+\tapent{utype} matching the data model identifier given in
+sect.~\ref{registration}, i.e.,
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
@@ -3011,6 +3021,7 @@ and normal clients should take rights information from
 \item Now requiring ADQL 2.1, and requiring the provision of ILIKE.
 \item Replaced inline XSLT utype maker with a link to an external
 resource.
+\item Now requiring the data model URI as the utype of the rr schema.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
@@ -3092,6 +3103,7 @@ either SQL or VOTable, rather using generic type names.
 
 \item Redactional changes from RFC (e.g., in column descriptions, some 
   clarifications, typo fixes).{}
+
 
 \end{itemize}
 
