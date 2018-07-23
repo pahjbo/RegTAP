@@ -344,10 +344,15 @@ of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 
 \label{casenorm}
 
-ADQL has no operators for case-insensitive matching of strings.  To
-allow for robust and straightforward queries nevertheless, most columns
-containing values not usually intended for display are required to be
-converted to lower case; in the table descriptions below, there are
+ADQL 2.0 had no operators for case-insensitive matching of strings.
+Therefore, RegTAP 1.0 required that most columns
+containing values not usually intended for display to be
+converted to lower case on ingestion.  Even though ADQL 2.1 now offers
+ILIKE, in the interest of backwards compatibility (as well as
+implementation simplicity), RegTAP 1.1 does not change these
+requirements.
+
+In the table descriptions below, there are
 explicit requirements on case normalization near the end of each
 section.  This is particularly important when the entities to be
 compared are defined to be case-insensitive (e.g., UCDs, IVOIDs).
@@ -416,7 +421,7 @@ these up.
 
 Since version 1.1, VOResource employs RDF vocabularies to control terms
 used in several places; in version 1.1, this concerns
-\vorent{content/contentLevel}, \vorent{content/type},
+\vorent{content/con\-tentLevel}, \vorent{content/type},
 \vorent{date/role}, and \vorent{content/relationship/relationshipType}.
 Some of these vocabularies contain deprecated terms.  These are marked
 as being a \texttt{owl:DeprecatedProperty}, and the new, preferred term
@@ -455,8 +460,8 @@ Similar rules should be assumed for other IVOA vocabularies that may be
 used by VOResource extensions.
 
 One non-IVOA vocabulary is mentioned by VOResource: The Unified
-Astronomy Thesaurus UAT.\todo{MD researches how they deprecate, also:
-cite it properly}.
+Astronomy Thesaurus UAT.  \todo{MD researches how they deprecate, also:
+cite it properly}
 Services SHOULD translate deprecated UAT terms encountered in
 \vorent{content/subject} to their preferred forms according to the latest
 released UAT version.
@@ -485,12 +490,19 @@ For the representation of QNames within the database, these recommended
 prefixes are now mandatory. Future VOResource extensions define their
 mandatory prefixes themselves.
 
-Following the existing practice, minor version changes are not
-in\todo{update for schema versioning EN}
-general reflected in the recommended prefixes -- e.g., both VODataService
-1.0 and VODataService 1.1 use \texttt{vs:}.  For reference, here is
-a table of XML namespaces and prefixes for namespaces relevant to this
-specification:
+As described in the IVOA endorsed Note ``XML schema versioning
+policies'' \citep{2018ivoa.spec.0529H}, minor-version updates to XML
+schemas do not change the namespace URIs.  Before the adoption of that
+note, some schemas introduced namespace URIs that did change on minor
+versions.  For consistency, and because there should not really be
+discovery use cases based on minor versions of XML schemas, all
+namespace URIs for the same major version of a standard have the same
+canonical prefix -- e.g., both VODataService
+1.0 and VODataService 1.1 use \texttt{vs:}.  
+
+For reference, here is
+a table of XML namespace URIs and prefixes for schemata in common use at
+the time of this writing:
 
 
 \begin{inlinetable}
