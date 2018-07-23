@@ -72,30 +72,32 @@ Even if it were, data discovery would at least be fairly time consuming if
 each client had to query dozens or, potentially, hundreds of
 publishing registries.
 
-To enable efficient data discovery nevertheless, there are services harvesting the
+To enable efficient data discovery nevertheless, there are services
+(``searchable registries'') harvesting the
 resource records from the publishing registries and offering rich query
-languages.
-The IVOA Registry
-Interfaces specification \citep{std:RI1}\todo{update when RI1.1 is REC} defined, among other aspects of
-the VO registry system, such an interface
-using SOAP and an early draft of an XML-based query language.
+facilities to Registry clients. 
+Version 1.0 of the IVOA Registry
+Interfaces specification \citep{std:RI1} defined, among other aspects of
+the VO registry system, a standard interface for such services.
+Built on SOAP and an early draft of an XML-based query language,
+this first attempt which was quickly obsoleted by parallel
+developments in the VO.  It was then decided to have searchable
+registries specified outside of Registry Interfaces.
 
-This document provides an update to the query (``searchable registry'') part
-of that specifiation (chapter 2), aimed towards
-usage with current VO standards, in particular TAP \citep{std:TAP}
+This document provides one such specification, based in particular on TAP \citep{std:TAP}
 and ADQL \citep{std:ADQL}.  It follows the model of ObsCore
 \citep{std:OBSCORE} of defining a representation of a data model
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
-the VOResource XML format \citep{std:VOR}.  The simplification
-yields 13 tables.  For each table, TAP\_SCHEMA metadata is given together
+the VOResource XML format \citep{2018ivoa.spec.0625P}.  The simplification
+yields 15 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
 with rules for how to fill these tables from VOResource-serialized
 metadata records as well as conditions on foreign keys and
 recommendations on indexes.
 
 The resulting set of tables has a modest size by today's standards,
 but is still non-trivial.  The largest table, \rtent{table\_column},
-has about half a million rows at the time of writing.
+has about a million rows at the time of writing.
 
 The architecture laid out here allows client applications to perform ``canned''
 queries on behalf of their users as well as complex queries formulated
@@ -149,7 +151,7 @@ following ways:
 
 
 \begin{description}
-\item[VOResource, v1.1 \citep{TODO}] VOResource sets the foundation for a formal definition of the data
+\item[VOResource, v1.1 \citep{2018ivoa.spec.0625P}] VOResource sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
@@ -177,7 +179,7 @@ these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
 local additions to the registry relations via TAP's metadata publishing
 mechanisms.
-\item[IVOA Identifiers, v2.0 \citep{TODO}]IVOA identifiers are
+\item[IVOA Identifiers, v2.0 \citep{2016ivoa.spec.0523D}]IVOA identifiers are
 essentially the primary keys within the VO
 registry; as such, they are actual primary keys of the central table of
 the relational registry. Also, the notion of an authority as laid down
@@ -190,7 +192,7 @@ This standard also relates to other IVOA standards:
 
 
 \begin{description}
-\item[ADQL, v2.1 \citep{XXXTODO}]The rules for ingestion are designed to allow
+\item[ADQL, v2.1 \citep{TODO}]The rules for ingestion are designed to allow
 easy queries given the constraints of ADQL 2.1.  Also,
 we give four functions that extend ADQL using the
 language's built-in facility for user-defined functions.  While RegTAP
