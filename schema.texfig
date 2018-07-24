@@ -58,6 +58,9 @@
 \col{role\_name}
 \col{base\_role}}
   	\vfil
+		\hamburger{white}{identifier}{alt\_identifier}{%
+\col alt\_identifier
+	}\vfil
     \hamburger{white}{resource}{resource}{%
 \col ivoid
 \col res\_type
@@ -106,6 +109,8 @@
 
 \psset{linecolor=gray,nodesep=4pt,linearc=0.1,arrowsize=2mm,armA=5mm}
 \ncangles[angleB=0,offsetB=-2mm]{->}{role}{resource}
+\ncangles[angleB=0,offsetB=-2mm]{->}{identifier}{resource}
+\ncangles[angleA=180,angleB=180]{->}{identifier}{role}
 \ncangles[offsetB=2mm]{->}{subject}{resource}
 \ncangles[offsetB=2mm]{->}{date}{resource}
 \ncangles[angleB=180]{->}{schema}{resource}

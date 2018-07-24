@@ -650,8 +650,8 @@ auxiliary) TAP capability.  This record is being used by the RofR, and
 it opens up a migration path to a data-based discovery
 pattern\footnote{This would look for schema utypes and apprears
 desirable to enable multiple instances of a data model within one TAP
-service; the recommended discovery pattern for RegTAP might thus be 
-updated in RegTAP 1.3.}.
+service; it is expected that the recommended discovery pattern
+in RegTAP 1.3 will be updated accordingly.}.
 
 
 
@@ -661,15 +661,16 @@ updated in RegTAP 1.3.}.
 \label{vortables}
 
 All tables making up the RegTAP schema are in the \tapent{rr} schema.
-In \tapent{TAP\_SCHEMA}, this schema MUST be associated with a
-\tapent{utype} matching the data model identifier given in
-sect.~\ref{registration}, i.e.,
+In both \tapent{TAP\_SCHEMA} and the VODataService tableset, this schema
+MUST be associated with a \tapent{utype} matching the data model
+identifier given in sect.~\ref{registration}, i.e.,
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
 are normative and MUST be used as given, and all-lowercase.  On the
-values in the \tapent{utype} columns within \tapent{TAP\_SCHEMA},
+values in the \tapent{utype} columns within \tapent{TAP\_SCHEMA} except
+for the schema utype,
 see section \ref{vorutypes}.  All columns defined in
 this document MUST have a 1 in the \tapent{std} column of the
 \tapent{TAP\_SCHEMA.table\_columns} table.  Unless otherwise
@@ -698,14 +699,14 @@ DALI \citep{2017ivoa.spec.0517D} apply.
 
 All table descriptions start out with brief remarks on the
 relationship of the table to the VOResource XML data model.  Then, the
-columns are described in a selection of TAP\_SCHEMA metadata. For each
+columns are described in a selection of \tapent{TAP\_SCHEMA} metadata. For each
 table, recommendations on explicit primary and foreign keys as well as
 indexed columns are given, where it is understood that primary and
 foreign keys are already indexed in order to allow efficient joins;
 these parts are not normative, but operators should ensure decent
 performance for queries assuming the presence of the given indexes and
-relationships.  Finally, lowercasing requirements
-(normative) are given.
+relationships.  Finally, miscellaneous normative requirements, typically
+on case normalization, are given.
 
 
 \begin{figure}
@@ -798,7 +799,7 @@ The \rtent{rr.resource} table contains most atomic members of
 itself.  Members of derived types are, in general, handled through 
 the \rtent{res\_detail}
 table even if 1:1 (see \ref{table_res_detail}).  The
-\rtent{content\_level}, \rtent{content\_type}, and \rtent{waveband}, 
+\rtent{content\_level}, \rtent{content\_type}, and \rtent{waveband}
 members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
 characters (\#).  Use the \rtent{ivo\_hashlist\_has} ADQL extension
@@ -902,7 +903,7 @@ res\_type\hfil\break
 Resource type (something like vs:datacollection, vs:catalogservice, etc).\\
 created\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@created}&
-\footnotesize string+timestamp&
+\footnotesize character[19]+timestamp&
 The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
 short\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:shortName}&
@@ -914,7 +915,7 @@ res\_title\hfil\break
 The full name given to the resource.\\
 updated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@updated}&
-\footnotesize string+timestamp&
+\footnotesize character[19]+timestamp&
 The UTC date this resource metadata description was last updated. Insignificant time fields should be set to zero.\\
 content\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/contentLevel}&
@@ -1800,7 +1801,7 @@ The parent resource.\\
 relationship\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relationshipType}&
 \footnotesize string&
-The named type of relationship; this can be mirror-of, service-for, served-by, derived-from, related-to.\\
+The type of the relationship; these terms are drawn from a controlled vocabulary and are DataCite-compatible.\\
 related\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource/@ivo-id}&
 \footnotesize string&
@@ -1931,7 +1932,7 @@ ivoid\hfil\break
 The parent resource.\\
 date\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date}&
-\footnotesize string+timestamp&
+\footnotesize character[19]+timestamp&
 A date associated with an event in the life cycle of the resource.\\
 value\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date/@role}&
