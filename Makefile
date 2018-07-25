@@ -24,8 +24,10 @@ VECTORFIGURES = schema.pdf
 
 AUX_FILES = makeutypes.xslt
 
-%.pdffig: %.psfig
-	ps2pdf -dEPSCrop $*.psfig $*.pdffig
+all: $(DOCNAME).pdf
+
+schema.pdf: schema.psfig
+	ps2pdf -dEPSCrop $< $@
 
 %.psfig: %.texfig
 	tex $<

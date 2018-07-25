@@ -10,6 +10,7 @@
 
 <template match="v:TABLE">
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
@@ -45,7 +46,7 @@
 </template>
 
 <template match="v:TR">
-<value-of select="v:TD[1]"/>\hfil\break
+\baselineskip=9pt<value-of select="v:TD[1]"/>\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
 \footnotesize <choose>
 <when test="(v:TD[3]='char' or v:TD[3]='unicodeChar') and v:TD[4]='*'"
@@ -62,7 +63,7 @@
 	<otherwise>[<value-of select="v:TD[4]"/>]</otherwise></choose>
 	</otherwise>
 </choose>
-<if test="string(v:TD[6])">+<value-of select="v:TD[6]"/></if>&amp;
+<if test="string(v:TD[6])">\hfil\break+<value-of select="v:TD[6]"/></if>&amp;
 <call-template name="string-replace">
 	<with-param name="string" select="v:TD[5]"/>
 	<with-param name="search" select="'#'"/>

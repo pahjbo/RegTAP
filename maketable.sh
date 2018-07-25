@@ -1,6 +1,6 @@
 #!/bin/bash
-# dump an HTML table containing the major TAP_SCHEMA.column values of the
-# table given in the argument to stdout
+# dump a LaTeX-formatted table containing the RegTAP-governed 
+# TAP_SCHEMA.columns values of the table given in the argument to stdout
 
 TAP_ACCESS_URL=${TAP_ACCESS_URL:=http://localhost:8080/tap}
 QUERY="SELECT column_name, utype,

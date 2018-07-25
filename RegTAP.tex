@@ -90,7 +90,7 @@ and ADQL \citep{std:ADQL}.  It follows the model of ObsCore
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
 the VOResource XML format \citep{2018ivoa.spec.0625P}.  The simplification
-yields 15 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
+yields 14 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
 with rules for how to fill these tables from VOResource-serialized
 metadata records as well as conditions on foreign keys and
 recommendations on indexes.
@@ -741,10 +741,6 @@ rr.interface\hfil\break
 rr.intf\_param\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/interface/param/}&
  Input parameters for services.\\
-rr.registries\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
- Administrative table: publishing registries we harvest, together with
-the dates of last full and incremental harvests.\\
 rr.relationship\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/content/relationship/}&
  Relationships between resources (like mirroring, derivation, serving
@@ -783,7 +779,7 @@ Validation levels for resources and capabilities.\\
 
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.0}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
 \label{table:dm}
 \end{table}
 
@@ -840,18 +836,15 @@ writing define the following values for \rtent{res\_type}:
 
 
 \begin{description}
-\item[vg:authority]A naming authority (these records allow resolving who is responsible
-for IVOID with a certain authority; cf. \citet{std:VOID}).
-\item[vg:registry]A registry is considered a publishing registry if it contains a
-capability element with \texttt{xsi:type="vg:Harvest"}.  Old,
-RegistryInterface 1.0-compliant registries also use this type with a
-capability of type \vorent{vg:Search}.  The relational registry as
-specified here, while superceding these old \vorent{vg:Search}
-capabilities, does \emph{not} use this type any more.  See section
-\ref{registration} on how to locate services
-supporting it.
+\item[vg:authority]A naming authority; as described in the IVOA
+Identifiers specification \citep{2016ivoa.spec.0523D}, these records 
+are used to guarantee global uniqueness of IVOIDs.
+\item[vg:registry]A registry.  This can be a publishing registry (which
+have at least one capability element of type \xmlel{vg:Harvest}), or a
+searchable registry (like a RegTAP service).  See Registry Interfaces
+1.1 on how to apply this resource type.
 \item[vr:organisation]The main purpose of an organisation as a registered resource is to
-serve as a publisher of other resources.
+be references by IVOID as a publisher of other resources.
 \item[vr:resource]Any entity or component of a VO application that is describable and
 identifiable by an IVOA identifier; while it is technically possible to
 publish such records, the authors of such records should probably be
@@ -861,14 +854,15 @@ its behalf.
 \item[vs:catalogservice]A service that interacts with one or more specified tables having
 some coverage of the sky, time, and/or frequency.
 \item[vs:dataservice]A service for accessing astronomical data; publishers choosing
-this over \vorent{vs:catalogservice} probably intend to communicate
+this over \vorent{vs:CatalogService} probably intend to communicate
 that there are no actual sky positions in the tables exposed.
 \item[vs:datacollection]A schema as a logical grouping of data which, in general, is
 composed of one or more accessible datasets.  Use the
 \rtent{rr.relationship} table to find out services that allow
 access to the data (the \vorent{served\_by} relation), and/or look for values for
 \vorent{/accessURL} in
-\ref{table_res_detail}.
+\ref{table_res_detail}.\todo{Perhaps update the discussion of
+VODataService types for what we think will happen in VODS 1.2?}
 \item[vstd:standard]A description of a standard specification.
 
 \end{description}
@@ -888,80 +882,99 @@ registry.
 % GENERATED: maketable.sh rr.resource
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.resource} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:identifier}&
 \footnotesize string&
 Unambiguous reference to the resource conforming to the IVOA standard for identifiers.\\
-res\_type\hfil\break
+
+\baselineskip=9ptres\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
 Resource type (something like vs:datacollection, vs:catalogservice, etc).\\
-created\hfil\break
+
+\baselineskip=9ptcreated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@created}&
-\footnotesize character[19]+timestamp&
+\footnotesize character[19]\hfil\break+timestamp&
 The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
-short\_name\hfil\break
+
+\baselineskip=9ptshort\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:shortName}&
 \footnotesize string&
 A short name or abbreviation given to something, for presentation in space-constrained fields (up to 16 characters).\\
-res\_title\hfil\break
+
+\baselineskip=9ptres\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 The full name given to the resource.\\
-updated\hfil\break
+
+\baselineskip=9ptupdated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@updated}&
-\footnotesize character[19]+timestamp&
+\footnotesize character[19]\hfil\break+timestamp&
 The UTC date this resource metadata description was last updated. Insignificant time fields should be set to zero.\\
-content\_level\hfil\break
+
+\baselineskip=9ptcontent\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/contentLevel}&
 \footnotesize string&
 A hash-separated list of content levels specifying the intended audience.\\
-res\_description\hfil\break
+
+\baselineskip=9ptres\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/description}&
 \footnotesize string&
 An account of the nature of the resource.\\
-reference\_url\hfil\break
+
+\baselineskip=9ptreference\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/referenceURL}&
 \footnotesize string&
 URL pointing to a human-readable document describing this resource.\\
-creator\_seq\hfil\break
+
+\baselineskip=9ptcreator\_seq\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/creator/name}&
 \footnotesize string&
 The creator(s) of the resource in the order given by the resource record author, separated by semicolons.\\
-content\_type\hfil\break
+
+\baselineskip=9ptcontent\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/type}&
 \footnotesize string&
 A hash-separated list of natures or genres of the content of the resource.\\
-source\_format\hfil\break
+
+\baselineskip=9ptsource\_format\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source/@format}&
 \footnotesize string&
 The format of source\_value. This, in particular, can be ``bibcode''.\\
-source\_value\hfil\break
+
+\baselineskip=9ptsource\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source}&
 \footnotesize string&
 A bibliographic reference from which the present resource is derived or extracted.\\
-res\_version\hfil\break
+
+\baselineskip=9ptres\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/version}&
 \footnotesize string&
 Label associated with creation or availablilty of a version of a resource.\\
-region\_of\_regard\hfil\break
+
+\baselineskip=9ptregion\_of\_regard\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/regionOfRegard}&
 \footnotesize real&
-A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be "blurred" in order to get an appropriate match.\\
-waveband\hfil\break
+A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be ``blurred'' in order to get an appropriate match.\\
+
+\baselineskip=9ptwaveband\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/waveband}&
 \footnotesize string&
 A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.\\
-rights\hfil\break
+
+\baselineskip=9ptrights\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights}&
 \footnotesize string&
 A statement of usage conditions (license, attribution, embargo, etc).\\
-rights\_uri\hfil\break
+
+\baselineskip=9ptrights\_uri\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights/@rightsURI}&
 \footnotesize string&
 A URI identifying a license the data is made available under.\\
@@ -1041,54 +1054,59 @@ example, contacts have no logo, and creators no telephone members.  Unavailable
 metadata (marked with N/A in the above table) MUST be represented with NULL
 values in the corresponding columns.
 
-Note that, due to current practice in the VO, it is not easy to
-predict what \rtent{role\_name} will contain; it could be a single
-name, where again the actual format is unpredictable
-(full first name, initials in front or behind, or
-even a project name), but it could as well be a full author list.  Thus,
-when matching against \rtent{role\_name}, you will have to use
-rather lenient regular expressions.  Changing this, admittedly
-regrettable, situation would
-probably require a change in the VOResource schema.
+When matching against \rtent{role\_name}, please be aware that despite
+the admonitions in section 3.1.2 of VOResource 1.1 (which recommends a
+format like Last, F.~for person names), as of this writing the wide
+majority of role names in the VO Registry are not in this format.  Hence, name
+matching in RegTAP at this point should be very lenient.
 
 
 % GENERATED: maketable.sh rr.res_role
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_role} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-role\_name\hfil\break
+
+\baselineskip=9ptrole\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The real-world name or title of a person or organization.\\
-role\_ivoid\hfil\break
+
+\baselineskip=9ptrole\_ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An IVOA identifier of a person or organization.\\
-street\_address\hfil\break
+
+\baselineskip=9ptstreet\_address\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 A mailing address for a person or organization.\\
-email\hfil\break
+
+\baselineskip=9ptemail\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An email address the entity can be reached at.\\
-telephone\hfil\break
+
+\baselineskip=9pttelephone\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 A telephone number the entity can be reached at.\\
-logo\hfil\break
+
+\baselineskip=9ptlogo\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 URL pointing to a graphical logo, which may be used to help identify the entity.\\
-base\_role\hfil\break
+
+\baselineskip=9ptbase\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The role played by this entity; this is one of contact, publisher, and creator.\\
@@ -1128,16 +1146,19 @@ string-like 1:n members of resource.
 % GENERATED: maketable.sh rr.res_subject
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_subject} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-res\_subject\hfil\break
+
+\baselineskip=9ptres\_subject\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:subject}&
 \footnotesize string&
 Topics, object types, or other descriptive keywords about the resource.\\
@@ -1183,28 +1204,34 @@ capabilities on a single resource.  See section \ref{primarykeys} for details.
 % GENERATED: maketable.sh rr.capability
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.capability} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-cap\_index\hfil\break
+
+\baselineskip=9ptcap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier of this capability within the resource.\\
-cap\_type\hfil\break
+
+\baselineskip=9ptcap\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
 The type of capability covered here.\\
-cap\_description\hfil\break
+
+\baselineskip=9ptcap\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A human-readable description of what this capability provides as part of the over-all service.\\
-standard\_id\hfil\break
+
+\baselineskip=9ptstandard\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@standardID}&
 \footnotesize string&
 A URI for a standard this capability conforms to.\\
@@ -1247,32 +1274,39 @@ multiple schema elements on a single resource.  See section \ref{primarykeys} fo
 % GENERATED: maketable.sh rr.res_schema
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_schema} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-schema\_index\hfil\break
+
+\baselineskip=9ptschema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
-schema\_description\hfil\break
+
+\baselineskip=9ptschema\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free text description of the tableset explaining in general how all of the tables are related.\\
-schema\_name\hfil\break
+
+\baselineskip=9ptschema\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name }&
 \footnotesize string&
 A name for the set of tables.\\
-schema\_title\hfil\break
+
+\baselineskip=9ptschema\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 A descriptive, human-interpretable name for the table set.\\
-schema\_utype\hfil\break
+
+\baselineskip=9ptschema\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a concept in a data model that the data in this schema as a whole represent.\\
@@ -1322,40 +1356,49 @@ must be per resource and \emph{not} per schema, as
 % GENERATED: maketable.sh rr.res_table
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_table} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-schema\_index\hfil\break
+
+\baselineskip=9ptschema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
-table\_description\hfil\break
+
+\baselineskip=9pttable\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the table's contents.\\
-table\_name\hfil\break
+
+\baselineskip=9pttable\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.\\
-table\_index\hfil\break
+
+\baselineskip=9pttable\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the tables belonging to a resource.\\
-table\_title\hfil\break
+
+\baselineskip=9pttable\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 A descriptive, human-interpretable name for the table.\\
-table\_type\hfil\break
+
+\baselineskip=9pttable\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@type}&
 \footnotesize string&
 A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base\_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.\\
-table\_utype\hfil\break
+
+\baselineskip=9pttable\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a concept in a data model that the data in this table as a whole represent.\\
@@ -1416,68 +1459,84 @@ to vs; hence, this column will contain one of NULL,
 % GENERATED: maketable.sh rr.table_column
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.table\_column} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-table\_index\hfil\break
+
+\baselineskip=9pttable\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 Index of the table this column belongs to.\\
-name\hfil\break
+
+\baselineskip=9ptname\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The name of the column.\\
-ucd\hfil\break
+
+\baselineskip=9ptucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
 \footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
-unit\hfil\break
+
+\baselineskip=9ptunit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
 \footnotesize string&
 The unit associated with all values in the column.\\
-utype\hfil\break
+
+\baselineskip=9ptutype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a role in a data model that the data in this column represents.\\
-std\hfil\break
+
+\baselineskip=9ptstd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
 \footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
-datatype\hfil\break
+
+\baselineskip=9ptdatatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
 \footnotesize string&
 The type of the data contained in the column.\\
-extended\_schema\hfil\break
+
+\baselineskip=9ptextended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
 \footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
-extended\_type\hfil\break
+
+\baselineskip=9ptextended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
 \footnotesize string&
 A custom type for the values this column contains.\\
-arraysize\hfil\break
+
+\baselineskip=9ptarraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
 \footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
-delim\hfil\break
+
+\baselineskip=9ptdelim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
 \footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
-type\_system\hfil\break
+
+\baselineskip=9pttype\_system\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@xsi:type}&
 \footnotesize string&
 The type system used, as a QName with a canonical prefix; this will ususally be one of vs:simpledatatype, vs:votabletype, and vs:taptype.\\
-flag\hfil\break
+
+\baselineskip=9ptflag\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:flag}&
 \footnotesize string&
 Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".\\
-column\_description\hfil\break
+
+\baselineskip=9ptcolumn\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the column's contents.\\
@@ -1597,60 +1656,74 @@ interface.
 % GENERATED: maketable.sh rr.interface
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.interface} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-cap\_index\hfil\break
+
+\baselineskip=9ptcap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the parent capability.\\
-intf\_index\hfil\break
+
+\baselineskip=9ptintf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the interfaces of a resource.\\
-intf\_type\hfil\break
+
+\baselineskip=9ptintf\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
 The type of the interface (vr:webbrowser, vs:paramhttp, etc).\\
-intf\_role\hfil\break
+
+\baselineskip=9ptintf\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@role}&
 \footnotesize string&
 An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.\\
-std\_version\hfil\break
+
+\baselineskip=9ptstd\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@version}&
 \footnotesize string&
 The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.\\
-query\_type\hfil\break
+
+\baselineskip=9ptquery\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:queryType}&
 \footnotesize string&
 Hash-joined list of expected HTTP method (get or post) supported by the service.\\
-result\_type\hfil\break
+
+\baselineskip=9ptresult\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:resultType}&
 \footnotesize string&
 The MIME type of a document returned in the HTTP response.\\
-wsdl\_url\hfil\break
+
+\baselineskip=9ptwsdl\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:wsdlURL}&
 \footnotesize string&
 The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.\\
-url\_use\hfil\break
+
+\baselineskip=9pturl\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL/@use}&
 \footnotesize string&
 A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').\\
-access\_url\hfil\break
+
+\baselineskip=9ptaccess\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL}&
 \footnotesize string&
 The URL at which the interface is found.\\
-mirror\_url\hfil\break
+
+\baselineskip=9ptmirror\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:mirrorURL}&
 \footnotesize string&
 Secondary access URLs of this interface, separated by hash characters.\\
-security\_method\_id\hfil\break
+
+\baselineskip=9ptsecurity\_method\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod/@standardId}&
 \footnotesize string&
 An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation “SSO: Authentication Mechanisms.“\\
@@ -1694,64 +1767,79 @@ joined.
 % GENERATED: maketable.sh rr.intf_param
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.intf\_param} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-intf\_index\hfil\break
+
+\baselineskip=9ptintf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the interface this parameter belongs to.\\
-name\hfil\break
+
+\baselineskip=9ptname\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The name of the parameter.\\
-ucd\hfil\break
+
+\baselineskip=9ptucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
 \footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
-unit\hfil\break
+
+\baselineskip=9ptunit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
 \footnotesize string&
 The unit associated with all values in the parameter.\\
-utype\hfil\break
+
+\baselineskip=9ptutype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a role in a data model that the data in this parameter represents.\\
-std\hfil\break
+
+\baselineskip=9ptstd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
 \footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
-datatype\hfil\break
+
+\baselineskip=9ptdatatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
 \footnotesize string&
 The type of the data contained in the parameter.\\
-extended\_schema\hfil\break
+
+\baselineskip=9ptextended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
 \footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
-extended\_type\hfil\break
+
+\baselineskip=9ptextended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
 \footnotesize string&
 A custom type for the values this parameter contains.\\
-arraysize\hfil\break
+
+\baselineskip=9ptarraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
 \footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
-delim\hfil\break
+
+\baselineskip=9ptdelim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
 \footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
-param\_use\hfil\break
+
+\baselineskip=9ptparam\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@use}&
 \footnotesize string&
 An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).\\
-param\_description\hfil\break
+
+\baselineskip=9ptparam\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the parameter's contents.\\
@@ -1789,24 +1877,29 @@ between the two representations in the database ingestor.
 % GENERATED: maketable.sh rr.relationship
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.relationship} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-relationship\_type\hfil\break
+
+\baselineskip=9ptrelationship\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relationshipType}&
 \footnotesize string&
 The type of the relationship; these terms are drawn from a controlled vocabulary and are DataCite-compatible.\\
-related\_id\hfil\break
+
+\baselineskip=9ptrelated\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource/@ivo-id}&
 \footnotesize string&
 The IVOA identifier for the resource referred to.\\
-related\_name\hfil\break
+
+\baselineskip=9ptrelated\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource}&
 \footnotesize string&
 The name of resource that this resource is related to.\\
@@ -1868,24 +1961,29 @@ correct).
 % GENERATED: maketable.sh rr.validation
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.validation} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-validated\_by\hfil\break
+
+\baselineskip=9ptvalidated\_by\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel/@validatedBy}&
 \footnotesize string&
 The IVOA ID of the registry or organisation that assigned the validation level.\\
-val\_level\hfil\break
+
+\baselineskip=9ptval\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel}&
 \footnotesize integer&
 A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.\\
-cap\_index\hfil\break
+
+\baselineskip=9ptcap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 If non-NULL, the validation only refers to the capability referenced here.\\
@@ -1921,20 +2019,24 @@ The \rtent{res\_date} table contains information gathered from
 % GENERATED: maketable.sh rr.res_date
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_date} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-date\_value\hfil\break
+
+\baselineskip=9ptdate\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date}&
-\footnotesize character[19]+timestamp&
+\footnotesize character[19]\hfil\break+timestamp&
 A date associated with an event in the life cycle of the resource.\\
-value\_role\hfil\break
+
+\baselineskip=9ptvalue\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date/@role}&
 \footnotesize string&
 A string indicating what the date refers to, e.g., created, availability, updated.\\
@@ -2019,24 +2121,29 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 % GENERATED: maketable.sh rr.res_detail
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_detail} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-cap\_index\hfil\break
+
+\baselineskip=9ptcap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
-detail\_xpath\hfil\break
+
+\baselineskip=9ptdetail\_xpath\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The xpath of the data item.\\
-detail\_value\hfil\break
+
+\baselineskip=9ptdetail\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 (Atomic) value of the member.\\
@@ -2083,16 +2190,19 @@ identifiers:
 % GENERATED: maketable.sh rr.alt_identifier
 
 \begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.alt\_identifier} table}}\\
 \sptablerule
-ivoid\hfil\break
+
+\baselineskip=9ptivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
-alt\_identifier\hfil\break
+
+\baselineskip=9ptalt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An identifier for the record or a creator in URI form\\
@@ -3023,6 +3133,8 @@ and normal clients should take rights information from
 \item Replaced inline XSLT utype maker with a link to an external
 resource.
 \item Now requiring the data model URI as the utype of the rr schema.
+\item No longer claiming that RegTAP services do not use the vg:registry
+resource type any more, instead referring to RI 1.1.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
