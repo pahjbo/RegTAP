@@ -889,92 +889,92 @@ registry.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.resource} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:identifier}&
 \footnotesize string&
 Unambiguous reference to the resource conforming to the IVOA standard for identifiers.\\
 
-\baselineskip=9ptres\_type\hfil\break
+\baselineskip=9pt\relax res\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
 Resource type (something like vs:datacollection, vs:catalogservice, etc).\\
 
-\baselineskip=9ptcreated\hfil\break
+\baselineskip=9pt\relax created\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@created}&
 \footnotesize character[19]\hfil\break+timestamp&
-The UTC date and time this resource metadata description was created. This timestamp must not be in the future. This time is not required to be accurate; it should be at least accurate to the day. Any insignificant time fields should be set to zero.\\
+The UTC date and time this resource metadata description was created.\\
 
-\baselineskip=9ptshort\_name\hfil\break
+\baselineskip=9pt\relax short\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:shortName}&
 \footnotesize string&
 A short name or abbreviation given to something, for presentation in space-constrained fields (up to 16 characters).\\
 
-\baselineskip=9ptres\_title\hfil\break
+\baselineskip=9pt\relax res\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 The full name given to the resource.\\
 
-\baselineskip=9ptupdated\hfil\break
+\baselineskip=9pt\relax updated\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@updated}&
 \footnotesize character[19]\hfil\break+timestamp&
-The UTC date this resource metadata description was last updated. Insignificant time fields should be set to zero.\\
+The UTC date this resource metadata description was last updated.\\
 
-\baselineskip=9ptcontent\_level\hfil\break
+\baselineskip=9pt\relax content\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/contentLevel}&
 \footnotesize string&
 A hash-separated list of content levels specifying the intended audience.\\
 
-\baselineskip=9ptres\_description\hfil\break
+\baselineskip=9pt\relax res\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/description}&
 \footnotesize string&
 An account of the nature of the resource.\\
 
-\baselineskip=9ptreference\_url\hfil\break
+\baselineskip=9pt\relax reference\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/referenceURL}&
 \footnotesize string&
 URL pointing to a human-readable document describing this resource.\\
 
-\baselineskip=9ptcreator\_seq\hfil\break
+\baselineskip=9pt\relax creator\_seq\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/creator/name}&
 \footnotesize string&
 The creator(s) of the resource in the order given by the resource record author, separated by semicolons.\\
 
-\baselineskip=9ptcontent\_type\hfil\break
+\baselineskip=9pt\relax content\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/type}&
 \footnotesize string&
 A hash-separated list of natures or genres of the content of the resource.\\
 
-\baselineskip=9ptsource\_format\hfil\break
+\baselineskip=9pt\relax source\_format\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source/@format}&
 \footnotesize string&
 The format of source\_value. This, in particular, can be ``bibcode''.\\
 
-\baselineskip=9ptsource\_value\hfil\break
+\baselineskip=9pt\relax source\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:content/source}&
 \footnotesize string&
 A bibliographic reference from which the present resource is derived or extracted.\\
 
-\baselineskip=9ptres\_version\hfil\break
+\baselineskip=9pt\relax res\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:curation/version}&
 \footnotesize string&
 Label associated with creation or availablilty of a version of a resource.\\
 
-\baselineskip=9ptregion\_of\_regard\hfil\break
+\baselineskip=9pt\relax region\_of\_regard\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/regionOfRegard}&
 \footnotesize real&
 A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be ``blurred'' in order to get an appropriate match.\\
 
-\baselineskip=9ptwaveband\hfil\break
+\baselineskip=9pt\relax waveband\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/waveband}&
 \footnotesize string&
 A hash-separated list of regions of the electro-magnetic spectrum that the resource's spectral coverage overlaps with.\\
 
-\baselineskip=9ptrights\hfil\break
+\baselineskip=9pt\relax rights\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights}&
 \footnotesize string&
 A statement of usage conditions (license, attribution, embargo, etc).\\
 
-\baselineskip=9ptrights\_uri\hfil\break
+\baselineskip=9pt\relax rights\_uri\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/rights/@rightsURI}&
 \footnotesize string&
 A URI identifying a license the data is made available under.\\
@@ -1004,6 +1004,12 @@ using the the \rtent{ivo\_hasword} function, and to use
 The row for \rtent{region\_of\_regard} in  
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
 \tapent{unit} column.
+
+When querying \rtent{content\_type} and \rtent{content\_level},
+note that resource record authors should restrict themselves to terms
+from the vocabularies at
+\url{http://ivoa.net/rdf/voresource/content_type} and
+\url{http://ivoa.net/rdf/voresource/content_level}, respectively
 
 The content of incoming \vorent{content/type} and \vorent{content/level}
 elements must be normalized according to the rules laid down in
@@ -1071,42 +1077,42 @@ matching in RegTAP at this point should be very lenient.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_role} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptrole\_name\hfil\break
+\baselineskip=9pt\relax role\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The real-world name or title of a person or organization.\\
 
-\baselineskip=9ptrole\_ivoid\hfil\break
+\baselineskip=9pt\relax role\_ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An IVOA identifier of a person or organization.\\
 
-\baselineskip=9ptstreet\_address\hfil\break
+\baselineskip=9pt\relax street\_address\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 A mailing address for a person or organization.\\
 
-\baselineskip=9ptemail\hfil\break
+\baselineskip=9pt\relax email\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An email address the entity can be reached at.\\
 
-\baselineskip=9pttelephone\hfil\break
+\baselineskip=9pt\relax telephone\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 A telephone number the entity can be reached at.\\
 
-\baselineskip=9ptlogo\hfil\break
+\baselineskip=9pt\relax logo\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 URL pointing to a graphical logo, which may be used to help identify the entity.\\
 
-\baselineskip=9ptbase\_role\hfil\break
+\baselineskip=9pt\relax base\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The role played by this entity; this is one of contact, publisher, and creator.\\
@@ -1153,12 +1159,12 @@ string-like 1:n members of resource.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_subject} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptres\_subject\hfil\break
+\baselineskip=9pt\relax res\_subject\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:subject}&
 \footnotesize string&
 Topics, object types, or other descriptive keywords about the resource.\\
@@ -1211,27 +1217,27 @@ capabilities on a single resource.  See section \ref{primarykeys} for details.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.capability} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptcap\_index\hfil\break
+\baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier of this capability within the resource.\\
 
-\baselineskip=9ptcap\_type\hfil\break
+\baselineskip=9pt\relax cap\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
-The type of capability covered here.\\
+The type of capability covered here. If looking for endpoints implementing a certain standard, you should not use this column but rather standard\_id.\\
 
-\baselineskip=9ptcap\_description\hfil\break
+\baselineskip=9pt\relax cap\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A human-readable description of what this capability provides as part of the over-all service.\\
 
-\baselineskip=9ptstandard\_id\hfil\break
+\baselineskip=9pt\relax standard\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@standardID}&
 \footnotesize string&
 A URI for a standard this capability conforms to.\\
@@ -1281,32 +1287,32 @@ multiple schema elements on a single resource.  See section \ref{primarykeys} fo
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_schema} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptschema\_index\hfil\break
+\baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
 
-\baselineskip=9ptschema\_description\hfil\break
+\baselineskip=9pt\relax schema\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free text description of the tableset explaining in general how all of the tables are related.\\
 
-\baselineskip=9ptschema\_name\hfil\break
+\baselineskip=9pt\relax schema\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name }&
 \footnotesize string&
 A name for the set of tables.\\
 
-\baselineskip=9ptschema\_title\hfil\break
+\baselineskip=9pt\relax schema\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 A descriptive, human-interpretable name for the table set.\\
 
-\baselineskip=9ptschema\_utype\hfil\break
+\baselineskip=9pt\relax schema\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a concept in a data model that the data in this schema as a whole represent.\\
@@ -1363,42 +1369,42 @@ must be per resource and \emph{not} per schema, as
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_table} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptschema\_index\hfil\break
+\baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
 
-\baselineskip=9pttable\_description\hfil\break
+\baselineskip=9pt\relax table\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the table's contents.\\
 
-\baselineskip=9pttable\_name\hfil\break
+\baselineskip=9pt\relax table\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.\\
 
-\baselineskip=9pttable\_index\hfil\break
+\baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the tables belonging to a resource.\\
 
-\baselineskip=9pttable\_title\hfil\break
+\baselineskip=9pt\relax table\_title\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
 \footnotesize string&
 A descriptive, human-interpretable name for the table.\\
 
-\baselineskip=9pttable\_type\hfil\break
+\baselineskip=9pt\relax table\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@type}&
 \footnotesize string&
 A name for the role this table plays. Recognized values include "output", indicating this table is output from a query; "base\_table", indicating a table whose records represent the main subjects of its schema; and "view", indicating that the table represents a useful combination or subset of other tables. Other values are allowed.\\
 
-\baselineskip=9pttable\_utype\hfil\break
+\baselineskip=9pt\relax table\_utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a concept in a data model that the data in this table as a whole represent.\\
@@ -1466,77 +1472,77 @@ to vs; hence, this column will contain one of NULL,
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.table\_column} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9pttable\_index\hfil\break
+\baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 Index of the table this column belongs to.\\
 
-\baselineskip=9ptname\hfil\break
+\baselineskip=9pt\relax name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The name of the column.\\
 
-\baselineskip=9ptucd\hfil\break
+\baselineskip=9pt\relax ucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
 \footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
 
-\baselineskip=9ptunit\hfil\break
+\baselineskip=9pt\relax unit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
 \footnotesize string&
 The unit associated with all values in the column.\\
 
-\baselineskip=9ptutype\hfil\break
+\baselineskip=9pt\relax utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a role in a data model that the data in this column represents.\\
 
-\baselineskip=9ptstd\hfil\break
+\baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
 \footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 
-\baselineskip=9ptdatatype\hfil\break
+\baselineskip=9pt\relax datatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
 \footnotesize string&
 The type of the data contained in the column.\\
 
-\baselineskip=9ptextended\_schema\hfil\break
+\baselineskip=9pt\relax extended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
 \footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
 
-\baselineskip=9ptextended\_type\hfil\break
+\baselineskip=9pt\relax extended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
 \footnotesize string&
 A custom type for the values this column contains.\\
 
-\baselineskip=9ptarraysize\hfil\break
+\baselineskip=9pt\relax arraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
 \footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
 
-\baselineskip=9ptdelim\hfil\break
+\baselineskip=9pt\relax delim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
 \footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
 
-\baselineskip=9pttype\_system\hfil\break
+\baselineskip=9pt\relax type\_system\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@xsi:type}&
 \footnotesize string&
 The type system used, as a QName with a canonical prefix; this will ususally be one of vs:simpledatatype, vs:votabletype, and vs:taptype.\\
 
-\baselineskip=9ptflag\hfil\break
+\baselineskip=9pt\relax flag\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:flag}&
 \footnotesize string&
 Hash-separated keywords representing traits of the column. Recognized values include "indexed", "primary", and "nullable".\\
 
-\baselineskip=9ptcolumn\_description\hfil\break
+\baselineskip=9pt\relax column\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the column's contents.\\
@@ -1663,67 +1669,67 @@ interface.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.interface} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptcap\_index\hfil\break
+\baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the parent capability.\\
 
-\baselineskip=9ptintf\_index\hfil\break
+\baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 An arbitrary identifier for the interfaces of a resource.\\
 
-\baselineskip=9ptintf\_type\hfil\break
+\baselineskip=9pt\relax intf\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
 The type of the interface (vr:webbrowser, vs:paramhttp, etc).\\
 
-\baselineskip=9ptintf\_role\hfil\break
+\baselineskip=9pt\relax intf\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@role}&
 \footnotesize string&
 An identifier for the role the interface plays in the particular capability. If the value is equal to "std" or begins with "std:", then the interface refers to a standard interface defined by the standard referred to by the capability's standardID attribute.\\
 
-\baselineskip=9ptstd\_version\hfil\break
+\baselineskip=9pt\relax std\_version\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@version}&
 \footnotesize string&
 The version of a standard interface specification that this interface complies with. When the interface is provided in the context of a Capability element, then the standard being refered to is the one identified by the Capability's standardID element.\\
 
-\baselineskip=9ptquery\_type\hfil\break
+\baselineskip=9pt\relax query\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:queryType}&
 \footnotesize string&
 Hash-joined list of expected HTTP method (get or post) supported by the service.\\
 
-\baselineskip=9ptresult\_type\hfil\break
+\baselineskip=9pt\relax result\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:resultType}&
 \footnotesize string&
 The MIME type of a document returned in the HTTP response.\\
 
-\baselineskip=9ptwsdl\_url\hfil\break
+\baselineskip=9pt\relax wsdl\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:wsdlURL}&
 \footnotesize string&
 The location of the WSDL that describes this Web Service. If NULL, the location can be assumed to be the accessURL with '?wsdl' appended.\\
 
-\baselineskip=9pturl\_use\hfil\break
+\baselineskip=9pt\relax url\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL/@use}&
 \footnotesize string&
 A flag indicating whether this should be interpreted as a base URL ('base'), a full URL ('full'), or a URL to a directory that will produce a listing of files ('dir').\\
 
-\baselineskip=9ptaccess\_url\hfil\break
+\baselineskip=9pt\relax access\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:accessURL}&
 \footnotesize string&
 The URL at which the interface is found.\\
 
-\baselineskip=9ptmirror\_url\hfil\break
+\baselineskip=9pt\relax mirror\_url\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:mirrorURL}&
 \footnotesize string&
 Secondary access URLs of this interface, separated by hash characters.\\
 
-\baselineskip=9ptsecurity\_method\_id\hfil\break
+\baselineskip=9pt\relax security\_method\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod/@standardId}&
 \footnotesize string&
 An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation “SSO: Authentication Mechanisms.“\\
@@ -1735,7 +1741,7 @@ An identifier of an authentication method required on this interface, or NULL fo
 
 % /GENERATED
 
- This table should have the pair \rtent{ivoid}, \rtent{cap\_index}
+This table should have the pair \rtent{ivoid}, \rtent{cap\_index}
 as an explicit foreign key into
 \rtent{capability}, and the pair \rtent{ivoid}, and
 \rtent{intf\_index} as an explicit primary key. Additionally, it
@@ -1745,7 +1751,7 @@ is recommended to maintain an index on at least the
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{intf\_type}, \rtent{intf\_role},
 \rtent{std\_version}, \rtent{query\_type},
-\rtent{result\_type}, \rtent{url\_use}.
+\rtent{result\_type}, \rtent{url\_use}, \rtent{security\_method\_id}.
 Clients are advised to query \rtent{query\_type} using the the
 \rtent{ivo\_hashlist\_has} function.
 
@@ -1774,72 +1780,72 @@ joined.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.intf\_param} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptintf\_index\hfil\break
+\baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the interface this parameter belongs to.\\
 
-\baselineskip=9ptname\hfil\break
+\baselineskip=9pt\relax name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The name of the parameter.\\
 
-\baselineskip=9ptucd\hfil\break
+\baselineskip=9pt\relax ucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
 \footnotesize string&
 A unified content descriptor that describes the scientific content of the parameter.\\
 
-\baselineskip=9ptunit\hfil\break
+\baselineskip=9pt\relax unit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
 \footnotesize string&
 The unit associated with all values in the parameter.\\
 
-\baselineskip=9ptutype\hfil\break
+\baselineskip=9pt\relax utype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
 \footnotesize string&
 An identifier for a role in a data model that the data in this parameter represents.\\
 
-\baselineskip=9ptstd\hfil\break
+\baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
 \footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 
-\baselineskip=9ptdatatype\hfil\break
+\baselineskip=9pt\relax datatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
 \footnotesize string&
 The type of the data contained in the parameter.\\
 
-\baselineskip=9ptextended\_schema\hfil\break
+\baselineskip=9pt\relax extended\_schema\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedSchema}&
 \footnotesize string&
 An identifier for the schema that the value given by the extended attribute is drawn from.\\
 
-\baselineskip=9ptextended\_type\hfil\break
+\baselineskip=9pt\relax extended\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@extendedType}&
 \footnotesize string&
 A custom type for the values this parameter contains.\\
 
-\baselineskip=9ptarraysize\hfil\break
+\baselineskip=9pt\relax arraysize\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@arraysize}&
 \footnotesize string&
 The shape of the array that constitutes the value, e.g., 4, *, 4*, 5x4, or 5x*, as specified by VOTable.\\
 
-\baselineskip=9ptdelim\hfil\break
+\baselineskip=9pt\relax delim\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType/@delim}&
 \footnotesize string&
 The string that is used to delimit elements of an array value when arraysize is not '1'.\\
 
-\baselineskip=9ptparam\_use\hfil\break
+\baselineskip=9pt\relax param\_use\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@use}&
 \footnotesize string&
 An indication of whether this parameter is required to be provided for the application or service to work properly (one of required, optional, ignored, or NULL).\\
 
-\baselineskip=9ptparam\_description\hfil\break
+\baselineskip=9pt\relax param\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
 \footnotesize string&
 A free-text description of the parameter's contents.\\
@@ -1884,22 +1890,22 @@ between the two representations in the database ingestor.
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.relationship} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptrelationship\_type\hfil\break
+\baselineskip=9pt\relax relationship\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relationshipType}&
 \footnotesize string&
 The type of the relationship; these terms are drawn from a controlled vocabulary and are DataCite-compatible.\\
 
-\baselineskip=9ptrelated\_id\hfil\break
+\baselineskip=9pt\relax related\_id\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource/@ivo-id}&
 \footnotesize string&
 The IVOA identifier for the resource referred to.\\
 
-\baselineskip=9ptrelated\_name\hfil\break
+\baselineskip=9pt\relax related\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:relatedResource}&
 \footnotesize string&
 The name of resource that this resource is related to.\\
@@ -1968,22 +1974,22 @@ correct).
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.validation} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptvalidated\_by\hfil\break
+\baselineskip=9pt\relax validated\_by\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel/@validatedBy}&
 \footnotesize string&
 The IVOA ID of the registry or organisation that assigned the validation level.\\
 
-\baselineskip=9ptval\_level\hfil\break
+\baselineskip=9pt\relax val\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel}&
 \footnotesize integer&
 A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.\\
 
-\baselineskip=9ptcap\_index\hfil\break
+\baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 If non-NULL, the validation only refers to the capability referenced here.\\
@@ -2026,17 +2032,17 @@ The \rtent{res\_date} table contains information gathered from
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_date} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptdate\_value\hfil\break
+\baselineskip=9pt\relax date\_value\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date}&
 \footnotesize character[19]\hfil\break+timestamp&
 A date associated with an event in the life cycle of the resource.\\
 
-\baselineskip=9ptvalue\_role\hfil\break
+\baselineskip=9pt\relax value\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date/@role}&
 \footnotesize string&
 A string indicating what the date refers to, e.g., created, availability, updated.\\
@@ -2128,25 +2134,25 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_detail} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax detail\_value\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize string&
+(Atomic) value of the member.\\
+
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptcap\_index\hfil\break
+\baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize integer&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
 
-\baselineskip=9ptdetail\_xpath\hfil\break
+\baselineskip=9pt\relax detail\_xpath\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The xpath of the data item.\\
-
-\baselineskip=9ptdetail\_value\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize string&
-(Atomic) value of the member.\\
 
 \sptablerule
 \end{tabular}
@@ -2197,12 +2203,12 @@ identifiers:
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.alt\_identifier} table}}\\
 \sptablerule
 
-\baselineskip=9ptivoid\hfil\break
+\baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
 The parent resource.\\
 
-\baselineskip=9ptalt\_identifier\hfil\break
+\baselineskip=9pt\relax alt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 An identifier for the record or a creator in URI form\\

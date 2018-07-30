@@ -46,7 +46,7 @@
 </template>
 
 <template match="v:TR">
-\baselineskip=9pt<value-of select="v:TD[1]"/>\hfil\break
+\baselineskip=9pt\relax <value-of select="v:TD[1]"/>\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
 \footnotesize <choose>
 <when test="(v:TD[3]='char' or v:TD[3]='unicodeChar') and v:TD[4]='*'"
