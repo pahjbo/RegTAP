@@ -1230,7 +1230,7 @@ An arbitrary identifier of this capability within the resource.\\
 \baselineskip=9pt\relax cap\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
-The type of capability covered here. If looking for endpoints implementing a certain standard, you should not use this column but rather standard\_id.\\
+The type of capability covered here. If looking for endpoints implementing a certain standard, you should not use this column but rather match against standard\_id.\\
 
 \baselineskip=9pt\relax cap\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
@@ -1875,7 +1875,7 @@ of \rtent{column\_description}.
 
 The relationship element is a slight denormalization of the
 \vorent{vr:Relation\-ship} type: Whereas in VOResource, a single
-relationship element can take several IVOID, in the relational model,
+relationship element can take several IVOIDs, in the relational model,
 the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.
 
@@ -1948,7 +1948,7 @@ While it is recommended that harvesters only accept resource records
 from their originating registries, it is valuable to gather validation
 results from various sources.  Hence, harvesters for the relational
 registry may choose to obtain validation data from the OAI-PMH endpoints
-of various registries by not harvesting just for the ivo\_managed set and
+of various registries by not harvesting just for the \emph{ivo\_managed} set and
 generate \rtent{rr.validation} rows from these records.  This can
 trigger potentially problematic behavior when the original registry
 updates  its resource record in that naive implementations will lose all
@@ -2045,7 +2045,7 @@ A date associated with an event in the life cycle of the resource.\\
 \baselineskip=9pt\relax value\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:date/@role}&
 \footnotesize string&
-A string indicating what the date refers to, e.g., created, availability, updated.\\
+A string indicating what the date refers to, e.g., created, availability, updated. This value is generally drawn from a controlled vocabulary.\\
 
 \sptablerule
 \end{tabular}
@@ -2113,7 +2113,7 @@ in \texttt{@ivo-id}.
 
 Individual
 ingestors
-MAY choose to expose additional metadata using other utypes, provided
+MAY choose to expose additional metadata using other xpaths, provided
 they are formed according to the rules in 
 section \ref{vorutypes} (this rule is intended
 to minimize the risk of later clashes).
@@ -2134,11 +2134,6 @@ IVOA-approved VOResource extensions MUST or SHOULD be present in
 \multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.res\_detail} table}}\\
 \sptablerule
 
-\baselineskip=9pt\relax detail\_value\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize string&
-(Atomic) value of the member.\\
-
 \baselineskip=9pt\relax ivoid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
 \footnotesize string&
@@ -2153,6 +2148,11 @@ The index of the parent capability; if NULL the xpath-value pair describes a mem
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
 The xpath of the data item.\\
+
+\baselineskip=9pt\relax detail\_value\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize string&
+(Atomic) value of the member.\\
 
 \sptablerule
 \end{tabular}
@@ -2181,13 +2181,14 @@ case-insensitively (e.g., all IVOIDs).
 
 Since its version 1.1, VOResource allows the annotation of various
 elements (initially, the record itself and creators) with alternate
-identifiers (the \vorent{altIdentifier} element).  Examples of these are
+identifiers (the \vorent{alt\-Iden\-ti\-fier} element).  Examples of these are
 DOIs, ORCIDs, and bibcodes.
 
 Considering that that the typical query against the alternate
 identifiers can be expected to be of the type ``records having to do
-with \emph{identifier}'' and since the different identifier types cannot
-not clash since they are stored in URI form,  RegTAP does not keep track
+with \emph{identifier}'' and since the identifiers
+are stored in URI form and hence identifiers of different types 
+cannot clash, RegTAP does not keep track
 where an alternate identifier was encountered.  Instead, the
 \rtent{alt\_identifier} table just links IVOIDs and alternate
 identifiers:
@@ -2211,7 +2212,7 @@ The parent resource.\\
 \baselineskip=9pt\relax alt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
-An identifier for the record or a creator in URI form\\
+An identifier for the resource or an entity related to the resource in URI form\\
 
 \sptablerule
 \end{tabular}
