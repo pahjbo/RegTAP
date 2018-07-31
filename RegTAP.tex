@@ -2235,7 +2235,7 @@ ADQL 2.1, and they MUST implement
 the ILIKE operator as specified in ADQL 2.1 (which includes its
 declaration in their capabilities record).  They furthermore MUST
 implement the following four functions in their ADQL language,
-with signatures written as recommended in \citet{std:TAPREGEXT}:
+with signatures written as recommended in TAPRegExt \citep{std:TAPREGEXT}:
 
 
 \begin{bigdescription}
@@ -2297,6 +2297,8 @@ encouraged to compare against the interface types rather than rely on
 clients can discover standard interfaces both by the interfaces' roles
 and types.
 
+Service standards can give discovery patterns different from the ones
+shown here if their particular use cases require them.
 
 \subsection{TAP accessURLs}
 \textbf{Problem:} Find all TAP services; return their accessURLs
@@ -2528,7 +2530,7 @@ and
 endpoints.  As clients should not usally be concerned with minor
 versions of protocols unless  they rely on additions made in later
 versions, this query will return endpoints supporting ``version 1'' rather
-than exactly version 1.0.
+than exactly version 1.1.
 
 
 %CHECK_HERE
@@ -2543,6 +2545,9 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND detail_value ILIKE 'ivo://ivoa.net/std/regtap#1.%'
   AND security_method_id IS NULL
 \end{lstlisting}
+
+Also note the remarks on the likely evolution of data model query
+patterns in sect.~\ref{registration}.
 
 \subsection{TAP with Physics}
 
@@ -2624,15 +2629,23 @@ WHERE access_url='http://dc.zah.uni-heidelberg.de/tap'
 \textbf{Problem:} Get the capabilities of all services serving a
 specific resource (typically, a data collection).
 
-\todo{discuss this in the context of the DDC note}
-In the VO, data providers can register pure data collections without
-access options (or just furnished with a link to a download).  They can
-then declare that their data can be ``served-by'' some other resource,
-typically a TAP service or some collective service for a number of
-instruments.  To locate the access options to the data itself, inspect
+In the VO, data providers can register data collections either as such
+or with ``auxiliary capabilities'' that are fully described elsewhere; a
+practice for doing that is discussed in an Endorsed Note on discovering
+data collections within services \citep{TODO}.
+
+When following this pattern, data collections records should provide an
+\emph{isServiceFor} relationship to the resources providing the access
+services for the data collction (like a TAP or a SIAP service).
+
+While the access URLs can typically be established from the auxiliary
+capabilities themselves, several use cases require finding out more
+about the publishing service.  To locate its metadata, inspect
 \rtent{rr.relationship} and use it to select records
 from 
-\rtent{rr.capability}.
+\rtent{rr.capability}; this requires an explicit join condition, as in
+this case the capabilities are for the \doit{related} record, not for
+the 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
@@ -2640,7 +2653,9 @@ SELECT *
 FROM rr.relationship AS a
   JOIN rr.capability AS b 
     ON (a.related_id=b.ivoid) 
-WHERE relationship_type='IsServiceFor'
+WHERE 
+  relationship_type='isservedby'
+  AND a.ivoid='ivo://jacobsuni/m3/q/epn_core'
 \end{lstlisting}
 
 
@@ -2679,7 +2694,7 @@ originate, which is where further information can be found.
 
 
 \begin{description}
-\item[/accessURL (!)]For data collection resources, this is
+\item[/accessURL (!)]For legacy VODataService data collections, this is
 the URL that can be used to download the data contained.  Do
 \emph{not} enter accessURLs from interfaces into res\_detail (vs).
 \item[/capability/executionDuration/hard]The hard run time limit, given in seconds (tr).
@@ -2743,7 +2758,7 @@ used to validate one of the interfaces of a capability (vr).
 \item[/facility (!)]The observatory or facility used to collect the data contained or managed by this resource (vs).
 \item[/format (!)]The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).
 \item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res\_details}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
-\item[/full]If \verb|"true"|, the registry attempts to collect all resource records known to the IVOA (vg).
+\item[/full]If \verb|true|, the registry attempts to collect all resource records known to the IVOA (vg).
 \item[/instrument (!)]The instrument used to collect the data contained or managed by a resource (vr).
 \item[/instrument/@ivo-id (!)]IVOID of the instrument used to collect the data contained or managed by a resource (vr).
 \item[/managedAuthority (!)]An authority identifier managed by a registry (vg).
