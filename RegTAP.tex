@@ -34,6 +34,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
 \previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
 \previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{PR-20141030}
 
@@ -829,7 +830,8 @@ the input sequence of the rows belonging to one resource.
 
 The \rtent{res\_type} column reflects the lower-cased value of
 the \vorent{ri:Resource} element's \texttt{xsi:type} attribute,
-where the canonical prefixes are used.  While custom or experimental
+where the canonical prefixes (cf.~sect.~\ref{qnameatts}) 
+are used.  While custom or experimental
 VOResource extensions may lead to more or less arbitrary strings in that
 column, VOResource and its IVOA-recommended extensions at the time of
 writing define the following values for \rtent{res\_type}:
@@ -1565,7 +1567,8 @@ to handle queries using \rtent{ivo\_hasword}.
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{name}, \rtent{ucd},
-\rtent{utype}, \rtent{datatype}, \rtent{type\_system}.
+\rtent{utype}, \rtent{datatype}, \rtent{type\_system}.\todo{Should
+extendend\_type be lowercased as well?}
 The boolean value of the column's \rtent{std} attribute must be
 converted to 0 (False), 1 (True), or NULL (not given) on ingestion.
 Clients are advised to query the \rtent{description}
@@ -1596,7 +1599,7 @@ multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
 In VOResource, interfaces can have zero or one \vorent{securityMethod}
 children to convey support for authentication and authorization methods.
-Plain \vorent{securityMethod} is an empty element that mereley has a
+Plain \vorent{securityMethod} is an empty element that merely has a
 \xmlel{standardID} attribute giving a URL of an authentication method
 required on a service\footnote{In VOResource 1.0, multiple
 \vorent{securityMethod}s were allowed.  No records using this should
@@ -2062,7 +2065,7 @@ The \rtent{ivoid} column should be an explicit foreign key into
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{value\_role}.
 
-The content of incoming \vorent{date/@type} 
+The content of incoming \vorent{date/@role} 
 attributes must be normalized according to the rules laid down in
 sect.~\ref{vocab-use} before lowercasing.
 
@@ -2212,7 +2215,7 @@ The parent resource.\\
 \baselineskip=9pt\relax alt\_identifier\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
-An identifier for the resource or an entity related to the resource in URI form\\
+An identifier for the resource or an entity related to the resource in URI form.\\
 
 \sptablerule
 \end{tabular}
@@ -2250,7 +2253,7 @@ the ADQL 2.1 ILIKE operator, which should be used in preference over
 \term[\small\texttt{ivo\_hasword(haystack VARCHAR(*), needle VARCHAR(*)) -> INTEGER}]The function takes two strings and returns 1 if the second is
 contained in the first one in a ``word'' sense, i.e., delimited by
 non-letter characters or the beginning or end of the string, where case
-is ignored.
+is ignored.  It returns 0 otherwise.
 Additionally, servers MAY employ techniques to improve recall, in
 particular stemming.  Registry clients must hence expect different results
 from different servers when using \rtent{ivo\_hasword}; for such
@@ -2259,7 +2262,7 @@ queries trying them on multiple registries may improve recall.
 containing the hash sign (\#), concatenated by hash signs, the second is
 a word not containing the hash sign.  It returns 1 if, compared
 case-insensitively, the second argument is in the list of words encoded in
-the first argument.  The behavior for second
+the first argument, 0 otherwise.  The behavior for second
 arguments containing a hash sign is undefined.
 \term[\small\texttt{ivo\_string\_agg(expr VARCHAR(*), delim VARCHAR(*)) -> VARCHAR(*)}]An aggregate function returning all values of
 \texttt{expr} within a GROUP concatenated with 
@@ -2409,7 +2412,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
 WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
   AND intf_type='vs:paramhttp'
-  AND 1=ivo_hashlist_has('infrared', waveband)
+  AND 1=ivo_hashlist_has(waveband, 'infrared')
 \end{lstlisting}
 
 \subsection{Catalogs with Redshifts}
@@ -2645,7 +2648,7 @@ about the publishing service.  To locate its metadata, inspect
 from 
 \rtent{rr.capability}; this requires an explicit join condition, as in
 this case the capabilities are for the \emph{related} record, not for
-the 
+the originally matched one.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
@@ -3178,7 +3181,7 @@ alternative extra column in \rtent{interface} (but:
 \vorent{testQueryString} would have to be single).
 \item \vorent{securityMethod/@standardID} is now included in interface
 in a \rtent{security\_method\_id} column.  Consequently, the 
-\texttt{/capability/interface/securityMethod/@standardID} res\_detail
+\texttt{/capability/inter\-face/securityMethod/@standardID} res\_detail
 key has been removed (but services can of course still provide it).
 \item Now recommending the evaluation of \rtent{security\_method\_id} in
 the discovery of standard interfaces.
