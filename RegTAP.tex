@@ -1597,18 +1597,22 @@ undefined.
 The table contains a column \rtent{intf\_index} to disambiguate
 multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
-In VOResource, interfaces can have zero or one \vorent{securityMethod}
+In VOResource, interfaces can have zero or more \vorent{securityMethod}
 children to convey support for authentication and authorization methods.
 Plain \vorent{securityMethod} is an empty element that merely has a
 \xmlel{standardID} attribute giving a URL of an authentication method
-required on a service\footnote{In VOResource 1.0, multiple
-\vorent{securityMethod}s were allowed.  No records using this should
-exist; RegTAP implementations should nevertheless be prepared to discard
-extra \vorent{securityMethod} declarations.}.  In RegTAP, the value of
+required on a service.  In RegTAP, the value of
 this attribute is kept in the (somewhat irregularly-named)
 \rtent{security\_method\_id} column of the \rtent{interface} table.  If
 an interface does not give a \vorent{securityMethod}, this column MUST
-be NULL.
+be NULL.  A \vorent{securityMethod} element without a \xmlel{standardID}
+attribute is also mapped to a \rtent{security\_method\_id} value of
+NULL; both cases indicate unauthenticated access.
+
+If an interface supports multiple \vorent{securityMethod}s, RegTAP
+ingestors must generate one \rtent{interface} row per security method
+(including one with NULL if a \vorent{securityMethod} without
+\xmlel{standardID} is present).
 
 Clients not prepared to authenticate to services should always include a
 \verb|security_method_id IS NULL| condition when retrieving access URLs
@@ -3136,6 +3140,13 @@ derived-from&IsDerivedFrom\\
 \section{Changes from Previous Versions}
 
 \label{changes}
+
+\subsection{Changes from PR-20180731}
+
+\begin{itemize}
+\item Requiring denormalisation of interface on security\_method\_id
+now; also, making mapping for an empty securityMethod to NULL explicit.
+\end{itemize}
 
 \subsection{Changes from WD-20171206}
 
