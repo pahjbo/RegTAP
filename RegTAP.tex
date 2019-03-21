@@ -1654,7 +1654,7 @@ types are mentioned in IVOA-recommended schemata:
 \begin{description}
 \item[vs:paramhttp]A service invoked via an HTTP query, usually with some form of
 structured parameters. This type is used for interfaces speaking
-standard IVOA protocols.
+``simple'' IVOA protocols.
 \item[vr:webbrowser]A (form-based) interface intended to be accessed interactively by a
 user via a web browser.
 \item[vg:oaihttp]A standard OAI PMH interface using HTTP queries with form-urlencoded
@@ -2290,19 +2290,25 @@ working group.  They are intended as an aid in designing relational
 registry queries, in particular for users new to the data model.
 
 When locating access URLs for capabilities of standard services, these
-sample queries look for interfaces of type \vorent{vs:ParamHTTP} within
-the embedding capabilities.  This is not strictly as intended by
-VOResource, which has the special \vorent{role} attribute to mark the
-interface on which a standard protocol is exposed within a capability.
-In RegTAP, this method of locating standard interfaces would be effected
-by constraining \texttt{intf\_role LIKE 'std\%'}.  In actual VO
-practice, too many standard interfaces are lacking a proper declaration
-of their role, and actual clients locate the standard interfaces as
-given here.  Following widespread practice client designers are
-encouraged to compare against the interface types rather than rely on
-\vorent{interface/@role}, and resource record authors should make sure
-clients can discover standard interfaces both by the interfaces' roles
-and types.
+sample queries limit the matches to interfaces declared with
+\vorent{role} equal to \verb|std|.
+This filters out \vorent{WebBrowser} interfaces that some data providers
+add in SCS or SSAP capabilities (a practice not recommended).
+Future standards might require more specific strings starting with
+\verb|std:| in this place; discovery for those needs to be adapted
+accordingly.
+
+In RegTAP 1.0, this filtering was effected by constraining the interface
+type to \vorent{vs:ParamHTTP}.  As discussed there, this adopted
+existing discovery patterns and worked around missing metadata in
+VOResource records.  In today's (2019) registry, this workaround is no
+longer necessary, and future standards should be free to use other
+interface types rather than \vorent{vr:ParamHTTP}.
+
+Note that it still is possible that a single resource will return
+multiple access URLs with the query patterns given here.  Clients can
+assume that all access URLs returned in this way correspond to their
+constraints.  Therefore, it is legal to randomly pick one of those.
 
 Service standards can give discovery patterns different from the ones
 shown here if their particular use cases require them.
@@ -2328,7 +2334,7 @@ SELECT ivoid, access_url, security_method_id
 FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id like 'ivo://ivoa.net/std/tap%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
 \end{lstlisting}
 
 Clients only interested in services not requiring authentication should
@@ -2340,7 +2346,7 @@ SELECT ivoid, access_url
 FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id like 'ivo://ivoa.net/std/tap%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND security_method_id IS NULL
 \end{lstlisting}
 
@@ -2385,7 +2391,7 @@ FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
 WHERE standard_id like 'ivo://ivoa.net/std/sia%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND (
     res_subject ILIKE '%spiral%'
     OR 1=ivo_hasword(res_description, 'spiral')
@@ -2415,7 +2421,7 @@ FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND 1=ivo_hashlist_has(waveband, 'infrared')
 \end{lstlisting}
 
@@ -2436,7 +2442,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
 WHERE standard_id LIKE 'ivo://ivoa.net/std/conesearch%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND ucd='src.redshift'
 \end{lstlisting}
 
@@ -2547,7 +2553,7 @@ FROM rr.interface
 NATURAL JOIN rr.capability
 NATURAL JOIN rr.res_detail
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND detail_value ILIKE 'ivo://ivoa.net/std/regtap#1.%'
   AND security_method_id IS NULL
@@ -2583,7 +2589,7 @@ FROM rr.capability
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND 1=ivo_hasword(table_description, 'quasar')
   AND ucd='phot.mag;em.opt.v'
 \end{lstlisting}
@@ -2605,7 +2611,7 @@ FROM rr.res_detail
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
 WHERE detail_xpath='/capability/dataSource' 
-  AND intf_type='vs:paramhttp'
+  AND intf_role='std'
   AND standard_id LIKE 'ivo://ivoa.net/std/ssa%'
   AND detail_value='theory'
 \end{lstlisting}
@@ -3146,6 +3152,9 @@ derived-from&IsDerivedFrom\\
 \begin{itemize}
 \item Requiring denormalisation of interface on security\_method\_id
 now; also, making mapping for an empty securityMethod to NULL explicit.
+\item Recommending discovery on intf\_role=std rather than
+intf\_type=vs:ParamHTTP.  An investigation on 2019-03-21 showed that the
+workaround from RegTAP 1.0 is no longer necessary.
 \end{itemize}
 
 \subsection{Changes from WD-20171206}
