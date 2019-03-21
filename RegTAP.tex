@@ -173,8 +173,8 @@ for registry extension updates.  For completeness, we note the
 versions current as of this specification: SimpleDALRegExt 1.1
 \citep{2017ivoa.spec.0530P},
 StandardsRegExt 1.0 \citep{std:STDREGEXT}, TAPRegExt 1.0
-\citep{std:TAPREGEXT}, Registry Interfaces 1.0
-\citep{std:RI1}\todo{Update when RI1.1 (and TAPRegExt 1.1?) is REC}.
+\citep{std:TAPREGEXT}, Registry Interfaces 1.1
+\citep{2018ivoa.spec.0723D}
 \item[TAP, v1.0 \citep{std:TAP}]The queries against the schema defined in the present document, and the results of
 these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
@@ -690,9 +690,7 @@ operators' decisions as to the representation of non-ASCII data in the
 database.  For requirements and recommendations regarding national
 characters in RegTAP, see Sect.~\ref{utfreq}.  The length of these
 arrays is not defined by this standard, where, obviously, no artificial
-length limits should be imposed by implementations.  Implementors who have
-to limit the length of strings in their databases are referred to
-appendix~\ref{appBP}.
+length limits should be imposed by implementations.
 
 Some of the types are given as ``datatype+xtype''.  In these cases, the
 xtype MUST be given in VOTable output, and the serialisation rules from
@@ -863,11 +861,17 @@ composed of one or more accessible datasets.  Use the
 \rtent{rr.relationship} table to find out services that allow
 access to the data (the \vorent{served\_by} relation), and/or look for values for
 \vorent{/accessURL} in
-\ref{table_res_detail}.\todo{Perhaps update the discussion of
-VODataService types for what we think will happen in VODS 1.2?}
+\ref{table_res_detail}.
 \item[vstd:standard]A description of a standard specification.
 
 \end{description}
+
+Note that drafts of VODataService 1.2 under consideration right now
+deprecate \vorent{vr:DataCollection} and replace it with classes more
+directly aligned with \vorent{vr:DataService} and
+\vorent{vr:CatalogService}.  Since usual data discovery queries do not
+constrain \rtent{res\_type}, it is not forseen that these developments
+will influence typical RegTAP services or clients.
 
 The \vorent{status} attribute of \vorent{vr:Resource} is
 considered an implementation detail of the XML serialization and is not
@@ -1567,8 +1571,7 @@ to handle queries using \rtent{ivo\_hasword}.
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{name}, \rtent{ucd},
-\rtent{utype}, \rtent{datatype}, \rtent{type\_system}.\todo{Should
-extendend\_type be lowercased as well?}
+\rtent{utype}, \rtent{datatype}, \rtent{type\_system}.
 The boolean value of the column's \rtent{std} attribute must be
 converted to 0 (False), 1 (True), or NULL (not given) on ingestion.
 Clients are advised to query the \rtent{description}
@@ -2854,294 +2857,6 @@ expressions in the ADQL translation layer whenever possible.
   -- should be done in the ADQL translator.
 \end{lstlisting}
 
-
-
-\section{Implementation notes}
-\todo{Does anyone object to removing this?  Speak up now or we'll remove
-it before REC-1.1 (Marco has volunteered to update it, though)}
-
-\label{appBP}
-
-This appendix contains a set of constraints and recommendations for
-implementing the relational registry model on actual RDBMSes, originating
-partly from an analysis of the data content of the VO registry in February
-2013, partly from a consideration of limits in various XML schema documents.
-This concerns, in particular, minimum lengths for columns of type
-VARCHAR.  Implementations MUST NOT truncate strings of length equal
-to or smaller than the minimal lengths given here; the limitations are
-not, however, upper limits, and indeed, when choosing an implementation
-strategy it is in general preferable to not impose artificial length
-restrictions, in particular if no performance penalty is incurred.
-
-These notes can also be useful with a view to preparing user interfaces for
-the relational registry, since input forms and similar user interface
-elements invariably have limited space; the limits here give reasonable
-defaults for the amount of data that should minimally be manipulatable
-by a user with reasonable effort.
-
-The \rtent{ivoid} field present in every table of this
-specification merits special consideration, on the one hand due to its
-frequency, but also since other IVOA identifiers stored in the
-relational registry should probably be treated analogously.
-Given that IVOIDs in the 2013 data fields have a maximum
-length of roughly 100 characters, we propose that a maximum length of 
-255 should be sufficient even when taking possible fragment identifiers
-into account.
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-ivo-id&\texttt{VARCHAR(255)}&
-          {all\_tables}.ivoid\hfil\break
-          res\_role.role\_ivoid\hfil\break
-          capability.standard\_id\hfil\break
-          relationship.related\_id\hfil\break
-          validation.validated\_by\hfil\break
-          res\_detail.detail\_value for several values of detail\_xpath\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-The relational registry also contains some date-time values. The most
-straightforward implementation certainly is to use SQL timestamps.
-Other relational registry fields that straightforwardly map to common
-SQL types are those that require numeric values, viz.,
-\texttt{REAL}, \texttt{SMALLINT}, and
-\texttt{INTEGER}.  The following table summarizes these:
-
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-floating point&\texttt{REAL}&resource.region\_of\_regard\\
-\sptablerule
-small integer&\texttt{SMALLINT}&table\_column.std\hfil\break
-          intf\_param.std\hfil\break
-          validation.level\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-The fields containing Utypes, UCDs, and Units are treated in parallel
-here. The 2013 registry data indicates that a length of 128 characters is
-sufficient for real-world purposes; actually, at least UCDs and Units
-could of course grow without limitations, but it seems unreasonable
-anything longer than a typical line might actually be useful.  As far as
-utypes are concerned, we expect those to shrink rather than grow with
-new standardization efforts.
-
-In this category, we also summarize our resource xpaths.  With the
-conventions laid down in this document, it seems unlikely that future
-extensions to VOResource will be so deeply nested that 128 characters
-will not be sufficient for their resource xpaths.
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-Utype&\texttt{VARCHAR(128)}&res\_schema.schema\_utype\hfil\break
-res\_table.table\_utype\hfil\break
-table\_column.utype\hfil\break
-intf\_param.utype\\
-\sptablerule
-UCD&\texttt{VARCHAR(128)}&
-          table\_column.ucd\hfil\break
-          intf\_param.ucd\\
-\sptablerule
-Unit&\texttt{VARCHAR(128)}&
-          table\_column.unit\hfil\break
-          intf\_param.unit\\
-\sptablerule
-xpath&\texttt{VARCHAR(128)}&
-          res\_detail.detail\_xpath \\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-The relational registry further has an
-e-mail field, for which we chose 128 characters as a reasonable upper
-limit (based on a real maximum of 40 characters in the 2013 data).
-There are furthermore URLs (in addition to access and reference URLs,
-there are also URLs for the WSDL of SOAP services and logos for roles).
-Due to the importance of in particular the access URLs we strongly
-recommend to use non-truncating types here.  Empirically, there are
-access URLs of up to 224 characters in 2013 (reference URLs are less
-critical at a maximum of 96 characters).  Expecting that with REST-based
-services, URL lengths will probably rather tend down than up, we still
-permit truncation at 255 characters.
-
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-e-mail&\texttt{VARCHAR(128)}&
-          res\_role.email\\
-\sptablerule
-URLs&\texttt{VARCHAR(255)}&resource.reference\_url\hfil\break
-          res\_role.logo\hfil\break
-          interface.wsdl\_url\hfil\break
-          interface.access\_url \\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-The next group of columns comprises those that have values taken from
-a controlled or finite vocabulary.
-Trying to simplify the view,
-lengths in the form
-of powers of two are considered.
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-long enumerations&\texttt{VARCHAR(255)}&resource.content\_level\hfil\break
-          resource.content\_type\\
-\sptablerule
-short enumerations&\texttt{VARCHAR(64)}&
-          resource.waveband\\
-\sptablerule
-type names&\texttt{VARCHAR(32)}&resource.res\_type\hfil\break
-          capability.cap\_type\hfil\break
-          res\_table.table\_type\hfil\break
-          table\_column.flag\hfil\break
-          table\_column.datatype\hfil\break
-          table\_column.extended\_schema\hfil\break
-          table\_column.extended\_type\hfil\break
-          table\_column.type\_system\hfil\break
-          interface.result\_type\hfil\break
-          intf\_param.datatype\hfil\break
-          intf\_param.extended\_schema\hfil\break
-          intf\_param.extended\_type\\
-\sptablerule
-short terms&\texttt{VARCHAR(4)}&interface.query\_type\hfil\break
-          interface.url\_use\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-
-Finally, there are the fields that actually contain what is
-basically free text.
-For these, we have made a choice from reasonable powers of two lengths 
-considering the actual lengths in the 2013 registry data. 
-A special case are fields that either contain natural language text (the
-descriptions) or those that have grown without limit historically
-(resource.creator\_seq, and, giving in to current abuses discussed above,
-res\_role.role\_name).  For all such fields, no upper limit can sensibly
-be defined.  However, since certain DBMSes (e.g., MySQL older than
-version 5.6) cannot index fields with a TEXT datatype and thus using
-VARCHAR may be necessary at least for frequenly-searched fields, we give
-the maximal length of the fields in the 2013 registry in parentheses after
-the column designations for the TEXT datatype:
-
-\begin{inlinetable}
-\begin{tabular}{llp{6cm}}
-\sptablerule
-\textbf{Field type}&
-\textbf{Datatype}&
-\textbf{Pertinent Fields}\\
-\sptablerule
-free string values&\texttt{TEXT}&resource.res\_description
-(7801)\hfil\break
-          resource.creator\_seq (712)\hfil\break
-          res\_role.role\_name (712)\hfil\break
-          res\_schema.schema\_description (934)\hfil\break
-          res\_table.table\_description (934)\hfil\break
-          table\_column.description (3735)\hfil\break
-          intf\_param.description (347)\hfil\break
-          capability.cap\_description (100)\\
-\sptablerule
-titles, etc.&\texttt{VARCHAR(255)}&resource.res\_title\hfil\break
-          res\_role.address\hfil\break
-          res\_schema.schema\_title\hfil\break
-          res\_table.table\_title\hfil\break
-          relationship.related\_name\hfil\break
-          res\_detail.detail\_value\\
-\sptablerule
-expressions&\texttt{VARCHAR(128)}&resource.version\hfil\break
-          resource.source\_value\hfil\break
-          res\_subject.res\_subject\\
-\sptablerule
-names&\texttt{VARCHAR(64)}&res\_table.table\_name\hfil\break
-          table\_column.name\hfil\break
-          intf\_param.name\\
-\sptablerule
-misc.~short strings&\texttt{VARCHAR(32)}&resource.source\_format\hfil\break
-          res\_role.telephone\hfil\break
-          res\_schema.schema\_name\hfil\break
-          interface.intf\_type\hfil\break
-          interface.intf\_role\hfil\break
-          relationship\_type\hfil\break
-          res\_date.value\_role\\
-\sptablerule
-misc.~particles&\texttt{VARCHAR(16)}&resource.short\_name\hfil\break
-          table\_column.arraysize\hfil\break
-          intf\_param.arraysize\hfil\break
-          interface.std\_version\hfil\break
-          intf\_param.use\\
-\end{tabular}
-\end{inlinetable}
-
-
-\section{Required vocabulary maps}
-\label{app:voctrans}
-
-As described in section~\ref{vocab-use}, RegTAP services should perform
-a regularization of terms from formal vocabularies; they must do so for
-the subset of deprecated terms known at the time of RegTAP~1.1's
-adoption as IVOA recommendation.  For convenience, here is a list of the
-required mappings.
-
-From \url{http://www.ivoa.net/rdf/voresource/date_role},
-release date 2016-08-17:
-
-\begin{inlinetable}
-\begin{tabular}{ll}
-\sptablerule
-\textbf{Deprecated}&\textbf{Preferred}\\
-\sptablerule
-representative&Collected\\
-creation&Created\\
-update&Updated\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
-From 
-\url{http://www.ivoa.net/rdf/voresource/relationship_type}, release date
-2016-08-17:
-
-\begin{inlinetable}
-\begin{tabular}{ll}
-\sptablerule
-\textbf{Deprecated}&\textbf{Preferred}\\
-\sptablerule
-mirror-of&IsIdenticalTo\\
-service-for&IsServiceFor\\
-served-by&IsServedBy\\
-derived-from&IsDerivedFrom\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
 
 \section{Changes from Previous Versions}
 
