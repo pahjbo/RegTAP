@@ -34,6 +34,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
 \previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
 \previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
 \previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{PR-20141030}
@@ -151,14 +152,15 @@ This specification directly relates to other VO standards in the
 following ways:
 
 
-\begin{description}
-\item[VOResource, v1.1 \citep{2018ivoa.spec.0625P}] VOResource sets the foundation for a formal definition of the data
+\begin{bigdescription}
+\item[VOResource, v1.1 \citep{2018ivoa.spec.0625P}] This standard
+sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
-\item[VODataService, v1.1 \citep{std:VODS11}] The VODataService standard 
-describes several concepts and resource types extending 
+\item[VODataService, v1.1 \citep{std:VODS11}] VODataService 
+de\-scribes several concepts and resource types extending 
 VOResource's data model, including
 tablesets, data services and data
 collections.  These concepts and types are reflected in the database
@@ -187,7 +189,7 @@ the relational registry. Also, the notion of an authority as laid down
 in IVOA Identifiers plays an important role as publishing registries can
 be viewed as a realization of a set of authorities.
 
-\end{description}
+\end{bigdescription}
 
 This standard also relates to other IVOA standards:
 
@@ -2893,8 +2895,9 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \begin{itemize}
 \item Requiring denormalisation of interface on security\_method\_id
 now; also, making mapping for an empty securityMethod to NULL explicit.
-\item Recommending discovery on intf\_role=std rather than
-intf\_type=vs:ParamHTTP.  An investigation on 2019-03-21 showed that the
+\item Recommending then when discovering standard services clients
+should (again) constrain \rtent{intf\_role} to \verb|std| rather than
+\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
 workaround from RegTAP 1.0 is no longer necessary.
 \end{itemize}
 
@@ -2933,17 +2936,19 @@ moved it and VOResource 1.1's rightsURI to \rtent{res\_detail}.  This
 technically might constitute an API change, but since we don't believe
 rights has been used anywhere, we believe we are still within a minor
 change.
-\item Added a \texttt{/capability/interface/testQueryString} xpath for
+\item Added an xpath \texttt{/capability/interface/testQueryString} for
+use in
 \rtent{res\_detail} to cover VOResource 1.1's \vorent{testQueryString}
 interface child.  Note that this is not really enough to feed
 validators, as a capability can have multiple interfaces and
 \rtent{res\_detail} only tells apart capabilitities.  Consider
 alternative extra column in \rtent{interface} (but:
 \vorent{testQueryString} would have to be single).
-\item \vorent{securityMethod/@standardID} is now included in interface
-in a \rtent{security\_method\_id} column.  Consequently, the 
-\texttt{/capability/inter\-face/securityMethod/@standardID} res\_detail
-key has been removed (but services can of course still provide it).
+\item \vorent{securityMethod/@standardID} is now mapped in the interface
+table's \rtent{security\_method\_id} column.  Consequently, in res\_detail
+no key
+\texttt{/capability/inter\-face/securityMethod/@standardID} 
+is no longer required (but services can of course still provide it).
 \item Added a \rtent{mirror\_url} column to \rtent{rr.interface}.
 \item Now recommending the evaluation of \rtent{security\_method\_id} in
 the discovery of standard interfaces.
@@ -3014,9 +3019,9 @@ either SQL or VOTable, rather using generic type names.
 
 \begin{itemize}
 
-\item Changed the data model identifier to
-  \texttt{ivo://ivoa.net/std/RegTAP\#1.0} to match usage with a
-  later standards record.{}
+\item To match our usage with what will later be in the standards
+  record, changed the data model identifier to
+  \url{ivo://ivoa.net/std/RegTAP\#1.0}.
 
 \item Fixed a typo in a column name: schema.schemaname is now schema.schema\_name
   as in the prose.{}
@@ -3058,7 +3063,7 @@ either SQL or VOTable, rather using generic type names.
 \item The final utype reform: most of our ex-utype strings aren't called utypes
   any more, they're fairly plain xpaths.  Consequently, 
   \rtent{res\_detail.detail\_utype} has been renamed 
-  \rtent{res\_detail.detail\_xpath}.{}
+  \rtent{detail\_xpath}.{}
 
 \item Renamed some columns and the subject table to relieve the need of quoting
   in MS SQL Server (or, in the case or \rtent{use\_param}, maintain
