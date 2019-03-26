@@ -418,7 +418,7 @@ these up.
 
 \subsection{Vocabulary considerations}
 
-\label{vocab-use}
+\label{sect:vocab-use}
 
 Since version 1.1, VOResource employs RDF vocabularies to control terms
 used in several places; in version 1.1, this concerns
@@ -461,11 +461,10 @@ Similar rules should be assumed for other IVOA vocabularies that may be
 used by VOResource extensions.
 
 One non-IVOA vocabulary is mentioned by VOResource: The Unified
-Astronomy Thesaurus UAT.  \todo{MD researches how they deprecate, also:
-cite it properly}
-Services SHOULD translate deprecated UAT terms encountered in
-\vorent{content/subject} to their preferred forms according to the latest
-released UAT version.
+Astronomy Thesaurus UAT.  At the time of writing, there is no machine
+readable definition of how deprecated terms should be treated.  We
+hence leave the treatment of deprecated UAT terms encountered in
+\vorent{content/subject} undefined in this version of RegTAP.
 
 
 \section{QNames in VOResource attributes}
@@ -1019,7 +1018,7 @@ from the vocabularies at
 
 The content of incoming \vorent{content/type} and \vorent{content/level}
 elements must be normalized according to the rules laid down in
-sect.~\ref{vocab-use} before further processing.
+sect.~\ref{sect:vocab-use} before further processing.
 
 
 \subsection{The res\_role Table}
@@ -1195,7 +1194,7 @@ case-insensitively, e.g., using \texttt{ILIKE}.
 
 The content of incoming \vorent{subject} 
 elements may be normalized according to the rules laid down in
-sect.~\ref{vocab-use}.
+sect.~\ref{sect:vocab-use}.
 
 
 
@@ -1939,7 +1938,7 @@ The following columns MUST be lowercased during ingestion:
 
 The content of incoming \vorent{relationshipType}
 elements must be normalized according to the rules laid down in
-sect.~\ref{vocab-use} before lowercasing.
+sect.~\ref{sect:vocab-use} before lowercasing.
 
 
 \subsection{The validation Table}
@@ -2074,7 +2073,7 @@ The following columns MUST be lowercased during ingestion:
 
 The content of incoming \vorent{date/@role} 
 attributes must be normalized according to the rules laid down in
-sect.~\ref{vocab-use} before lowercasing.
+sect.~\ref{sect:vocab-use} before lowercasing.
 
 
 \subsection{The res\_detail Table}
@@ -2651,7 +2650,7 @@ practice for doing that is discussed in an Endorsed Note on discovering
 data collections within services \citep{TODO}.
 
 When following this pattern, data collections records should provide an
-\emph{isServiceFor} relationship to the resources providing the access
+\emph{isServedBy} relationship to the resources providing the access
 services for the data collction (like a TAP or a SIAP service).
 
 While the access URLs can typically be established from the auxiliary
@@ -2857,6 +2856,33 @@ expressions in the ADQL translation layer whenever possible.
   -- should be done in the ADQL translator.
 \end{lstlisting}
 
+
+\section{Mandatory translations of VOResource 1.0 to VOResource 1.1
+terms}
+\label{app:voctrans}
+
+As discussed in Sect.~\ref{sect:vocab-use}, RegTAP services must change
+deprecated terms from IVOA vocabularies to their new preferred forms on
+ingestion into the respective columns.
+
+When this document was written, the policy accected froms from two
+vocabularies, both accompanying VOResource 1.1.  These translations are:
+
+\begin{inlinetable}
+\begin{tabular}{lll}
+\sptablerule
+\textbf{RegTAP column}&\textbf{Old term}&\textbf{New term}\\
+\sptablerule
+\rtent{res\_date.value\_role}&representative&Collected\\
+\rtent{res\_date.value\_role}&creation&Created\\
+\rtent{res\_date.value\_role}&update&Update\\
+\rtent{relationship.relationship\_type}&mirror-of&IsIdenticalTo\\
+\rtent{relationship.relationship\_type}&service-for&IsServiceFor\\
+\rtent{relationship.relationship\_type}&served-by&IsServedBy\\
+\rtent{relationship.relationship\_type}&derived-from&IsDerivedFrom\\
+\sptablerule
+\end{tabular}
+\end{inlinetable}
 
 \section{Changes from Previous Versions}
 
