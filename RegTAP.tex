@@ -1753,9 +1753,8 @@ An identifier of an authentication method required on this interface, or NULL fo
 
 This table should have the pair \rtent{ivoid}, \rtent{cap\_index}
 as an explicit foreign key into
-\rtent{capability}, and the triple \rtent{ivoid}, 
-\rtent{intf\_index}, \rtent{security\_method\_id} 
-as an explicit primary key. Additionally, it
+\rtent{capability}, and the pair \rtent{ivoid}, and
+\rtent{intf\_index} as an explicit primary key. Additionally, it
 is recommended to maintain an index on at least the
 \rtent{intf\_type} column.
 
@@ -2895,8 +2894,6 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \begin{itemize}
 \item Requiring denormalisation of interface on security\_method\_id
 now; also, making mapping for an empty securityMethod to NULL explicit.
-This also requires including security\_method\_id into the interface
-table's primary key.
 \item Recommending then when discovering standard services clients
 should (again) constrain \rtent{intf\_role} to \verb|std| rather than
 \rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
