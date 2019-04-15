@@ -967,7 +967,7 @@ Label associated with creation or availablilty of a version of a resource.\\
 
 \baselineskip=9pt\relax region\_of\_regard\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/regionOfRegard}&
-\footnotesize real&
+\footnotesize real[]&
 A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be ``blurred'' in order to get an appropriate match.\\
 
 \baselineskip=9pt\relax waveband\hfil\break
@@ -1121,7 +1121,7 @@ URL pointing to a graphical logo, which may be used to help identify the entity.
 \baselineskip=9pt\relax base\_role\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
-The role played by this entity; this is one of contact, publisher, and creator.\\
+The role played by this entity; this is one of contact, publisher, contributor, or creator.\\
 
 \sptablerule
 \end{tabular}
@@ -1230,7 +1230,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 An arbitrary identifier of this capability within the resource.\\
 
 \baselineskip=9pt\relax cap\_type\hfil\break
@@ -1300,7 +1300,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
 
 \baselineskip=9pt\relax schema\_description\hfil\break
@@ -1382,7 +1382,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
 
 \baselineskip=9pt\relax table\_description\hfil\break
@@ -1397,7 +1397,7 @@ The fully qualified name of the table. This name should include all catalog or s
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 An arbitrary identifier for the tables belonging to a resource.\\
 
 \baselineskip=9pt\relax table\_title\hfil\break
@@ -1485,7 +1485,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 Index of the table this column belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -1496,7 +1496,7 @@ The name of the column.\\
 \baselineskip=9pt\relax ucd\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:ucd}&
 \footnotesize string&
-A unified content descriptor that describes the scientific content of the parameter.\\
+A unified content descriptor that describes the scientific content of the column.\\
 
 \baselineskip=9pt\relax unit\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:unit}&
@@ -1510,8 +1510,8 @@ An identifier for a role in a data model that the data in this column represents
 
 \baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize integer&
-If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
+\footnotesize integer[]&
+If 1, the meaning and use of this column is reserved and defined by a standard model. If 0, it represents a database-specific column that effectively extends beyond the standard.\\
 
 \baselineskip=9pt\relax datatype\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:dataType}&
@@ -1602,27 +1602,21 @@ multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
 In VOResource, interfaces can have zero or more \vorent{securityMethod}
 children to convey support for authentication and authorization methods.
-Plain \vorent{securityMethod} is an empty element that merely has a
-\xmlel{standardID} attribute giving a URL of an authentication method
-required on a service.  In RegTAP, the value of
-this attribute is kept in the (somewhat irregularly-named)
-\rtent{security\_method\_id} column of the \rtent{interface} table.  If
-an interface does not give a \vorent{securityMethod}, this column MUST
-be NULL.  A \vorent{securityMethod} element without a \xmlel{standardID}
-attribute is also mapped to a \rtent{security\_method\_id} value of
-NULL; both cases indicate unauthenticated access.
-
-If an interface supports multiple \vorent{securityMethod}s, RegTAP
-ingestors must generate one \rtent{interface} row per security method
-(including one with NULL if a \vorent{securityMethod} without
-\xmlel{standardID} is present).
+Apart from an identifier for an authentication method, no actual content
+has been specified so far for these elements.  Also, there are as of now
+no actual discovery cases employing this information except ``filter out
+services requiring authentication''.  Hence, RegTAP 1.1 does not attempt
+to map \vorent{securityMethod} except through the
+\rtent{authenticated\_only} column which is required to be 0 when there
+is no \vorent{securityMethod} or at least one \vorent{securityMethod}
+without a \vorent{standardId} on an
+interface, 1 otherwise.
 
 Clients not prepared to authenticate to services should always include a
-\verb|security_method_id IS NULL| condition when retrieving access URLs
-from RegTAP 1.1 services.  Other clients should retrieve the
-\rtent{security\_method\_id} together with \rtent{access\_url} and
-compare the retrieved values against authentication methods they
-support.
+\verb|authenticated_only=0| condition when retrieving access URLs
+from RegTAP 1.1 services, as it is conceivable that a future VO will
+contain many services requiring authentication and users should not have
+to try out which of them they can actually use.
 
 The \rtent{query\_type} column is a hash-joined list (analogous
 to \rtent{waveband} in the resource table), as
@@ -1686,12 +1680,12 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 The index of the parent capability.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 An arbitrary identifier for the interfaces of a resource.\\
 
 \baselineskip=9pt\relax intf\_type\hfil\break
@@ -1739,10 +1733,10 @@ The URL at which the interface is found.\\
 \footnotesize string&
 Secondary access URLs of this interface, separated by hash characters.\\
 
-\baselineskip=9pt\relax security\_method\_id\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod/@standardID}&
-\footnotesize string&
-An identifier of an authentication method required on this interface, or NULL for interfaces publicly available. The identifiers of authentication schemes recommended in the VO are declared in the IVOA recommendation “SSO: Authentication Mechanisms.“\\
+\baselineskip=9pt\relax authenticated\_only\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod}&
+\footnotesize integer[]&
+A flag for whether an interface is available for anonymous use (=0) or only authenticated clients are served (=1).\\
 
 \sptablerule
 \end{tabular}
@@ -1761,7 +1755,7 @@ is recommended to maintain an index on at least the
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{intf\_type}, \rtent{intf\_role},
 \rtent{std\_version}, \rtent{query\_type},
-\rtent{result\_type}, \rtent{url\_use}, \rtent{security\_method\_id}.
+\rtent{result\_type}, \rtent{url\_use}, 
 Clients are advised to query \rtent{query\_type} using the the
 \rtent{ivo\_hashlist\_has} function.
 
@@ -1797,7 +1791,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 The index of the interface this parameter belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -1822,7 +1816,7 @@ An identifier for a role in a data model that the data in this parameter represe
 
 \baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize integer&
+\footnotesize integer[]&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 
 \baselineskip=9pt\relax datatype\hfil\break
@@ -1996,12 +1990,12 @@ The IVOA ID of the registry or organisation that assigned the validation level.\
 
 \baselineskip=9pt\relax val\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel}&
-\footnotesize integer&
+\footnotesize integer[]&
 A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 If non-NULL, the validation only refers to the capability referenced here.\\
 
 \sptablerule
@@ -2151,7 +2145,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize integer[]&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
 
 \baselineskip=9pt\relax detail\_xpath\hfil\break
@@ -2326,22 +2320,13 @@ found from
 a (natural) join.
 
 Clients communicating with a RegTAP 1.1 service should request the new
-\rtent{security\_method\_id} column.  If this is non-null, the service
+\rtent{authenticated\_only} column.  If this is 1, the service
 requires some sort of authentication and should only presented to users
 if a client has the necessary infrastructure for the authentication
 system.
 
-%CHECK_HERE
-\begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url, security_method_id
-FROM rr.capability
-NATURAL JOIN rr.interface
-WHERE standard_id like 'ivo://ivoa.net/std/tap%'
-  AND intf_role='std'
-\end{lstlisting}
-
-Clients only interested in services not requiring authentication should
-now use
+Hence, clients only interested in services not requiring authentication should
+use
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
@@ -2350,7 +2335,7 @@ FROM rr.capability
 NATURAL JOIN rr.interface
 WHERE standard_id like 'ivo://ivoa.net/std/tap%'
   AND intf_role='std'
-  AND security_method_id IS NULL
+  AND authenticated_only=0
 \end{lstlisting}
 
 Analogous considerations apply to the other example queries
@@ -2388,7 +2373,7 @@ the query would become:
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url, security_method_id
+SELECT ivoid, access_url
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
@@ -2419,7 +2404,7 @@ below.  The access URL and the service standard come from
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url, security_method_id
+SELECT ivoid, access_url
 FROM rr.capability 
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
@@ -2440,7 +2425,7 @@ naturally joined with
 :
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, access_url, security_method_id
+SELECT ivoid, access_url
 FROM rr.capability 
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.interface 
@@ -2559,7 +2544,7 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
   AND detail_value ILIKE 'ivo://ivoa.net/std/regtap#1.%'
-  AND security_method_id IS NULL
+  AND authenticated_only=0
 \end{lstlisting}
 
 Also note the remarks on the likely evolution of data model query
@@ -2586,7 +2571,7 @@ and
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, 
   name, ucd, column_description,
-  access_url, security_method_id
+  access_url
 FROM rr.capability 
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
@@ -2609,7 +2594,7 @@ registry extension and is thus kept in
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT access_url, security_method_id
+SELECT access_url
 FROM rr.res_detail 
   NATURAL JOIN rr.capability 
   NATURAL JOIN rr.interface 
@@ -2892,8 +2877,14 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \subsection{Changes from PR-20180731}
 
 \begin{itemize}
-\item Requiring denormalisation of interface on security\_method\_id
-now; also, making mapping for an empty securityMethod to NULL explicit.
+\item Dropping security\_method\_id again, as it fairly dramatically
+complicates interfaces when there's more than one of them.
+\item Adding a column authenticated\_only to be used where we have
+identified use cases for information from securityMethod. We're still
+not re-requiring the corresponding res\_detail key; there are simply no
+clear use cases on all of this yet, and there's been enough back and
+forth (not to mention that res\_details doesn't really work for
+information in interface anyway).
 \item Recommending then when discovering standard services clients
 should (again) constrain \rtent{intf\_role} to \verb|std| rather than
 \rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
