@@ -33,6 +33,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
 \previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
 \previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
 \previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
@@ -2874,7 +2875,8 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 
 \label{changes}
 
-\subsection{Changes from PR-20180731}
+\subsection{Changes from PR-20190326}
+
 
 \begin{itemize}
 \item Dropping security\_method\_id again, as it fairly dramatically
@@ -2885,6 +2887,12 @@ not re-requiring the corresponding res\_detail key; there are simply no
 clear use cases on all of this yet, and there's been enough back and
 forth (not to mention that res\_details doesn't really work for
 information in interface anyway).
+\end{itemize}
+
+
+\subsection{Changes from PR-20180731}
+
+\begin{itemize}
 \item Recommending then when discovering standard services clients
 should (again) constrain \rtent{intf\_role} to \verb|std| rather than
 \rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
