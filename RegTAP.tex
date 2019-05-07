@@ -2708,6 +2708,8 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/defaultMaxRecords (!)]The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).
 \item[/capability/executionDuration/default]The run time limit for newly-created jobs, given in seconds (tr).
 \item[/capability/imageServiceType (!)]The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).
+\item[/capability/inter\-face/securityMethod/@standardID]A standard
+identifier for an authentication method supported on an interface (vr).
 \item[/capability/interface/testQueryString] A query string that can be
 used to validate one of the interfaces of a capability (vr).
 \item[/capability/language/name (!)]A short, human-readable name of a language understood by the TAP service (tr).
@@ -2875,6 +2877,12 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 
 \label{changes}
 
+\subsection{Changes from PR-20190503}
+
+\begin{itemize}
+\item Re-adding a res\_details key for securityMethod ids.
+\end{itemize}
+
 \subsection{Changes from PR-20190326}
 
 
@@ -2944,7 +2952,7 @@ alternative extra column in \rtent{interface} (but:
 \vorent{testQueryString} would have to be single).
 \item \vorent{securityMethod/@standardID} is now mapped in the interface
 table's \rtent{security\_method\_id} column.  Consequently, in res\_detail
-no key
+the key
 \texttt{/capability/inter\-face/securityMethod/@standardID} 
 is no longer required (but services can of course still provide it).
 \item Added a \rtent{mirror\_url} column to \rtent{rr.interface}.
