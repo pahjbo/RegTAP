@@ -598,12 +598,12 @@ services.  Giving xpaths for extra columns and tables helps human
 interpretation of them at least when the defining schema files are
 available.
 
-Resource xpaths are also used in the \rtent{res\_details} table (section
+Resource xpaths are also used in the \rtent{res\_detail} table (section
 \ref{table_res_detail}).  These are normal xpaths
 (although again understood relative to the enclosing Resource element),
 which, in particular, means that they are case sensitive.  On the other
 hand, to clients they are simply opaque strings, i.e., clients cannot
-just search for any xpaths into VOResource within \rtent{res\_details}.
+just search for any xpaths into VOResource within \rtent{res\_detail}.
 
 Non-normatively, we give an XSLT
 sheet\footnote{\auxiliaryurl{makeutypes.xslt}} producing resource xpaths
@@ -811,7 +811,7 @@ to include \rtent{rights} and \rtent{rights\_uri} columns in
 respectively, with the content and the value of the rightsURI attribute
 of the \emph{first} \vorent{rights} element within a resource record
 (falling back to NULL).  RegTAP services may provide all \vorent{rights}
-and \vorent{rightsURI} values through \rtent{rr.res\_details} (see
+and \vorent{rightsURI} values through \rtent{rr.res\_detail} (see
 sect.~\ref{table_res_detail}).
 
 A local addition is the \rtent{creator\_seq} column.  It contains
@@ -2126,7 +2126,7 @@ to minimize the risk of later clashes).
 In addition to the metadata listed in this specification, 
 metadata defined in future
 IVOA-approved VOResource extensions MUST or SHOULD be present in
-\rtent{res\_details} as the extensions require it.
+\rtent{res\_detail} as the extensions require it.
 
 
 % GENERATED: maketable.sh rr.res_detail
@@ -2667,11 +2667,11 @@ WHERE
 
 \appendix
 
-\section{XPaths for res\_details}
+\section{XPaths for res\_detail}
 
 \label{d_u_list}
 
-This appendix defines the \rtent{res\_details}
+This appendix defines the \rtent{res\_detail}
 table (see section \ref{table_res_detail} for
 details) by giving
 xpaths for which xpath/value pairs MUST (where marked with an
@@ -2761,7 +2761,7 @@ used to validate one of the interfaces of a capability (vr).
 \item[/endorsedVersion (!)]A version of a standard that is recommended for use (vstd).
 \item[/facility (!)]The observatory or facility used to collect the data contained or managed by this resource (vs).
 \item[/format (!)]The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).
-\item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res\_details}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
+\item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res\_detail}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
 \item[/full]If \verb|true|, the registry attempts to collect all resource records known to the IVOA (vg).
 \item[/instrument (!)]The instrument used to collect the data contained or managed by a resource (vr).
 \item[/instrument/@ivo-id (!)]IVOID of the instrument used to collect the data contained or managed by a resource (vr).
@@ -2880,7 +2880,7 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \subsection{Changes from PR-20190503}
 
 \begin{itemize}
-\item Re-adding a res\_details key for securityMethod ids.
+\item Re-adding a res\_detail key for securityMethod ids.
 \end{itemize}
 
 \subsection{Changes from PR-20190326}
@@ -2893,7 +2893,7 @@ complicates interfaces when there's more than one of them.
 identified use cases for information from securityMethod. We're still
 not re-requiring the corresponding res\_detail key; there are simply no
 clear use cases on all of this yet, and there's been enough back and
-forth (not to mention that res\_details doesn't really work for
+forth (not to mention that res\_detail doesn't really work for
 information in interface anyway).
 \end{itemize}
 
@@ -3122,7 +3122,7 @@ cap\_index column, and its foreign key is just ivoid and intf\_index.{}
 
 \item Added handling for the StandardsRegExt schema element.{}
 
-\item The list of res\_details utypes was moved to an appendix since
+\item The list of res\_detail utypes was moved to an appendix since
 it was too long to be included in the running text.{}
 
 \item Redaction for WD publication.{}
@@ -3138,7 +3138,7 @@ it was too long to be included in the running text.{}
 \item Adapted all utypes to better match future VO-DML utypes.{}
 
 \item footprint, data\_url, facility, and instrument are no longer in rr.resource
-but are instead kept in rr.res\_details rows.{}
+but are instead kept in rr.res\_detail rows.{}
 
 \item For VOResource compliance, intf\_param has no flag column any more.{}
 
