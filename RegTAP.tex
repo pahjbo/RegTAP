@@ -434,7 +434,7 @@ For instance, the relationship vocabulary contains the following term
 (in Turtle notation):
 
 \begin{verbatim}
-#service-for> a rdf:Property;
+<#service-for> a rdf:Property;
   rdfs:label "is a service for";
   rdfs:comment "This resource makes data...";
   owl:equivalentProperty <#IsServiceFor>;
@@ -713,7 +713,7 @@ on case normalization, are given.
 
 \includegraphics[width=\textwidth]{schema.pdf}
 \caption{A sketch of the
-Relational Registry schema, adapted from \citet{regtap-adass}.  
+Relational Registry schema.
 Only the columns considered
 most interesting for client use are shown.  Arrows indicate foreign
 key-like relationships.}
@@ -2708,7 +2708,7 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/defaultMaxRecords (!)]The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).
 \item[/capability/executionDuration/default]The run time limit for newly-created jobs, given in seconds (tr).
 \item[/capability/imageServiceType (!)]The class of image service: Cutout, Mosaic, Atlas, Pointed (sia).
-\item[/capability/inter\-face/securityMethod/@standardID]A standard
+\item[/capability/inter\-face/securityMethod/@standardID (!)]A standard
 identifier for an authentication method supported on an interface (vr).
 \item[/capability/interface/testQueryString] A query string that can be
 used to validate one of the interfaces of a capability (vr).
@@ -2875,91 +2875,42 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 
 \section{Changes from Previous Versions}
 
-\label{changes}
-
-\subsection{Changes from PR-20190503}
-
-\begin{itemize}
-\item Re-adding a res\_detail key for securityMethod ids.
-\end{itemize}
-
-\subsection{Changes from PR-20190326}
-
-
-\begin{itemize}
-\item Dropping security\_method\_id again, as it fairly dramatically
-complicates interfaces when there's more than one of them.
-\item Adding a column authenticated\_only to be used where we have
-identified use cases for information from securityMethod. We're still
-not re-requiring the corresponding res\_detail key; there are simply no
-clear use cases on all of this yet, and there's been enough back and
-forth (not to mention that res\_detail doesn't really work for
-information in interface anyway).
-\end{itemize}
-
-
-\subsection{Changes from PR-20180731}
-
-\begin{itemize}
-\item Recommending then when discovering standard services clients
-should (again) constrain \rtent{intf\_role} to \verb|std| rather than
-\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
-workaround from RegTAP 1.0 is no longer necessary.
-\end{itemize}
-
-\subsection{Changes from WD-20171206}
-
-\begin{itemize}
-\item Now requiring that services map deprecated vocabulary terms to
-preferred ones.
-\item Made type information in the schema tables more generic; we now
-have string, integer, real, and string+timestamp.
-\item Added \rtent{rr.rights\_uri} to \rtent{resource} and re-added a
-\rtent{rights}.  We now only take data from the first rights element
-into \rtent{rr.resource} as hash-joining is not reliable with free-text.
-This technically might constitute an API change, but since we don't
-believe rights has (properly) been used anywhere, we still believe we are
-within the limits of a minor change.
-\item  Changed WD requirement to keep all \vorent{rights} and
-\vorent{rightsURI} in \rtent{res\_detail}; doing this is optional now,
-and normal clients should take rights information from
-\rtent{rr.resource}.
-\item Now requiring ADQL 2.1, and requiring the provision of ILIKE.
-\item Replaced inline XSLT utype maker with a link to an external
-resource.
-\item Now requiring the data model URI as the utype of the rr schema.
-\item No longer claiming that RegTAP services do not use the vg:registry
-resource type any more, instead referring to RI 1.1.
-\end{itemize}
-
 \subsection{Changes from REC-1.0}
 
 \begin{itemize}
 \item Added the \rtent{alt\_identifier} table.
-\item Removed the \rtent{rights} column from the \rtent{resource} table
-(it's now free text, so hash-separation doesn't work any more),
-moved it and VOResource 1.1's rightsURI to \rtent{res\_detail}.  This
-technically might constitute an API change, but since we don't believe
-rights has been used anywhere, we believe we are still within a minor
-change.
+\item Added \rtent{rights\_uri} to \rtent{resource}.
+In \rtent{rights}, we now only take data from the first rights element
+as hash-joining is not reliable with free text.
+This technically might constitute an API change, but since we don't
+believe rights has (properly) been used anywhere, we still believe we are
+within the limits of a minor change.
 \item Added an xpath \texttt{/capability/interface/testQueryString} for
 use in
 \rtent{res\_detail} to cover VOResource 1.1's \vorent{testQueryString}
 interface child.  Note that this is not really enough to feed
 validators, as a capability can have multiple interfaces and
-\rtent{res\_detail} only tells apart capabilitities.  Consider
-alternative extra column in \rtent{interface} (but:
-\vorent{testQueryString} would have to be single).
-\item \vorent{securityMethod/@standardID} is now mapped in the interface
-table's \rtent{security\_method\_id} column.  Consequently, in res\_detail
-the key
-\texttt{/capability/inter\-face/securityMethod/@standardID} 
-is no longer required (but services can of course still provide it).
+\rtent{res\_detail} only tells apart capabilitities.  Running a
+validator off a RegTAP service really requires an extra table.
 \item Added a \rtent{mirror\_url} column to \rtent{rr.interface}.
-\item Now recommending the evaluation of \rtent{security\_method\_id} in
-the discovery of standard interfaces.
-\item Updated data types in the description tables to be less aligned to
-either SQL or VOTable, rather using generic type names.
+\item Made type information in the schema tables more generic; we now
+have string, integer, real, and string+timestamp.
+\item Adding a column \rtent{authenticated\_only} in \rtent{interface}
+that is true when the interface cannot be used without authentication.
+Added this to the recommended discovery patterns.
+\item Recommending that when discovering standard services clients
+should (again) constrain \rtent{intf\_role} to \verb|std| rather than
+\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
+workaround from RegTAP 1.0 is no longer necessary.
+\item Now requiring that services map deprecated vocabulary terms to
+preferred ones.
+\item Now requiring ADQL 2.1, and requiring the provision of ILIKE, and
+discouraging legacy \verb|ivo_nocase_match|.
+\item Now requiring the data model URI as the utype of the \rtent{rr} schema.
+\item No longer claiming that RegTAP services do not use the 
+\xmlel{vg:registry} resource type any more, instead referring to RI 1.1.
+\item Dropping the appendix with recommended string sizes.
+\item Replaced inline XSLT utype maker with a link to an external resource.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}

@@ -73,5 +73,13 @@ allowing easy authoring of queries.
 		implementing RR in TAPRegExt dataModel elements.
 		</description>
 	</key>
+	<key>
+		<name>1.1</name>
+		<description>The data model for the tables making up the relational 
+		registriy in version 1.1.  This key is used to locate TAP services
+		implementing RR in TAPRegExt dataModel or VODataService schema/@utype
+		elements.
+		</description>
+	</key>
 
 </ri:Resource>
