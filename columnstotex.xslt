@@ -60,6 +60,7 @@
 </choose>
 <choose>
 	<when test="v:TD[4]='1'"></when>
+	<when test="v:TD[4]=''"></when>
 	<otherwise>[<value-of select="v:TD[4]"/>]</otherwise></choose>
 	</otherwise>
 </choose>

@@ -33,11 +33,11 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
 \previousversion[http://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
 \previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
 \previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
 \previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
-\previousversion[http://www.ivoa.net/documents/RegTAP/20141030]{PR-20141030}
 
 \title{IVOA Registry Relational Schema}
 
@@ -79,16 +79,16 @@ To enable efficient data discovery nevertheless, there are services
 resource records from the publishing registries and offering rich query
 facilities to Registry clients. 
 Version 1.0 of the IVOA Registry
-Interfaces specification \citep{std:RI1} defined, among other aspects of
+Interfaces specification \citep{2009ivoa.spec.1104B} defined, among other aspects of
 the VO registry system, a standard interface for such services.
 Built on SOAP and an early draft of an XML-based query language,
 this first attempt which was quickly obsoleted by parallel
 developments in the VO.  It was then decided to have searchable
 registries specified outside of Registry Interfaces.
 
-This document provides one such specification, based in particular on TAP \citep{std:TAP}
-and ADQL \citep{std:ADQL}.  It follows the model of ObsCore
-\citep{std:OBSCORE} of defining a representation of a data model
+This document provides one such specification, based in particular on TAP \citep{2010ivoa.spec.0327D}
+and ADQL \citep{2008ivoa.spec.1030O}.  It follows the model of ObsCore
+\citep{2017ivoa.spec.0509L} of defining a representation of a data model
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
 the VOResource XML format \citep{2018ivoa.spec.0625P}.  The simplification
@@ -159,7 +159,7 @@ model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
-\item[VODataService, v1.1 \citep{std:VODS11}] VODataService 
+\item[VODataService, v1.1 \citep{2010ivoa.spec.1202P}] VODataService 
 de\-scribes several concepts and resource types extending 
 VOResource's data model, including
 tablesets, data services and data
@@ -174,10 +174,10 @@ This document should not in general need updates
 for registry extension updates.  For completeness, we note the
 versions current as of this specification: SimpleDALRegExt 1.1
 \citep{2017ivoa.spec.0530P},
-StandardsRegExt 1.0 \citep{std:STDREGEXT}, TAPRegExt 1.0
-\citep{std:TAPREGEXT}, Registry Interfaces 1.1
+StandardsRegExt 1.0 \citep{2012ivoa.spec.0508H}, TAPRegExt 1.0
+\citep{2012ivoa.spec.0827D}, Registry Interfaces 1.1
 \citep{2018ivoa.spec.0723D}
-\item[TAP, v1.0 \citep{std:TAP}]The queries against the schema defined in the present document, and the results of
+\item[TAP, v1.0 \citep{2010ivoa.spec.0327D}]The queries against the schema defined in the present document, and the results of
 these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
 local additions to the registry relations via TAP's metadata publishing
@@ -195,12 +195,13 @@ This standard also relates to other IVOA standards:
 
 
 \begin{description}
-\item[ADQL, v2.1 \citep{TODO}]The rules for ingestion are designed to allow
-easy queries given the constraints of ADQL 2.1.  Also,
-we give four functions that extend ADQL using the
-language's built-in facility for user-defined functions.  While RegTAP
-1.1 requires ADQL 2.1 on the server side (because it requires ILIKE),
-ADQL 2.0 is sufficient for querying.
+\item[ADQL \citep{2008ivoa.spec.1030O}] The rules for ingestion are designed to allow
+easy queries given the constraints of the IVOA Astronomical Data Query
+Language.  Also, we give four functions that extend ADQL using the
+language's built-in facility for user-defined functions.  RegTAP
+1.1 requires the ILIKE operator as it will be specified by ADQL 2.1 
+on the server side.  While ADQL 2.1 is not yet a recommendation, the
+ILIKE operator is uncontenious and will certainly be part of ADQL 2.1.
 \end{description}
 
 
@@ -621,7 +622,7 @@ The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.1} with the IVOID
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
-capabilities as governed by TAPRegExt \citep{std:TAPREGEXT}.  Technically, this
+capabilities as governed by TAPRegExt \citep{2012ivoa.spec.0827D}.  Technically, this
 entails adding
 
 
@@ -635,9 +636,10 @@ as a child of the capability element with the type
 
 A client that knows the access URL of one TAP service containing 
 a relational
-registry can thus discover all other services exposing one. The \href{#example-findregtap}{``Find all TAP endpoints offering the
-relational registry''} example in section
-\ref{sample_queries} shows a query that does
+registry can thus discover all other services exposing one. The 
+``Find all TAP endpoints offering the
+relational registry'' example (sect.~\ref{ex:find-regtap})
+shows a query that does
 this.
 
 Services implementing this data model that do not (strive to) offer
@@ -968,7 +970,7 @@ Label associated with creation or availablilty of a version of a resource.\\
 
 \baselineskip=9pt\relax region\_of\_regard\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:coverage/regionOfRegard}&
-\footnotesize real[]&
+\footnotesize real&
 A single numeric value representing the angle, given in decimal degrees, by which a positional query against this resource should be ``blurred'' in order to get an appropriate match.\\
 
 \baselineskip=9pt\relax waveband\hfil\break
@@ -1231,7 +1233,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 An arbitrary identifier of this capability within the resource.\\
 
 \baselineskip=9pt\relax cap\_type\hfil\break
@@ -1301,7 +1303,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
 
 \baselineskip=9pt\relax schema\_description\hfil\break
@@ -1383,7 +1385,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
 
 \baselineskip=9pt\relax table\_description\hfil\break
@@ -1398,7 +1400,7 @@ The fully qualified name of the table. This name should include all catalog or s
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 An arbitrary identifier for the tables belonging to a resource.\\
 
 \baselineskip=9pt\relax table\_title\hfil\break
@@ -1486,7 +1488,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 Index of the table this column belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -1511,7 +1513,7 @@ An identifier for a role in a data model that the data in this column represents
 
 \baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize integer[]&
+\footnotesize integer&
 If 1, the meaning and use of this column is reserved and defined by a standard model. If 0, it represents a database-specific column that effectively extends beyond the standard.\\
 
 \baselineskip=9pt\relax datatype\hfil\break
@@ -1681,12 +1683,12 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 The index of the parent capability.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 An arbitrary identifier for the interfaces of a resource.\\
 
 \baselineskip=9pt\relax intf\_type\hfil\break
@@ -1735,8 +1737,8 @@ The URL at which the interface is found.\\
 Secondary access URLs of this interface, separated by hash characters.\\
 
 \baselineskip=9pt\relax authenticated\_only\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:securityMethod}&
-\footnotesize integer[]&
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize integer&
 A flag for whether an interface is available for anonymous use (=0) or only authenticated clients are served (=1).\\
 
 \sptablerule
@@ -1792,7 +1794,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 The index of the interface this parameter belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -1817,7 +1819,7 @@ An identifier for a role in a data model that the data in this parameter represe
 
 \baselineskip=9pt\relax std\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@std}&
-\footnotesize integer[]&
+\footnotesize integer&
 If 1, the meaning and use of this parameter is reserved and defined by a standard model. If 0, it represents a database-specific parameter that effectively extends beyond the standard.\\
 
 \baselineskip=9pt\relax datatype\hfil\break
@@ -1963,7 +1965,7 @@ validation-relevant changes in the underlying services.  Implementations
 are free to handle or ignore validation results as they see fit, and
 they may add validation results of their own.
 
-The validation levels are defined in \citet{std:RM} and
+The validation levels are defined in \citet{2007ivoa.spec.0302H} and
 currently range from 0 (description stored in a registry) to 
 4 (inspected by a human to be technically and scientifically
 correct).
@@ -1991,12 +1993,12 @@ The IVOA ID of the registry or organisation that assigned the validation level.\
 
 \baselineskip=9pt\relax val\_level\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:validationLevel}&
-\footnotesize integer[]&
+\footnotesize integer&
 A numeric grade describing the quality of the resource description, when applicable, to be used to indicate the confidence an end-user can put in the resource as part of a VO application or research study.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 If non-NULL, the validation only refers to the capability referenced here.\\
 
 \sptablerule
@@ -2146,7 +2148,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer[]&
+\footnotesize integer&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
 
 \baselineskip=9pt\relax detail\_xpath\hfil\break
@@ -2240,7 +2242,7 @@ ADQL 2.1, and they MUST implement
 the ILIKE operator as specified in ADQL 2.1 (which includes its
 declaration in their capabilities record).  They furthermore MUST
 implement the following four functions in their ADQL language,
-with signatures written as recommended in TAPRegExt \citep{std:TAPREGEXT}:
+with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 
 
 \begin{bigdescription}
@@ -2519,6 +2521,7 @@ ON (resource.ivoid ILIKE authpatterns.pat)
 \end{lstlisting}
 
 \subsection{Locate RegTAP services}
+\label{ex:find-regtap}
 
 \textbf{Problem:} Find all TAP endpoints offering the relational
 registry
@@ -2634,7 +2637,7 @@ specific resource (typically, a data collection).
 In the VO, data providers can register data collections either as such
 or with ``auxiliary capabilities'' that are fully described elsewhere; a
 practice for doing that is discussed in an Endorsed Note on discovering
-data collections within services \citep{TODO}.
+data collections within services \citep{2019ivoa.rept.0520D}.
 
 When following this pattern, data collections records should provide an
 \emph{isServedBy} relationship to the resources providing the access
