@@ -198,10 +198,7 @@ This standard also relates to other IVOA standards:
 \item[ADQL \citep{2008ivoa.spec.1030O}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
 Language.  Also, we give four functions that extend ADQL using the
-language's built-in facility for user-defined functions.  RegTAP
-1.1 requires the ILIKE operator as it will be specified by ADQL 2.1 
-on the server side.  While ADQL 2.1 is not yet a recommendation, the
-ILIKE operator is uncontenious and will certainly be part of ADQL 2.1.
+language's built-in facility for user-defined functions.
 \end{description}
 
 
@@ -348,13 +345,13 @@ of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 
 \label{casenorm}
 
-ADQL 2.0 had no operators for case-insensitive matching of strings.
-Therefore, RegTAP 1.0 required that most columns
+ADQL 2.0 has no operators for case-insensitive matching of strings.
+Mainly for this reason, RegTAP 1.0 required that most columns
 containing values not usually intended for display to be
-converted to lower case on ingestion.  Even though ADQL 2.1 now offers
-ILIKE, in the interest of backwards compatibility (as well as
-implementation simplicity), RegTAP 1.1 does not change these
-requirements.
+converted to lower case on ingestion.  This also somewhat reduces the
+likelihood that matches are missed because of different capitalisation,
+since queries disregarding capitalisation variations will yield empty
+(rather than partial) results.  
 
 In the table descriptions below, there are
 explicit requirements on case normalization near the end of each
@@ -375,6 +372,12 @@ Analogously, case-insensitive comparisons as required by some of the
 user-defined functions for the relational registry MUST compare
 the ASCII letters without regard for case.  They SHOULD compare according
 to D144 in the Unicode Standard.
+
+Columns intended for presentation are not case-normalised.  When
+matching against these, queries should use case-insensitive matching,
+for which this specification offers the \verb|ivo_nocasematch| user
+defined function.  ADQL 2.1 is expected to offer an ILIKE operator,
+which may be used instead.
 
 
 \subsection{Non-ASCII characters}
@@ -1145,7 +1148,7 @@ The following columns MUST be lowercased during ingestion:
 \rtent{base\_role}.
 Clients are advised to query the remaining columns, in particular
 \rtent{role\_name},
-case-insensitively, e.g., using \texttt{ILIKE}.
+case-insensitively, e.g., using \verb|ivo_nocasematch|.
 
 
 \subsection{The res\_subject Table}
@@ -1194,7 +1197,7 @@ case-insensitive and pattern queries using the index.
 
 The \rtent{ivoid} column MUST be lowercased during
 ingestion.  Clients are advised to query the \rtent{res\_subject} column
-case-insensitively, e.g., using \texttt{ILIKE}.
+case-insensitively, e.g., using \verb|ivo_nocasematch|.
 
 The content of incoming \vorent{subject} 
 elements may be normalized according to the rules laid down in
@@ -2114,7 +2117,7 @@ rows -- the test queries are immediate examples -- , changing the case
 will likely break the data.  In order to avoid having to give and
 implement case normalization rules by detail xpath, no case normalization 
 is done on detail values at all, and users and clients will have to use
-ILIKE when locating
+\verb|ivo_nocasematch| when locating
 case-insensitive values.  For the resource xpaths given in Appendix \ref{d_u_list}, this concerns all items with xpaths ending
 in \texttt{@ivo-id}.
 
@@ -2175,11 +2178,11 @@ The \rtent{ivoid} column should be an explicit foreign key into
 at least the columns
 \rtent{detail\_xpath} and \rtent{detail\_value}, where the
 index on \rtent{detail\_value} should ideally work for both direct
-comparisons and searches using ILIKE.
+comparisons and searches using \verb|ivo_nocasematch|.
 
 The following column MUST be lowercased during ingestion:
 \rtent{ivoid}.  Clients are advised to
-use ILIKE to search in
+use \verb|ivo_nocasematch| to search in
 \rtent{detail\_value} if the values are to be compared
 case-insensitively (e.g., all IVOIDs).
 
@@ -2238,9 +2241,6 @@ the \rtent{alt\_identifier} column.
 
 TAP Servers implementing the 
 \texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST implement
-ADQL 2.1, and they MUST implement
-the ILIKE operator as specified in ADQL 2.1 (which includes its
-declaration in their capabilities record).  They furthermore MUST
 implement the following four functions in their ADQL language,
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 
@@ -2250,9 +2250,7 @@ with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 The function returns 1 if \texttt{pat}  matches
 \texttt{value}, 0 otherwise.
 \texttt{pat}  is defined as for the SQL LIKE operator, but the
-match is performed case-insensitively.  This function corresponds to
-the ADQL 2.1 ILIKE operator, which should be used in preference over
-\texttt{ivo\_nocasematch}.
+match is performed case-insensitively.
 
 \term[\small\texttt{ivo\_hasword(haystack VARCHAR(*), needle VARCHAR(*)) -> INTEGER}]The function takes two strings and returns 1 if the second is
 contained in the first one in a ``word'' sense, i.e., delimited by
@@ -2384,7 +2382,7 @@ FROM rr.capability
 WHERE standard_id like 'ivo://ivoa.net/std/sia%'
   AND intf_role='std'
   AND (
-    res_subject ILIKE '%spiral%'
+    1=ivo_nocasematch(res_subject, '%spiral%')
     OR 1=ivo_hasword(res_description, 'spiral')
     OR 1=ivo_hasword(res_title, 'spiral'))
 \end{lstlisting}
@@ -2481,7 +2479,7 @@ services.
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid 
 FROM rr.res_role
-WHERE role_name ILIKE '%gavo%'
+WHERE 1=ivo_nocasematch(role_name, '%gavo%')
   AND base_role='publisher'
 \end{lstlisting}
 
@@ -2517,7 +2515,7 @@ RIGHT OUTER JOIN (
   WHERE detail_xpath='/managedAuthority' 
     AND ivoid='ivo://cds.vizier/registry') 
   AS authpatterns
-ON (resource.ivoid ILIKE authpatterns.pat)
+ON 1=ivo_nocasematch(resource.ivoid, authpatterns.pat)
 \end{lstlisting}
 
 \subsection{Locate RegTAP services}
@@ -2547,7 +2545,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND detail_value ILIKE 'ivo://ivoa.net/std/regtap#1.%'
+  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.%')
   AND authenticated_only=0
 \end{lstlisting}
 
@@ -2878,6 +2876,16 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 
 \section{Changes from Previous Versions}
 
+\subsection{Changes in RFC}
+
+This is a temporary section to be removed once we move to REC.\todo{Do
+that}.
+
+\begin{itemize}
+\item Backing out of the requirement that servers support ADQL 2.1
+draft's ILIKE.
+\end{itemize}
+
 \subsection{Changes from REC-1.0}
 
 \begin{itemize}
@@ -2907,8 +2915,6 @@ should (again) constrain \rtent{intf\_role} to \verb|std| rather than
 workaround from RegTAP 1.0 is no longer necessary.
 \item Now requiring that services map deprecated vocabulary terms to
 preferred ones.
-\item Now requiring ADQL 2.1, and requiring the provision of ILIKE, and
-discouraging legacy \verb|ivo_nocase_match|.
 \item Now requiring the data model URI as the utype of the \rtent{rr} schema.
 \item No longer claiming that RegTAP services do not use the 
 \xmlel{vg:registry} resource type any more, instead referring to RI 1.1.
