@@ -114,7 +114,7 @@ query astronomical data servers.
 The set of tables and their metadata specified here, together with
 the mapping from VOResource (``ingestion rules'') is collectively
 called ``relational registry schema'' or ``relational registry'' for
-short.
+short, with a standard schema name of \tapent{rr}.
 
 The specificiation additionally talks about how to embed these into TAP
 services, gives additional user defined functions, talks about
@@ -144,8 +144,8 @@ incompatibilities.
 \end{center}
 
 \caption{IVOA Architecture
-diagram with the IVOA Registry Relational Specification (tagged with
-``Relational Registry'') and the related standards marked up.}
+diagram with the IVOA Registry Relational Specification (shown as
+``RegTAP'') and the related standards.}
 \end{figure}
 
 This specification directly relates to other VO standards in the
@@ -1608,7 +1608,8 @@ multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
 In VOResource, interfaces can have zero or more \vorent{securityMethod}
 children to convey support for authentication and authorization methods.
-Apart from an identifier for an authentication method, no actual content
+Apart from an identifier for an authentication method -- usually taken
+from the SSO document \citet{2017ivoa.spec.0524T} --, no actual content
 has been specified so far for these elements.  Also, there are as of now
 no actual discovery cases employing this information except ``filter out
 services requiring authentication''.  Hence, RegTAP 1.1 does not attempt

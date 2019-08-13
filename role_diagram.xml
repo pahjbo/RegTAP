@@ -14,7 +14,7 @@ with missing dependencies.
 <archdiag xmlns="http://ivoa.net/archdiag">
 	<!-- Registry: x=55, y=150..450 -->
 	<rec name="VOResource" x="55" y="155"/>
-	<rec name="RegTAP" x="55" y="180"/>
+	<thisrec name="RegTAP" x="55" y="180"/>
 	<rec name="TAPRegExt" x="55" y="255"/>
 	<rec name="VODataService" x="55" y="350"/>
 	<rec name="StandardsRegExt" x="55" y="375"/>
