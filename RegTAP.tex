@@ -82,7 +82,7 @@ Version 1.0 of the IVOA Registry
 Interfaces specification \citep{2009ivoa.spec.1104B} defined, among other aspects of
 the VO registry system, a standard interface for such services.
 Built on SOAP and an early draft of an XML-based query language,
-this first attempt which was quickly obsoleted by parallel
+this first attempt was quickly obsoleted by parallel
 developments in the VO.  It was then decided to have searchable
 registries specified outside of Registry Interfaces.
 
@@ -92,7 +92,7 @@ and ADQL \citep{2008ivoa.spec.1030O}.  It follows the model of ObsCore
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
 the VOResource XML format \citep{2018ivoa.spec.0625P}.  The simplification
-yields 14 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
+yields a schema with 14 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
 with rules for how to fill these tables from VOResource-serialized
 metadata records as well as conditions on foreign keys and
 recommendations on indexes.
@@ -107,7 +107,7 @@ directly by advanced users, using the same TAP clients they employ to
 query astronomical data servers.
 
 
-\subsection{Terminology}
+\subsection{Terminology and Syntactic Conventions}
 
 \label{terms}
 
@@ -131,6 +131,26 @@ its combination with a TAP service on the other went away.  This
 means that the official acronym for ``IVOA registry relational schema'' is
 RegTAP.  This aesthetic defect seems preferable to causing actual
 incompatibilities.
+
+Since RegTAP mentions concepts from several different but related
+domains, we try to give typographic hits as to the nature of entities
+discussed:
+
+\begin{itemize}
+\item Names of tables, columns, and functions of the relational registry
+are written in \rtent{green typewriter}.
+
+\item Names coming from generic TAP are written in \tapent{brown
+typewriter}.
+
+\item VOResource concepts are written in \vorent{caps and small caps}
+(where small caps correspond to lowercase letters in element names of
+the XML serialisation).
+
+\item XML literals (like tag, attribute or XSD type names or special
+values) are written in \xmlel{cursive typewriter}.
+
+\end{itemize}
 
 
 \subsection{The Relational Registry within the VO Architecture}
@@ -170,7 +190,7 @@ defining how particular resources (e.g., Standards) or capabilities
 (e.g., IVOA defined interfaces) are described.  Most aspects
 introduced by them are reflected in the \rtent{res\_detail} table using
 xpaths into the registry documents.
-This document should not in general need updates
+The present standard should not in general need updates
 for registry extension updates.  For completeness, we note the
 versions current as of this specification: SimpleDALRegExt 1.1
 \citep{2017ivoa.spec.0530P},
@@ -668,17 +688,18 @@ in RegTAP 1.3 will be updated accordingly.}.
 \label{vortables}
 
 All tables making up the RegTAP schema are in the \tapent{rr} schema.
-In both \tapent{TAP\_SCHEMA} and the VODataService tableset, this schema
+In both \tapent{TAP\_SCHEMA} and the VODataService tableset, the
+\tapent{rr} schema
 MUST be associated with a \tapent{utype} matching the data model
 identifier given in sect.~\ref{registration}, i.e.,
 $$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
-are normative and MUST be used as given, and all-lowercase.  On the
-values in the \tapent{utype} columns within \tapent{TAP\_SCHEMA} except
-for the schema utype,
-see section \ref{vorutypes}.  All columns defined in
+are normative and MUST be used as given, and all-lowercase.  The utypes
+given in the table descriptions are discussed are formed as discussed
+in section~\ref{vorutypes} and are subject to the requirements given
+there.  All columns defined in
 this document MUST have a 1 in the \tapent{std} column of the
 \tapent{TAP\_SCHEMA.table\_columns} table.  Unless otherwise
 specified, all values of ucd and unit in
