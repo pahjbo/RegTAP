@@ -339,7 +339,7 @@ requires that during ingestion, leading and trailing whitespace MUST be
 removed from all strings; in particular, there are no strings consisting
 exclusively of whitespace in RegTAP.  The treatment of internal
 whitespace is implementation-defined. This reflects the expectation
-that, whereever multi-word items are queried, whitespace-ignoring
+that, wherever multi-word items are queried, whitespace-ignoring
 constraints will be used (e.g., LIKE-based regular expressions or the
 \rtent{ivo\_hasword} user defined function defined below).
 
@@ -567,7 +567,7 @@ the fields within this database schema, is provided by
 xpaths, which are here slightly abbreviated for both brevity and
 generality.
 
-All xpaths given in this specifiation are assumed to be relative to
+All xpaths given in this specification are assumed to be relative to
 the enclosing \vorent{vr:Resource} element; these are called
 ``resource xpaths'' in the following.  If resource xpaths are to be
 applied to an OAI-PMH response, the Xpath expression
@@ -871,7 +871,7 @@ have at least one capability element of type \xmlel{vg:Harvest}), or a
 searchable registry (like a RegTAP service).  See Registry Interfaces
 1.1 on how to apply this resource type.
 \item[vr:organisation]The main purpose of an organisation as a registered resource is to
-be references by IVOID as a publisher of other resources.
+be referenced by IVOID as a publisher of other resources.
 \item[vr:resource]Any entity or component of a VO application that is describable and
 identifiable by an IVOA identifier; while it is technically possible to
 publish such records, the authors of such records should probably be
@@ -1906,7 +1906,7 @@ of \rtent{column\_description}.
 \label{table_relationship}
 
 The relationship element is a slight denormalization of the
-\vorent{vr:Relation\-ship} type: Whereas in VOResource, a single
+\vorent{vr:Relation\-ship} type: whereas in VOResource, a single
 relationship element can take several IVOIDs, in the relational model,
 the pairs are stored directly.  It is straightforward to translate
 between the two representations in the database ingestor.
@@ -2928,7 +2928,7 @@ validator off a RegTAP service really requires an extra table.
 \item Added a \rtent{mirror\_url} column to \rtent{rr.interface}.
 \item Made type information in the schema tables more generic; we now
 have string, integer, real, and string+timestamp.
-\item Adding a column \rtent{authenticated\_only} in \rtent{interface}
+\item Added a column \rtent{authenticated\_only} in \rtent{interface}
 that is true when the interface cannot be used without authentication.
 Added this to the recommended discovery patterns.
 \item Recommending that when discovering standard services clients
@@ -2941,7 +2941,11 @@ preferred ones.
 \item No longer claiming that RegTAP services do not use the 
 \xmlel{vg:registry} resource type any more, instead referring to RI 1.1.
 \item Dropping the appendix with recommended string sizes.
-\item Replaced inline XSLT utype maker with a link to an external resource.
+\item Replaced inline XSLT utype maker with a link to an external
+resource.
+\item Updated example queries to match standard ids as recommended by
+Identifiers 2.0; also included RegTAP 1.0 erratum 1, and repaired a bad
+argumetn order in 10.3.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
