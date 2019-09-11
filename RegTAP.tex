@@ -33,7 +33,7 @@
 
 \editor{Markus Demleitner}
 
-\previousversion[http://ivoa.net/documents/RegTAP/20190503]{PR-20190503}
+\previousversion[http://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
 \previousversion[http://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
 \previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
 \previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
@@ -68,7 +68,7 @@ roughly 20000 such resource records active within the VO, originating
 from about 40 publishing registries.
 
 The protocol spoken by these
-publishing registries, OAI-PMH, only allows restricting queries by
+publishing registries, OAI-PMH \citep{std:OAIPMH}, only allows restricting queries by
 modification date and identifier and is hence not suitable for data discovery.
 Even if it were, data discovery would at least be fairly time consuming if
 each client had to query dozens or, potentially, hundreds of
@@ -2897,16 +2897,6 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \end{inlinetable}
 
 \section{Changes from Previous Versions}
-
-\subsection{Changes in RFC}
-
-This is a temporary section to be removed once we move to REC.\todo{Do
-that}.
-
-\begin{itemize}
-\item Backing out of the requirement that servers support ADQL 2.1
-draft's ILIKE.
-\end{itemize}
 
 \subsection{Changes from REC-1.0}
 
