@@ -450,41 +450,25 @@ Since version 1.1, VOResource employs RDF vocabularies to control terms
 used in several places; in version 1.1, this concerns
 \vorent{content/con\-tentLevel}, \vorent{content/type},
 \vorent{date/role}, and \vorent{content/relationship/relationshipType}.
-Some of these vocabularies contain deprecated terms.  These are marked
-as being a \texttt{owl:DeprecatedProperty}, and the new, preferred term
-is given with a \texttt{owl:equivalentProperty} predicate.
+At the time of writing, the rules for machine-readable representations
+of these vocabularies are only available as a Working Draft
+\citep{wd:voc2}; we therefore cannot require the use of these vocabulary
+representations at this point.
 
-For instance, the relationship vocabulary contains the following term
-(in Turtle notation):
-
-\begin{verbatim}
-<#service-for> a rdf:Property;
-  rdfs:label "is a service for";
-  rdfs:comment "This resource makes data...";
-  owl:equivalentProperty <#IsServiceFor>;
-  a owl:DeprecatedProperty.
-\end{verbatim}
-
-This means that VOResource 1.0 asks resource record authors to no longer
-use \emph{service-for} and use the DataCite-compatible
-\emph{isServiceFor} instead.
-
-In order to simplify the usage of vocabulary-controlled columns,
-services MUST translate the terms deprecated in VOResource 1.1 in this
-way (which are listed in appendix~\ref{app:voctrans} for convenience)
-into their equivalent new terms.
+For RegTAP 1.1, these vocabulary resources are relevant because the
+VOResource relationship types and date roles contain some deprecated
+terms kept for compatibility with VOResource 1.0, together with guidance
+what to use instead.  In order to simplify the usage of
+vocabulary-controlled columns, services MUST translate such deprecated
+terms when the vocabularies give replacements.  Until the
+machine-readable resources are properly standardised, the required
+translations are listed in appendix~\ref{app:voctrans}.
 
 Since the vocabularies are expected to develop independently of their
-originating standards, service operators furthermore SHOULD regularly
-revisit IVOA vocabularies to see if further translations should be done.
-While we expect the mechanism using the owl properties described above
-will be used to mark deprecated terms and their replacements in other
-IVOA vocabularies, a future common policy for IVOA vocabularies might
-recommend different mechanisms. These are considered equivalent for the
-purposes of RegTAP.
-
-Similar rules should be assumed for other IVOA vocabularies that may be
-used by VOResource extensions.
+originating standards, RegTAP service operators furthermore SHOULD regularly
+revisit IVOA vocabularies to see if further translations should be done
+once the machine-readable format(s) for the vocabularies have become
+normative, overriding appendix~\ref{app:voctrans}.
 
 One non-IVOA vocabulary is mentioned by VOResource: The Unified
 Astronomy Thesaurus UAT.  At the time of writing, there is no machine
@@ -2567,7 +2551,8 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 'ivo://ivoa.net/std/regtap#1.%')
+  AND 1=ivo_nocasematch(detail_value, 
+    'ivo://ivoa.net/std/regtap#1.%')
   AND authenticated_only=0
 \end{lstlisting}
 
