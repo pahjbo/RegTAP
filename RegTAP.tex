@@ -33,6 +33,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[http://ivoa.net/documents/RegTAP/20190911]{PR-20190911}
 \previousversion[http://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
 \previousversion[http://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
 \previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
@@ -2862,7 +2863,7 @@ As discussed in Sect.~\ref{sect:vocab-use}, RegTAP services must change
 deprecated terms from IVOA vocabularies to their new preferred forms on
 ingestion into the respective columns.
 
-When this document was written, the policy accected froms from two
+When this document was written, the policy affected terms from two
 vocabularies, both accompanying VOResource 1.1.  These translations are:
 
 \begin{inlinetable}
@@ -2908,7 +2909,7 @@ that is true when the interface cannot be used without authentication.
 Added this to the recommended discovery patterns.
 \item Recommending that when discovering standard services clients
 should (again) constrain \rtent{intf\_role} to \verb|std| rather than
-\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-03-21 showed that the
+\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-09-01 showed that the
 workaround from RegTAP 1.0 is no longer necessary.
 \item Now requiring that services map deprecated vocabulary terms to
 preferred ones.
@@ -2919,8 +2920,8 @@ preferred ones.
 \item Replaced inline XSLT utype maker with a link to an external
 resource.
 \item Updated example queries to match standard ids as recommended by
-Identifiers 2.0; also included RegTAP 1.0 erratum 1, and repaired a bad
-argument order in 10.3.
+Identifiers 2.0; also included RegTAP 1.0 erratum 1, and repaired the
+bad order of arguments in ivo\_hashlist\_has in query 10.3.
 \end{itemize}
 
 \subsection{Changes from PR-2014-10-30}
