@@ -1,0 +1,62 @@
+<oai:OAI-PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd"><oai:responseDate>2014-01-08T01:15:01Z</oai:responseDate><oai:request metadataPrefix="ivo_vor" verb="ListRecords">http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/OAIHandlerv1_0</oai:request><oai:ListRecords>
+<oai:record><oai:header><oai:identifier>ivo://x-invalid-test</oai:identifier><oai:datestamp>2012-04-26T15:57:14Z</oai:datestamp><oai:setSpec>ivo_managed</oai:setSpec></oai:header><oai:metadata><ri:Resource created="2005-01-27T21:58:27Z" status="active" updated="2012-04-26T15:57:14" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xsi:type="vg:Authority" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/RegistryInterface/v1.0 http://software.astrogrid.org/schema/registry/RegistryInterface/v1.0/RegistryInterface.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VOResource/v1.0/VOResource.xsd  http://www.ivoa.net/xml/VORegistry/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VORegistry/v1.0/VORegistry.xsd">
+        <title>Canadian Astronomy Data Centre</title>
+        <shortName>CADC</shortName>
+        <identifier>ivo://x-invalid-test</identifier>
+        <curation>
+            <publisher>RegTAP test suite</publisher>
+            <contact>
+                <name>David Test</name>
+                <address>5071 West Saanich Rd
+Victoria, BC, Canada
+V9E 2E7</address>
+                <email>david.test@invalid.nowhere</email>
+            </contact>
+        </curation>
+        <content>
+            <subject>virtual observatory</subject>
+            <description>authority for CADC</description>
+            <referenceURL>http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/</referenceURL>
+            <type>Other</type>
+            <contentLevel>General</contentLevel>
+        </content>
+        <managingOrg>The RegTAP authors</managingOrg>
+    </ri:Resource></oai:metadata></oai:record>
+    <oai:record><oai:header><oai:identifier>ivo://x-invalid-test/registry</oai:identifier><oai:datestamp>2013-01-09T14:30:22Z</oai:datestamp><oai:setSpec>ivo_managed</oai:setSpec></oai:header><oai:metadata><ri:Resource created="2011-12-09T14:24:09" status="active" updated="2013-01-09T14:30:22" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xsi:type="vg:Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/RegistryInterface/v1.0 http://software.astrogrid.org/schema/registry/RegistryInterface/v1.0/RegistryInterface.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VOResource/v1.0/VOResource.xsd  http://www.ivoa.net/xml/VORegistry/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VORegistry/v1.0/VORegistry.xsd">
+        <title>Test Registry</title>
+        <identifier>ivo://x-invalid-test/registry</identifier>
+        <curation>
+            <publisher>IVOA</publisher>
+            <contact>
+                <name/>
+                <email>invalid@testing.ca</email>
+            </contact>
+        </curation>
+        <content>
+            <subject>registry</subject>
+            <description>CADC Registry</description>
+            <referenceURL>http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg</referenceURL>
+            <type>Registry</type>
+        </content>
+        <capability standardID="ivo://ivoa.net/std/Registry" xsi:type="vg:Harvest">
+            <interface role="std" xsi:type="vg:OAIHTTP">
+                <accessURL>http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/OAIHandlerv1_0</accessURL>
+            </interface>
+            <interface role="std" xsi:type="vg:OAISOAP">
+                <accessURL>http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/services/RegistryHarvestv1_0</accessURL>
+            </interface>       
+       <maxRecords>200</maxRecords>
+        </capability>
+        <capability standardID="ivo://ivoa.net/std/Registry" xsi:type="vg:Search">
+            <interface role="std" xsi:type="vr:WebService">
+                <accessURL>http://www.cadc-ccda.hia-iha.nrc-cnrc.gc.ca/reg/services/RegistryQueryv1_0</accessURL>
+            </interface>
+       <maxRecords>200</maxRecords>
+            <extensionSearchSupport>full</extensionSearchSupport>
+            <optionalProtocol>XQuery</optionalProtocol>
+        </capability>
+        <full>false</full>
+        <managedAuthority>x-invalid-test</managedAuthority>
+    </ri:Resource></oai:metadata></oai:record>
+</oai:ListRecords></oai:OAI-PMH>
+

@@ -1,0 +1,21 @@
+(This material discusses how tests are run at ARI)
+
+Then, back in regtap-val directory, prepare things::
+
+	psql dachstest -c "CREATE EXTENSION pg_trgm"
+	python ingest.py -d  # don't worry if this fails.
+	python ingest.py
+
+
+This removes the existing rr.* tables if they exist and populate them from the
+test records (ingest.py would work, too, but it wouldn't update anything
+updated from rr/*, as, e.g., updated grammars and such).
+
+
+Then start a server serving from the postgres just filled::
+
+	testgavo serve debug
+
+Finally, run the tests::
+
+	python runtests.py  http://localhost:8080/tap

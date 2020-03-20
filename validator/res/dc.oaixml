@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href='/static/xsl/oai.xsl' type='text/xsl'?>
+<oai:OAI-PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:stc="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd http://www.ivoa.net/xml/RegistryInterface/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/RegistryInterface-v1.0.xsd http://www.ivoa.net/xml/STC/stc-v1.30.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/stc-v1.30.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOResource-v1.0.xsd http://www.ivoa.net/xml/VODataService/v1.1 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.1.xsd http://www.w3.org/1999/xlink http://vo.ari.uni-heidelberg.de/docs/schemata/xlink.xsd">
+  <oai:responseDate>2012-07-04T07:47:46Z</oai:responseDate>
+  <oai:request metadataPrefix="ivo_vor" verb="GetRecord"/>
+  <oai:GetRecord>
+    <oai:record>
+      <oai:header>
+        <oai:identifier>ivo://x-invalid-test/gums/q/pub</oai:identifier>
+        <oai:datestamp>2012-05-16T09:20:18Z</oai:datestamp>
+        <oai:setSpec>ivo_managed</oai:setSpec>
+      </oai:header>
+      <oai:metadata>
+        <ri:Resource created="2012-02-16T10:43:00Z" status="active" updated="2012-04-20T15:34:45" xsi:type="vs:DataCollection">
+          <title>The GAIA Universe Model Snapshot 10</title>
+          <identifier>ivo://x-invalid-test/gums/q/pub</identifier>
+          <curation>
+            <publisher
+            	ivo-id="ivo://org.GAVO.dc">The GAVO DC team</publisher>
+            <creator>
+              <name>A. C. Robin</name>
+              <logo>http://some.url/robin</logo>
+            </creator>
+            <creator>
+            	<name>C. Reyl&#xE9;</name>
+            </creator>
+            <contributor ivo-id="ivo://stern.ru/agdur">Agdur Inal-Ipa</contributor>
+            <date role="UpDated">2012-04-20T15:34:45</date>
+            <version>10</version>
+            <contact>
+              <name>GAVO Data Center Team</name>
+              <address>Mönchhofstrasse 12-14, D-69120 Heidelberg</address>
+              <email>gavo@ari.uni-heidelberg.de</email>
+              <telephone>++49 6221 54 1837</telephone>
+            </contact>
+          </curation>
+          <content>
+            <subject>Milky Way Galaxy</subject>
+            <subject>Simulations</subject>
+            <subject>Satellite-borne instrument</subject>
+            <subject>GAIA satellite</subject>
+            <description> GUMS-10 is the 10th version of the Gaia Universe Model Snapshot, a
+simulation of the expected contents of the Gaia cataloge run at the
+MareNostrum supercomputer. The models used and the characteristics of
+GUMS-10 are described in: A.C. Robin et al, "Gaia Universe Model
+Snapshot. A statistical analysis of the expected contents of the Gaia
+catalogue", Astronomy &amp; Astrophysics (2012), in press. For more
+details see also http://gaia.am.ub.es/GUMS-10/</description>
+            <source format="bibcode">2012arXiv1202.0132R</source>
+            <referenceURL>http://dc.zah.uni-heidelberg.de/browse/gums/q</referenceURL>
+            <relationship>
+              <relationshipType>served-by</relationshipType>
+              <relatedResource ivo-id="ivo://org.gavo.dc/__system__/tap/run">GAVO data center TAP service</relatedResource>
+            </relationship>
+          </content>
+          <format isMIMEType="false">Database</format>
+          <coverage>
+            <stc:STCResourceProfile>
+              <stc:AstroCoordSystem id="ashnblwu">
+                <stc:TimeFrame id="asgnblwu">
+                  <stc:TimeScale>TT</stc:TimeScale>
+                  <stc:UNKNOWNRefPos/>
+                </stc:TimeFrame>
+                <stc:SpaceFrame id="apmnblwu">
+                  <stc:ICRS/>
+                  <stc:UNKNOWNRefPos/>
+                  <stc:SPHERICAL coord_naxes="2"/>
+                </stc:SpaceFrame>
+                <stc:SpectralFrame id="lmuedpt"><stc:BARYCENTER/></stc:SpectralFrame>
+                <stc:RedshiftFrame id="lwdidpt" value_type="REDSHIFT">
+                	<stc:DopplerDefinition>RADIO</stc:DopplerDefinition>
+                	<stc:UNKNOWNRefPos/>
+                </stc:RedshiftFrame>
+              </stc:AstroCoordSystem>
+              <stc:AstroCoordArea coord_system_id="ashnblwu">
+                <stc:TimeInterval frame_id="asgnblwu">
+                  <stc:StartTime>
+                    <stc:ISOTime>1952-10-23T12:09:20</stc:ISOTime>
+                  </stc:StartTime>
+                  <stc:StopTime>
+                    <stc:ISOTime>1961-08-30T01:02:03</stc:ISOTime>
+                  </stc:StopTime>
+                </stc:TimeInterval>
+                <stc:TimeInterval frame_id="asgnblwu">
+                  <stc:StartTime>
+                    <stc:ISOTime>2014-01-01T00:00:00</stc:ISOTime>
+                  </stc:StartTime>
+                  <stc:StopTime>
+                    <stc:ISOTime>2020-12-31T00:00:00</stc:ISOTime>
+                  </stc:StopTime>
+                </stc:TimeInterval>
+                <stc:AllSky frame_id="apmnblwu" unit="deg"/>
+               	<stc:SpectralInterval frame_id="lmuedpt" unit="Angstrom">
+               		<stc:LoLimit>912.0</stc:LoLimit>
+               		<stc:HiLimit>2000.0</stc:HiLimit>
+               	</stc:SpectralInterval>
+               	<stc:RedshiftInterval frame_id="lwdidpt" unit="">
+               		<stc:LoLimit>0.25</stc:LoLimit>
+               		<stc:HiLimit>1.0</stc:HiLimit>
+               	</stc:RedshiftInterval>
+         			</stc:AstroCoordArea>
+	          </stc:STCResourceProfile>
+            <waveband>Optical</waveband>
+          </coverage>
+          <tableset>
+            <schema>
+              <name>gums</name>
+              <title>The GAIA Universe Model Snapshot 10</title>
+              <description> GUMS-10 is the 10th version of the Gaia Universe Model Snapshot, a
+simulation of the expected contents of the Gaia cataloge run at the
+MareNostrum supercomputer. The models used and the characteristics of
+GUMS-10 are described in: A.C. Robin et al, "Gaia Universe Model
+Snapshot. A statistical analysis of the expected contents of the Gaia
+catalogue", Astronomy &amp; Astrophysics (2012), in press. For more
+details see also http://gaia.am.ub.es/GUMS-10/</description>
+              <table type="partial">
+                <name>gums.quasars</name>
+                <title>GUMS Quasars</title>
+                <description> Quasars in the GUMS-10 simulated GAIA result set. This reflects the
+scheme laid down in gAIA-C2-TN-OCA-ES-001-1, i.e., SDSS quasar
+properties extrapolated to G=20.5.</description>
+                <utype>val:sim.orbit.foo</utype>
+                <column std="true">
+                  <name>redshift</name>
+                  <description>Object redshift.</description>
+                  <unit>  km/s/H
+                  
+                  </unit>
+                  <ucd>src.redshift</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>indexed</flag>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>slope</name>
+                  <description>Slope of the continuum.</description>
+                  <ucd>spect.index</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>w</name>
+                  <description>Total equivalent width of the emission lines.</description>
+                  <ucd>spect.line.eqWidth</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>alpha</name>
+                  <description>Right ascention of the barycenter at J2010 reference epoch in the ICRS frame</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.ra;meta.main</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>indexed</flag>
+                  <flag>nullable</flag>
+                </column>
+              </table>
+            </schema>
+          </tableset>
+          <accessURL>http://foo.bar/laber</accessURL>
+        </ri:Resource>
+      </oai:metadata>
+    </oai:record>
+  </oai:GetRecord>
+</oai:OAI-PMH>

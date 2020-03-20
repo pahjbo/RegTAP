@@ -1,0 +1,469 @@
+[{
+"title": "rr.resource tests",
+"tests": [
+	{"title": "all records ingested",
+		"query": "select ivoid from rr.resource",
+		"expected": [
+			["ivo://x-invalid-test/6df-ssap"],
+			["ivo://x-invalid-test/gums/q/pub"],
+			["ivo://x-invalid-test/__system__/tap/run"],
+			["ivo://x-invalid-test/keckobs"],
+			["ivo://x-invalid-test/siap/xmm-om"],
+			["ivo://x-invalid-test"],
+			["ivo://x-invalid-test/registry"],
+			["ivo://x-invalid-test/arihip/q/cone"],
+			["ivo://ivoa.net/std/conesearch"]]
+	},
+
+	{"title": "simple resource fields I",
+		"query": "SELECT ivoid, res_type, created, res_title, updated, reference_url, source_format, source_value, res_version, waveband from rr.resource where ivoid='ivo://x-invalid-test/gums/q/pub'",
+		"expected": [[
+			"ivo://x-invalid-test/gums/q/pub", 
+			"vs:datacollection", 
+			"2012-02-16T10:43:00", 
+			"The GAIA Universe Model Snapshot 10", 
+			"2012-04-20T15:34:45", 
+			"http://dc.zah.uni-heidelberg.de/browse/gums/q", 
+			"bibcode", 
+			"2012arXiv1202.0132R", 
+			"10", 
+			"optical"]]
+	},
+
+	{"title": "simple resource fields II",
+		"query": "select res_type, short_name, rights from rr.resource where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+		"expected": [["vs:catalogservice", "XMM-OM", "This must only contain the first rights content"]]},
+
+	{"title": "region of regard is a float",
+		"query": "select ivoid, round(region_of_regard*25000, 4) from rr.resource where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+		"expected": [["ivo://x-invalid-test/siap/xmm-om", 0.25]]},
+
+	{"title": "type prefixes normalized",
+		"query": "select res_type from rr.resource where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+		"expected": [["vs:catalogservice"]]},
+
+	{"title": "non-ascii in merged authors",
+		"query": "select creator_seq from rr.resource where ivoid='ivo://x-invalid-test/gums/q/pub'",
+		"expected": [["A. C. Robin; C. Reylé"]]},
+
+	{"title": "resource.res_type",
+		"query": "select distinct res_type from rr.resource",
+		"expected": [["vs:datacollection"],
+			["vs:catalogservice"], ["vstd:servicestandard"],
+			["vr:organisation"], ["vg:authority"], ["vg:registry"]]},
+
+	{"title": "creator_seq case preserved",
+		"query": "select creator_seq from rr.resource where creator_seq like '%Hanisch%'",
+		"expected": [["Roy Williams; Robert Hanisch; Alex Szalay; Raymond Plante"]]}
+]},
+
+
+{"title": "hashlists",
+	"tests": [
+	{"title": "compound content level works I",
+		"query": "select ivoid from rr.resource where 1=ivo_hashlist_has(content_level, 'elementary education')",
+		"expected": [["ivo://x-invalid-test/siap/xmm-om"]]},
+
+	{"title": "compound content level works II",
+		"query": "select count(*) from rr.resource where 1=ivo_hashlist_has(content_level, 'research')",
+		"expected": [[4]]},
+
+	{"title": "ivo_hashlist_has isn't just a fake",
+		"query": "select ivoid from rr.resource where 1=ivo_hashlist_has(content_level, 'education')",
+		"expected": []},
+
+	{"title": "waveband is hashlisted and lowercased",
+		"query": "select ivoid from rr.resource where 1=ivo_hashlist_has(waveband, 'optical') and 1=ivo_hashlist_has(waveband, 'infrared')",
+		"expected": [["ivo://x-invalid-test/6df-ssap"]]},
+
+	{"title": "content_type is hashlisted and lowercased",
+		"query": "select ivoid from rr.resource where 1=ivo_hashlist_has(content_type, 'organisation') and 1=ivo_hashlist_has(content_type, 'archive') and 1=ivo_hashlist_has(content_type, 'library')",
+			"expected": [["ivo://x-invalid-test/keckobs"]]}
+
+]},
+
+
+{"title": "user defined functions",
+	"tests": [
+	{"title": "ivo_hasword is case-insensitive", 
+		"query": "select ivoid from rr.resource where 1=ivo_hasword(res_description, 'supercosmos')",
+		"expected": [["ivo://x-invalid-test/6df-ssap"]]},
+
+	{"title": "ivo_string_agg works",
+		"query": "select ivoid, ivo_string_agg('item', '/glue/') from rr.resource natural join rr.res_subject where ivoid like '%ap%' group by ivoid",
+		"expected": [
+			["ivo://x-invalid-test/6df-ssap", "item"],
+			["ivo://x-invalid-test/__system__/tap/run", "item/glue/item"],
+			["ivo://x-invalid-test/siap/xmm-om", "item/glue/item"]]}
+]},
+
+
+{"title": "import logic",
+	"tests": [
+		{"title": "no deleted records",
+		"query": "select count(*) from rr.resource where ivoid='ivo://x-unregistred-test/TNG-OIG-SIAP'",
+		"expected": [[0]]},
+
+	{"title": "no contact from deleted record",
+		"query": "select count(*) from rr.res_role where email='invalid@oats.inaf.it'",
+		"expected": [[0]]},
+
+	{"title": "empty string mapped to NULL",
+		"query": "select name from rr.table_column where unit is NULL and ivoid='ivo://x-invalid-test/gums/q/pub'",
+		"expected": [["slope"], ["w"]]},
+
+	{"title": "searches by non-ASCII character work",
+		"query": "select ivoid, base_role from rr.res_role where role_name='C. Reyl\u00E9'",
+		"expected": [["ivo://x-invalid-test/gums/q/pub", "creator"]]}
+]},
+
+
+{"title": "res_role",
+	"tests": [
+	{"title": "various roles",
+		"query": "select base_role, role_name from rr.res_role where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+		"expected": [
+			["creator", "ESA"],
+			["publisher", "MAST"],
+			["contact", "Archive Branch, STScI"]]},
+
+	{"title": "res_role address, email, telephone",
+		"query": "select street_address, email, telephone from rr.res_role where ivoid='ivo://x-invalid-test/arihip/q/cone' and base_role='contact'",
+		"expected": [
+			["Mönchhofstrasse 12-14, D-69120 Heidelberg",
+				"gavo@ari.uni-heidelberg.de",
+				"++49 6221 54 1837"]]},
+
+	{"title": "res_role logo",
+		"query": "select logo from rr.res_role where ivoid='ivo://x-invalid-test/6df-ssap' and logo is not null",
+		"expected": [["http://wfaudata.roe.ac.uk/WFAU.gif"]]},
+
+	{"title": "role ivoid present and normalized",
+		"query": "select distinct role_ivoid from rr.res_role where role_name='The GAVO DC team' and base_role='publisher' and role_ivoid is not null",
+		"expected": [["ivo://org.gavo.dc"]]}
+]},
+
+
+{"title": "res_subject",
+	"tests": [
+	{"title": "multiple subjects",
+		"query": "select res_subject from rr.res_subject where ivoid='ivo://x-invalid-test/keckobs'",
+		"expected": [["optical astronomy"], ["optical interferometry"]]},
+
+	{"title": "no case normalization",
+		"query": "select res_subject from rr.res_subject where 1=ivo_nocasematch(res_subject, '%satellite%')",
+		"expected": [["GAIA satellite"], ["Satellite-borne instrument"]]}
+]},
+
+
+{"title": "capability",
+	"tests": [
+	{"title": "capability standard fields",
+		"query": "select cap_type, standard_id from rr.capability where ivoid='ivo://x-invalid-test/6df-ssap' and cap_description is null",
+		"expected": [["ssap:simplespectralaccess", "ivo://ivoa.net/std/ssa"]]},
+
+	{"title": "capability types properly translated",
+		"query": "select distinct cap_type from rr.capability where cap_type is not null",
+		"expected": [
+			["cs:conesearch"],
+			["ssap:simplespectralaccess"],
+			["tr:tableaccess"],
+			["sia:simpleimageaccess"],
+			["vg:harvest"],
+			["vg:search"]]},
+	
+	{"title": "capability description imported", 
+		"query": "select standard_id from rr.capability where cap_description='Knock here'",
+		"expected": [["ivo://ivoa.net/std/vosi#availability"]]}
+]},
+
+
+{"title": "res_schema",
+	"tests": [
+	{"title": "schema case rules",
+		"query": "select schema_name, schema_utype, schema_title from rr.res_schema where 1=ivo_hasword(schema_description, '2mass plus ppmx')",
+		"expected": [["ppmxl", "fan:ta.sy", "The XL of PPMX"]]},
+
+	{"title": "multiple schemata present",
+		"query": "select count(*) from rr.res_schema where ivoid='ivo://x-invalid-test/__system__/tap/run'",
+		"expected": [[2]]}
+]},
+
+{"title": "res_table",
+	"tests": [
+	{"title": "table basic columns",
+		"query": "select ivoid, table_name, table_title, table_type, table_utype from rr.res_table where 1=ivo_hasword(table_description, 'positions proper motions photometry')",
+		"expected": [["ivo://x-invalid-test/__system__/tap/run",
+			"ppmxl.data", "PPMXL Objects", "base_table", "fan:ta.sy.any"]]},
+
+	{"title": "references to schema",
+		"query": "select schema_name from rr.res_table natural join rr.res_schema where table_name in ('gums.quasars', 'ppmxl.data')",
+		"expected": [["gums"], ["ppmxl"]]},
+	
+	{"title": "res_table multiple entity",
+		"query": "select table_name from rr.res_table where ivoid='ivo://x-invalid-test/__system__/tap/run'",
+		"expected": [["califa.fluxpos"], ["ppmxl.data"]]}
+]},
+
+
+{"title": "table_column",
+	"tests": [
+		{"title": "table_column basic columns I",
+			"query": "select name, ucd, std, datatype, type_system from rr.table_column where 1=ivo_hasword(column_description, 'number star hipparcos esa')",
+			"expected": [["hipno", "meta.id;meta.main", null, "int", "vs:votabletype"]]},
+
+		{"title": "table_column basic columns II",
+			"query": "select name, unit, datatype, flag from rr.table_column where 1=ivo_hasword(column_description, 'Right Ascension single-star')",
+			"expected": [["raj2000", "deg", "double", "indexed"],
+				["pmra", "deg/yr", "float", "nullable"]]},
+
+		{"title": "flag hashlisted, unit not normalized",
+			"query": "select name, unit from rr.table_column where 1=ivo_hashlist_has(flag, 'indexed') and 1=ivo_hashlist_has(flag, 'nullable')",
+			"expected": [["redshift", "km/s/H"], ["alpha", "deg"]]},
+
+		{"title": "references to table",
+			"query": "select schema_name, table_name, name from rr.res_schema natural join rr.res_table natural join rr.table_column where ucd like 'test.%'",
+			"expected": [["califa", "califa.fluxpos", "col2"],
+				["ppmxl", "ppmxl.data", "col1"]]
+		}
+]},
+
+
+{"title": "interface",
+	"tests": [
+		{"title": "interface basic fields",
+			"query": "select ivoid, intf_type, intf_role, query_type, result_type, url_use, std_version, authenticated_only from rr.interface where access_url='http://dc.zah.uni-heidelberg.de/arihip/q/cone/scs.xml?'",
+			"expected": [["ivo://x-invalid-test/arihip/q/cone", "vs:paramhttp", "std", "get", "application/x-votable+xml", "base", "1.2bis", 0]]},
+
+		{"title": "references to capability",
+			"query": "select standard_id from rr.interface natural join rr.capability where std_version='1.0'",
+			"expected": [["ivo://ivoa.net/std/sia"]]},
+
+		{"title": "another reference to capability", 
+			"query": "select standard_id from rr.interface natural join rr.capability where access_url like '%RegistryQueryv1_0'",
+			"expected": [["ivo://ivoa.net/std/registry"]]},
+
+		{"title": "authenticated_only set from securityMethod",
+			"query": "select ivoid, intf_type, authenticated_only from rr.interface where authenticated_only!=0",
+			"expected": [
+				["ivo://x-invalid-test/arihip/q/cone", "vr:webbrowser", 1]
+			]}
+]},
+
+
+{"title": "intf_param",
+	"tests": [
+		{"title": "intf_param basic fields",
+			"query": "select name, ucd, unit, utype, std, datatype, param_use from rr.intf_param where 1=ivo_hasword(param_description, 'Right Ascension ICRS decimal')",
+			"expected": [["ra", "pos.eq.ra", "deg", "stcwhut:pos.long", 1,
+				"real", "required"]]},
+
+		{"title": "intf_param references to interface",
+			"query": "select name, access_url, standard_id from rr.intf_param natural join rr.capability natural join rr.interface where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+			"expected": [
+				["pos", "http://archive.stsci.edu/siap/search.php?id=XMM-OM&", 
+					"ivo://ivoa.net/std/sia"],
+				["invent_new", "http://archive.stsci.edu/siap/tableMetadata", 
+					"ivo://ivoa.net/std/vosi#tables"]]}
+]},
+
+
+{"title": "relationship",
+	"tests": [
+		{"title": "relationship basic fields",
+			"query": "select ivoid, relationship_type, related_id from rr.relationship where 1=ivo_nocasematch(related_name, '%lensed quasars')",
+			"expected": [["ivo://x-invalid-test/__system__/tap/run",
+				"isservicefor", "ivo://org.gavo.dc/apo/res/apo/frames"]]},
+
+		{"title": "relationship denormalized",
+			"query": "select count(*) from rr.relationship where ivoid='ivo://x-invalid-test/__system__/tap/run' and relationship_type='isservicefor'",
+			"expected": [[5]]},
+
+		{"title": "join through relationship",
+			"query": "select access_url, standard_id from (rr.capability natural join rr.interface as a) join (rr.relationship as b natural join rr.resource) on (a.ivoid=b.related_id) where 1=ivo_hasword(res_title, 'test observatory')",
+			"expected": [["http://wfaudata.roe.ac.uk/6dF-ssap/?", 
+				"ivo://ivoa.net/std/ssa"]]}
+]},
+
+
+{"title": "validation",
+	"tests": [
+		{"title": "capability validation",
+			"query": "select validated_by, val_level, standard_id from rr.validation natural join rr.capability where ivoid='ivo://x-invalid-test/siap/xmm-om'",
+			"expected": [ 
+				["ivo://archive.stsci.edu/nvoregistry", 2, "ivo://ivoa.net/std/sia"]]},
+
+		{"title": "resource validation",
+			"query": "select validated_by, val_level from rr.validation where ivoid='ivo://x-invalid-test/siap/xmm-om' and cap_index is NULL",
+			"expected": [["ivo://archive.stsci.edu/nvoregistry", 2]]}
+
+]},
+
+{"title": "res_date",
+	"tests": [
+		{"title": "res_date basics", 
+			"query": "select date_value, value_role from rr.res_date where ivoid='ivo://x-invalid-test/gums/q/pub'",
+			"expected": [["2012-04-20T15:34:45", "updated"]]
+		}
+]},
+
+
+{"title": "res_detail",
+	"tests": [
+		{"title": "cone search details",
+			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/arihip/q/cone' and cap_type='cs:conesearch'",
+			"expected": [
+				["/capability/maxSR", "180.0"],
+				["/capability/maxRecords", "10000"],
+				["/capability/verbosity", "true"]],
+			"expected-optional": [
+				["/capability/testQuery/ra", "9.25"],
+				["/capability/testQuery/dec", "-3.125"],
+				["/capability/testQuery/sr", "0.00125"],
+				["/capability/interface/testQueryString", "RA=4.6&DEC=19.69"],
+				["/capability/interface/securityMethod/@standardID", 
+					"http://schneier.com/ConFound"]
+				]},
+
+		{"title": "ssap details",
+			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/6df-ssap' and cap_type='ssap:simplespectralaccess'", 
+			"expected": [
+				["/capability/dataSource", "pointed"],
+				["/capability/creationType", "archival"],
+				["/capability/maxSearchRadius", "360.0"],
+				["/capability/maxRecords", "10000"],
+				["/capability/defaultMaxRecords", "10000"],
+				["/capability/maxFileSize", "1000000"]],
+			"expected-optional": [
+				["/capability/maxAperture", "180.0"],
+				["/capability/supportedFrame", "ICRS"],
+				["/capability/supportedFrame", "LUNA_G"],
+				["/capability/complianceLevel", "query"]]},
+
+		{"title": "data collection details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://x-invalid-test/gums/q/pub' and cap_index is null", 
+			"expected": [
+				["/format", "Database"],
+				["/accessURL", "http://foo.bar/laber"]],
+			"expected-optional": [["/format/@isMIMEType", "false"]]},
+
+		{"title": "tap details",
+			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/__system__/tap/run' and cap_type='tr:tableaccess'", 
+			"expected": [ 
+				["/capability/dataModel", "ObsCore 1.0"],
+				["/capability/dataModel/@ivo-id", "ivo://ivoa.net/std/ObsCore-1.0"],
+				["/capability/language/version/@ivo-id", "ivo://ivoa.net/std/ADQL#v2.0"],
+				["/capability/language/name", "ADQL"],
+				["/capability/outputFormat/mime", "text/xml"],
+				["/capability/outputFormat/@ivo-id", 
+					"ivo://ivoa.net/std/TAPRegExt#output-votable-binary"],
+				["/capability/outputFormat/mime", 
+					"application/x-votable+xml;encoding=tabledata"],
+				["/capability/outputFormat/@ivo-id", 
+					"ivo://ivoa.net/std/TAPRegEXT#output-votable-td"],
+				["/capability/outputFormat/mime", "text/html"],
+				["/capability/uploadMethod/@ivo-id", 
+					"ivo://ivoa.net/std/TAPRegExt#upload-inline"],
+				["/capability/uploadMethod/@ivo-id", 
+					"ivo://ivoa.net/std/TAPRegExt#upload-http"]],
+			"expected-optional": [["/capability/retentionPeriod/default", "172800"],
+				["/capability/executionDuration/default", "3600"],
+				["/capability/outputLimit/default", "2000"],
+				["/capability/outputLimit/default/@unit", "row"],
+				["/capability/outputLimit/hard", "20000000"],
+				["/capability/outputLimit/hard/@unit", "row"],
+				["/capability/uploadLimit/hard", "20000000"],
+				["/capability/uploadLimit/hard/@unit", "byte"],
+				["/capability/retentionPeriod/default", "172800"],
+				["/capability/outputFormat/alias", "votable/td"],
+				["/capability/outputFormat/alias", "html"]]},
+
+		{"title": "instrument details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://x-invalid-test/keckobs' and cap_index is null",
+			"expected": [
+				["/facility", "Keck Telescopes"],
+				["/instrument", "Keck Telescope"],
+				["/instrument/@ivo-id", "ivo://x-invalid-test/OurTel"]]},
+
+		{"title": "siap details",
+			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/siap/xmm-om' and cap_type='sia:simpleimageaccess' and detail_value!=''", 
+			"expected": [
+				["/capability/imageServiceType", "Pointed"],
+				["/capability/maxFileSize", "35712000"],
+				["/capability/maxRecords", "2000"]],
+			"expected-optional": [
+				["/capability/maxQueryRegionSize/long", "360.0"],
+				["/capability/maxQueryRegionSize/lat", "360.0"],
+				["/capability/maxImageExtent/long", "360.0"],
+				["/capability/maxImageExtent/lat", "360.0"],
+				["/capability/maxImageSize", "3000"],
+				["/capability/testQuery/pos/long", "326.6"],
+				["/capability/testQuery/pos/lat", "-21.3"],
+				["/capability/testQuery/size/long", "5.0"],
+				["/capability/testQuery/size/lat", "5.0"],
+				["/capability/testQuery/extras", "a=b&b=a"]]},
+
+		{"title": "image service details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://x-invalid-test/siap/xmm-om' and cap_index is null and not detail_xpath like '/rights%'",
+			"expected": [
+				["/instrument", "XMM"],
+				["/coverage/footprint", "http://foot.edu/print"],
+				["/coverage/footprint/@ivo-id", "ivo://foot/print"]]},
+
+		{"title": "org record details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://x-invalid-test' and cap_index is null",
+			"expected": [
+				["/managingOrg", "The RegTAP authors"]]},
+
+		{"title": "registry service details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://x-invalid-test/registry' and cap_index is null",
+			"expected": [
+				["/full", "false"],
+				["/managedAuthority", "x-invalid-test"]]},
+
+		{"title": "registry capability details",
+			"query": "select detail_xpath, detail_value, cap_type from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/registry'",
+			"expected": [
+				["/capability/maxRecords", "200", "vg:harvest"],
+				["/capability/maxRecords", "200", "vg:search"]]},
+
+		{"title": "standard record details",
+			"query": "select detail_xpath, detail_value from rr.res_detail where ivoid='ivo://ivoa.net/std/conesearch' and cap_index is null",
+			"expected": [
+				["/endorsedVersion", "1.03"],
+				["/endorsedVersion", "2.0"],
+				["/schema/@namespace", "http://ivoa.net/schema/pure-fantasy.xsd"],
+				["/deprecated", "0.99"]]}
+]},
+
+
+{"title": "RegTAP 1.1 additions",
+	"tests": [
+		{"title": "Rights, RightsURI end up in rr.resource",
+			"query": "select rights_uri, rights from rr.resource where source_value='2000FooBa...1Q....X'",
+			"expected": [
+				["http://creativecommons.org/publicdomain/zero/1.0/", "This must only contain the first rights content"]
+				]},
+
+		{"title": "Support for ILIKE (RegTAP 1.1)",
+			"query": "select ivoid from rr.resource where ivoid ilike '%KeckObs'",
+			"expected": [
+				["ivo://x-invalid-test/keckobs"]
+				]},
+
+		{"title": "altIdentifier supported",
+			"query": "select b.alt_identifier from rr.alt_identifier as a join rr.alt_identifier as b using (ivoid) where a.alt_identifier='nodoi:10.0001/xxx'",
+			"expected": [
+				["nodoi:10.0001/xxx"],
+				["bibcode:1920ifra.book.....H"],
+				["http://goblinid.org/AngloWFAU"],
+				["http://elfid.org/Arcangel"]
+				]},
+
+		{"title": "mirrorURL processed",
+			"query": "select mirror_url from rr.interface where ivoid ILIKE '%6df%'",
+			"expected": [["http://wfaumirror.org/6dF-ssap/?#https://secure.wfau.academia.org/6dF-ssap/?"]]}
+
+]}
+
+]
