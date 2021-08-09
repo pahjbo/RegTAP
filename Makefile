@@ -14,7 +14,7 @@ DOCTYPE = REC
 
 # Source file for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex role_diagram.pdf
+SOURCES = $(DOCNAME).tex role_diagram.pdf gitmeta.tex
 
 # List of image files to be included in submitted package 
 # (whitespace-separated)
@@ -30,11 +30,16 @@ schema.pdf: schema.psfig
 	ps2pdf -dEPSCrop $< $@
 
 %.psfig: %.texfig
-	tex $<
+	etex $<
 	dvips $*
 	ps2epsi $*.ps $*.psfig
-	rm $*.ps
+	rm $*.ps $*.dvi $*.log
 
 AUTHOR_EMAIL=msdemlei@ari.uni-heidelberg.de
 
-include ivoatex/Makefile
+-include ivoatex/Makefile
+
+ivoatex/Makefile:
+	@echo "*** ivoatex submodule not found.  Initialising submodules."
+	@echo
+	git submodule update --init
