@@ -657,7 +657,7 @@ Section 5.2 of Registry Interfaces 1.1 additionally requires full RegTAP
 services to register a \xmlel{vg:Registry}-typed record with a (possibly
 auxiliary) TAP capability.  This record is being used by the RofR, and
 it opens up a migration path to a data-based discovery
-pattern\footnote{This would look for schema utypes and apprears
+pattern\footnote{This would look for schema utypes and appears
 desirable to enable multiple instances of a data model within one TAP
 service; it is expected that the recommended discovery pattern
 in RegTAP 1.3 will be updated accordingly.}.
@@ -1402,7 +1402,7 @@ A free-text description of the table's contents.\\
 \baselineskip=9pt\relax table\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
-The fully qualified name of the table. This name should include all catalog or schema prefixes needed to distinguish it in a query.\\
+The fully qualified name of the table. This name must include all catalog or schema prefixes needed to distinguish it in a query, and it must contain delimiters where necessary.\\
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
@@ -1441,7 +1441,7 @@ maintain an index on at least the \rtent{table\_description}
 column, ideally one suited for queries with \rtent{ivo\_hasword}.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{table\_name}, \rtent{table\_type},
+\rtent{ivoid}, \rtent{table\_type},
 \rtent{table\_utype}.
 Clients are advised to query the \rtent{table\_description}
 and \rtent{table\_title}  columns
