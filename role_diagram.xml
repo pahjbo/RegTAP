@@ -13,17 +13,16 @@ with missing dependencies.
 
 <archdiag xmlns="http://ivoa.net/archdiag">
 	<!-- Registry: x=55, y=150..450 -->
-	<rec name="VOResource" x="55" y="155"/>
-	<thisrec name="RegTAP" x="55" y="180"/>
-	<rec name="TAPRegExt" x="55" y="255"/>
-	<rec name="VODataService" x="55" y="350"/>
-	<rec name="StandardsRegExt" x="55" y="375"/>
-	<rec name="SimpleDALR.E." x="55" y="400"/>
+	<rec name="VOResource" x="64.5" y="155" w="71"/>
+	<thisrec name="RegTAP" x="76" y="180" w="48"/>
+	<rec name="TAPRegExt" x="67.5" y="255" w="65"/>
+	<rec name="VODataService" x="57.5" y="350" w="85"/>
+	<rec name="StandardsRE" x="63" y="375" w="74"/>
+	<rec name="SimpleDALRE" x="61" y="400" w="78"/>
 
-	<rec name="Identifiers" x="125" y="425"/>
+	<rec name="Identifiers" x="125" y="425" w="60"/>
 
 	<!-- DAL: x=655, y=155..435 -->
-	<rec name="ADQL" x="250" y="160"/>
-
-	<rec name="TAP" x="655" y="325"/>
+	<rec name="ADQL" x="250" y="160" w="37"/>
+  <rec name="TAP" x="686" y="255" w="28"/>
 </archdiag>
