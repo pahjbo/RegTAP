@@ -215,7 +215,7 @@ This standard also relates to other IVOA standards:
 \begin{description}
 \item[ADQL \citep{2008ivoa.spec.1030O}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
-Language.  Also, we give four functions that extend ADQL using the
+Language.  Also, we give some functions that extend ADQL using the
 language's built-in facility for user-defined functions.
 \end{description}
 
@@ -2277,7 +2277,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 
 TAP Servers implementing the 
 \texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST
-implement the following four functions in their ADQL language,
+implement the following User Defined Functions in their ADQL language,
 given here
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 
@@ -2309,9 +2309,16 @@ arguments containing a hash sign is undefined.
 \texttt{delim}.  NULLs in the aggregate do not contribute, an empty 
 aggregate yields an empty string.
 
+\term[\small\texttt{ivo\_interval\_overlaps(l1 NUMERIC, h1 NUMERIC, 
+  l2 NUMERIC, h2 NUMERIC) -> INTEGER}]
+The function returns 1 if the interval [l1...h1] overlaps with
+the interval [l2...h2].  For the purposes of this function,
+the case l1=h2 or l2=h1 is treated as overlap.  The function
+returns 0 for non-overlapping intervals.
+
 \end{bigdescription}
 
-Reference implementations of the four functions for the PostgreSQL
+Reference implementations of the functions for the PostgreSQL
 database system are given in Appendix \ref{appPGDefs}.  As required for
 UDFs with an \emph{ivo\_} prefix, these functions are also listed in the
 Catalogue of ADQL User Defined Functions \citep{2021ivoa.spec.0310C}.
@@ -2839,7 +2846,7 @@ PL/pgSQL}
 \label{appPGDefs}
 
 What follows are (non-normative) 
-implementations of three of the user defined functions
+implementations of four of the User Defined Functions
 specificed in section \ref{adqludf} in the SQL dialect
 of PostgreSQL (e.g., \citet{doc:Postgres92}).
 
@@ -2882,6 +2889,12 @@ expressions in the ADQL translation layer whenever possible.
       ELSE 0 
     END
   $func$ LANGUAGE SQL;
+
+	CREATE OR REPLACE FUNCTION 
+	  ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, l2 NUMERIC, h2 NUMERIC)
+	RETURNS BOOLEAN AS $func$
+		SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
+	$func$ LANGUAGE SQL STABLE;
 
   -- ivo_string_agg directly corresponds to string_agg; this translation
   -- should be done in the ADQL translator.
