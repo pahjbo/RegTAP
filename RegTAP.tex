@@ -860,31 +860,27 @@ publish such records, the authors of such records should probably be
 asked to use a more specific type.
 \item[vr:service]A resource that can be invoked by a client to perform some action on
 its behalf.
-\item[vs:catalogservice]A service that interacts with one or more specified tables having
-some coverage of the sky, time, and/or frequency.
+\item[vs:catalogservice]A service that interacts with one or more
+specified tables.
+\item[vs:catalogresource] A resource accessible through collective services
+(which would typically be declared through auxiliary capabilities) or non-IVOA protocols
+(typical example: A set of tables accessible within a larger TAP
+service).
 \item[vs:dataservice]A service for accessing astronomical data; publishers choosing
 this over \vorent{vs:CatalogService} probably intend to communicate
-that there are no actual sky positions in the tables exposed.
-\item[vs:datacollection]A schema as a logical grouping of data which, in general, is
-composed of one or more accessible datasets.  Use the
-\rtent{rr.relationship} table to find out services that allow
-access to the data (the \vorent{served\_by} relation), and/or look for values for
-\vorent{/accessURL} in
-\ref{table_res_detail}.
+that the resource does not have an intrinsically tabular structure.
+\item[vs:dataresource] A non-tabular resource accessible through collective
+services (which would typically be declared through auxiliary
+capabilities) or non-IVOA protocols.
+\item[vs:datacollection] A resource type intended by VODataService
+version 1.1 to be used for data-only resources.  Data providers should
+use \vorent{vs:CatalogResource} or \vorent{vs:DataResource} instead.
 \item[vstd:standard]A description of a standard specification.
-
 \end{description}
-
-Note that drafts of VODataService 1.2 under consideration right now
-deprecate \vorent{vr:DataCollection} and replace it with classes more
-directly aligned with \vorent{vr:DataService} and
-\vorent{vr:CatalogService}.  Since usual data discovery queries do not
-constrain \rtent{res\_type}, it is not forseen that these developments
-will influence typical RegTAP services or clients.
 
 The \vorent{status} attribute of \vorent{vr:Resource} is
 considered an implementation detail of the XML serialization and is not
-kept here.  Neither \vorent{inactive} nor \vorent{deleted}
+reflected here.  Neither \vorent{inactive} nor \vorent{deleted}
 records may be kept in the \rtent{resource} table.  Since all
 other tables in the relational registry should keep a foreign key on the
 \rtent{ivoid} column, this implies that only metadata on
@@ -912,7 +908,7 @@ Unambiguous reference to the resource conforming to the IVOA standard for identi
 \baselineskip=9pt\relax res\_type\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@xsi:type}&
 \footnotesize string&
-Resource type (something like vs:datacollection, vs:catalogservice, etc).\\
+Resource type (something like vg:authority, vs:catalogservice, etc).\\
 
 \baselineskip=9pt\relax created\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:@created}&
