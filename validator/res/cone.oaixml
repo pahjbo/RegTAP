@@ -1,0 +1,643 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href='/static/xsl/oai.xsl' type='text/xsl'?>
+<oai:OAI-PMH xmlns:cs="http://www.ivoa.net/xml/ConeSearch/v1.0" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:stc="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/ConeSearch/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/ConeSearch-v1.0.xsd http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd http://www.ivoa.net/xml/RegistryInterface/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/RegistryInterface-v1.0.xsd http://www.ivoa.net/xml/STC/stc-v1.30.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/stc-v1.30.xsd http://www.ivoa.net/xml/VORegistry/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VORegistry-v1.0.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOResource-v1.0.xsd http://www.ivoa.net/xml/VODataService/v1.1 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.1.xsd http://www.w3.org/1999/xlink http://vo.ari.uni-heidelberg.de/docs/schemata/xlink.xsd">
+  <oai:responseDate>2013-06-13T12:58:46Z</oai:responseDate>
+  <oai:request metadataPrefix="ivo_vor" verb="GetRecord"/>
+  <oai:GetRecord>
+    <oai:record>
+      <oai:header>
+        <oai:identifier>ivo://x-invalid-test/ARIHIP/q/cone</oai:identifier>
+        <oai:datestamp>2012-10-01T09:34:25Z</oai:datestamp>
+        <oai:setSpec>ivo_managed</oai:setSpec>
+        <oai:setSpec>local</oai:setSpec>
+      </oai:header>
+      <oai:metadata>
+        <ri:Resource created="2010-11-03T10:13:00" status="active" updated="2013-03-05T16:19:33" xsi:type="vs:CatalogService">
+          <title>ARIHIP astrometric catalogue</title>
+          <shortName>arihip cone</shortName>
+          <identifier>ivo://x-invalid-test/ARIHIP/q/cone</identifier>
+          <curation>
+            <publisher>The GAVO DC team</publisher>
+            <creator>
+              <name>Wielen, R.; Schwan, H.; Dettbarn, C.; et al</name>
+            </creator>
+            <date role="updated">2013-03-05T16:19:33</date>
+            <contact>
+              <name>GAVO Data Center Team</name>
+              <address>M&#xF6;nchhofstrasse 12-14, D-69120 Heidelberg</address>
+              <email>gavo@ari.uni-heidelberg.de</email>
+              <telephone>++49 6221 54 1837</telephone>
+            </contact>
+          </curation>
+          <content>
+            <subject>Catalogs</subject>
+            <subject>Astrometry</subject>
+            <subject>Stars: Proper Motions</subject>
+            <description> The catalogue ARIHIP has been constructed by selecting the 'best
+data' for a given star from combinations of HIPPARCOS data with Boss'
+GC and/or the Tycho-2 catalogue as well as the FK6. It provides 'best
+data' for 90 842 stars with a typical mean error of 0.89 mas/year
+(about a factor of 1.3 better than Hipparcos for this sample of
+stars).</description>
+            <source> Ver&#xF6;ff. Astron. Rechen-Inst. No. 40 (2001);
+http://www/datenbanken/arihip/catalog.html</source>
+            <referenceURL>http://dc.zah.uni-heidelberg.de/arihip/q/cone/info</referenceURL>
+          </content>
+          <capability standardID="ivo://ivoa.net/std/ConeSearch" xsi:type="cs:ConeSearch">
+            <interface role="std" xsi:type="vs:ParamHTTP" version="1.2Bis">
+              <accessURL use="base">http://dc.zah.uni-heidelberg.de/arihip/q/cone/scs.xml?</accessURL>
+              <securityMethod standardID="http://schneier.com/ConFound"/>
+              <securityMethod/>
+              <testQueryString>RA=4.6&amp;DEC=19.69</testQueryString>
+              <queryType>GET</queryType>
+              <resultType>Application/X-votable+xml</resultType>
+              <param std="true" use="required">
+                <name>RA</name>
+                <description>Right Ascension (ICRS decimal)</description>
+                <unit>deg</unit>
+                <ucd>pos.eq.ra</ucd>
+                <utype>stcwhut:pos.long</utype>
+                <dataType>real</dataType>
+              </param>
+              <param std="true">
+                <name>DEC</name>
+                <description>Declination (ICRS decimal)</description>
+                <unit>deg</unit>
+                <ucd>pos.eq.dec</ucd>
+                <dataType>real</dataType>
+              </param>
+              <param std="true">
+                <name>SR</name>
+                <description>Search radius</description>
+                <unit>deg</unit>
+                <dataType>real</dataType>
+              </param>
+              <param std="false" use="optional">
+                <name>HipNo</name>
+                <description>Number of the star in the HIPPARCOS Catalogue (ESA 1997).</description>
+                <ucd>meta.id;Meta.Main</ucd>
+                <utype>fan:pure.ta.sy</utype>
+                <dataType>integer</dataType>
+              </param>
+            </interface>
+            <maxSR>180.0</maxSR>
+            <maxRecords>10000</maxRecords>
+            <verbosity>true</verbosity>
+            <testQuery>
+              <ra>9.25</ra>
+              <dec>-3.125</dec>
+              <sr>0.00125</sr>
+            </testQuery>
+          </capability>
+          <capability>
+            <interface xsi:type="vr:WebBrowser">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/arihip/q/cone/form</accessURL>
+              <securityMethod standardID="http://schneier.com/ConFound"/>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#availability">
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/arihip/q/cone/availability</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#capabilities">
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/arihip/q/cone/capabilities</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#tables">
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/arihip/q/cone/tableMetadata</accessURL>
+            </interface>
+          </capability>
+          <coverage>
+            <stc:STCResourceProfile>
+              <stc:AstroCoordSystem id="apnebewnttdn">
+                <stc:SpaceFrame id="apeebewnttdn">
+                  <stc:ICRS/>
+                  <stc:UNKNOWNRefPos/>
+                  <stc:SPHERICAL coord_naxes="2"/>
+                </stc:SpaceFrame>
+              </stc:AstroCoordSystem>
+              <stc:AstroCoordArea coord_system_id="apnebewnttdn">
+                <stc:AllSky frame_id="apeebewnttdn" unit="deg"/>
+              </stc:AstroCoordArea>
+            </stc:STCResourceProfile>
+            <waveband>Optical</waveband>
+          </coverage>
+          <tableset>
+            <schema>
+              <name>arihip</name>
+              <title>ARIHIP astrometric catalogue</title>
+              <description> The catalogue ARIHIP has been constructed by selecting the 'best
+data' for a given star from combinations of HIPPARCOS data with Boss'
+GC and/or the Tycho-2 catalogue as well as the FK6. It provides 'best
+data' for 90 842 stars with a typical mean error of 0.89 mas/year
+(about a factor of 1.3 better than Hipparcos for this sample of
+stars).</description>
+              <table>
+                <name>arihip.main</name>
+                <description> The catalogue ARIHIP has been constructed by selecting the 'best
+data' for a given star from combinations of HIPPARCOS data with Boss'
+GC and/or the Tycho-2 catalogue as well as the FK6. It provides 'best
+data' for 90 842 stars with a typical mean error of 0.89 mas/year
+(about a factor of 1.3 better than Hipparcos for this sample of
+stars).</description>
+                <column>
+                  <name>HipNo</name>
+                  <description>Number of the star in the HIPPARCOS Catalogue (ESA 1997).</description>
+                  <ucd>meta.id;Meta.Main</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">int</dataType>
+                </column>
+                <column>
+                  <name>srcsel</name>
+                  <description>Source of the astrometric solution</description>
+                  <ucd>meta.flag</ucd>
+                  <dataType arraysize="*" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>raj2000</name>
+                  <description>Right ascension from a single-star solution</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.ra;meta.main</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>indexed</flag>
+                </column>
+                <column>
+                  <name>dej2000</name>
+                  <description>Declination from a single-star solution</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.dec;meta.main</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>indexed</flag>
+                </column>
+                <column>
+                  <name>pmra</name>
+                  <description>Proper motion in right ascension times cos(delta) for a single-star solution.</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmde</name>
+                  <description>Proper motion in declination for a single-star solution.</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_ra</name>
+                  <description>Central epoch of RA (SI)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.ra;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_ra</name>
+                  <description>Error in RA from the single star solution, with cos(delta) already applied</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmra</name>
+                  <description>Mean error in PM(RA)*cos(delta) from the single star solution</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_de</name>
+                  <description>Central epoch of Dec (SI)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.dec;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_de</name>
+                  <description>Error in Dec from the single star solution</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmde</name>
+                  <description>Mean error in PM(Dec) form the single star solution</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>parallax</name>
+                  <description>Parallax used in deriving the data of the star in the catalogue selected for the ARIHIP. This is either the HIPPARCOS parallax or a photometric/spectroscopic parallax (see Kp).</description>
+                  <unit>deg</unit>
+                  <ucd>pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>e_parallax</name>
+                  <description>Mean error of the parallax</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>kp</name>
+                  <description>Source of the parallax: H Hipparcos, P photometric parallax</description>
+                  <ucd>meta.ref;pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>vrad</name>
+                  <description>Radial velocity as used in calculating the foreshortening effect.</description>
+                  <unit>km/s</unit>
+                  <ucd>phys.veloc;pos.heliocentric</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>mv</name>
+                  <description>Visual magnitude taken from the HIPPARCOS catalogue</description>
+                  <unit>mag</unit>
+                  <ucd>phot.mag;em.opt.V</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>km</name>
+                  <description>Variability flag. See note.</description>
+                  <ucd>meta.code;src.var</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>kbin</name>
+                  <description>Binarity flag. See note.</description>
+                  <ucd>meta.code;multip</ucd>
+                  <dataType arraysize="*" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>kdmu</name>
+                  <description>Based on Delta mu, 1 is a single-star candidate, 2 is a Delta mu binary, and empty values mean uncertain cases</description>
+                  <ucd>meta.code;multip</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>kae</name>
+                  <description>Measure of astrometric quality between 1 and 3, higher is better. Empty values mean the star is not 'astrometrically excellent'.</description>
+                  <ucd>meta.code.qual</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>raltp</name>
+                  <description>Right ascension in LTP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>deltp</name>
+                  <description>Declination in LTP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmraltp</name>
+                  <description>Proper motion in RA, cos(delta) applied, in LTP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmdeltp</name>
+                  <description>Proper motion in Dec in LTP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_raltp</name>
+                  <description>Central epoch of RA (LTP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.ra;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_raltp</name>
+                  <description>Error in RA (LTP) with cos(delta) already applied</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmraltp</name>
+                  <description>Mean error in PM(RA)*cos(delta) in LTP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_deltp</name>
+                  <description>Central epoch of Dec (LTP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.dec;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_deltp</name>
+                  <description>Error in Dec (LTP)</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmdeltp</name>
+                  <description>Mean error in PM(Dec) in LTP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>rastp</name>
+                  <description>Right ascension in STP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>destp</name>
+                  <description>Declination in STP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmrastp</name>
+                  <description>Proper motion in RA, cos(delta) applied, in STP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmdestp</name>
+                  <description>Proper motion in Dec in STP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_rastp</name>
+                  <description>Central epoch of RA (STP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.ra;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_rastp</name>
+                  <description>Error in RA (STP) with cos(delta) already applied</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmrastp</name>
+                  <description>Mean error in PM(RA)*cos(delta) in STP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_destp</name>
+                  <description>Central epoch of Dec (STP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.dec;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_destp</name>
+                  <description>Error in Dec (STP)</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmdestp</name>
+                  <description>Mean error in PM(Dec) in STP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>rahip</name>
+                  <description>Right ascension in HIP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>dehip</name>
+                  <description>Declination in HIP mode</description>
+                  <unit>deg</unit>
+                  <ucd>pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">double</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmrahip</name>
+                  <description>Proper motion in RA, cos(delta) applied, in HIP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>pmdehip</name>
+                  <description>Proper motion in Dec in HIP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_rahip</name>
+                  <description>Central epoch of RA (HIP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.ra;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_rahip</name>
+                  <description>Error in RA (HIP) with cos(delta) already applied</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmrahip</name>
+                  <description>Mean error in PM(RA)*cos(delta) in HIP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.ra</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>t_dehip</name>
+                  <description>Central epoch of Dec (HIP)</description>
+                  <unit>yr</unit>
+                  <ucd>time.epoch;pos.eq.dec;stat.error</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_dehip</name>
+                  <description>Error in Dec (HIP)</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_pmdehip</name>
+                  <description>Mean error in PM(Dec) in HIP mode</description>
+                  <unit>deg/yr</unit>
+                  <ucd>stat.error;pos.pm;pos.eq.dec</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>parallaxsi</name>
+                  <description>Parallax obtained in solution SI</description>
+                  <unit>deg</unit>
+                  <ucd>pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_parallaxsi</name>
+                  <description>Error in parallax obtained in solution SI</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>parallaxstp</name>
+                  <description>Parallax obtained in solution STP</description>
+                  <unit>deg</unit>
+                  <ucd>pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_parallaxstp</name>
+                  <description>Error in parallax obtained in solution STP</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>parallaxhip</name>
+                  <description>Parallax obtained in solution HIP</description>
+                  <unit>deg</unit>
+                  <ucd>pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>err_parallaxhip</name>
+                  <description>Error in parallax obtained in solution HIP</description>
+                  <unit>deg</unit>
+                  <ucd>stat.error;pos.parallax</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>ffh</name>
+                  <description>F-Measure for proper motions FK5 proper motions vs. Hipparcos</description>
+                  <ucd>pos.pm;arith.diff;stat.fit.goodness</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>ff0h</name>
+                  <description>F-Measure for proper motions original catalogue positions vs. Hipparcos</description>
+                  <ucd>pos.pm;arith.diff;stat.fit.goodness</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>ff0gch</name>
+                  <description>F-Measure for proper motions GC positions vs. Hipparcos</description>
+                  <ucd>pos.pm;arith.diff;stat.fit.goodness</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>f0f</name>
+                  <description>F-Measure for proper motions FK5 and Hipparcos positions vs. FK5 proper motions</description>
+                  <ucd>pos.pm;arith.diff;stat.fit.goodness</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>ft2h</name>
+                  <description>F-Measure for proper motions Tycho2 and Hipparcos proper motions</description>
+                  <ucd>pos.pm;arith.diff;stat.fit.goodness</ucd>
+                  <dataType arraysize="1" xsi:type="vs:VOTableType">float</dataType>
+                  <flag>nullable</flag>
+                </column>
+                <column>
+                  <name>flags</name>
+                  <description>Binarity evidence and variability flags (see note)</description>
+                  <ucd>meta.code</ucd>
+                  <dataType arraysize="*" xsi:type="vs:VOTableType">char</dataType>
+                  <flag>nullable</flag>
+                </column>
+              </table>
+            </schema>
+          </tableset>
+        </ri:Resource>
+      </oai:metadata>
+    </oai:record>
+  </oai:GetRecord>
+</oai:OAI-PMH>

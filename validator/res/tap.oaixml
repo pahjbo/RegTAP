@@ -1,0 +1,206 @@
+<?xml version="1.0"?>
+<oai:OAI-PMH xmlns:cs="http://www.ivoa.net/xml/ConeSearch/v1.0" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:sia="http://www.ivoa.net/xml/SIA/v1.0" xmlns:ssap="http://www.ivoa.net/xml/SSA/v1.0" xmlns:stc="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" xmlns:tr="http://www.ivoa.net/xml/TAPRegExt/v1.0" xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xmlns:vstd="http://www.ivoa.net/xml/StandardsRegExt/v1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/STC/stc-v1.30.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/stc-v1.30.xsd http://www.ivoa.net/xml/SSA/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/SSA-v1.0.xsd http://www.ivoa.net/xml/VORegistry/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VORegistry-v1.0.xsd http://www.ivoa.net/xml/TAPRegExt/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/TAPRegExt-v1.0.xsd http://www.w3.org/1999/xlink http://vo.ari.uni-heidelberg.de/docs/schemata/xlink.xsd http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd http://www.ivoa.net/xml/SIA/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/SIA-v1.0.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOResource-v1.0.xsd http://www.ivoa.net/xml/VODataService/v1.1 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.1.xsd http://www.ivoa.net/xml/StandardsRegExt/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/StandardsRegExt-1.0.xsd http://www.ivoa.net/xml/ConeSearch/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/ConeSearch-v1.0.xsd http://www.ivoa.net/xml/RegistryInterface/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/RegistryInterface-v1.0.xsd">
+  <oai:responseDate>2012-02-10T12:21:32Z</oai:responseDate>
+  <oai:request metadataPrefix="ivo_vor" verb="ListRecords"/>
+  <oai:ListRecords>
+    <oai:record>
+      <oai:header>
+        <oai:identifier>ivo://x-invalid-test/__system__/tap/run</oai:identifier>
+        <oai:datestamp>2012-01-19T13:45:56Z</oai:datestamp>
+        <oai:setSpec>ivo_managed</oai:setSpec>
+        <oai:setSpec>local</oai:setSpec>
+      </oai:header>
+      <oai:metadata>
+        <ri:Resource created="2009-12-01T10:00:00" status="active" updated="2012-01-26T14:31:40" xsi:type="vs:CatalogService">
+          <title>GAVO Data Center TAP service</title>
+          <shortName>GAVO DC TAP</shortName>
+          <identifier>ivo://x-invalid-test/__system__/tap/run</identifier>
+          <curation>
+            <publisher>The GAVO DC team</publisher>
+            <creator>
+              <name>GAVO Data Center</name>
+              <logo>http://vo.ari.uni-heidelberg.de/docs/GavoTiny.png</logo>
+            </creator>
+            <date role="updated">2012-01-26T14:31:40</date>
+            <contact>
+              <name>GAVO Data Center Team</name>
+              <address>Moenchhofstrasse 12-14, D-69120 Heidelberg</address>
+              <email>gavo@ari.uni-heidelberg.de</email>
+              <telephone>++49 6221 54 1837</telephone>
+            </contact>
+          </curation>
+          <content>
+            <subject>Virtual observatory</subject>
+            <subject>Catalogs</subject>
+            <description>The GAVO data center's TAP end point. The Table Access Protocol (TAP)
+lets you execute queries against our database tables, inspect various
+metadata, and upload your own data. It is thus the VO's premier way to
+access public data holdings.
+
+Tables exposed through this endpoint include: \tablesForTAP.</description>
+            <referenceURL>http://dc.zah.uni-heidelberg.de/__system__/tap/run/info</referenceURL>
+            <relationship>
+              <relationshipType>service-for</relationshipType>
+              <relatedResource ivo-id="ivo://org.gavo.dc/maidanak/res/rawframes/rawframes">Maidanak Observatory Lens Images</relatedResource>
+              <relatedResource ivo-id="ivo://org.gavo.dc/apo/res/apo/frames">Apache Point observations of lensed quasars</relatedResource>
+              <relatedResource ivo-id="ivo://org.gavo.dc/fk6/q/collection">The Sixth Fundamental Catalogue</relatedResource>
+              <relatedResource ivo-id="ivo://org.gavo.dc/danish/red/data">Danish Observatory Lens Images</relatedResource>
+              <relatedResource ivo-id="ivo://org.gavo.dc/liverpool/res/rawframes/rawframes">Liverpool Quasar Lens Monitoring</relatedResource>
+            </relationship>
+          </content>
+          <capability standardID="ivo://ivoa.net/std/TAP" xsi:type="tr:TableAccess">
+            <interface role="std" xsi:type="vs:ParamHTTP">
+              <accessURL use="base">http://dc.zah.uni-heidelberg.de/__system__/tap/run/tap</accessURL>
+            </interface>
+            <dataModel ivo-id="ivo://ivoa.net/std/ObsCore-1.0">ObsCore 1.0</dataModel>
+            <language>
+              <name>ADQL</name>
+              <version ivo-id="ivo://ivoa.net/std/ADQL#v2.0">2.0</version>
+              <description>ADQL 2.0</description>
+              <languageFeatures type="ivo://ivoa.net/std/TAPRegExt#features-udf">
+                <feature>
+                  <form>gavo_hasword(word TEXT, string TEST) -&gt; INTEGER</form>
+                  <description>gavo_hasword returns 1 if word shows up in string, 0 otherwise.  This
+is for "google-like"-searches in text-like fields.  In word, you can
+actually employ a fairly complex query language; see
+http://www.postgresql.org/docs/8.3/static/textsearch.html
+for details.</description>
+                </feature>
+                <feature>
+                  <form>gavo_match(pattern TEXT, string TEXT) -&gt; INTEGER</form>
+                  <description>gavo_match returns 1 if the POSIX regular expression pattern
+matches anything in string, 0 otherwise.</description>
+                </feature>
+              </languageFeatures>
+              <languageFeatures type="ivo://ivoa.net/std/TAPRegExt#features-adqlgeo">
+                <feature>
+                  <form>BOX</form>
+                </feature>
+                <feature>
+                  <form>POINT</form>
+                </feature>
+                <feature>
+                  <form>CIRCLE</form>
+                </feature>
+                <feature>
+                  <form>POLYGON</form>
+                </feature>
+                <feature>
+                  <form>REGION</form>
+                </feature>
+                <feature>
+                  <form>CENTROID</form>
+                </feature>
+                <feature>
+                  <form>COORD1</form>
+                </feature>
+                <feature>
+                  <form>COORD2</form>
+                </feature>
+                <feature>
+                  <form>DISTANCE</form>
+                </feature>
+                <feature>
+                  <form>CONTAINS</form>
+                </feature>
+                <feature>
+                  <form>INTERSECTS</form>
+                </feature>
+                <feature>
+                  <form>AREA</form>
+                </feature>
+              </languageFeatures>
+            </language>
+            <outputFormat ivo-id="ivo://ivoa.net/std/TAPRegExt#output-votable-binary">
+              <mime>text/xml</mime>
+            </outputFormat>
+            <outputFormat ivo-id="ivo://ivoa.net/std/TAPRegEXT#output-votable-td">
+              <mime>application/x-votable+xml;encoding=tabledata</mime>
+              <alias>votable/td</alias>
+            </outputFormat>
+            <outputFormat>
+              <mime>text/html</mime>
+              <alias>html</alias>
+            </outputFormat>
+            <uploadMethod ivo-id="ivo://ivoa.net/std/TAPRegExt#upload-inline"/>
+            <uploadMethod ivo-id="ivo://ivoa.net/std/TAPRegExt#upload-http"/>
+            <retentionPeriod>
+              <default>172800</default>
+            </retentionPeriod>
+            <executionDuration>
+              <default>3600</default>
+            </executionDuration>
+            <outputLimit>
+              <default unit="row">2000</default>
+              <hard unit="row">20000000</hard>
+            </outputLimit>
+            <uploadLimit>
+              <hard unit="byte">20000000</hard>
+            </uploadLimit>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#availability">
+          	<description>Knock here</description>
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/__system__/tap/run/availability</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#capabilities">
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/__system__/tap/run/capabilities</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://ivoa.net/std/VOSI#tables">
+            <interface xsi:type="vs:ParamHTTP">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/__system__/tap/run/tableMetadata</accessURL>
+            </interface>
+          </capability>
+          <capability standardID="ivo://org.gavo.dc/misc/tapexamples">
+            <interface xsi:type="vr:WebBrowser">
+              <accessURL use="full">http://dc.zah.uni-heidelberg.de/__system__/tap/run/tapexamples</accessURL>
+            </interface>
+          </capability>
+          <tableset>
+            <schema>
+              <name>califa</name>
+              <title>Calar Alto Legacy Integral Field spectroscopy Area survey</title>
+              <description>CALIFA provides a set of spectra obtained...
+
+THIS IS, SO FAR, A TEST. DO NOT USE ANYTHING YOU GET FROM HERE.</description>
+              <table>
+                <name>califa.fluxpos</name>
+                <description> A simple join giving a data cube (position/wavelength) for CALIFA
+data. NOTE: THIS IS A TEST. DO NOT USE ANY OF THIS</description>
+                <column>
+                  <name>col2</name>
+                  <description>Another random column</description>
+                  <ucd>TEST.other.value</ucd>
+                  <dataType xsi:type="vs:VOTableType">int</dataType>
+                </column>
+              </table>
+            </schema>
+            <schema>
+              <name>ppmXL</name>
+              <title>The XL of PPMX</title>
+              <description>This is 2MASS plus USNOB plus PPMX</description>
+              <utype>fan:Ta.sy</utype>
+              <table type="Base_Table">
+                <name>Ppmxl.Data</name>
+              	<title>PPMXL Objects</title>
+                <description>The positions, proper motions, photometry, and
+                all that.</description>
+                <utype>fan:Ta.sy.ANY</utype>
+                <column>
+                  <name>col1</name>
+                  <description>Some random stupid column</description>
+                  <ucd>test.some.value</ucd>
+                  <dataType arraysize="*" xsi:type="vs:VOTableType">char</dataType>
+                </column>
+
+              </table>
+             </schema>
+          </tableset>
+        </ri:Resource>
+      </oai:metadata>
+    </oai:record>
+  </oai:ListRecords>
+</oai:OAI-PMH>

@@ -1,0 +1,42 @@
+<?xml-stylesheet href='/static/xsl/oai.xsl' type='text/xsl'?><oai:OAI-PMH xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd"><oai:responseDate>2013-02-18T13:58:03Z</oai:responseDate><oai:request metadataPrefix="ivo_vor" verb="GetRecord"/><oai:GetRecord xmlns:agr="urn:astrogrid:schema:RegistryStoreResource:v1" xmlns:avl="http://www.ivoa.net/xml/VOSIAvailability/v1.0" xmlns:ca="urn:astrogrid:schema:CeaApplicationDefinition" xmlns:cap0="urn:astrogrid:schema:Capabilities" xmlns:cap="http://www.ivoa.net/xml/VOSICapabilities/v1.0" xmlns:cea0="http://www.ivoa.net/xml/CEA/v1.0" xmlns:cea="http://www.ivoa.net/xml/CEA/v1.0rc1" xmlns:ceab0="http://www.ivoa.net/xml/CEA/base/v1.1" xmlns:ceab="http://www.ivoa.net/xml/CEA/base/v1.0" xmlns:ceaimpl0="http://www.astrogrid.org/schema/CEAImplementation/v2.1" xmlns:ceaimpl="http://www.astrogrid.org/schema/CEAImplementation/v2.0" xmlns:ceat0="http://www.ivoa.net/xml/CEA/types/v1.2" xmlns:ceat="http://www.ivoa.net/xml/CEA/types/v1.1" xmlns:cs="http://www.ivoa.net/xml/ConeSearch/v1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:impl="http://www.astrogrid.org/schema/CEAImplementation/v1.0" xmlns:ns1="http://www.astrogrid.org/wsdl/RegistryUpdate/v1.0" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:osn="http://www.ivoa.net/xml/OpenSkyNode/v0.2" xmlns:plan="http://docs.g-vo.org/std/TAPPlan.xsd" xmlns:ri0="http://www.ivoa.net/xml/RegistryInterface/v0.1" xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0" xmlns:sia0="http://www.ivoa.net/xml/SimpleImageAccess/v1.0" xmlns:sia="http://www.ivoa.net/xml/SIA/v1.0" xmlns:sla="http://www.ivoa.net/xml/SLA/v0.2" xmlns:sn="http://www.ivoa.net/xml/SkyNode/v0.2" xmlns:ssa0="http://www.ivoa.net/xml/SSA/v1.02" xmlns:ssa="http://www.ivoa.net/xml/SSA/v0.4" xmlns:ssap="http://www.ivoa.net/xml/SSA/v1.0" xmlns:stap="urn:astrogrid:schema:vo-resource-types:STAP:v1.0" xmlns:stc="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" xmlns:std="http://www.ivoa.net/xml/VOStandard/v0.1" xmlns:tab="urn:astrogrid:schema:TableMetadata" xmlns:tap="http://www.ivoa.net/xml/TAP/v0.1" xmlns:tr0="http://www.ivoa.net/xml/TAP/v1.0" xmlns:tr="http://www.ivoa.net/xml/TAPRegExt/v1.0" xmlns:tsa="http://www.ivoa.net/xml/TSA/v0.2" xmlns:uws0="http://www.ivoa.net/xml/UWS/v0.9.1" xmlns:uws1="http://www.ivoa.net/xml/UWS/v0.9.2" xmlns:uws="http://www.ivoa.net/xml/UWS/v1.0" xmlns:va="http://www.ivoa.net/xml/VOApplication/v1.0rc1" xmlns:vg="http://www.ivoa.net/xml/VORegistry/v1.0" xmlns:vot1="http://www.ivoa.net/xml/VOTable/v1.1" xmlns:vot="http://www.ivoa.net/xml/VOTable/v1.2" xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" xmlns:vs0="http://www.ivoa.net/xml/VODataService/v1.0" xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1" xmlns:vstd="http://www.ivoa.net/xml/StandardsRegExt/v1.0" xmlns:xdtn="http://www.w3.org/2004/07/xpath-datatypes" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xu="http://www.xmldb.org/xupdate" xsi:schemaLocation="http://www.ivoa.net/xml/VORegistry/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VORegistry-v1.0.xsd http://www.ivoa.net/xml/TAPRegExt/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/TAPRegExt-v1.0.xsd http://www.w3.org/1999/xlink http://vo.ari.uni-heidelberg.de/docs/schemata/xlink.xsd http://www.ivoa.net/xml/VOSIAvailability/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOSIAvailability-v1.0.xsd http://www.ivoa.net/xml/VOTable/v1.2 http://vo.ari.uni-heidelberg.de/docs/schemata/VOTable-1.2.xsd http://www.ivoa.net/xml/VODataService/v1.1 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.1.xsd http://www.ivoa.net/xml/ConeSearch/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/ConeSearch-v1.0.xsd http://www.ivoa.net/xml/SSA/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/SSA-v1.0.xsd http://www.ivoa.net/xml/SIA/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/SIA-v1.0.xsd http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd http://www.ivoa.net/xml/STC/stc-v1.30.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/stc-v1.30.xsd http://www.ivoa.net/xml/StandardsRegExt/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/StandardsRegExt-1.0.xsd http://www.ivoa.net/xml/RegistryInterface/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/RegistryInterface-v1.0.xsd http://www.ivoa.net/xml/VODataService/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.0.xsd http://www.ivoa.net/xml/UWS/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/uws-1.0.xsd http://www.ivoa.net/xml/VOTable/v1.1 http://vo.ari.uni-heidelberg.de/docs/schemata/VOTable-1.1.xsd http://purl.org/dc/elements/1.1/ http://vo.ari.uni-heidelberg.de/docs/schemata/simpledc20021212.xsd http://docs.g-vo.org/std/TAPPlan.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/TAPPlan.xsd http://www.openarchives.org/OAI/2.0/oai_dc/ http://vo.ari.uni-heidelberg.de/docs/schemata/oai_dc.xsd http://www.ivoa.net/xml/VOSICapabilities/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOSICapabilities-v1.0.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOResource-v1.0.xsd http://www.w3.org/2001/XMLSchema http://vo.ari.uni-heidelberg.de/docs/schemata/XMLSchema.xsd">
+<oai:record>
+      <oai:header>
+        <oai:identifier>ivo://x-invalid-test/KeckObs</oai:identifier>
+        <oai:datestamp>2008-04-04T16:43:32Z</oai:datestamp>
+        <oai:setSpec>ivo_managed</oai:setSpec>
+      </oai:header>
+      <oai:metadata>
+        <ri:Resource status="active" xsi:type="vr:Organisation" updated="2008-04-04T16:43:32Z" created="2008-04-04T16:43:32Z">
+          <validationLevel validatedBy="ivo://archive.stsci.edu/nvoregistry">2</validationLevel>
+          <title>TEST Observatory</title>
+          <shortName>Keck</shortName>
+          <identifier>ivo://x-invalid-test/KeckObs</identifier>
+          <curation>
+            <publisher>         W. M. Keck Observatory, CARA      </publisher>
+            <contact>
+              <name>S. Thest</name>
+              <email>sthest@keck.hawaii.edu</email>
+            </contact>
+          </curation>
+          <content>
+            <subject>optical astronomy</subject>
+            <subject>optical interferometry</subject>
+            <description>         The Keck Observatory's instruments are the twin Keck         Telescopes, the world's largest optical and infrared         telescopes. Each stands eight stories tall and weighs 300         tons, yet operates with nanometer precision. At the heart of         each Keck Telescope is a revolutionary primary mirror. Ten         meters in diameter, the mirror is composed of 36 hexagonal         segments that work in concert as a single piece of reflective         glass.       </description>
+            <referenceURL>http://www.keckobservatory.org/</referenceURL>
+            <type>Organisation</type>
+            <type>Archive</type>
+            <type>Project</type>
+            <type>Library</type>
+            <type>Other</type>
+            <contentLevel>General</contentLevel>
+            <contentLevel>Research</contentLevel>
+            <relationship>
+              <relationshipType>related-to</relationshipType>
+              <relatedResource ivo-id="ivo://x-invalid-test/6df-ssap">6DF SSAP</relatedResource>
+            </relationship>
+          </content>
+          <facility>Keck Telescopes</facility>
+          <instrument ivo-id="ivo://x-invalid-test/OurTel">Keck Telescope</instrument>
+        </ri:Resource>
+      </oai:metadata>
+    </oai:record></oai:GetRecord></oai:OAI-PMH>
