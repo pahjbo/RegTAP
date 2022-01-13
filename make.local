@@ -1,0 +1,30 @@
+###### utype generation (not required for document build)
+# Path to the XML Schema files in XSDFILES
+DOCPATH=~/gavo/trunk/schemata
+# VOResource XML Schema files
+XSDFILES=VOResource-v1.0.xsd VODataService-v1.1.xsd StandardsRegExt-1.0.xsd\
+	VORegistry-v1.0.xsd SSA-v1.0.xsd ConeSearch-v1.0.xsd SIA-v1.0.xsd\
+	TAPRegExt-v1.0.xsd
+XSLTPROC=xsltproc
+
+utypes.txt: makeutypes.xslt
+	$(XSLTPROC) --path $(DOCPATH) $< $(XSDFILES) | sort | uniq > $@
+
+check_examples:
+	TAP_ACCESS_URL=http://dc.g-vo.org/tap python check_examples.py
+
+localinstall: RegTAP-fmt.html RegTAP.pdf
+	scp RegTAP.pdf RegTAP-arch.png alnilam:/var/www/docs/ridraft/
+	scp ivoadoc/ivoa-extras.css alnilam:/var/www/docs/ridraft/ivoadoc/
+	scp ivoadoc/XMLPrint.css alnilam:/var/www/docs/ridraft/ivoadoc/
+	scp RegTAP-fmt.html alnilam:/var/www/docs/ridraft/index.html
+
+schema.eps: schema.texfig
+	tex schema.texfig
+	dvips schema.dvi
+	ps2eps schema.ps
+	rm schema.dvi schema.log schema.ps
+
+schema.png: schema.eps
+	pstopnm -portrait -stdout -pbm -xsize 2400 $< | pnmscale -reduce 4 |\
+		pnmtopng -compression 9 > $@

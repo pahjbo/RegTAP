@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+
+<responseDate>2012-07-19T15:04:04Z</responseDate>
+<request verb="ListRecords" metadataPrefix="ivo_vor">http://nvo.ncsa.uiuc.edu/cgi-bin/reg10/oai.pl</request>
+
+<ListRecords>
+
+<record>
+<header status="deleted">
+<identifier>ivo://x-unregistred-test/TNG-OIG-SIAP</identifier>
+<datestamp>2012-05-18T08:27:05.14Z</datestamp>
+<setSpec>SIAService</setSpec>
+<setSpec>ivo_managed</setSpec>
+</header>
+<metadata>
+
+<ri:Resource status="deleted" xmlns:sia="http://www.ivoa.net/xml/SIA/v1.1"
+             updated="2012-05-18T08:27:05.14" xmlns=""
+             created="2010-11-30T08:25:52.29" xsi:type="vs:CatalogService"
+             xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0"
+             xmlns:vs="http://www.ivoa.net/xml/VODataService/v1.1"
+             xmlns:stc="http://www.ivoa.net/xml/STC/stc-v1.30.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0"
+             xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://vo.ari.uni-heidelberg.de/docs/schemata/OAI-PMH.xsd http://www.ivoa.net/xml/RegistryInterface/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/RegistryInterface-v1.0.xsd http://www.ivoa.net/xml/STC/stc-v1.30.xsd http://vo.ari.uni-heidelberg.de/docs/schemata/stc-v1.30.xsd http://www.ivoa.net/xml/VOResource/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VOResource-v1.0.xsd http://www.ivoa.net/xml/VODataService/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/VODataService-v1.0.xsd http://www.w3.org/1999/xlink http://vo.ari.uni-heidelberg.de/docs/schemata/xlink.xsd http://www.ivoa.net/xml/SIA/v1.0 http://vo.ari.uni-heidelberg.de/docs/schemata/SIA-v1.0.xsd">
+  <title>TNG OIG (IA2 SIA)</title>
+  <shortName>TNG-OIG</shortName>
+  <identifier>ivo://x-unregistred-test/TNG-OIG-SIAP</identifier>
+  <curation>
+    <publisher ivo-id="ivo://inaf/INAF">
+      
+      
+      INAF            </publisher>
+    <creator>
+      <name>IA2</name>
+    </creator>
+    <date>2010-11-30</date>
+    <contact>
+      <name>IA2</name>
+      <email>invalid@oats.inaf.it</email>
+    </contact>
+  </curation>
+  <content>
+    <subject>Optical Observations</subject>
+    <description>
+      OIG is a CCD camera for direct imaging at optical wavelengths (between
+      0.32 nd 1.1 microns) for the TNG. It is mounted on the Nasmyth A Adapter
+      interface. OIG is designed to host a variety of CCD chips or mosaics for
+      a field of view up to 10 arcmin. At the moment it is equipped with a
+      mosaic of two thinned and back-illuminated EEV 42-80 CCDs with 2048 x
+      4096 pixels each (pixel size of 13.5 microns). The resulting pixel scale
+      is 0.072 arcsec/pix for a total field of view of about 4.9 x 4.9 arcmin.
+    </description>
+    <referenceURL>http://ia2.oats.inaf.it/index.php?option=com_content&amp;view=section&amp;id=4&amp;Itemid=26</referenceURL>
+    <type>Archive</type>
+    <contentLevel>Research</contentLevel>
+  </content>
+  <capability xsi:type="sia:SimpleImageAccess"
+              standardID="ivo://ivoa.net/std/SIA">
+    <interface xsi:type="vs:ParamHTTP" role="std">
+      <accessURL use="base">
+        
+        
+        http://palantir10.oats.inaf.it:8080/ivoa/resources/siap/7?                  </accessURL>
+    </interface>
+    <imageServiceType>Pointed</imageServiceType>
+    <maxQueryRegionSize>
+      <long>360.0</long>
+      <lat>180.0</lat>
+    </maxQueryRegionSize>
+    <maxImageExtent>
+      <long>360.0</long>
+      <lat>180.0</lat>
+    </maxImageExtent>
+    <maxImageSize>2048</maxImageSize>
+    <maxFileSize>9000000</maxFileSize>
+    <maxRecords>10000</maxRecords>
+  </capability>
+  <facility>TNG - Telescopio Nazionale Galileo</facility>
+  <instrument>OIG - Optical Imager Galileo</instrument>
+  <coverage>
+    <stc:STCResourceProfile>
+      <stc:AstroCoordSystem xlink:type="simple"
+                            xlink:href="ivo://STClib/CoordSys#UTC-ICRS-TOPO"
+                            id="inaf_TNG-OIG-SIAP_UTC-ICRS-TOPO"/>
+      <stc:AstroCoordArea coord_system_id="inaf_TNG-OIG-SIAP_UTC-ICRS-TOPO">
+        <stc:AllSky/>
+      </stc:AstroCoordArea>
+    </stc:STCResourceProfile>
+    <waveband>Optical</waveband>
+  </coverage>
+</ri:Resource>
+</metadata>
+</record>
+
+</ListRecords>
+
+</OAI-PMH>
+

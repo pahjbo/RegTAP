@@ -1,0 +1,128 @@
+% This is pstricks source for the figure; you'll not usually have to
+% process this
+\magnification 900
+\input pstricks
+\input pst-node
+\nopagenumbers
+\font\rm cmss10
+\font\bf cmssbx10
+\rm
+\hsize=19cm
+
+\def\figheight{13cm}
+
+\newdimen\boxwidth
+\boxwidth=4.2cm
+
+\psset{linecolor=black,cornersize=absolute}
+
+\outer\def\hamburger#1#2#3#4{\rnode{#2}{
+\psframebox[linearc=5pt,fillstyle=solid,fillcolor=#1]{\vbox{\hsize=\boxwidth
+\vskip 0.1cm
+{\bf\strut #3}
+\smallskip
+\hrule
+\medskip
+#4
+\smallskip
+}}}}
+
+
+\def\col{\item{$\cdot$}}
+
+
+\line{
+	\vbox to \figheight{\hsize=1.3\boxwidth
+		\hamburger{white}{schema}{res\_schema}{%
+\col ivoid
+\col schema\_description
+	}\vfil
+		\hamburger{white}{table}{res\_table}{%
+\col table\_description
+\col table\_name
+\col table\_utype
+	}\vfil
+		\hamburger{white}{column}{table\_column}{%
+\col name
+\col ucd
+\col unit
+\col column\_description
+\col utype
+	}\vfil
+		\hamburger{white}{relationship}{relationship}{%
+\col relationship\_type
+\col related\_id}%
+	}\hfil
+  \vbox to \figheight{\hsize=1.3\boxwidth
+  	\hamburger{white}{role}{res\_role}{%
+\col{role\_name}
+\col{base\_role}}
+  	\vfil
+		\hamburger{white}{identifier}{alt\_identifier}{%
+\col alt\_identifier
+	}\vfil
+    \hamburger{white}{resource}{resource}{%
+\col ivoid
+\col res\_type
+\col res\_title
+\col updated
+\col res\_description
+\col creator\_seq
+\col source\_value
+\col waveband
+	}\vfil
+		\hamburger{white}{subject}{res\_subject}{%
+\col ivoid
+\col res\_subject
+	}\vfil
+		\hamburger{white}{date}{res\_date}{%
+\col date\_value
+\col date\_role
+		}%
+	}\hfil
+	\vbox to \figheight{\hsize=1.3\boxwidth%
+		\hamburger{white}{capability}{capability}{%
+\col standard\_id
+\col cap\_type
+	}\vfil
+		\hamburger{white}{validation}{validation}{%
+\col val\_level
+\col validated\_by
+	}\vfil
+		\hamburger{white}{detail}{res\_detail}{%
+\col detail\_xpath
+\col detail\_value
+	}\vfil
+		\hamburger{white}{interface}{interface}{%
+\col intf\_type
+\col access\_url
+	}\vfil
+		\hamburger{white}{param}{intf\_param}{%
+\col name
+\col ucd
+\col unit
+\col param\_description
+\col utype
+		}%
+	}%
+}
+
+\psset{linecolor=gray,nodesep=4pt,linearc=0.1,arrowsize=2mm,armA=5mm}
+\ncangles[angleB=0,offsetB=-2mm]{->}{role}{resource}
+\ncangles[angleB=0,offsetB=-2mm]{->}{identifier}{resource}
+\ncangles[angleA=180,angleB=180]{->}{identifier}{role}
+\ncangles[offsetB=2mm]{->}{subject}{resource}
+\ncangles[offsetB=2mm]{->}{date}{resource}
+\ncangles[angleB=180]{->}{schema}{resource}
+\ncangles[angleB=180,angleA=180,offsetA=-2mm]{->}{table}{schema}
+\ncangles[angleB=180,angleA=180,offsetB=-2mm]{->}{column}{table}
+\ncangles[angleA=180]{->}{capability}{resource}
+\ncangles[offsetA=2mm]{->}{interface}{capability}
+\ncangles[offsetB=2mm]{->}{param}{interface}
+\ncangles[angleB=180]{->}{relationship}{resource}
+\ncangles[angleA=180]{->}{validation}{resource}
+\ncangles{->}{validation}{capability}
+\ncangles[angleA=180]{->}{detail}{resource}
+\ncangles{->}{detail}{capability}
+
+\bye

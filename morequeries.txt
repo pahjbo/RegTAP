@@ -1,0 +1,3 @@
+Figure out all ivoids coming from a given registry (by registry ivoid):
+
+select ivoid from rr.resource as r join (select detail_value from rr.res_detail where detail_utype like '%managedauthority' and ivoid='ivo://uk.ac.le.star/org.astrogrid.registry.registryservice') as q on r.ivoid like '%' || q.detail_value || '%';

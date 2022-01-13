@@ -1,0 +1,17 @@
+# A gavorc for an isolated testbed of the DaCHS fs hierarchy.  Make sure you
+# have GAVOCUSTOM=/invalid (or comparable) when using this lest this
+# configuration gets contaminated.
+[general]
+rootDir: ~/_gavo_test
+logDir:~/gavo/logs
+# The tests shouldn't send mails, so don't worry.
+maintainerAddress:msdemlei@ari.uni-heidelberg.de
+
+[db]
+profilePath: $configDir
+
+[web]
+enableTests: True
+adminpasswd: loser
+sitename: Unittest Suite
+realm: dachsunit

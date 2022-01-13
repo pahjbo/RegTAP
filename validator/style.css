@@ -1,0 +1,16 @@
+html {
+  background-color: #666;
+}
+body {
+  font-family: sans;
+  max-width: 25em;
+  background-color: white;
+  padding-top: 1ex;
+  padding-bottom: 2ex;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 1ex;
+}
+
