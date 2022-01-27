@@ -215,7 +215,7 @@ This standard also relates to other IVOA standards:
 \begin{description}
 \item[ADQL \citep{2008ivoa.spec.1030O}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
-Language.  Also, we give four functions that extend ADQL using the
+Language.  Also, we give some functions that extend ADQL using the
 language's built-in facility for user-defined functions.
 \end{description}
 
@@ -2235,13 +2235,46 @@ The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain an index on
 the \rtent{alt\_identifier} column.
 
-\section{ADQL User Defined Functions}
+\section{RegTAP Requirements on TAP services}
 
+Since RegTAP deals with text much more intensively than is usual for the
+astrophysical data that TAP and ADQL were designed for and some query
+patterns uncommon in astrophysics significanly help writing RegTAP
+queries, TAP services implementing RegTAP MUST implement some ADQL
+extensions, partly specified as ADQL optional features, partly in ADQL
+User Defined Functions (UDFs).
+
+
+\subsection{ADQL Optional Features requried for RegTAP}
+
+TAP Servers implementing the 
+\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST implement the
+following optional features defined in ADQL 2.1 \citep{NOT-A-REC-YET}:
+
+\begin{bigdescription}
+\item[COALESCE] Primarily in order to make the use of
+\verb|ivo_string_agg| predictable in the presence of NULL values in
+columns like \rtent{standard\_id}, RegTAP services MUST provide the
+COALESCE feature in
+\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-type}.
+
+\item[ILIKE] As a standard alternative to \verb|ivo_nocasematch| as
+employed by RegTAP earlier than 1.2, RegTAP services MUST provide the
+ILIKE feature in
+\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-string}.
+
+\item[WITH] To let clients more clearly structure their queries, RegTAP
+services MUST implement common table expressions as per the WITH feature
+in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
+\end{bigdescription}
+
+\subsection{User Defined Functions required for RegTAP}
 \label{adqludf}
 
 TAP Servers implementing the 
 \texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST
-implement the following four functions in their ADQL language,
+implement the following User Defined Functions in their ADQL language,
+given here
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 
 
@@ -2250,7 +2283,8 @@ with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
 The function returns 1 if \texttt{pat}  matches
 \texttt{value}, 0 otherwise.
 \texttt{pat}  is defined as for the SQL LIKE operator, but the
-match is performed case-insensitively.
+match is performed case-insensitively.  Clients that only talk to RegTAP
+1.2 and later should prefer the ILIKE operator.
 
 \term[\small\texttt{ivo\_hasword(haystack VARCHAR(*), needle VARCHAR(*)) -> INTEGER}]The function takes two strings and returns 1 if the second is
 contained in the first one in a ``word'' sense, i.e., delimited by
@@ -2271,10 +2305,19 @@ arguments containing a hash sign is undefined.
 \texttt{delim}.  NULLs in the aggregate do not contribute, an empty 
 aggregate yields an empty string.
 
+\term[\small\texttt{ivo\_interval\_overlaps(l1 NUMERIC, h1 NUMERIC, 
+  l2 NUMERIC, h2 NUMERIC) -> INTEGER}]
+The function returns 1 if the interval [l1...h1] overlaps with
+the interval [l2...h2].  For the purposes of this function,
+the case l1=h2 or l2=h1 is treated as overlap.  The function
+returns 0 for non-overlapping intervals.
+
 \end{bigdescription}
 
-Reference implementations of the four functions for the PostgreSQL
-database system are given in Appendix \ref{appPGDefs}.
+Reference implementations of the functions for the PostgreSQL
+database system are given in Appendix \ref{appPGDefs}.  As required for
+UDFs with an \emph{ivo\_} prefix, these functions are also listed in the
+Catalogue of ADQL User Defined Functions \citep{2021ivoa.spec.0310C}.
 
 
 
@@ -2799,7 +2842,7 @@ PL/pgSQL}
 \label{appPGDefs}
 
 What follows are (non-normative) 
-implementations of three of the user defined functions
+implementations of four of the User Defined Functions
 specificed in section \ref{adqludf} in the SQL dialect
 of PostgreSQL (e.g., \citet{doc:Postgres92}).
 
@@ -2842,6 +2885,12 @@ expressions in the ADQL translation layer whenever possible.
       ELSE 0 
     END
   $func$ LANGUAGE SQL;
+
+	CREATE OR REPLACE FUNCTION 
+	  ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, l2 NUMERIC, h2 NUMERIC)
+	RETURNS BOOLEAN AS $func$
+		SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
+	$func$ LANGUAGE SQL STABLE;
 
   -- ivo_string_agg directly corresponds to string_agg; this translation
   -- should be done in the ADQL translator.
