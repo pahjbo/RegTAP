@@ -778,6 +778,19 @@ rr.resource\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/}&
  The resources (like services, data collections, organizations)
 present in this registry.\\
+rr.stc\_spatial\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/coverage/spatial}&
+ The spatial coverage of resources.\\
+rr.stc\_spectral\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/coverage/spectral}&
+ The spectral coverage of resources, given as one or more intervals;
+the total coverage is (a subset of) the union of all intervals given
+for a resource.\\
+rr.stc\_temporal\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/coverage/temporal}&
+ The temporal coverage of resources, given as one or more intervals;
+the total coverage is (a subset of) the union of all intervals given
+for a resource.\\
 rr.table\_column\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
  Metadata on columns of a resource's tables.\\
@@ -2235,6 +2248,163 @@ The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain an index on
 the \rtent{alt\_identifier} column.
 
+\subsection{The stc\_spatial Table}
+\label{table_stc_spatial}
+
+Since VODataService 1.2, registry records can represent their resource's
+spatial coverage using spatial MOCs \citep{2019ivoa.spec.1007F}.  The
+\rtent{stc\_spatial} table is a direct reflection of this metadata:
+
+% GENERATED: maketable.sh rr.stc_spatial
+
+\begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.stc\_spatial} table}}\\
+\sptablerule
+
+\baselineskip=9pt\relax ivoid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
+\footnotesize string&
+The parent resource.\\
+
+\baselineskip=9pt\relax coverage\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
+\footnotesize string\hfil\break+moc&
+A geometry representing the area a resource contains data for; this should be tight at least with a resolution of degrees.\\
+
+\baselineskip=9pt\relax ref\_system\_name\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:@frame}&
+\footnotesize string&
+The reference frame coverage is written in. This is currently reserved and fixed to NULL. Clients should always add a constraint to NULL for this to avoid matching non-celestial resources later.\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
+This specification makes no guarantees on whether or not
+\rtent{coverage} is retrievable (i.e., can be used in ADQL select
+clauses) or in what form it will be returned; this is deferred to a
+future DALI version specifying the moc xtype.  Implementations MUST,
+however, evaluate the ADQL CONTAINS and INTERSECTS predicates with
+coverage as one argument and ADQL CIRCLEs and POLYGONs as the other, and
+it must support CONTAINS with an ADQL POINT in the first argument.
+There are no expectations that the predicates are computed exactly, but
+implementations should strive to limit the number of false positives;
+clients are advised that on services supporting MOC literals, it is
+probably much faster and more exact to use MOC-MOC comparisons to query
+\rtent{coverage}.
+
+\subsection{The stc\_temporal Table}
+\label{table_stc_temporal}
+
+Since VODataService 1.2, registry records can represent their resource's
+temporal coverage as a union of time intervals.  The
+\rtent{stc\_temporal} table is a direct reflection of this metadata:
+
+% GENERATED: maketable.sh rr.stc_temporal
+
+\begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.stc\_temporal} table}}\\
+\sptablerule
+
+\baselineskip=9pt\relax ivoid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
+\footnotesize string&
+The parent resource.\\
+
+\baselineskip=9pt\relax time\_start\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
+\footnotesize real&
+Lower limit of a time interval covered by the resource.\\
+
+\baselineskip=9pt\relax time\_end\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
+\footnotesize real&
+Upper limit of a time interval covered by the resource.\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
+Clients are advised that the \verb|ivo_interval_overlaps| user defined
+function is available to conveniently compare a user-specified interval
+of interest to \rtent{time\_start} $\cdots$ \rtent{time\_end}.
+
+The rows for \rtent{time\_start} and \rtent{time\_end} in  
+\tapent{TAP\_SCHEMA.columns} MUST have \texttt{d} in their
+\tapent{unit} column.
+
+
+\subsection{The stc\_spectral Table}
+\label{table_stc_spectral}
+
+Since VODataService 1.2, registry records can represent their resource's
+spectral coverage as a union of energy intervals.  The
+\rtent{stc\_spectral} table is a direct reflection of this metadata:
+
+% GENERATED: maketable.sh rr.stc_spectral
+
+\begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.stc\_spectral} table}}\\
+\sptablerule
+
+\baselineskip=9pt\relax ivoid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/identifier}&
+\footnotesize string&
+The parent resource.\\
+
+\baselineskip=9pt\relax spectral\_start\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
+\footnotesize real&
+Lower limit of an energy interval covered by the resource (for the solar system barycenter).\\
+
+\baselineskip=9pt\relax spectral\_end\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
+\footnotesize real&
+Upper limit of an energy interval covered by the resource (for the solar system barycenter).\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+The \rtent{ivoid} column should be an explicit foreign key into
+\rtent{resource}.
+
+Clients are advised that the \verb|ivo_interval_overlaps| user defined
+function is available to conveniently compare a user-specified intervals
+of interest to \rtent{spectral\_start} $\cdots$ \rtent{spectral\_end}.
+
+The rows for \rtent{spectral\_start} and \rtent{spectral\_end} in  
+\tapent{TAP\_SCHEMA.columns} MUST have \texttt{J} in their
+\tapent{unit} column.
+
+
 \section{RegTAP Requirements on TAP services}
 
 Since RegTAP deals with text much more intensively than is usual for the
@@ -2267,6 +2437,7 @@ ILIKE feature in
 services MUST implement common table expressions as per the WITH feature
 in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \end{bigdescription}
+
 
 \subsection{User Defined Functions required for RegTAP}
 \label{adqludf}

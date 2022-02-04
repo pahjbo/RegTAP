@@ -4,7 +4,7 @@
 
 SELECT_CLAUSE="table_name, utype, description"
 QUERY="select $SELECT_CLAUSE from tap_schema.tables 
-	where table_name like 'rr.%' and not table_name like 'rr.stc%'
+	where table_name like 'rr.%' 
 	and not table_name in ('rr.authorities', 'rr.registries',
 	'rr.g_num_stat', 'rr.subject_uat')
 	order by table_name"

@@ -22,7 +22,8 @@ with missing dependencies.
 
 	<rec name="Identifiers" x="125" y="425" w="60"/>
 
-	<!-- DAL: x=655, y=155..435 -->
 	<rec name="ADQL" x="250" y="160" w="37"/>
   <rec name="TAP" x="686" y="255" w="28"/>
+
+	<rec name="MOC" x="430" y="405" w="33"/>
 </archdiag>

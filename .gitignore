@@ -13,3 +13,4 @@ ivoatexmeta.tex
 *.fdb_latexmk
 *.fls
 gitmeta.tex
+schema.epsi
