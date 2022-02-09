@@ -48,7 +48,8 @@
 
 	<svg x="125" y="425"><rect height="18" x="0" y="0" width="60" class="rec"/><text class="doclabel" y="12.5" x="30">Identifiers</text></svg>
 
-	
 	<svg x="250" y="160"><rect height="18" x="0" y="0" width="37" class="rec"/><text class="doclabel" y="12.5" x="18.5">ADQL</text></svg>
   <svg x="686" y="255"><rect height="18" x="0" y="0" width="28" class="rec"/><text class="doclabel" y="12.5" x="14">TAP</text></svg>
+
+	<svg x="430" y="405"><rect height="18" x="0" y="0" width="33" class="rec"/><text class="doclabel" y="12.5" x="16.5">MOC</text></svg>
 </g></svg>

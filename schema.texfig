@@ -9,7 +9,7 @@
 \rm
 \hsize=19cm
 
-\def\figheight{13cm}
+\def\figheight{14.5cm}
 
 \newdimen\boxwidth
 \boxwidth=4.2cm
@@ -31,7 +31,7 @@
 \def\col{\item{$\cdot$}}
 
 
-\line{
+\noindent\line{%
 	\vbox to \figheight{\hsize=1.3\boxwidth
 		\hamburger{white}{schema}{res\_schema}{%
 \col ivoid
@@ -51,7 +51,10 @@
 	}\vfil
 		\hamburger{white}{relationship}{relationship}{%
 \col relationship\_type
-\col related\_id}%
+\col related\_id}\vfil
+		\hamburger{white}{temporal}{stc\_temporal}{%
+\col time\_start
+\col time\_end}%
 	}\hfil
   \vbox to \figheight{\hsize=1.3\boxwidth
   	\hamburger{white}{role}{res\_role}{%
@@ -78,6 +81,9 @@
 		\hamburger{white}{date}{res\_date}{%
 \col date\_value
 \col date\_role
+	}\vfil
+		\hamburger{white}{spatial}{stc\_spatial}{%
+\col coverage
 		}%
 	}\hfil
 	\vbox to \figheight{\hsize=1.3\boxwidth%
@@ -103,6 +109,10 @@
 \col unit
 \col param\_description
 \col utype
+		}\vfil
+		\hamburger{white}{spectral}{stc\_spectral}{%
+\col spectral\_start
+\col spectral\_end
 		}%
 	}%
 }
@@ -113,7 +123,7 @@
 \ncangles[angleA=180,angleB=180]{->}{identifier}{role}
 \ncangles[offsetB=2mm]{->}{subject}{resource}
 \ncangles[offsetB=2mm]{->}{date}{resource}
-\ncangles[angleB=180]{->}{schema}{resource}
+\ncangles[angleB=180,offsetB=2mm]{->}{schema}{resource}
 \ncangles[angleB=180,angleA=180,offsetA=-2mm]{->}{table}{schema}
 \ncangles[angleB=180,angleA=180,offsetB=-2mm]{->}{column}{table}
 \ncangles[angleA=180]{->}{capability}{resource}
@@ -125,4 +135,7 @@
 \ncangles[angleA=180]{->}{detail}{resource}
 \ncangles{->}{detail}{capability}
 
+\ncangles{spatial}{resource}
+\ncangles[angleA=180]{spectral}{resource}
+\ncangles[angleB=180,offsetB=-2mm]{->}{temporal}{resource}
 \bye

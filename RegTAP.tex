@@ -14,9 +14,18 @@
 \definecolor{rtcolor}{rgb}{0.15,0.4,0.3}
 \definecolor{tapcolor}{rgb}{0.4,0.1,0.1}
 
-\newcommand{\rtent}[1]{\texttt{\color{rtcolor} #1}}
-\newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
 
+\iftth
+\def\rtent#1{\texttt{\color{rtcolor}\verb|#1|}}
+\else
+\makeatletter
+\def\makeunderscoreletter{\catcode`\_=12}
+\def\makeunderscoresubscript{\catcode`\_=8}
+\def\rtent{\makeunderscoreletter\relax\rt@nt}
+\def\rt@nt#1{\texttt{\color{rtcolor} #1}\makeunderscoresubscript{}}
+\makeatother
+\fi
+\newcommand{\tapent}[1]{\texttt{\color{tapcolor} #1}}
 
 \ivoagroup{Registry}
 
@@ -96,7 +105,7 @@ metadata records as well as conditions on foreign keys and
 recommendations on indexes.
 
 The resulting set of tables has a modest size by today's standards,
-but is still non-trivial.  The largest table, \rtent{table\_column},
+but is still non-trivial.  The largest table, \makeunderscoreletter\rtent{table_column},
 has about a million rows at the time of writing.
 
 The architecture laid out here allows client applications to perform ``canned''
@@ -177,7 +186,7 @@ model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
-\item[VODataService, v1.1 \citep{2010ivoa.spec.1202P}] VODataService 
+\item[VODataService, v1.2 \citep{2021ivoa.spec.1102D}] VODataService 
 de\-scribes several concepts and resource types extending 
 VOResource's data model, including
 tablesets, data services and data
@@ -186,7 +195,7 @@ schema.  Again xpaths link this specification and VODataService.
 \item[Other Registry Extensions]Registry extensions are VO standards
 defining how particular resources (e.g., Standards) or capabilities
 (e.g., IVOA defined interfaces) are described.  Most aspects
-introduced by them are reflected in the \rtent{res\_detail} table using
+introduced by them are reflected in the \rtent{res_detail} table using
 xpaths into the registry documents.
 The present standard should not in general need updates
 for registry extension updates.  For completeness, we note the
@@ -236,8 +245,8 @@ entities (name, description, etc.) and would therefore interfere with
 the natural join, a shortened tag for the source object
 is prepended to the name.  Thus, a \vorent{description} element within
 a resource ends up in a column named
-\rtent{res\_description}, whereas the same element from a
-\vorent{capability} becomes \rtent{cap\_description}.
+\rtent{res_description}, whereas the same element from a
+\vorent{capability} becomes \rtent{cap_description}.
 
 We further renamed some columns and most tables 
 with respect to their VOResource
@@ -250,7 +259,7 @@ proposed here.
 
 Furthermore, camel-case identifiers have been converted to
 underscore-separated ones (thus, \vorent{standardID}  becomes
-\rtent{standard\_id}) to have all-lowercase column names; this saves
+\rtent{standard_id}) to have all-lowercase column names; this saves
 potential headache if users choose to reference the columns using SQL
 delimited identifiers.  Dashes in VOResource attribute names are
 converted to underscores, too, with the exception of
@@ -261,7 +270,7 @@ operating on the same set of registry records will return identical responses
 for most queries; hence, we try to avoid relying on features left not
 defined by ADQL (e.g., the case sensitivity of string matches).  However,
 with a view to non-uniform support for information retrieval-type
-queries in database systems, the \rtent{ivo\_hasword} user defined
+queries in database systems, the \rtent{ivo_hasword} user defined
 function is not fully specified here; queries employing it may yield
 different results on different implementations, even if they operate on
 the same set of resource records.
@@ -285,13 +294,13 @@ we expect definitions according to our recommendations will enhance
 robustness of services.
 
 In several RegTAP tables -- \rtent{capability},
-\rtent{res\_schema}, \rtent{res\_table}, and
+\rtent{res_schema}, \rtent{res_table}, and
 \rtent{interface} -- artificial primary keys are necessary, as
 in VOResource XML sibling elements are not otherwise distinguished.  To
 allow such artificial primary keys, a column is added to each table, the
-name of which ends in \texttt{\_index} (\rtent{cap\_index},
-\rtent{schema\_index}, \rtent{table\_index}, and
-\rtent{intf\_index}).
+name of which ends in \texttt{\_index} (\rtent{cap_index},
+\rtent{schema_index}, \rtent{table_index}, and
+\rtent{intf_index}).
 
 The type and content of these \texttt{X\_index} columns is
 implementation-defined, and clients must not make assumptions on their
@@ -339,7 +348,7 @@ exclusively of whitespace in RegTAP.  The treatment of internal
 whitespace is implementation-defined. This reflects the expectation
 that, wherever multi-word items are queried, whitespace-ignoring
 constraints will be used (e.g., LIKE-based regular expressions or the
-\rtent{ivo\_hasword} user defined function defined below).
+\rtent{ivo_hasword} user defined function defined below).
 
 
 \subsection{NULL/Empty string normalization}
@@ -406,9 +415,9 @@ Neither TAP nor ADQL mention non-ASCII in service parameters -- in
 particular the queries -- or returned values.  For RegTAP, that is
 unfortunate, as several columns will contain relevant non-ASCII
 characters.  Columns for which extra care is necessary include all
-descriptions, \rtent{res\_title} and \rtent{creator\_seq} in
-\rtent{rr.resource}, as well as \rtent{role\_name} and
-\rtent{street\_address} in \rtent{rr.res\_role}.
+descriptions, \rtent{res_title} and \rtent{creator_seq} in
+\rtent{rr.resource}, as well as \rtent{role_name} and
+\rtent{street_address} in \rtent{rr.res_role}.
 
 RegTAP implementations SHOULD be able to faithfully represent all
 characters defined in the latest version of the Unicode standard 
@@ -453,7 +462,7 @@ of these vocabularies are only available as a Working Draft
 \citep{wd:voc2}; we therefore cannot require the use of these vocabulary
 representations at this point.
 
-For RegTAP 1.1, these vocabulary resources are relevant because the
+For RegTAP, these vocabulary resources are relevant because the
 VOResource relationship types and date roles contain some deprecated
 terms kept for compatibility with VOResource 1.0, together with guidance
 what to use instead.  In order to simplify the usage of
@@ -506,7 +515,7 @@ versions.  For consistency, and because there should not really be
 discovery use cases based on minor versions of XML schemas, all
 namespace URIs for the same major version of a standard have the same
 canonical prefix -- e.g., both VODataService
-1.0 and VODataService 1.1 use \texttt{vs:}.  
+1.1 and VODataService 1.2 use \texttt{vs:}.  
 
 For reference, here is
 a table of XML namespace URIs and prefixes for schemata in common use at
@@ -604,12 +613,12 @@ services.  Giving xpaths for extra columns and tables helps human
 interpretation of them at least when the defining schema files are
 available.
 
-Resource xpaths are also used in the \rtent{res\_detail} table (section
+Resource xpaths are also used in the \rtent{res_detail} table (section
 \ref{table_res_detail}).  These are normal xpaths
 (although again understood relative to the enclosing Resource element),
 which, in particular, means that they are case sensitive.  On the other
 hand, to clients they are simply opaque strings, i.e., clients cannot
-just search for any xpaths into VOResource within \rtent{res\_detail}.
+just search for any xpaths into VOResource within \rtent{res_detail}.
 
 Non-normatively, we give an XSLT
 sheet\footnote{\auxiliaryurl{makeutypes.xslt}} producing resource xpaths
@@ -625,15 +634,15 @@ the stylesheet would need to be amended.
 
 The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
-data model \texttt{Registry 1.1} with the IVOID
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}$$ in the service's
+data model \texttt{Registry 1.2} with the IVOID
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}$$ in the service's
 capabilities as governed by TAPRegExt \citep{2012ivoa.spec.0827D}.  Technically, this
 entails adding
 
 
 \begin{verbatim}
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.1"
-  >Registry 1.1</dataModel>
+<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.2"
+  >Registry 1.2</dataModel>
 \end{verbatim}
 
 as a child of the capability element with the type
@@ -674,7 +683,7 @@ In both \tapent{TAP\_SCHEMA} and the VODataService tableset, the
 \tapent{rr} schema
 MUST be associated with a \tapent{utype} matching the data model
 identifier given in sect.~\ref{registration}, i.e.,
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.1}.$$
+$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
@@ -738,7 +747,7 @@ key-like relationships.}
 \textbf{Name and UType}&\textbf{Description}\\
 \sptablerule
 rr.alt\_identifier\hfil\break
-\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(curation/creator/|)altIdentifier}&
+\makebox[0pt][l]{\scriptsize\texttt{xpath:/(curation/creator/|)altIdentifier}}&
  An alternate identifier associated with this record.\\
 rr.capability\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
@@ -800,7 +809,7 @@ Validation levels for resources and capabilities.\\
 
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.2}}
 \label{table:dm}
 \end{table}
 
@@ -814,12 +823,12 @@ Validation levels for resources and capabilities.\\
 The \rtent{rr.resource} table contains most atomic members of
 \rtent{vr:Resource} that have a 1:1 relationship to the resource
 itself.  Members of derived types are, in general, handled through 
-the \rtent{res\_detail}
+the \rtent{res_detail}
 table even if 1:1 (see \ref{table_res_detail}).  The
-\rtent{content\_level}, \rtent{content\_type}, and \rtent{waveband}
+\rtent{content_level}, \rtent{content_type}, and \rtent{waveband}
 members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
-characters (\#).  Use the \rtent{ivo\_hashlist\_has} ADQL extension
+characters (\#).  Use the \rtent{ivo_hashlist_has} ADQL extension
 function to check for the presence of a single value.  This convention
 saves on tables while not complicating common queries significantly.
 
@@ -827,15 +836,15 @@ In VOResource documents, multiple \vorent{rights} elements are allowed
 on a single record.  This is mainly for compatiblity with DataCite, and
 multiple \vorent{rights} elements are discouraged by the VOResource
 specification at least for use within the VO.  RegTAP uses that freedom
-to include \rtent{rights} and \rtent{rights\_uri} columns in
+to include \rtent{rights} and \rtent{rights_uri} columns in
 \rtent{rr.resource} directly.  These columns must be populated,
 respectively, with the content and the value of the rightsURI attribute
 of the \emph{first} \vorent{rights} element within a resource record
 (falling back to NULL).  RegTAP services may provide all \vorent{rights}
-and \vorent{rightsURI} values through \rtent{rr.res\_detail} (see
+and \vorent{rightsURI} values through \rtent{rr.res_detail} (see
 sect.~\ref{table_res_detail}).
 
-A local addition is the \rtent{creator\_seq} column.  It contains
+A local addition is the \rtent{creator_seq} column.  It contains
 all content of the \vorent{name} elements below a resource element
 \vorent{curation} child's \vorent{creator} children, concatenated with a
 sequence of semicolon and blank characters (``\mbox{\texttt{; }}''). The
@@ -845,16 +854,16 @@ purposes (``author list'') and is hence not case-normalized.  It was
 added since the equivalent of an author list is expected to be a
 metadatum that is displayed fairly frequently, but also since the
 sequence of author names is generally considered significant.  The
-\rtent{res\_role} table, on the other hand, does not allow recovering
+\rtent{res_role} table, on the other hand, does not allow recovering
 the input sequence of the rows belonging to one resource.
 
-The \rtent{res\_type} column reflects the lower-cased value of
+The \rtent{res_type} column reflects the lower-cased value of
 the \vorent{ri:Resource} element's \texttt{xsi:type} attribute,
 where the canonical prefixes (cf.~sect.~\ref{qnameatts}) 
 are used.  While custom or experimental
 VOResource extensions may lead to more or less arbitrary strings in that
 column, VOResource and its IVOA-recommended extensions at the time of
-writing define the following values for \rtent{res\_type}:
+writing define the following values for \rtent{res_type}:
 
 
 \begin{description}
@@ -1015,21 +1024,21 @@ This table should have the \rtent{ivoid} column explicitly set
 as its primary key.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{res\_type}, \rtent{content\_level},
-\rtent{content\_type}, \rtent{source\_format},
+\rtent{ivoid}, \rtent{res_type}, \rtent{content_level},
+\rtent{content_type}, \rtent{source_format},
 \rtent{waveband}.
-Clients are advised to query the \rtent{res\_description} and
-\rtent{res\_title}  columns
-using the the \rtent{ivo\_hasword} function, and to use
-\rtent{ivo\_hashlist\_has} on \rtent{content\_level},
-\rtent{content\_type}, and
+Clients are advised to query the \rtent{res_description} and
+\rtent{res_title}  columns
+using the the \rtent{ivo_hasword} function, and to use
+\rtent{ivo_hashlist_has} on \rtent{content_level},
+\rtent{content_type}, and
 \rtent{waveband}.
 
-The row for \rtent{region\_of\_regard} in  
+The row for \rtent{region_of_regard} in  
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
 \tapent{unit} column.
 
-When querying \rtent{content\_type} and \rtent{content\_level},
+When querying \rtent{content_type} and \rtent{content_level},
 note that resource record authors should restrict themselves to terms
 from the vocabularies at
 \url{http://ivoa.net/rdf/voresource/content_type} and
@@ -1050,7 +1059,7 @@ VOResource data model.  They have been combined into a single table to
 reduce the total number of tables, and also in anticipation of a unified
 data model for such entities in future versions of VOResource.
 
-The actual role is given in the \rtent{base\_role} column, which
+The actual role is given in the \rtent{base_role} column, which
 can be one of \rtent{contact}, \rtent{publisher}, \rtent{contributor}, or
 \rtent{creator}.  Depending on this value, here are the xpaths
 for the table fields (we have abbreviated
@@ -1084,7 +1093,7 @@ example, contacts have no logo, and creators no telephone members.  Unavailable
 metadata (marked with N/A in the above table) MUST be represented with NULL
 values in the corresponding columns.
 
-When matching against \rtent{role\_name}, please be aware that despite
+When matching against \rtent{role_name}, please be aware that despite
 the admonitions in section 3.1.2 of VOResource 1.1 (which recommends a
 format like Last, F.~for person names), as of this writing the wide
 majority of role names in the VO Registry are not in this format.  Hence, name
@@ -1152,14 +1161,14 @@ The role played by this entity; this is one of contact, publisher, contributor, 
 
 The \rtent{ivoid} column should be an explicit foreign key into
 the \rtent{resource} table.  It is recommended to maintain indexes
-on at least the \rtent{role\_name} column, ideally in a way that
+on at least the \rtent{role_name} column, ideally in a way that
 supports regular expressions.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{role\_ivoid},
-\rtent{base\_role}.
+\rtent{ivoid}, \rtent{role_ivoid},
+\rtent{base_role}.
 Clients are advised to query the remaining columns, in particular
-\rtent{role\_name},
+\rtent{role_name},
 case-insensitively, e.g., using \verb|ivo_nocasematch|.
 
 
@@ -1204,11 +1213,11 @@ Topics, object types, or other descriptive keywords about the resource.\\
 
 The \rtent{ivoid}  column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to index the
-\rtent{res\_subject} column, preferably in a way that allows to process
+\rtent{res_subject} column, preferably in a way that allows to process
 case-insensitive and pattern queries using the index.
 
 The \rtent{ivoid} column MUST be lowercased during
-ingestion.  Clients are advised to query the \rtent{res\_subject} column
+ingestion.  Clients are advised to query the \rtent{res_subject} column
 case-insensitively, e.g., using \verb|ivo_nocasematch|.
 
 The content of incoming \vorent{subject} 
@@ -1223,11 +1232,11 @@ sect.~\ref{sect:vocab-use}.
 
 The capability table describes a resource's modes of interaction; it only
 contains the members of the base type \vorent{vr:Capability}.
-Members of derived types are kept in the \rtent{res\_detail} table
+Members of derived types are kept in the \rtent{res_detail} table
 (see \ref{table_res_detail}).
 
 The table has a
-\rtent{cap\_index} to disambiguate multiple
+\rtent{cap_index} to disambiguate multiple
 capabilities on a single resource.  See section \ref{primarykeys} for details.
 
 
@@ -1276,16 +1285,16 @@ A URI for a standard this capability conforms to.\\
  
 
 This table should have an explicit primary key made up of
-\rtent{ivoid} and \rtent{cap\_index}.
+\rtent{ivoid} and \rtent{cap_index}.
 The \rtent{ivoid} column should be
 an explicit foreign key into \rtent{resource}.
 It is recommended to maintain indexes on at least the 
-\rtent{cap\_type} and \rtent{standard\_id} columns.
+\rtent{cap_type} and \rtent{standard_id} columns.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{cap\_type}, \rtent{standard\_id}.
-Clients are advised to query the \rtent{cap\_description} column
-using the \rtent{ivo\_hasword} function.
+\rtent{ivoid}, \rtent{cap_type}, \rtent{standard_id}.
+Clients are advised to query the \rtent{cap_description} column
+using the \rtent{ivo_hasword} function.
 
 
 
@@ -1293,11 +1302,11 @@ using the \rtent{ivo\_hasword} function.
 
 \label{table_res_schema}
 
-The \rtent{res\_schema} table corresponds to VODataService's
+The \rtent{res_schema} table corresponds to VODataService's
 \vorent{schema} element.  It has been renamed to avoid clashes with
 the SQL reserved word \texttt{SCHEMA}.
 
-The table has a column \rtent{schema\_index} to disambiguate
+The table has a column \rtent{schema_index} to disambiguate
 multiple schema elements on a single resource.  See section \ref{primarykeys} for details.
 
 
@@ -1351,15 +1360,15 @@ An identifier for a concept in a data model that the data in this schema as a wh
  
 
 This table should have an explicit primary key made up of
-\rtent{ivoid} and \rtent{schema\_index}.  The
+\rtent{ivoid} and \rtent{schema_index}.  The
 \rtent{ivoid}  column should be an explicit foreign key into
 \rtent{resource}.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{schema\_name}, \rtent{schema\_utype}.
-Clients are advised to query the \rtent{schema\_description} 
-and \rtent{schema\_title} columns
-using the the \rtent{ivo\_hasword} function.
+\rtent{ivoid}, \rtent{schema_name}, \rtent{schema_utype}.
+Clients are advised to query the \rtent{schema_description} 
+and \rtent{schema_title} columns
+using the the \rtent{ivo_hasword} function.
 
 
 
@@ -1367,7 +1376,7 @@ using the the \rtent{ivo\_hasword} function.
 
 \label{table_res_table}
 
-The \rtent{res\_table} table models VODataService's
+The \rtent{res_table} table models VODataService's
 \vorent{table} element.  It has been renamed to avoid name clashes
 with the SQL reserved word \texttt{TABLE}.
 
@@ -1376,11 +1385,11 @@ resource.  Ingestors should also accept such tables, as there are still
 numerous active VODataService 1.0 resources in the Registry at the time
 of writing (this is the reason for the alternative in the table xpath).
 
-The table contains a column \rtent{table\_index} to disambiguate
+The table contains a column \rtent{table_index} to disambiguate
 multiple tables on a single resource.  See section \ref{primarykeys} for details.  Note that if the sibling
-count is used as implementation of \rtent{table\_index}, the count
+count is used as implementation of \rtent{table_index}, the count
 must be per resource and \emph{not} per schema, as
-\rtent{table\_index} MUST be unique within a resource.
+\rtent{table_index} MUST be unique within a resource.
 
 
 % GENERATED: maketable.sh rr.res_table
@@ -1443,18 +1452,18 @@ An identifier for a concept in a data model that the data in this table as a who
  
 
 This table should have an explicit primary key made up of
-\rtent{ivoid} and \rtent{table\_index}.  The 
+\rtent{ivoid} and \rtent{table_index}.  The 
 \rtent{ivoid} column should be an explicit
 foreign key into \rtent{resource}.  It is recommended to
-maintain an index on at least the \rtent{table\_description}
-column, ideally one suited for queries with \rtent{ivo\_hasword}.
+maintain an index on at least the \rtent{table_description}
+column, ideally one suited for queries with \rtent{ivo_hasword}.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{table\_type},
-\rtent{table\_utype}.
-Clients are advised to query the \rtent{table\_description}
-and \rtent{table\_title}  columns
-using the the \rtent{ivo\_hasword} function.
+\rtent{ivoid}, \rtent{table_type},
+\rtent{table_utype}.
+Clients are advised to query the \rtent{table_description}
+and \rtent{table_title}  columns
+using the the \rtent{ivo_hasword} function.
 
 
 
@@ -1462,7 +1471,7 @@ using the the \rtent{ivo\_hasword} function.
 
 \label{table_table_column}
 
-The \rtent{table\_column}  table models the content of VODataService's
+The \rtent{table_column}  table models the content of VODataService's
 \vorent{column} element.  The table has been renamed to avoid
 a name clash with the SQL reserved word \texttt{COLUMN}.
 
@@ -1473,13 +1482,13 @@ utype, etc).
 
 The \rtent{flag} column contains a concatenation of all values
 of a \vorent{column} element's \vorent{flag} children, separated
-by hash characters.  Use the \rtent{ivo\_hashlist\_has} function in
+by hash characters.  Use the \rtent{ivo_hashlist_has} function in
 queries against \rtent{flag}.
 
-The \rtent{table\_column} table also includes information from
+The \rtent{table_column} table also includes information from
 VODataService's data type concept.  VODataService 1.1 includes several type
 systems (VOTable, ADQL, Simple).  The
-\rtent{type\_system} column contains the value of the column's 
+\rtent{type_system} column contains the value of the column's 
 \vorent{datatype} child, with the VODataService XML prefix fixed
 to vs; hence, this column will contain one of NULL,
 \texttt{vs:taptype},
@@ -1580,21 +1589,21 @@ A free-text description of the column's contents.\\
 
  
 
-The pair \rtent{ivoid}, \rtent{table\_index} should be an
-explicit foreign key into \rtent{res\_table}.  It is recommended to
-maintain indexes on at least the \rtent{column\_description},
+The pair \rtent{ivoid}, \rtent{table_index} should be an
+explicit foreign key into \rtent{res_table}.  It is recommended to
+maintain indexes on at least the \rtent{column_description},
 \rtent{name}, \rtent{ucd}, and \rtent{utype} columns,
-where the index on \rtent{column\_description} should ideally be able
-to handle queries using \rtent{ivo\_hasword}.
+where the index on \rtent{column_description} should ideally be able
+to handle queries using \rtent{ivo_hasword}.
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{name}, \rtent{ucd},
-\rtent{utype}, \rtent{datatype}, \rtent{type\_system}.
+\rtent{utype}, \rtent{datatype}, \rtent{type_system}.
 The boolean value of the column's \rtent{std} attribute must be
 converted to 0 (False), 1 (True), or NULL (not given) on ingestion.
 Clients are advised to query the \rtent{description}
-column using the \rtent{ivo\_hasword} function, and to query
-the \rtent{flag} column using the \rtent{ivo\_hashlist\_has}
+column using the \rtent{ivo_hasword} function, and to query
+the \rtent{flag} column using the \rtent{ivo_hashlist_has}
 function.
 
 
@@ -1615,7 +1624,7 @@ In the unlikely case multiple \vorent{accessURL} are defined in a single
 interface nevertheless, implementation behavior for a RegTAP service is
 undefined.
 
-The table contains a column \rtent{intf\_index} to disambiguate
+The table contains a column \rtent{intf_index} to disambiguate
 multiple interfaces of one resource. See section \ref{primarykeys} for details.
 
 In VOResource, interfaces can have zero or more \vorent{securityMethod}
@@ -1624,24 +1633,24 @@ Apart from an identifier for an authentication method -- usually taken
 from the SSO document \citet{2017ivoa.spec.0524T} --, no actual content
 has been specified so far for these elements.  Also, there are as of now
 no actual discovery cases employing this information except ``filter out
-services requiring authentication''.  Hence, RegTAP 1.1 does not attempt
+services requiring authentication''.  Hence, RegTAP 1.2 does not attempt
 to map \vorent{securityMethod} except through the
-\rtent{authenticated\_only} column which is required to be 0 when there
+\rtent{authenticated_only} column which is required to be 0 when there
 is no \vorent{securityMethod} or at least one \vorent{securityMethod}
 without a \vorent{standardId} on an
 interface, 1 otherwise.
 
 Clients not prepared to authenticate to services should always include a
 \verb|authenticated_only=0| condition when retrieving access URLs
-from RegTAP 1.1 services, as it is conceivable that a future VO will
+from RegTAP 1.2 services, as it is conceivable that a future VO will
 contain many services requiring authentication and users should not have
 to try out which of them they can actually use.
 
-The \rtent{query\_type} column is a hash-joined list (analogous
+The \rtent{query_type} column is a hash-joined list (analogous
 to \rtent{waveband} in the resource table), as
 the XML schema allows listing up to two request methods.
 
-The \rtent{mirror\_url} column is used to keep all mirror URLs in one
+The \rtent{mirror_url} column is used to keep all mirror URLs in one
 field, again separating values with hash characters.  This design was
 chosen over a native array since arrays of variable-length strings are
 not supported by VOTable, and emulating them is a major implementation
@@ -1650,9 +1659,9 @@ the 1:n relation because the hash -- a fragment identifier in URIs, and
 access fragments are meaningless for access URLs -- happens to be a safe and
 convenient separator for the datatype, and thus there is no semantic
 cost attached to using an array emulation that is simpler on both client
-and server.  Note that contrary to \rtent{query\_type} and similar
+and server.  Note that contrary to \rtent{query_type} and similar
 hash-joined lists of enumerated values, \emph{no} case normalisation
-may take place in \rtent{mirror\_url}.
+may take place in \rtent{mirror_url}.
 
 This table only contains interface elements from within capabilities.
 Interface elements in StandardsRegExt records are ignored in the
@@ -1661,8 +1670,8 @@ and they must not be inserted in this table, since doing so would disturb
 the foreign key from interface into capability.  In other words,
 the relational registry requires every interface to have a parent capability.
 
-Analogous to \rtent{resource.res\_type}, the
-\rtent{intf\_type} column contains type names; VOResource extensions
+Analogous to \rtent{resource.res_type}, the
+\rtent{intf_type} column contains type names; VOResource extensions
 can define new types here, but at the time of writing, the following
 types are mentioned in IVOA-recommended schemata:
 
@@ -1764,19 +1773,19 @@ A flag for whether an interface is available for anonymous use (=0) or only auth
 
 % /GENERATED
 
-This table should have the pair \rtent{ivoid}, \rtent{cap\_index}
+This table should have the pair \rtent{ivoid}, \rtent{cap_index}
 as an explicit foreign key into
 \rtent{capability}, and the pair \rtent{ivoid}, and
-\rtent{intf\_index} as an explicit primary key. Additionally, it
+\rtent{intf_index} as an explicit primary key. Additionally, it
 is recommended to maintain an index on at least the
-\rtent{intf\_type} column.
+\rtent{intf_type} column.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{intf\_type}, \rtent{intf\_role},
-\rtent{std\_version}, \rtent{query\_type},
-\rtent{result\_type}, \rtent{url\_use}, 
-Clients are advised to query \rtent{query\_type} using the the
-\rtent{ivo\_hashlist\_has} function.
+\rtent{ivoid}, \rtent{intf_type}, \rtent{intf_role},
+\rtent{std_version}, \rtent{query_type},
+\rtent{result_type}, \rtent{url_use}, 
+Clients are advised to query \rtent{query_type} using the the
+\rtent{ivo_hashlist_has} function.
 
 
 
@@ -1784,9 +1793,9 @@ Clients are advised to query \rtent{query\_type} using the the
 
 \label{table_intf_param}
 
-The \rtent{intf\_param} table keeps information on the parameters
+The \rtent{intf_param} table keeps information on the parameters
 available on interfaces.  It is therefore closely related to
-\rtent{table\_column}, but the differences between the two are
+\rtent{table_column}, but the differences between the two are
 significant enough to warrant a separation between the two tables.
 Since the names of common column attributes are used where applicable in
 both tables (e.g., name, ucd, etc), the two tables cannot be (naturally)
@@ -1882,13 +1891,13 @@ A free-text description of the parameter's contents.\\
 
  
 
-The pair \rtent{ivoid}, \rtent{intf\_index} should be an explicit
+The pair \rtent{ivoid}, \rtent{intf_index} should be an explicit
 foreign key into \rtent{interface}.
 
 The remaining requirements and conventions are as per
 section \ref{table_table_column}
-where applicable, and \rtent{param\_description} taking the role
-of \rtent{column\_description}.
+where applicable, and \rtent{param_description} taking the role
+of \rtent{column_description}.
 
 
 
@@ -1944,11 +1953,11 @@ The name of resource that this resource is related to.\\
 
 The \rtent{ivoid} column should be an explicit foreign key into the
 \rtent{resource} table.  You should index at least the
-\rtent{related\_id} column.
+\rtent{related_id} column.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{relationship\_type},
-\rtent{related\_id}.
+\rtent{ivoid}, \rtent{relationship_type},
+\rtent{related_id}.
 
 The content of incoming \vorent{relationshipType}
 elements must be normalized according to the rules laid down in
@@ -1963,7 +1972,7 @@ The \rtent{validation} table subsumes the
 \vorent{vr:validationLevel}-typed members of both \vorent{vr:Resource}
 and \vorent{vr:Capability}.
 
-If the \rtent{cap\_index} column is \texttt{NULL}, the
+If the \rtent{cap_index} column is \texttt{NULL}, the
 validation comprises the entire resource.  Otherwise, only the
 referenced capability has been validated.
 
@@ -2028,12 +2037,12 @@ If non-NULL, the validation only refers to the capability referenced here.\\
 
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  Note, however, that \rtent{ivoid},
-\rtent{cap\_index} is \emph{not} a foreign key into \rtent{capability}
-since \rtent{cap\_index} may be \texttt{NULL} (in case the validation
+\rtent{cap_index} is \emph{not} a foreign key into \rtent{capability}
+since \rtent{cap_index} may be \texttt{NULL} (in case the validation
 addresses the entire resource).
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{validated\_by}.
+\rtent{ivoid}, \rtent{validated_by}.
 
 
 
@@ -2041,7 +2050,7 @@ The following columns MUST be lowercased during ingestion:
 
 \label{table_res_date}
 
-The \rtent{res\_date} table contains information gathered from
+The \rtent{res_date} table contains information gathered from
 \vorent{vr:Curation}'s date children.
 
 
@@ -2083,7 +2092,7 @@ The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
 
 The following columns MUST be lowercased during ingestion:
-\rtent{ivoid}, \rtent{value\_role}.
+\rtent{ivoid}, \rtent{value_role}.
 
 The content of incoming \vorent{date/@role} 
 attributes must be normalized according to the rules laid down in
@@ -2094,7 +2103,7 @@ sect.~\ref{sect:vocab-use} before lowercasing.
 
 \label{table_res_detail}
 
-The \rtent{res\_detail} table is the relational registry's primary means for
+The \rtent{res_detail} table is the relational registry's primary means for
 extensibility as well as a fallback for less-used simple
 metadata.  Conceptually, it stores triples of resource entity
 references, resource xpaths,
@@ -2105,7 +2114,7 @@ string-valued or sets of strings can be represented in this table.
 As long as the metadata that needs to be represented in the
 relational registry for new VOResource extensions is simple enough, no changes to the schema defined
 here will be necessary as these are introduced.  Instead, the extension itself simply defines
-new xpaths to be added in \rtent{res\_detail}.
+new xpaths to be added in \rtent{res_detail}.
 
 Some complex metadata -- \vorent{tr:languageFeature} or
 \vorent{vstd:key} being examples -- cannot be kept in this table.
@@ -2144,7 +2153,7 @@ to minimize the risk of later clashes).
 In addition to the metadata listed in this specification, 
 metadata defined in future
 IVOA-approved VOResource extensions MUST or SHOULD be present in
-\rtent{res\_detail} as the extensions require it.
+\rtent{res_detail} as the extensions require it.
 
 
 % GENERATED: maketable.sh rr.res_detail
@@ -2189,14 +2198,14 @@ The xpath of the data item.\\
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain indexes on
 at least the columns
-\rtent{detail\_xpath} and \rtent{detail\_value}, where the
-index on \rtent{detail\_value} should ideally work for both direct
+\rtent{detail_xpath} and \rtent{detail_value}, where the
+index on \rtent{detail_value} should ideally work for both direct
 comparisons and searches using \verb|ivo_nocasematch|.
 
 The following column MUST be lowercased during ingestion:
 \rtent{ivoid}.  Clients are advised to
 use \verb|ivo_nocasematch| to search in
-\rtent{detail\_value} if the values are to be compared
+\rtent{detail_value} if the values are to be compared
 case-insensitively (e.g., all IVOIDs).
 
 \subsection{The alt\_identifier Table}
@@ -2213,7 +2222,7 @@ with \emph{identifier}'' and since the identifiers
 are stored in URI form and hence identifiers of different types 
 cannot clash, RegTAP does not keep track
 where an alternate identifier was encountered.  Instead, the
-\rtent{alt\_identifier} table just links IVOIDs and alternate
+\rtent{alt_identifier} table just links IVOIDs and alternate
 identifiers:
 
 
@@ -2246,14 +2255,14 @@ An identifier for the resource or an entity related to the resource in URI form.
 
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain an index on
-the \rtent{alt\_identifier} column.
+the \rtent{alt_identifier} column.
 
 \subsection{The stc\_spatial Table}
 \label{table_stc_spatial}
 
 Since VODataService 1.2, registry records can represent their resource's
 spatial coverage using spatial MOCs \citep{2019ivoa.spec.1007F}.  The
-\rtent{stc\_spatial} table is a direct reflection of this metadata:
+\rtent{stc_spatial} table is a direct reflection of this metadata:
 
 % GENERATED: maketable.sh rr.stc_spatial
 
@@ -2308,7 +2317,7 @@ probably much faster and more exact to use MOC-MOC comparisons to query
 
 Since VODataService 1.2, registry records can represent their resource's
 temporal coverage as a union of time intervals.  The
-\rtent{stc\_temporal} table is a direct reflection of this metadata:
+\rtent{stc_temporal} table is a direct reflection of this metadata:
 
 % GENERATED: maketable.sh rr.stc_temporal
 
@@ -2347,9 +2356,9 @@ The \rtent{ivoid} column should be an explicit foreign key into
 
 Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified interval
-of interest to \rtent{time\_start} $\cdots$ \rtent{time\_end}.
+of interest to \rtent{time_start} $\cdots$ \rtent{time_end}.
 
-The rows for \rtent{time\_start} and \rtent{time\_end} in  
+The rows for \rtent{time_start} and \rtent{time_end} in  
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{d} in their
 \tapent{unit} column.
 
@@ -2359,7 +2368,7 @@ The rows for \rtent{time\_start} and \rtent{time\_end} in
 
 Since VODataService 1.2, registry records can represent their resource's
 spectral coverage as a union of energy intervals.  The
-\rtent{stc\_spectral} table is a direct reflection of this metadata:
+\rtent{stc_spectral} table is a direct reflection of this metadata:
 
 % GENERATED: maketable.sh rr.stc_spectral
 
@@ -2398,9 +2407,9 @@ The \rtent{ivoid} column should be an explicit foreign key into
 
 Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified intervals
-of interest to \rtent{spectral\_start} $\cdots$ \rtent{spectral\_end}.
+of interest to \rtent{spectral_start} $\cdots$ \rtent{spectral_end}.
 
-The rows for \rtent{spectral\_start} and \rtent{spectral\_end} in  
+The rows for \rtent{spectral_start} and \rtent{spectral_end} in  
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{J} in their
 \tapent{unit} column.
 
@@ -2418,13 +2427,13 @@ User Defined Functions (UDFs).
 \subsection{ADQL Optional Features requried for RegTAP}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST implement the
+\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
 following optional features defined in ADQL 2.1 \citep{NOT-A-REC-YET}:
 
 \begin{bigdescription}
 \item[COALESCE] Primarily in order to make the use of
 \verb|ivo_string_agg| predictable in the presence of NULL values in
-columns like \rtent{standard\_id}, RegTAP services MUST provide the
+columns like \rtent{standard_id}, RegTAP services MUST provide the
 COALESCE feature in
 \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-type}.
 
@@ -2443,7 +2452,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \label{adqludf}
 
 TAP Servers implementing the 
-\texttt{ivo://ivoa.net/std/RegTAP\#1.1} data model MUST
+\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST
 implement the following User Defined Functions in their ADQL language,
 given here
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
@@ -2463,7 +2472,7 @@ non-letter characters or the beginning or end of the string, where case
 is ignored.  It returns 0 otherwise.
 Additionally, servers MAY employ techniques to improve recall, in
 particular stemming.  Registry clients must hence expect different results
-from different servers when using \rtent{ivo\_hasword}; for such
+from different servers when using \rtent{ivo_hasword}; for such
 queries trying them on multiple registries may improve recall.
 \term[\small\texttt{ivo\_hashlist\_has(hashlist VARCHAR(*), item VARCHAR(*)) -> INTEGER}]The function takes two strings; the first is a list of words not
 containing the hash sign (\#), concatenated by hash signs, the second is
@@ -2534,8 +2543,8 @@ found from
 \rtent{rr.interface}, this requires
 a (natural) join.
 
-Clients communicating with a RegTAP 1.1 service should request the new
-\rtent{authenticated\_only} column.  If this is 1, the service
+Clients communicating with a RegTAP 1.1 or later service should request the new
+\rtent{authenticated_only} column.  If this is 1, the service
 requires some sort of authentication and should only presented to users
 if a client has the necessary infrastructure for the authentication
 system.
@@ -2555,7 +2564,7 @@ WHERE standard_id like 'ivo://ivoa.net/std/tap%'
 
 Analogous considerations apply to the other example queries
 
-Other \rtent{standard\_id}s relevant here include:
+Other \rtent{standard_id}s relevant here include:
 
 
 \begin{itemize}
@@ -2580,7 +2589,7 @@ This is somewhat tricky since it is probably hard to image a part
 of the sky guaranteed not to have some, possibly distant, spiral galaxy
 in it.  However, translating the intention into ``find all SIA services
 that mention spiral in either the subject (from 
-\rtent{rr.res\_subject}), the description, or the
+\rtent{rr.res_subject}), the description, or the
 title (which are in 
 \rtent{rr.resource})'', 
 the query would become:
@@ -2611,7 +2620,7 @@ The waveband information in
 \rtent{rr.resource} 
 comes in hash-separated atoms (which can be
 radio, millimeter, infrared, optical, uv, euv, x-ray, or gamma-ray).
-For matching those, use the \rtent{ivo\_hashlist\_has} function as
+For matching those, use the \rtent{ivo_hashlist_has} function as
 below.  The access URL and the service standard come from 
 \rtent{rr.interface} and 
 \rtent{rr.capability}, respectively.
@@ -2633,7 +2642,7 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
 services) that provide a column containing redshifts
 
 Metadata on columns exposed by a service are contained in 
-\rtent{rr.table\_column}.  Again, this table can be
+\rtent{rr.table_column}.  Again, this table can be
 naturally joined with 
 \rtent{rr.capability} and 
 \rtent{rr.interface}.
@@ -2679,7 +2688,7 @@ WHERE ivoid LIKE 'ivo://org.gavo.dc%'
 publisher?
 
 This uses the 
-\rtent{rr.res\_role}
+\rtent{rr.res_role}
  table both to
 match names (in this case, a publisher that has ``gavo'' in its name) and
 to ascertain the named entity actually publishes the resource (rather
@@ -2716,7 +2725,7 @@ there originating from registry X?
 
 This is mainly a query interesting for registry maintainers.  Still,
 it is a nice example for joining with the
-\rtent{rr.res\_detail} table, in this case to
+\rtent{rr.res_detail} table, in this case to
 first get a list of all authorities managed by the CDS registry.
 
 
@@ -2740,14 +2749,14 @@ registry
 
 This is the discovery query for RegTAP services themselves;  note how
 this combines 
-\rtent{rr.res\_detail} pairs with
+\rtent{rr.res_detail} pairs with
 \rtent{rr.capability}
 and 
 \rtent{rr.interface} to locate the desired protocol
 endpoints.  As clients should not usally be concerned with minor
 versions of protocols unless  they rely on additions made in later
 versions, this query will return endpoints supporting ``version 1'' rather
-than exactly version 1.1.
+than exactly version 1.2.
 
 
 %CHECK_HERE
@@ -2778,10 +2787,10 @@ fairly invariably combines the usual
 \rtent{rr.capability} and 
 \rtent{rr.interface}
  for service location with
-\rtent{rr.table\_column}
+\rtent{rr.table_column}
  for the column metadata
 and 
-\rtent{rr.res\_table} for properties of tables.
+\rtent{rr.res_table} for properties of tables.
 
 
 %CHECK_HERE
@@ -2806,7 +2815,7 @@ provide theoretical spectra.
 
 The metadata required to solve this problem is found in the SSAP
 registry extension and is thus kept in 
-\rtent{rr.res\_detail}:
+\rtent{rr.res_detail}:
 
 
 %CHECK_HERE
@@ -2828,7 +2837,7 @@ WHERE detail_xpath='/capability/dataSource'
 \texttt{http://dc.zah.uni-heidelberg.de/tap} is down, who can
 fix it?
 
-This uses the \rtent{rr.res\_role} table and returns all information on
+This uses the \rtent{rr.res_role} table and returns all information on
 it based on the IVOID of a service that in turn was obtained from
 \rtent{rr.interface}.  You could restrict to the actual technical
 contact person by requiring \texttt{base\_role='contact'}.
@@ -2877,9 +2886,56 @@ WHERE
 \end{lstlisting}
 
 
-% HTML section ends
+\subsection{Constraints on Space, Time, and Spectrum}
 
-% section sample\_queries
+\textbf{Problem:} Give me resources that cover M 101 ($\alpha=210.80$,
+$\delta=54.35$, Diameter about $0.3^\circ$) in the mid-infrared around
+$5\,\mu\textrm{m}$ in August 2010.
+
+Without further database support, clients need to manually convert the
+spectral coordinate to energy ($hc/\lambda \approx 3.97\times
+10^{-20}\,\textrm{J}$) and time (August 1st, 2010 starts MJD 55409.0) to
+the quantities RegTAP expects.
+
+This would yield a query like (the explicit MOC conversion is a common
+device to speed the query up; without it, the database would convert the
+circle once for each coverage, to the respective order):
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+SELECT ivoid
+FROM rr.stc_spatial
+  NATURAL JOIN rr.stc_spectral
+  NATURAL JOIN rr.stc_temporal
+WHERE 
+  1=CONTAINS(MOC(8, CIRCLE(210.80, 54.35, 0.3)), coverage)
+  AND 1=ivo_interval_overlaps(time_start, time_end, 55409, 55440)
+  AND 3.97e-20 between spectral_start and spectral_end
+\end{lstlisting}
+
+In particular when more complex geometries are desired, clients will
+want to pass in MOCs directly.  Conversely, RegTAP services may provide
+the additional user-defined functions that allow specifying temporal and
+spectral constraints in different, perhaps human-friendlier ways.  For
+instance, once support for the relevant UDFs is established using the
+TAP capabilities,\todo{I'll propose both UDFs for the catalogue, in
+which case that would become ivo\_whatever} the above query
+could also be written as (the MOC given is the circle above at order 8):
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+SELECT ivoid
+FROM rr.stc_spatial
+  NATURAL JOIN rr.stc_spectral
+  NATURAL JOIN rr.stc_temporal
+WHERE 
+  1=CONTAINS(MOC('8/182947 182950 182952-182953 182955-182956 8/'), coverage)
+  AND 1=ivo_interval_overlaps(
+    time_start, time_end, 
+    gavo_to_mjd('2010-08-01'), gavo_to_mjd('2010-08-31'))
+  AND gavo_specconv(5e-6, 'm', 'J') between spectral_start and spectral_end
+\end{lstlisting}
+
 
 \appendix
 
@@ -2887,7 +2943,7 @@ WHERE
 
 \label{d_u_list}
 
-This appendix defines the \rtent{res\_detail}
+This appendix defines the \rtent{res_detail}
 table (see section \ref{table_res_detail} for
 details) by giving
 xpaths for which xpath/value pairs MUST (where marked with an
@@ -2977,7 +3033,7 @@ used to validate one of the interfaces of a capability (vr).
 \item[/endorsedVersion (!)]A version of a standard that is recommended for use (vstd).
 \item[/facility (!)]The observatory or facility used to collect the data contained or managed by this resource (vs).
 \item[/format (!)]The physical or digital manifestation of the information supported by a (DataCollection) resource.  MIME types should be used for network-retrievable, digital data, non-MIME type values are used for media that cannot be retrieved over the network (vs).
-\item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res\_detail}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
+\item[/format/@isMIMEType]If \texttt{true}, then an accompanying \texttt{/format} item is a MIME Type. Within \rtent{res_detail}, this does not work for services that give more than one format; since furthermore the literal of \vorent{vs:Format} allows a good guess whether or not it is a MIME type, this does not appear a dramatic limitation (vs).
 \item[/full]If \verb|true|, the registry attempts to collect all resource records known to the IVOA (vg).
 \item[/instrument (!)]The instrument used to collect the data contained or managed by a resource (vr).
 \item[/instrument/@ivo-id (!)]IVOID of the instrument used to collect the data contained or managed by a resource (vr).
@@ -2988,7 +3044,7 @@ clients should generally use the \rtent{rights} column in
 \rtent{rr.resource} (vr).
 \item[/rights/@rightsURI]A formal identifier for a license a
 resource is made available under; clients should generally use the
-\rtent{rights\_uri} column in \rtent{rr.resource} (vr).
+\rtent{rights_uri} column in \rtent{rr.resource} (vr).
 \item[/schema/@namespace (!)]An identifier for a schema described by a standard (vstd).
 
 \end{description}
@@ -2996,7 +3052,7 @@ resource is made available under; clients should generally use the
 Note that the representation of StandardsRegExt's 
 \vorent{status}  and \vorent{use}
 attributes as well as its \vorent{key} would require sequences of
-complex objects, which is impossible using \rtent{res\_detail}.
+complex objects, which is impossible using \rtent{res_detail}.
 Hence, the respective metadata is not queriable
 within the relational registry. Similarly, complex TAPRegExt metadata on
 languages, user defined functions, and the like cannot be
@@ -3084,13 +3140,13 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \sptablerule
 \textbf{RegTAP column}&\textbf{Old term}&\textbf{New term}\\
 \sptablerule
-\rtent{res\_date.value\_role}&representative&Collected\\
-\rtent{res\_date.value\_role}&creation&Created\\
-\rtent{res\_date.value\_role}&update&Update\\
-\rtent{relationship.relationship\_type}&mirror-of&IsIdenticalTo\\
-\rtent{relationship.relationship\_type}&service-for&IsServiceFor\\
-\rtent{relationship.relationship\_type}&served-by&IsServedBy\\
-\rtent{relationship.relationship\_type}&derived-from&IsDerivedFrom\\
+\rtent{res_date.value_role}&representative&Collected\\
+\rtent{res_date.value_role}&creation&Created\\
+\rtent{res_date.value_role}&update&Update\\
+\rtent{relationship.relationship_type}&mirror-of&IsIdenticalTo\\
+\rtent{relationship.relationship_type}&service-for&IsServiceFor\\
+\rtent{relationship.relationship_type}&served-by&IsServedBy\\
+\rtent{relationship.relationship_type}&derived-from&IsDerivedFrom\\
 \sptablerule
 \end{tabular}
 \end{inlinetable}
@@ -3100,15 +3156,19 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \subsection{Changes from REC-1.1}
 
 \begin{itemize}
-\item \rtent{table\_name} is no longer case-folded (this is also RegTAP
+\item \rtent{table_name} is no longer case-folded (this is also RegTAP
 1.1 Erratum 1).
+\item Adding \rtent{stc_spatial}, \rtent{stc_temporal}, and
+\rtent{stc_spectral} tables and a sample query illustrating their use.
+\item Requiring ADQL COALESCE and WITH constructs.
+\item Including VODataService 1.2 resource types.
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
 
 \begin{itemize}
-\item Added the \rtent{alt\_identifier} table.
-\item Added \rtent{rights\_uri} to \rtent{resource}.
+\item Added the \rtent{alt_identifier} table.
+\item Added \rtent{rights_uri} to \rtent{resource}.
 In \rtent{rights}, we now only take data from the first rights element
 as hash-joining is not reliable with free text.
 This technically might constitute an API change, but since we don't
@@ -3116,20 +3176,20 @@ believe rights has (properly) been used anywhere, we still believe we are
 within the limits of a minor change.
 \item Added an xpath \texttt{/capability/interface/testQueryString} for
 use in
-\rtent{res\_detail} to cover VOResource 1.1's \vorent{testQueryString}
+\rtent{res_detail} to cover VOResource 1.1's \vorent{testQueryString}
 interface child.  Note that this is not really enough to feed
 validators, as a capability can have multiple interfaces and
-\rtent{res\_detail} only tells apart capabilitities.  Running a
+\rtent{res_detail} only tells apart capabilitities.  Running a
 validator off a RegTAP service really requires an extra table.
-\item Added a \rtent{mirror\_url} column to \rtent{rr.interface}.
+\item Added a \rtent{mirror_url} column to \rtent{rr.interface}.
 \item Made type information in the schema tables more generic; we now
 have string, integer, real, and string+timestamp.
-\item Added a column \rtent{authenticated\_only} in \rtent{interface}
+\item Added a column \rtent{authenticated_only} in \rtent{interface}
 that is true when the interface cannot be used without authentication.
 Added this to the recommended discovery patterns.
 \item Recommending that when discovering standard services clients
-should (again) constrain \rtent{intf\_role} to \verb|std| rather than
-\rtent{intf\_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-09-01 showed that the
+should (again) constrain \rtent{intf_role} to \verb|std| rather than
+\rtent{intf_type} to \verb|vs:ParamHTTP|.  An investigation on 2019-09-01 showed that the
 workaround from RegTAP 1.0 is no longer necessary.
 \item Now requiring that services map deprecated vocabulary terms to
 preferred ones.
@@ -3170,7 +3230,7 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 \item Added a \texttt{/capability/interface/securityMethod/@standardID}
   details xpath from vr:Interface.{}
 
-\item Added requirement to implement the \rtent{ivo\_string\_agg}
+\item Added requirement to implement the \rtent{ivo_string_agg}
   user defined function.{}
 
 \item Added a section specifying the treatment of non-ASCII characters
@@ -3190,8 +3250,8 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 
 \item Clarified translation of column/@std and param/@std.{}
 
-\item Now recommending to constrain on \rtent{intf\_type}
-  (rather than \rtent{intf\_role}, as before) when locating standard
+\item Now recommending to constrain on \rtent{intf_type}
+  (rather than \rtent{intf_role}, as before) when locating standard
   interfaces.{}
 
 \item Redactional changes from RFC (e.g., in column descriptions, some 
@@ -3250,11 +3310,11 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 
 \item The final utype reform: most of our ex-utype strings aren't called utypes
   any more, they're fairly plain xpaths.  Consequently, 
-  \rtent{res\_detail.detail\_utype} has been renamed 
-  \rtent{detail\_xpath}.{}
+  \rtent{res_detail.detail_utype} has been renamed 
+  \rtent{detail_xpath}.{}
 
 \item Renamed some columns and the subject table to relieve the need of quoting
-  in MS SQL Server (or, in the case or \rtent{use\_param}, maintain
+  in MS SQL Server (or, in the case or \rtent{use_param}, maintain
   consistency after the renaming):\\
 
 \begin{tabular}{lll}
@@ -3282,7 +3342,7 @@ validation.level&validation.val\_level\\
   ignoring interface elements from StandardsRegExt records really is the
   lesser evil.{}
 
-\item \rtent{resource.region\_of\_regard} now must have unit metadata
+\item \rtent{resource.region_of_regard} now must have unit metadata
   declared.{}
 
 \item We now explicitely deprecate multiple access URLs per interface
