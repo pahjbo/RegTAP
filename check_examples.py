@@ -6,7 +6,7 @@ This assumes that the examples to run are in lstlisting environments
 that are immediately preceded by a CHECK_HERE comment.  Everything
 is 
 
-This requires the GAVO VOTable package (http://soft.g-vo.org).
+This requires the pyvo.
 
 Set the TAP_ACCESS_URL environment variable to a TAP server implementing
 the relational registry.
@@ -14,10 +14,9 @@ the relational registry.
 
 import os
 import re
+import sys
 
-from gavo import votable
-from gavo.votable import tapquery
-
+import pyvo
 
 TAP_ACCESS_URL = os.environ.get("TAP_ACCESS_URL", "http://dc.g-vo.org/tap")
 
@@ -49,17 +48,17 @@ def iter_examples(f):
 
 
 def main():
+	svc = pyvo.dal.TAPService(TAP_ACCESS_URL)
 	with open("RegTAP.tex") as f:
-		for title, ex in iter_examples(f):
+		for title, sample_query in iter_examples(f):
 			try:
-				job = votable.ADQLSyncJob(TAP_ACCESS_URL, ex)
-				data, metadata = votable.load(job.run().openResult())
-				if not data:
-					print "(Example returned no records: '%s')"%title
-			except tapquery.WrongStatus:
-				print "************ Example went bad"
-				print "Last title:", title
-				print "Error message:", job.getErrorFromServer()[:1000]
+				result = svc.run_sync(sample_query).to_table()
+				if not len(result):
+					print(f"WARNING: Example returned no records in sect. '{title}'")
+			except Exception as ex:
+				print(f"ERROR: Example went bad in sect. {title}")
+				print(ex)
+				sys.exit(1)
 	
 
 if __name__=="__main__":

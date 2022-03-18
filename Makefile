@@ -44,3 +44,8 @@ ivoatex/Makefile:
 	@echo "*** ivoatex submodule not found.  Initialising submodules."
 	@echo
 	git submodule update --init
+
+
+# These tests require python3 and pyvo (Debian: python3-pyvo)
+test:
+	@TAP_ACCESS_URL=http://dc.g-vo.org/tap python3 check_examples.py
