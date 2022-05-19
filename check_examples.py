@@ -15,10 +15,11 @@ the relational registry.
 import os
 import re
 import sys
+import warnings
 
 import pyvo
 
-TAP_ACCESS_URL = os.environ.get("TAP_ACCESS_URL", "http://dc.g-vo.org/tap")
+TAP_ACCESS_URL = os.environ.get("TAP_ACCESS_URL", "https://dc.g-vo.org/tap")
 
 
 def iter_examples(f):
@@ -62,4 +63,9 @@ def main():
 	
 
 if __name__=="__main__":
+	try:
+		warnings.filterwarnings("ignore", category=pyvo.dal.DALOverflowWarning)
+	except AttributeError:
+		# not warning against overflows yet
+		pass
 	main()

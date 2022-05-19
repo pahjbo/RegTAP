@@ -40,12 +40,13 @@
 
 \editor{Markus Demleitner}
 
-\previousversion[http://ivoa.net/documents/RegTAP/20190911]{PR-20190911}
-\previousversion[http://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
-\previousversion[http://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
-\previousversion[http://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
-\previousversion[http://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
-\previousversion[http://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
+\previousversion[https://ivoa.net/documents/RegTAP/20191011]{REC-1.1}
+\previousversion[https://ivoa.net/documents/RegTAP/20190911]{PR-20190911}
+\previousversion[https://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
+\previousversion[https://ivoa.net/documents/RegTAP/20190326]{PR-20190326}
+\previousversion[https://ivoa.net/documents/RegTAP/20180731]{PR-20180731}
+\previousversion[https://ivoa.net/documents/RegTAP/20171206]{WD-20171206}
+\previousversion[https://ivoa.net/documents/RegTAP/20141208]{REC-1.0}
 
 \title{IVOA Registry Relational Schema}
 
@@ -309,7 +310,7 @@ content except that the pair \rtent{ivoid}, \texttt{X\_index} is a primary
 key for the relation (plus, of course, that references from other tables
 correctly resolve).  In the tables of columns given below, the
 \texttt{X\_index} columns have ``(key)'' given for type.  Implementors
-obviously have to insert whatever ADQL type is appropriate for their
+have to insert whatever ADQL type is appropriate for their
 choice or \texttt{X\_index} implementation.
 
 Obvious implementations for \texttt{X\_index} include having
@@ -404,7 +405,7 @@ to D144 in the Unicode Standard.
 Columns intended for presentation are not case-normalised.  When
 matching against these, queries should use case-insensitive matching,
 for which this specification offers the \verb|ivo_nocasematch| user
-defined function.  ADQL 2.1 is expected to offer an ILIKE operator,
+defined function.  ADQL 2.1 has an ILIKE operator,
 which may be used instead.
 
 
@@ -518,13 +519,13 @@ namespace URIs for the same major version of a standard have the same
 canonical prefix -- e.g., both VODataService
 1.1 and VODataService 1.2 use \texttt{vs:}.  
 
-For reference, here is
-a table of XML namespace URIs and prefixes for schemata in common use at
-the time of this writing:
+For reference, table~\ref{tab:prefixmap}
+lists the XML namespace URIs and their canonical prefixes 
+for schemata widely used in the VO Registry.
 
-
-\begin{inlinetable}
+\begin{table}
 \begin{tabular}{ll}
+\sptablerule
 cs&http://www.ivoa.net/xml/ConeSearch/v1.0\\
 dc&http://purl.org/dc/elements/1.1/\\
 oai&http://www.openarchives.org/OAI/2.0/\\
@@ -541,9 +542,12 @@ vs&http://www.ivoa.net/xml/VODataService/v1.0\\
 vs&http://www.ivoa.net/xml/VODataService/v1.1\\
 vstd&http://www.ivoa.net/xml/StandardsRegExt/v1.0\\
 xsi&http://www.w3.org/2001/XMLSchema-instance\\
-
+\sptablerule
 \end{tabular}
-\end{inlinetable}
+\caption{The canonical prefix mapping in the VO Registry as of the
+publication of this specification.}
+\label{tab:prefixmap}
+\end{table}
 
 
 \section{Xpaths}
@@ -708,7 +712,7 @@ data type.  This is to be translated into arrays of \texttt{char} or
 operators' decisions as to the representation of non-ASCII data in the
 database.  For requirements and recommendations regarding national
 characters in RegTAP, see Sect.~\ref{utfreq}.  The length of these
-arrays is not defined by this standard, where, obviously, no artificial
+arrays is not defined by this standard, where no artificial
 length limits should be imposed by implementations.
 
 Some of the types are given as ``datatype+xtype''.  In these cases, the
@@ -793,20 +797,16 @@ rr.stc\_spatial\hfil\break
  The spatial coverage of resources.\\
 rr.stc\_spectral\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/coverage/spectral}&
- The spectral coverage of resources, given as one or more intervals;
-the total coverage is (a subset of) the union of all intervals given
-for a resource.\\
+ The spectral coverage of resources, given as one or more intervals.\\
 rr.stc\_temporal\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/coverage/temporal}&
- The temporal coverage of resources, given as one or more intervals;
-the total coverage is (a subset of) the union of all intervals given
-for a resource.\\
+ The temporal coverage of resources, given as one or more intervals.\\
 rr.table\_column\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
  Metadata on columns of a resource's tables.\\
 rr.tap\_table\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
- A non-standard extension mimicking glots.\\
+ TAP-queriable tables.\\
 rr.validation\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability/|)validationLevel}&
 Validation levels for resources and capabilities.\\
@@ -2304,13 +2304,12 @@ The reference frame coverage is written in. This is currently reserved and fixed
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
 
-This specification makes no guarantees on whether or not
-\rtent{coverage} is retrievable (i.e., can be used in ADQL select
-clauses) or in what form it will be returned; this is deferred to a
-future DALI version specifying the moc xtype.  Implementations MUST,
-however, evaluate the ADQL CONTAINS and INTERSECTS predicates with
+The details of how the MOC-valued coverage are entered and retrieved are
+defined by DALI 1.2\todo{Properly cite when it's out}.
+Implementations MUST
+evaluate the ADQL CONTAINS and INTERSECTS predicates with
 coverage as one argument and ADQL CIRCLEs and POLYGONs as the other, and
-it must support CONTAINS with an ADQL POINT in the first argument.
+they must support CONTAINS with an ADQL POINT in the first argument.
 There are no expectations that the predicates are computed exactly, but
 implementations should strive to limit the number of false positives;
 clients are advised that on services supporting MOC literals, it is
@@ -2466,17 +2465,22 @@ The \rtent{tap_table} view has the following columns:
 \baselineskip=9pt\relax resid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
-IVOA identifier of the resource this table was taken from (where there is a resource containing this table in its tableset, that resource is preferred over a TAP service).\\
+IVOA identifier of the resource this table was taken from (where there is a dedicated resource containing this table in its tableset, that resource is preferred over a TAP service).\\
 
 \baselineskip=9pt\relax svcid\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
 \footnotesize string&
-IVOA identifier of the TAP service publishing this table\\
+IVOA identifier of the TAP service making this table queriable.\\
 
 \baselineskip=9pt\relax table\_name\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
 \footnotesize string&
 The fully qualified name of the table. As per VODataService, this includes all catalog or schema prefixes needed to distinguish it in a query, and it comes with SQL delimiters where necessary.\\
+
+\baselineskip=9pt\relax table\_title\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:title}&
+\footnotesize string&
+A descriptive, human-interpretable name for the table.\\
 
 \baselineskip=9pt\relax table\_description\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
@@ -2578,12 +2582,13 @@ arguments containing a hash sign is undefined.
 \texttt{delim}.  NULLs in the aggregate do not contribute, an empty 
 aggregate yields an empty string.
 
-\term[\small\texttt{ivo\_interval\_overlaps(l1 NUMERIC, h1 NUMERIC, 
-  l2 NUMERIC, h2 NUMERIC) -> INTEGER}]
+\term[\small\texttt{ivo\_interval\_overlaps(l1 T, h1 T, l2 T, h2 T) -> INTEGER}]
 The function returns 1 if the interval [l1...h1] overlaps with
 the interval [l2...h2].  For the purposes of this function,
 the case l1=h2 or l2=h1 is treated as overlap.  The function
-returns 0 for non-overlapping intervals.
+returns 0 for non-overlapping intervals.  The function must be
+available for both integers and floating point numbers; on most systems,
+this will mean that \verb|T| is \verb|NUMERIC|.
 
 \end{bigdescription}
 
@@ -2739,7 +2744,7 @@ Metadata on columns exposed by a service are contained in
 naturally joined with 
 \rtent{rr.capability} and 
 \rtent{rr.interface}.
-:
+
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url
@@ -3016,7 +3021,7 @@ which case that would become ivo\_whatever} the above query
 could also be written as (the MOC given is the circle above at order 8):
 
 %CHECK_HERE
-\begin{lstlisting}[language=SQL,flexiblecolumns=true]
+\begin{lstlisting}[language=SQL,basicstyle=\footnotesize]
 SELECT ivoid
 FROM rr.stc_spatial
   NATURAL JOIN rr.stc_spectral
@@ -3206,12 +3211,12 @@ expressions in the ADQL translation layer whenever possible.
     END
   $func$ LANGUAGE SQL;
 
-	CREATE OR REPLACE FUNCTION 
-	  ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, 
-	    l2 NUMERIC, h2 NUMERIC)
-	RETURNS BOOLEAN AS $func$
-		SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
-	$func$ LANGUAGE SQL STABLE;
+  CREATE OR REPLACE FUNCTION 
+    ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, 
+      l2 NUMERIC, h2 NUMERIC)
+  RETURNS BOOLEAN AS $func$
+    SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
+  $func$ LANGUAGE SQL STABLE;
 
   -- ivo_string_agg directly corresponds to string_agg; this translation
   -- should be done in the ADQL translator.
@@ -3297,10 +3302,11 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \item Adding \rtent{stc_spatial}, \rtent{stc_temporal}, and
 \rtent{stc_spectral} tables and a sample query illustrating their use.
 \item Adding a \rtent{tap_table} view of TAP-queriable tables.
-\item Requiring ADQL COALESCE and WITH constructs.
+\item Requiring ADQL COALESCE, ILIKE, and WITH constructs.
+\item Requiring an \texttt{ivo\_interval\_overlaps} ADQL User Defined
+Function.
 \item Including VODataService 1.2 resource types.
-\item \rtent{table_name} is no longer case-folded (this is also RegTAP
-1.1 Erratum 1).
+\item \rtent{table_name} is no longer case-folded (RegTAP 1.1 Erratum 1).
 \item Now recommending an index on \rtent{res_table.table_utype} (for
 discovering EPN-TAP, LineTAP, ObsLocTAP\dots).
 \end{itemize}
