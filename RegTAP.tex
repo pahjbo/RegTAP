@@ -10,15 +10,16 @@
 \usepackage{listings}
 \usepackage{todonotes}
 \lstloadlanguages{XML,SQL}
+\lstset{flexiblecolumns=true}
 
 \definecolor{rtcolor}{rgb}{0.15,0.4,0.3}
 \definecolor{tapcolor}{rgb}{0.4,0.1,0.1}
-
 
 \iftth
 \def\rtent#1{\texttt{\color{rtcolor}\verb|#1|}}
 \else
 \makeatletter
+\renewcommand\l@subsection{\@dottedtocline{2}{1.8em}{3em}}
 \def\makeunderscoreletter{\catcode`\_=12}
 \def\makeunderscoresubscript{\catcode`\_=8}
 \def\rtent{\makeunderscoreletter\relax\rt@nt}
@@ -674,7 +675,7 @@ in RegTAP 1.3 will be updated accordingly.}.
 
 
 
-\section{VOResource Tables}
+\section{RegTAP Tables}
 
 \label{vortables}
 
@@ -747,7 +748,7 @@ key-like relationships.}
 \textbf{Name and UType}&\textbf{Description}\\
 \sptablerule
 rr.alt\_identifier\hfil\break
-\makebox[0pt][l]{\scriptsize\texttt{xpath:/(curation/creator/|)altIdentifier}}&
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:/(curation/creator/|)altIdentifier}&
  An alternate identifier associated with this record.\\
 rr.capability\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/capability/}&
@@ -803,13 +804,16 @@ for a resource.\\
 rr.table\_column\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(tableset/schema/|)/table/column/}&
  Metadata on columns of a resource's tables.\\
+rr.tap\_table\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+ A non-standard extension mimicking glots.\\
 rr.validation\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:/(capability/|)validationLevel}&
 Validation levels for resources and capabilities.\\
 
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.2}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
 \label{table:dm}
 \end{table}
 
@@ -1456,7 +1460,8 @@ This table should have an explicit primary key made up of
 \rtent{ivoid} column should be an explicit
 foreign key into \rtent{resource}.  It is recommended to
 maintain an index on at least the \rtent{table_description}
-column, ideally one suited for queries with \rtent{ivo_hasword}.
+column, ideally one suited for queries with \rtent{ivo_hasword}.  Since
+\rtent{table_utype} is used in data discovery, it should be indexed.
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{table_type},
@@ -2414,6 +2419,94 @@ The rows for \rtent{spectral_start} and \rtent{spectral_end} in
 \tapent{unit} column.
 
 
+\subsection{The tap\_table View}
+\label{table_tap_table}
+
+Several Registry clients need to easily obtain metadata on tables
+queriable through TAP.  Since the Registry data model gives services
+some freedom registering these -- they can occur in tablesets of TAP
+services, in tablesets of records having auxiliary TAP capabilities
+\citep{2019ivoa.spec.0520D}, or both --, it is hard to write ADQL
+producing such a relation.  Hence, starting with version 1.2, RegTAP
+services must provide a view encapsulating a query yielding all tables
+in \rtent{rr.res_table}
+
+\begin{enumerate}
+\item that are accessible through a TAP service
+\item and are not declared as \emph{output} tables (which by definition
+cannot be queried)
+\item exactly once for each actual table (i.e., there cannot be two rows
+in the view having the same (\rtent{svcid}, \rtent{table_name}))
+\item with references to both a full metadata record and the record of
+the TAP service publishing the resource.\label{cond:fullmeta}.
+\end{enumerate}
+
+Condition~\ref{cond:fullmeta} requires an explanation: A given table can
+be both in the tableset of the TAP service (that will in general have
+very little additional information on the table) and in the tableset of
+a specific resource (which will contain rich metadata on the table).  In
+the latter case, \rtent{tap_table} must reference the specific resource
+as the full metadata record (the \rtent{resid} column).  Tables only
+present in their TAP services' tableset will have identical
+\rtent{resid} and \rtent{svcid}.
+
+The \rtent{tap_table} view has the following columns:
+
+
+% GENERATED: maketable.sh rr.tap_table
+
+\begin{inlinetable}
+\renewcommand*{\arraystretch}{1.2}
+\small
+\begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
+\sptablerule
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.tap\_table} table}}\\
+\sptablerule
+
+\baselineskip=9pt\relax resid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize string&
+IVOA identifier of the resource this table was taken from (where there is a resource containing this table in its tableset, that resource is preferred over a TAP service).\\
+
+\baselineskip=9pt\relax svcid\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily }&
+\footnotesize string&
+IVOA identifier of the TAP service publishing this table\\
+
+\baselineskip=9pt\relax table\_name\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:name}&
+\footnotesize string&
+The fully qualified name of the table. As per VODataService, this includes all catalog or schema prefixes needed to distinguish it in a query, and it comes with SQL delimiters where necessary.\\
+
+\baselineskip=9pt\relax table\_description\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:description}&
+\footnotesize string&
+A free-text description of the table's contents.\\
+
+\baselineskip=9pt\relax table\_utype\hfil\break
+\makebox[0pt][l]{\scriptsize\ttfamily xpath:utype}&
+\footnotesize string&
+An identifier for a concept in a data model that the data in this table as a whole represent.\\
+
+\sptablerule
+\end{tabular}
+\end{inlinetable}
+
+
+% /GENERATED
+
+Since \rtent{rr.tap_table} is (at least conceptually; this specification
+does not forbid making it a materialised view or a physical table) a
+view, it inherits the properties of the contributing tables.  This means
+that \rtent{table_title} and \rtent{table_description} should be queried
+using \texttt{ivo\_hasword}, and that \rtent{table_utype} should have an
+index.  By construction, (\rtent{svcid}, \rtent{table_name}) is suitable
+as a primary key of the relation.
+
+Appendix~\ref{app:tap-table-viewdef} gives a standard SQL query that
+will produce the view specified here from other RegTAP tables.
+
+
 \section{RegTAP Requirements on TAP services}
 
 Since RegTAP deals with text much more intensively than is usual for the
@@ -3082,7 +3175,7 @@ expressions involving the functions given here with simple boolean
 expressions in the ADQL translation layer whenever possible.
 
 
-\begin{lstlisting}[language=SQL,flexiblecolumns=true,basicstyle=\footnotesize]
+\begin{lstlisting}[language=SQL,basicstyle=\footnotesize]
   CREATE OR REPLACE FUNCTION 
     ivo_hasword(haystack TEXT, needle TEXT)
   RETURNS INTEGER AS $func$
@@ -3114,13 +3207,58 @@ expressions in the ADQL translation layer whenever possible.
   $func$ LANGUAGE SQL;
 
 	CREATE OR REPLACE FUNCTION 
-	  ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, l2 NUMERIC, h2 NUMERIC)
+	  ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, 
+	    l2 NUMERIC, h2 NUMERIC)
 	RETURNS BOOLEAN AS $func$
 		SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
 	$func$ LANGUAGE SQL STABLE;
 
   -- ivo_string_agg directly corresponds to string_agg; this translation
   -- should be done in the ADQL translator.
+\end{lstlisting}
+
+\section{A View Definition for tap\_tables}
+\label{app:tap-table-viewdef}
+
+While RegTAP operators are free to implement \rtent{tap_tables} as
+convenient on their platform, the result must behave as if it was a view
+defined by the following standard SQL query:
+
+\begin{lstlisting}[basicstyle=\footnotesize,language=SQL]
+WITH 
+  fromres AS (
+    -- tables coming in through relationships; only those declaring
+    -- an auxiliary capability *and* a relationship will be considered
+    SELECT tabcap.ivoid as resid, related_id as svcid, table_name,
+      table_title, table_description, table_utype
+    FROM rr.res_table as tab
+    NATURAL JOIN rr.capability as tabcap
+    NATURAL JOIN rr.relationship
+    JOIN rr.capability AS svccap
+      ON (svccap.ivoid=related_id)
+    WHERE
+      (table_type!='output' OR table_type IS NULL)
+      AND svccap.standard_id='ivo://ivoa.net/std/tap'
+      AND tabcap.standard_id='ivo://ivoa.net/std/tap#aux'
+      AND relationship_type='isservedby'),
+
+  fromtap AS (
+    -- tables directly attached to the TAP service
+    SELECT rt.ivoid as resid, ivoid as svcid, 
+      table_name, table_title,
+      table_description, table_utype
+    FROM rr.res_table AS rt
+    NATURAL JOIN rr.capability
+    WHERE 
+      (table_type!='output' OR table_type IS NULL)
+      AND standard_id='ivo://ivoa.net/std/tap'
+      AND NOT EXISTS (SELECT 1 FROM fromres as fr
+        WHERE rt.ivoid=fr.svcid
+        AND rt.table_name=fr.table_name))
+
+-- using WITH here to allow for a lateral union
+SELECT * FROM fromtap UNION ALL 
+SELECT * FROM fromres) q)
 \end{lstlisting}
 
 
@@ -3156,12 +3294,15 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \subsection{Changes from REC-1.1}
 
 \begin{itemize}
-\item \rtent{table_name} is no longer case-folded (this is also RegTAP
-1.1 Erratum 1).
 \item Adding \rtent{stc_spatial}, \rtent{stc_temporal}, and
 \rtent{stc_spectral} tables and a sample query illustrating their use.
+\item Adding a \rtent{tap_table} view of TAP-queriable tables.
 \item Requiring ADQL COALESCE and WITH constructs.
 \item Including VODataService 1.2 resource types.
+\item \rtent{table_name} is no longer case-folded (this is also RegTAP
+1.1 Erratum 1).
+\item Now recommending an index on \rtent{res_table.table_utype} (for
+discovering EPN-TAP, LineTAP, ObsLocTAP\dots).
 \end{itemize}
 
 \subsection{Changes from REC-1.0}
