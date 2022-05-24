@@ -2,7 +2,7 @@
 RegTAP Validation
 =================
 
-:Release: 2019-04
+:Release: 2022-06
 :Author: Markus Demleitner
 :Email: gavo@ari.uni-heidelberg.de
 
@@ -27,10 +27,10 @@ used by the live registry; in that way, the validation works as
 designed, i.e., testing both several aspects of the ingestion and of the
 ADQL engine.
 
-This software is maintained in an SVN repository at
-http://svn.ari.uni-heidelberg.de/svn/gavo/regtap-val
+This software is maintained in the IVOA's repo on github,
+https://github.com/ivoa-std/RegTAP/tree/master/validator
 
-It can be found on the web at http://docs.g-vo.org/regtap-val
+It can also be found on the web at https://docs.g-vo.org/regtap-val
 
 Contact the authors for write privileges.
 
@@ -38,14 +38,14 @@ Contact the authors for write privileges.
 Releases
 --------
 
-* `2019-04 <regtapval-2019-04.tar.gz>`_ – updates for various
-  securityMethod changes
-* `2018-07 <regtapval-2018-07.tar.gz>`_ – the first validator for RegTAP
-  1.1; this will fail on a 1.0 service
-* `2014-06 <regtapval-2014-06.tar.gz>`_ – the last validator for RegTAP
-  1.0 services
-* `2014-03 <regtapval-2014-03.tar.gz>`_
-* `2014-02 <regtapval-2014-02.tar.gz>`_
+* `2019-04 <http://docs.g-vo.org/regtap-val/regtapval-2019-04.tar.gz>`_ 
+  – updates for various securityMethod changes
+* `2018-07 <http://docs.g-vo.org/regtap-val/regtapval-2018-07.tar.gz>`_ 
+  – the first validator for RegTAP 1.1; this will fail on a 1.0 service
+* `2014-06 <http://docs.g-vo.org/regtap-val/regtapval-2014-06.tar.gz>`_ 
+  – the last validator for RegTAP 1.0 services
+* `2014-03 <http://docs.g-vo.org/regtap-val/regtapval-2014-03.tar.gz>`_
+* `2014-02 <http://docs.g-vo.org/regtap-val/regtapval-2014-02.tar.gz>`_
 
 
 Tests Description
@@ -166,13 +166,13 @@ Since 2018-07:
 License
 -------
 
-Copyright 2014-2019 The GAVO Project.
+Copyright 2014-2022 The GAVO Project.
 
 All data and code within this validation suite is released under the
 GNU General Public License Version 3, or, at your option, any later
 version.
 
-If this actually matters to you, some futher cleanup of the resource
+If this actually matters to you, some further cleanup of the resource
 records might be required.  Fragments of that material written by third
 parties might still be copyrightable.  But they probably are not.
 

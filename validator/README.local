@@ -7,7 +7,7 @@ Then, back in regtap-val directory, prepare things::
 	python ingest.py
 
 
-This removes the existing rr.* tables if they exist and populate them from the
+This removes the existing rr.* tables if they exist and populates them from the
 test records (ingest.py would work, too, but it wouldn't update anything
 updated from rr/*, as, e.g., updated grammars and such).
 
