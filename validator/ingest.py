@@ -11,7 +11,6 @@ import warnings
 import shutil
 import subprocess
 import sys
-import urllib
 
 opj = os.path.join
 
@@ -26,7 +25,7 @@ from gavo.helpers import testhelpers
 
 from gavo import api
 from gavo import utils
-from gavo.protocols import oaiclient
+from gavo.protocols import oaiclient, tap
 
 api.LoggingUI(api.ui)
 
@@ -70,6 +69,7 @@ def importStuff():
 
 		api.makeData(rd.getById("create"), connection=conn)
 		api.makeData(rd.getById("import"), connection=conn)
+		tap.publishToTAP(rd, conn)
 
 
 def buildUp():
@@ -85,10 +85,11 @@ def tearDown():
 		class Opts:
 			dropAll = True
 			systemImport = False
+			force = True
 
 		with api.getWritableAdminConn() as conn:
 			dropping._do_dropRD(Opts, "rr/q", conn)
-	except Exception, ex:
+	except Exception as ex:
 		sys.stderr.write("Warning: Could not drop RD: %s, skipping teardown.\n"%ex)
 	else:
 		shutil.rmtree(opj(api.getConfig("inputsDir"), "rr"))

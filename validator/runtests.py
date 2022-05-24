@@ -1,16 +1,14 @@
 """
 A simple runner for json-based tests against an ADQL/TAP server.
 
-This needs GAVO's VOTable package, available from
-http://soft.g-vo.org/subpkgs#votable
+This needs pyVO.
 """
 
 import datetime
 import json
 import unittest
 
-from gavo import votable
-from gavo.votable import tapquery
+import pyvo
 
 
 class QueryTest(unittest.TestCase):
@@ -21,7 +19,7 @@ class QueryTest(unittest.TestCase):
 	"""
 	def __init__(self, serverURL, title, query, expected, 
 			expectedOptional=None):
-		self.serverURL = serverURL
+		self.service = pyvo.dal.TAPService(serverURL)
 		self.title, self.query = title, query.encode("utf-8")
 
 		self.expected = set(tuple(r) for r in expected)
@@ -36,11 +34,11 @@ class QueryTest(unittest.TestCase):
 		return self.title
 
 	def runTest(self):
-		dIter, _ = votable.load(votable.ADQLSyncJob(
-			self.serverURL, self.query).run().openResult())
+		found = self.service.run_sync(self.query).to_table()
 		data = set(
-				tuple(f.isoformat() if isinstance(f, datetime.datetime) else f for f in r) 
-			for r in dIter)
+				tuple(f.isoformat() if isinstance(f, datetime.datetime) else f 
+					for f in rec) 
+			for rec in found)
 
 		if self.expectedOptional is None:
 			self.assertEqual(self.expected, data)
