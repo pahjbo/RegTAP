@@ -1,5 +1,16 @@
-[{
-"title": "rr.resource tests",
+[
+{"title": "rr in tap_schema",
+"tests": [
+	{	"title": "All mandatory tables present",
+		"query": "SELECT count(*) FROM tap_schema.tables WHERE table_name IN ('rr.resource', 'rr.res_role', 'rr.res_subject', 'rr.capability', 'rr.res_schema', 'rr.res_table', 'rr.table_column', 'rr.res_detail', 'rr.interface', 'rr.relationship', 'rr.intf_param', 'rr.validation', 'rr.res_date', 'rr.alt_identifier', 'rr.stc_spatial', 'rr.stc_temporal', 'rr.stc_spectral', 'rr.tap_table')",
+		"expected": [[18]]
+	},
+	{ "title": "schema utype present",
+		"query": "SELECT utype FROM tap_schema.schemas WHERE schema_name='rr'",
+		"expected": [["ivo://ivoa.net/std/RegTAP#1.1"]]
+	}]},
+
+{"title": "rr.resource tests",
 "tests": [
 	{"title": "all records ingested",
 		"query": "select ivoid from rr.resource",
@@ -194,21 +205,21 @@
 	{"title": "table basic columns",
 		"query": "select ivoid, table_name, table_title, table_type, table_utype from rr.res_table where 1=ivo_hasword(table_description, 'positions proper motions photometry')",
 		"expected": [["ivo://x-invalid-test/__system__/tap/run",
-			"ppmxl.data", "PPMXL Objects", "base_table", "fan:ta.sy.any"]]},
+			"Ppmxl.Data", "PPMXL Objects", "base_table", "fan:ta.sy.any"]]},
 
 	{"title": "references to schema",
-		"query": "select schema_name from rr.res_table natural join rr.res_schema where table_name in ('gums.quasars', 'ppmxl.data')",
+		"query": "select schema_name from rr.res_table natural join rr.res_schema where table_name in ('gums.quasars', 'Ppmxl.Data')",
 		"expected": [["gums"], ["ppmxl"]]},
 	
 	{"title": "res_table multiple entity",
 		"query": "select table_name from rr.res_table where ivoid='ivo://x-invalid-test/__system__/tap/run'",
-		"expected": [["califa.fluxpos"], ["ppmxl.data"]]}
+		"expected": [["califa.fluxpos"], ["Ppmxl.Data"]]}
 ]},
 
 
 {"title": "table_column",
 	"tests": [
-		{"title": "table_column basic columns I",
+		{	"title": "table_column basic columns I",
 			"query": "select name, ucd, std, datatype, type_system from rr.table_column where 1=ivo_hasword(column_description, 'number star hipparcos esa')",
 			"expected": [["hipno", "meta.id;meta.main", null, "int", "vs:votabletype"]]},
 
@@ -224,7 +235,7 @@
 		{"title": "references to table",
 			"query": "select schema_name, table_name, name from rr.res_schema natural join rr.res_table natural join rr.table_column where ucd like 'test.%'",
 			"expected": [["califa", "califa.fluxpos", "col2"],
-				["ppmxl", "ppmxl.data", "col1"]]
+				["ppmxl", "Ppmxl.Data", "col1"]]
 		}
 ]},
 
@@ -348,7 +359,7 @@
 			"expected-optional": [["/format/@isMIMEType", "false"]]},
 
 		{"title": "tap details",
-			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/__system__/tap/run' and cap_type='tr:tableaccess'", 
+			"query": "select detail_xpath, detail_value from rr.res_detail natural join rr.capability where ivoid='ivo://x-invalid-test/__system__/tap/run' and cap_type='tr:tableaccess'",
 			"expected": [ 
 				["/capability/dataModel", "ObsCore 1.0"],
 				["/capability/dataModel/@ivo-id", "ivo://ivoa.net/std/ObsCore-1.0"],
@@ -463,7 +474,51 @@
 		{"title": "mirrorURL processed",
 			"query": "select mirror_url from rr.interface where ivoid ILIKE '%6df%'",
 			"expected": [["http://wfaumirror.org/6dF-ssap/?#https://secure.wfau.academia.org/6dF-ssap/?"]]}
+]},
+
+{"title": "Spatial coverage and MOC",
+"tests": [
+	{	"title": "Spatial coverage versus point",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(point(6.81, 16.82), coverage)",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/siap/xmm-om"],
+			["ivo://x-invalid-test/arihip/q/cone"]
+		]
+	},
+
+	{	"title": "Spatial coverage versus circle, small circle",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(circle(6.81, 16.82, 1), coverage)",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/arihip/q/cone"],
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
+	{	"title": "Spatial coverage versus circle, large circle",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(circle(6.81, 16.82, 10), coverage)",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/arihip/q/cone"]
+		]
+	},
+
+	{	"title": "Large circle versus spatial coverage",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(coverage, circle(6.81, 16.82, 20))",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
+	{	"title": "Spatial coverage has no gross false positives",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(point(6.81, -46.82), coverage)",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/arihip/q/cone"]
+		]
+	}
 
 ]}
-
 ]
