@@ -8,6 +8,7 @@ import datetime
 import json
 import unittest
 
+import numpy
 import pyvo
 
 
@@ -33,11 +34,21 @@ class QueryTest(unittest.TestCase):
 	def shortDescription(self):
 		return self.title
 
+	@staticmethod
+	def stringify(val):
+		if isinstance(val, datetime.datetime):
+			return val.isoformat()
+
+		elif isinstance(val, numpy.ma.core.MaskedConstant):
+			return None
+
+		else:
+			return val
+			
 	def runTest(self):
 		found = self.service.run_sync(self.query).to_table()
 		data = set(
-				tuple(f.isoformat() if isinstance(f, datetime.datetime) else f 
-					for f in rec) 
+				tuple(self.stringify(f) for f in rec) 
 			for rec in found)
 
 		if self.expectedOptional is None:

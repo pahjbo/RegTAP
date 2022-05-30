@@ -55,51 +55,6 @@ details see also http://gaia.am.ub.es/GUMS-10/</description>
           </content>
           <format isMIMEType="false">Database</format>
           <coverage>
-            <stc:STCResourceProfile>
-              <stc:AstroCoordSystem id="ashnblwu">
-                <stc:TimeFrame id="asgnblwu">
-                  <stc:TimeScale>TT</stc:TimeScale>
-                  <stc:UNKNOWNRefPos/>
-                </stc:TimeFrame>
-                <stc:SpaceFrame id="apmnblwu">
-                  <stc:ICRS/>
-                  <stc:UNKNOWNRefPos/>
-                  <stc:SPHERICAL coord_naxes="2"/>
-                </stc:SpaceFrame>
-                <stc:SpectralFrame id="lmuedpt"><stc:BARYCENTER/></stc:SpectralFrame>
-                <stc:RedshiftFrame id="lwdidpt" value_type="REDSHIFT">
-                	<stc:DopplerDefinition>RADIO</stc:DopplerDefinition>
-                	<stc:UNKNOWNRefPos/>
-                </stc:RedshiftFrame>
-              </stc:AstroCoordSystem>
-              <stc:AstroCoordArea coord_system_id="ashnblwu">
-                <stc:TimeInterval frame_id="asgnblwu">
-                  <stc:StartTime>
-                    <stc:ISOTime>1952-10-23T12:09:20</stc:ISOTime>
-                  </stc:StartTime>
-                  <stc:StopTime>
-                    <stc:ISOTime>1961-08-30T01:02:03</stc:ISOTime>
-                  </stc:StopTime>
-                </stc:TimeInterval>
-                <stc:TimeInterval frame_id="asgnblwu">
-                  <stc:StartTime>
-                    <stc:ISOTime>2014-01-01T00:00:00</stc:ISOTime>
-                  </stc:StartTime>
-                  <stc:StopTime>
-                    <stc:ISOTime>2020-12-31T00:00:00</stc:ISOTime>
-                  </stc:StopTime>
-                </stc:TimeInterval>
-                <stc:AllSky frame_id="apmnblwu" unit="deg"/>
-               	<stc:SpectralInterval frame_id="lmuedpt" unit="Angstrom">
-               		<stc:LoLimit>912.0</stc:LoLimit>
-               		<stc:HiLimit>2000.0</stc:HiLimit>
-               	</stc:SpectralInterval>
-               	<stc:RedshiftInterval frame_id="lwdidpt" unit="">
-               		<stc:LoLimit>0.25</stc:LoLimit>
-               		<stc:HiLimit>1.0</stc:HiLimit>
-               	</stc:RedshiftInterval>
-         			</stc:AstroCoordArea>
-	          </stc:STCResourceProfile>
             <waveband>Optical</waveband>
           </coverage>
           <tableset>

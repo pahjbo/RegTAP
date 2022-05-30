@@ -512,13 +512,29 @@
 		]
 	},
 
+	{	"title": "Spatial coverage versus polygon",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(polygon(6.2, 16.2, 6.8, 16.2, 6.8, 16.2, 6.2, 16.8), coverage)",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/arihip/q/cone"],
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
 	{	"title": "Spatial coverage has no gross false positives",
 		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(point(6.81, -46.82), coverage)",
 		"tag": "moc",
 		"expected": [
 			["ivo://x-invalid-test/arihip/q/cone"]
 		]
-	}
+	},
 
+	{	"title": "Spatial coverage can be selected",
+		"query": "SELECT coverage from rr.stc_spatial where ivoid='ivo://x-invalid-test/arihip/q/cone'",
+		"tag": "current",
+		"expected": [
+			["0/0-11 6/"]
+		]
+	}
 ]}
 ]

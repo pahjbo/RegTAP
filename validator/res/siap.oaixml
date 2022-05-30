@@ -93,15 +93,17 @@ MAST is serving a OM Mosaic product that uses a pipeline described by Kuntz et. 
           </capability>
           <instrument>XMM</instrument>
           <coverage>
-            <stc:STCResourceProfile xmlns="http://www.ivoa.net/xml/STC/stc-v1.30.xsd">
-              <AstroCoordSystem xlink:type="simple" xlink:href="ivo://STClib/CoordSys#UTC-FK5-TOPO" id="mast.stsci_siap_xmm-omUTC-FK5-TOPO" />
-              <AstroCoords coord_system_id="mast.stsci_siap_xmm-omUTC-FK5-TOPO">
-                <Position1D>
-                  <!-- regionOfRegard -->
-                  <Size pos_unit="arcsec">0.0500000007450581</Size>
-                </Position1D>
-              </AstroCoords>
-            </stc:STCResourceProfile>
+            <spatial>5/4961 6/19755 19758-19759 19841 19843 19849 
+            	19852-19853 19856 19858</spatial>
+            <temporal>37190 37250</temporal>
+            <temporal>38776 38802</temporal>
+            <temporal>41022 41107</temporal>
+            <temporal>41387 41409</temporal>
+            <temporal>41936 41979</temporal>
+            <temporal>43416 43454</temporal>
+            <spectral>4e-20 6e-20</spectral>
+            <spectral>3.00977e-19 6.01953e-19</spectral>
+
             <footprint ivo-id="ivo://foot/print">http://foot.edu/print</footprint>
             <waveband>Optical</waveband>
             <regionOfRegard>0.00001</regionOfRegard>
