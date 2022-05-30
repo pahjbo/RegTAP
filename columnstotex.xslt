@@ -14,7 +14,7 @@
 \small
 \begin{tabular}{p{0.28\textwidth}p{0.2\textwidth}p{0.66\textwidth}}
 \sptablerule
-\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the \rtent{rr.<value-of select="@name"/>} table}}\\
+\multicolumn{3}{l}{\textit{Column names, utypes, datatypes, and descriptions for the rr.<value-of select="@name"/> table}}\\
 \sptablerule
 <apply-templates/>
 \sptablerule
