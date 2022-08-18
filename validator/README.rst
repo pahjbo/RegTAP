@@ -38,6 +38,8 @@ Contact the authors for write privileges.
 Releases
 --------
 
+* `2022-08 <http://docs.g-vo.org/regtap-val/regtapval-2022-08.tar.gz>`_ 
+  – basic tests for features slated for RegTAP 1.2
 * `2019-04 <http://docs.g-vo.org/regtap-val/regtapval-2019-04.tar.gz>`_ 
   – updates for various securityMethod changes
 * `2018-07 <http://docs.g-vo.org/regtap-val/regtapval-2018-07.tar.gz>`_ 
@@ -126,6 +128,10 @@ Limitations
 
 Changelog
 ---------
+
+Since 2019-04:
+
+* RegTAP 1.2 additions: STC coverage, COALESCE, WITH, rr.tap_table.
 
 Since 2014-03:
 

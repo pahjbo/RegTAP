@@ -1,4 +1,4 @@
-VERSION=2022-06
+VERSION=2022-08
 DISTNAME=regtapval-$(VERSION)
 
 package:

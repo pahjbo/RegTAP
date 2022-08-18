@@ -69,6 +69,7 @@ def importStuff():
 
 		api.makeData(rd.getById("create"), connection=conn)
 		api.makeData(rd.getById("import"), connection=conn)
+		api.makeData(rd.getById("make_tap_table"), connection=conn)
 		tap.publishToTAP(rd, conn)
 
 

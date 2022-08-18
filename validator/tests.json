@@ -456,7 +456,7 @@
 				["http://creativecommons.org/publicdomain/zero/1.0/", "This must only contain the first rights content"]
 				]},
 
-		{"title": "Support for ILIKE (RegTAP 1.1)",
+		{"title": "Support for ILIKE",
 			"query": "select ivoid from rr.resource where ivoid ilike '%KeckObs'",
 			"expected": [
 				["ivo://x-invalid-test/keckobs"]
@@ -521,6 +521,23 @@
 		]
 	},
 
+	{	"title": "Spatial coverage versus MOC literal",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(coverage, MOC('3/300-320'))",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
+	{	"title": "Spatial coverage versus MOC-casted geometry",
+		"query": "SELECT ivoid from rr.stc_spatial where 1=intersects(coverage, MOC(5, circle(6.81,16.82,1)))",
+		"tag": "moc",
+		"expected": [
+			["ivo://x-invalid-test/arihip/q/cone"],
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
 	{	"title": "Spatial coverage has no gross false positives",
 		"query": "SELECT ivoid from rr.stc_spatial where 1=contains(point(6.81, -46.82), coverage)",
 		"tag": "moc",
@@ -529,12 +546,68 @@
 		]
 	},
 
-	{	"title": "Spatial coverage can be selected",
+	{	"title": "MOCs can be selected",
 		"query": "SELECT coverage from rr.stc_spatial where ivoid='ivo://x-invalid-test/arihip/q/cone'",
-		"tag": "current",
+		"tag": "moc",
 		"expected": [
 			["0/0-11 6/"]
 		]
 	}
+]},
+
+
+{"title": "Temporal and spectral coverage",
+"tests": [
+	{	"title": "Plain time interval",
+		"query": "SELECT ivoid FROM rr.stc_temporal WHERE time_start<38000",
+		"tag": "scalar-intervals",
+		"expected": [
+			["ivo://x-invalid-test/siap/xmm-om"]
+		]
+	},
+
+	{	"title": "ivo_interval_overlaps misses",
+		"query": "SELECT ivoid FROM rr.stc_temporal WHERE 1=ivo_interval_overlaps(time_start, time_end, 12000, 13000)",
+		"tag": "scalar-intervals",
+		"expected": []
+	},
+  
+	{	"title": "ivo_interval_overlaps returns 0 when false",
+		"query": "SELECT count(*) FROM rr.stc_temporal WHERE 0=ivo_interval_overlaps(time_start, time_end, 40000, 60000)",
+		"tag": "current",
+		"expected": [[2]]
+	},
+
+ 	{	"title": "ivo_specconv spectral with ivo_specconv",
+		"query": "SELECT count(*) FROM rr.stc_spectral WHERE ivo_specconv(4000, 'nm', 'J') BETWEEN spectral_start and spectral_end",
+		"tag": "current",
+		"expected": [[1]]
+	}
+
+]},
+
+{"title": "Misc RegTAP 1.2 additions",
+	"tests": [
+		{"title": "COALESCE supported",
+			"tag": "rt12",
+			"query": "select ivo_string_agg(COALESCE(intf_role, '--'), '+') from (select intf_role from rr.interface where ivoid='ivo://x-invalid-test/arihip/q/cone' order by access_url) AS q",
+			"expected": [
+				["--+--+--+std+--"]
+				]},
+
+		{"title": "WITH supported",
+			"tag": "rt12",
+			"query": "WITH intfs AS ( SELECT * FROM rr.interface NATURAL JOIN rr.capability NATURAL JOIN rr.resource ORDER BY access_url) SELECT access_url, waveband, res_type, standard_id FROM intfs WHERE 1=ivo_hashlist_has(waveband, 'infrared')",
+			"expected": [
+				["http://wfaudata.roe.ac.uk/6dF-ssap/?", "optical#infrared", "vs:catalogservice", "ivo://ivoa.net/std/ssa"]
+				]},
+
+		{"title": "tap_table present",
+			"tag": "cur",
+			"query": "select table_name, table_title, table_utype from rr.tap_table order by table_utype",
+			"expected": [
+				["califa.fluxpos", "", ""],
+				["Ppmxl.Data", "PPMXL Objects", "fan:ta.sy.any"]
+				]}
 ]}
 ]
