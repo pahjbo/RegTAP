@@ -86,7 +86,7 @@ publishing registries.
 To enable efficient data discovery nevertheless, there are services
 (``searchable registries'') harvesting the
 resource records from the publishing registries and offering rich query
-facilities to Registry clients. 
+facilities to Registry clients.
 Version 1.0 of the IVOA Registry
 Interfaces specification \citep{2009ivoa.spec.1104B} defined, among other aspects of
 the VO registry system, a standard interface for such services.
@@ -128,7 +128,7 @@ short, with a standard schema name of \tapent{rr}.
 The specificiation additionally talks about how to embed these into TAP
 services, gives additional user defined functions, talks about
 discovering compliant services, etc.  Since all this is tightly coupled
-to the ``relational registry'' as defined above, we do not 
+to the ``relational registry'' as defined above, we do not
 introduce a new term for it.  Hence, the entire standard is now known as
 ``IVOA registry relational schema''.
 
@@ -188,8 +188,8 @@ model for resource records via its schema definition.  This document
 refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
 1.1 incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
-\item[VODataService, v1.2 \citep{2021ivoa.spec.1102D}] VODataService 
-de\-scribes several concepts and resource types extending 
+\item[VODataService, v1.2 \citep{2021ivoa.spec.1102D}] VODataService
+de\-scribes several concepts and resource types extending
 VOResource's data model, including
 tablesets, data services and data
 collections.  These concepts and types are reflected in the database
@@ -250,7 +250,7 @@ a resource ends up in a column named
 \rtent{res_description}, whereas the same element from a
 \vorent{capability} becomes \rtent{cap_description}.
 
-We further renamed some columns and most tables 
+We further renamed some columns and most tables
 with respect to their VOResource
 counterparts to avoid clashes with reserved words in popular database
 management systems.  The alternatives would have been to either recommend
@@ -380,7 +380,7 @@ containing values not usually intended for display to be
 converted to lower case on ingestion.  This also somewhat reduces the
 likelihood that matches are missed because of different capitalisation,
 since queries disregarding capitalisation variations will yield empty
-(rather than partial) results.  
+(rather than partial) results.
 
 In the table descriptions below, there are
 explicit requirements on case normalization near the end of each
@@ -390,7 +390,7 @@ Client software that can inspect user-provided arguments (e.g., when
 filling template queries) should also convert the respective fields to
 lower case.
 
-This conversion MUST cover all ASCII letters, i.e., A through Z.  
+This conversion MUST cover all ASCII letters, i.e., A through Z.
 The conversion SHOULD take place according to
 algorithm R2 in section 3.13, ``Default Case Algorithms'' of the Unicode
 Standard
@@ -422,7 +422,7 @@ descriptions, \rtent{res_title} and \rtent{creator_seq} in
 \rtent{street_address} in \rtent{rr.res_role}.
 
 RegTAP implementations SHOULD be able to faithfully represent all
-characters defined in the latest version of the Unicode standard 
+characters defined in the latest version of the Unicode standard
 \citep{std:UNICODE} at
 any given time and allow querying using them (having support for UTF-8
 in the database should cover this requirement) for at least the fields
@@ -517,10 +517,10 @@ versions.  For consistency, and because there should not really be
 discovery use cases based on minor versions of XML schemas, all
 namespace URIs for the same major version of a standard have the same
 canonical prefix -- e.g., both VODataService
-1.1 and VODataService 1.2 use \texttt{vs:}.  
+1.1 and VODataService 1.2 use \texttt{vs:}.
 
 For reference, table~\ref{tab:prefixmap}
-lists the XML namespace URIs and their canonical prefixes 
+lists the XML namespace URIs and their canonical prefixes
 for schemata widely used in the VO Registry.
 
 \begin{table}
@@ -577,7 +577,7 @@ names.
 
 Some tables draw data from several different VOResource elements.
 For those, we have introduced an extended syntax with additional
-metacharacters \verb$($, \verb$)$, and \verb$|$, 
+metacharacters \verb$($, \verb$)$, and \verb$|$,
 where the vertical bar denotes an
 alternative and the parentheses grouping.  For instance, our notation
 \texttt{/(tableset/schema/|)table/} corresponds to the two xpaths
@@ -586,7 +586,7 @@ alternative and the parentheses grouping.  For instance, our notation
 Within the Virtual Observatory, the link between data models and
 concrete data representations is usually made using utypes.
 Since VOResource is directly modelled
-in XML Schema, the choice of XPath as the bridging formalism is 
+in XML Schema, the choice of XPath as the bridging formalism is
 compelling, though, and utypes themselves are not necessary for the
 operation of a TAP service containing the relational registry.
 TAP, however, offers fields for utypes in its \tapent{TAP\_SCHEMA}.  Since they
@@ -627,7 +627,7 @@ just search for any xpaths into VOResource within \rtent{res_detail}.
 
 Non-normatively, we give an XSLT
 sheet\footnote{\auxiliaryurl{makeutypes.xslt}} producing resource xpaths
-for suitable VOResource extensions. It is, however, not fully general, 
+for suitable VOResource extensions. It is, however, not fully general,
 as it will only notice direct subclasses of VOResource's
 \vorent{Resource}, \vorent{Capability}, and \vorent{Interface} classes.
 If extensions derive from other extensions' subclasses of these classes,
@@ -653,9 +653,9 @@ entails adding
 as a child of the capability element with the type
 \vorent{tr:TableAccess}.
 
-A client that knows the access URL of one TAP service containing 
+A client that knows the access URL of one TAP service containing
 a relational
-registry can thus discover all other services exposing one. The 
+registry can thus discover all other services exposing one. The
 ``Find all TAP endpoints offering the
 relational registry'' example (sect.~\ref{ex:find-regtap})
 shows a query that does
@@ -706,7 +706,7 @@ redaction).  Registry operators MAY provide additional columns in their
 tables, but they MUST provide all columns given in this
 specification.
 
-Many of the columns specified below are defined as having a ``string'' 
+Many of the columns specified below are defined as having a ``string''
 data type.  This is to be translated into arrays of \texttt{char} or
 \texttt{unicodeChar} on VOTable output depending on the service
 operators' decisions as to the representation of non-ASCII data in the
@@ -826,7 +826,7 @@ Validation levels for resources and capabilities.\\
 
 The \rtent{rr.resource} table contains most atomic members of
 \rtent{vr:Resource} that have a 1:1 relationship to the resource
-itself.  Members of derived types are, in general, handled through 
+itself.  Members of derived types are, in general, handled through
 the \rtent{res_detail}
 table even if 1:1 (see \ref{table_res_detail}).  The
 \rtent{content_level}, \rtent{content_type}, and \rtent{waveband}
@@ -863,7 +863,7 @@ the input sequence of the rows belonging to one resource.
 
 The \rtent{res_type} column reflects the lower-cased value of
 the \vorent{ri:Resource} element's \texttt{xsi:type} attribute,
-where the canonical prefixes (cf.~sect.~\ref{qnameatts}) 
+where the canonical prefixes (cf.~sect.~\ref{qnameatts})
 are used.  While custom or experimental
 VOResource extensions may lead to more or less arbitrary strings in that
 column, VOResource and its IVOA-recommended extensions at the time of
@@ -872,7 +872,7 @@ writing define the following values for \rtent{res_type}:
 
 \begin{description}
 \item[vg:authority]A naming authority; as described in the IVOA
-Identifiers specification \citep{2016ivoa.spec.0523D}, these records 
+Identifiers specification \citep{2016ivoa.spec.0523D}, these records
 are used to guarantee global uniqueness of IVOIDs.
 \item[vg:registry]A registry.  This can be a publishing registry (which
 have at least one capability element of type \xmlel{vg:Harvest}), or a
@@ -910,9 +910,9 @@ reflected here.  Neither \vorent{inactive} nor \vorent{deleted}
 records may be kept in the \rtent{resource} table.  Since all
 other tables in the relational registry should keep a foreign key on the
 \rtent{ivoid} column, this implies that only metadata on
-\vorent{active} records 
+\vorent{active} records
 is being kept in the relational registry. In other words, users can
-expect a resource to exist and work if they find it in a relational 
+expect a resource to exist and work if they find it in a relational
 registry.
 
 
@@ -1038,7 +1038,7 @@ using the the \rtent{ivo_hasword} function, and to use
 \rtent{content_type}, and
 \rtent{waveband}.
 
-The row for \rtent{region_of_regard} in  
+The row for \rtent{region_of_regard} in
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{deg} in its
 \tapent{unit} column.
 
@@ -1057,7 +1057,7 @@ sect.~\ref{sect:vocab-use} before further processing.
 
 \label{table_res_role}
 
-This table subsumes the contact, publisher, contributor, 
+This table subsumes the contact, publisher, contributor,
 and creator members of the
 VOResource data model.  They have been combined into a single table to
 reduce the total number of tables, and also in anticipation of a unified
@@ -1068,7 +1068,7 @@ can be one of \rtent{contact}, \rtent{publisher}, \rtent{contributor}, or
 \rtent{creator}.  Depending on this value, here are the xpaths
 for the table fields (we have abbreviated
 \vorent{/curation/publisher}
-as cp, \vorent{/curation/contact} as co, \vorent{/curation/creator} 
+as cp, \vorent{/curation/contact} as co, \vorent{/curation/creator}
 as cc,
 and \vorent{/curation/contributor} as cb):
 
@@ -1161,7 +1161,7 @@ The role played by this entity; this is one of contact, publisher, contributor, 
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid} column should be an explicit foreign key into
 the \rtent{resource} table.  It is recommended to maintain indexes
@@ -1213,7 +1213,7 @@ Topics, object types, or other descriptive keywords about the resource.\\
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid}  column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to index the
@@ -1224,7 +1224,7 @@ The \rtent{ivoid} column MUST be lowercased during
 ingestion.  Clients are advised to query the \rtent{res_subject} column
 case-insensitively, e.g., using \verb|ivo_nocasematch|.
 
-The content of incoming \vorent{subject} 
+The content of incoming \vorent{subject}
 elements may be normalized according to the rules laid down in
 sect.~\ref{sect:vocab-use}.
 
@@ -1286,13 +1286,13 @@ A URI for a standard this capability conforms to.\\
 
 % /GENERATED
 
- 
+
 
 This table should have an explicit primary key made up of
 \rtent{ivoid} and \rtent{cap_index}.
 The \rtent{ivoid} column should be
 an explicit foreign key into \rtent{resource}.
-It is recommended to maintain indexes on at least the 
+It is recommended to maintain indexes on at least the
 \rtent{cap_type} and \rtent{standard_id} columns.
 
 The following columns MUST be lowercased during ingestion:
@@ -1361,7 +1361,7 @@ An identifier for a concept in a data model that the data in this schema as a wh
 
 % /GENERATED
 
- 
+
 
 This table should have an explicit primary key made up of
 \rtent{ivoid} and \rtent{schema_index}.  The
@@ -1370,7 +1370,7 @@ This table should have an explicit primary key made up of
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{schema_name}, \rtent{schema_utype}.
-Clients are advised to query the \rtent{schema_description} 
+Clients are advised to query the \rtent{schema_description}
 and \rtent{schema_title} columns
 using the the \rtent{ivo_hasword} function.
 
@@ -1453,10 +1453,10 @@ An identifier for a concept in a data model that the data in this table as a who
 
 % /GENERATED
 
- 
+
 
 This table should have an explicit primary key made up of
-\rtent{ivoid} and \rtent{table_index}.  The 
+\rtent{ivoid} and \rtent{table_index}.  The
 \rtent{ivoid} column should be an explicit
 foreign key into \rtent{resource}.  It is recommended to
 maintain an index on at least the \rtent{table_description}
@@ -1493,7 +1493,7 @@ queries against \rtent{flag}.
 The \rtent{table_column} table also includes information from
 VODataService's data type concept.  VODataService 1.1 includes several type
 systems (VOTable, ADQL, Simple).  The
-\rtent{type_system} column contains the value of the column's 
+\rtent{type_system} column contains the value of the column's
 \vorent{datatype} child, with the VODataService XML prefix fixed
 to vs; hence, this column will contain one of NULL,
 \texttt{vs:taptype},
@@ -1592,7 +1592,7 @@ A free-text description of the column's contents.\\
 
 % /GENERATED
 
- 
+
 
 The pair \rtent{ivoid}, \rtent{table_index} should be an
 explicit foreign key into \rtent{res_table}.  It is recommended to
@@ -1788,7 +1788,7 @@ is recommended to maintain an index on at least the
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{intf_type}, \rtent{intf_role},
 \rtent{std_version}, \rtent{query_type},
-\rtent{result_type}, \rtent{url_use}, 
+\rtent{result_type}, \rtent{url_use},
 Clients are advised to query \rtent{query_type} using the the
 \rtent{ivo_hashlist_has} function.
 
@@ -1894,7 +1894,7 @@ A free-text description of the parameter's contents.\\
 
 % /GENERATED
 
- 
+
 
 The pair \rtent{ivoid}, \rtent{intf_index} should be an explicit
 foreign key into \rtent{interface}.
@@ -1954,7 +1954,7 @@ The name of resource that this resource is related to.\\
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid} column should be an explicit foreign key into the
 \rtent{resource} table.  You should index at least the
@@ -1996,7 +1996,7 @@ are free to handle or ignore validation results as they see fit, and
 they may add validation results of their own.
 
 The validation levels are defined in \citet{2007ivoa.spec.0302H} and
-currently range from 0 (description stored in a registry) to 
+currently range from 0 (description stored in a registry) to
 4 (inspected by a human to be technically and scientifically
 correct).
 
@@ -2038,7 +2038,7 @@ If non-NULL, the validation only refers to the capability referenced here.\\
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  Note, however, that \rtent{ivoid},
@@ -2091,7 +2091,7 @@ A string indicating what the date refers to, e.g., created, availability, update
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
@@ -2099,7 +2099,7 @@ The \rtent{ivoid} column should be an explicit foreign key into
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{value_role}.
 
-The content of incoming \vorent{date/@role} 
+The content of incoming \vorent{date/@role}
 attributes must be normalized according to the rules laid down in
 sect.~\ref{sect:vocab-use} before lowercasing.
 
@@ -2128,21 +2128,21 @@ required, this standard will need to be changed.
 
 Appendix \ref{d_u_list} gives a list
 of resource xpaths from the registry extensions
-that were recommendations at the time of writing.  
+that were recommendations at the time of writing.
 For the resource xpaths marked with an exclamation mark there,
 xpath/value pairs MUST be generated whenever the corresponding
 metadata items are given in a resource record.
 For the remaining resource xpaths, these pairs should be provided if
 convenient; they mostly concern test queries and other curation-type
 information that, while unlikely to be useful to normal users, may be
-relevant to curation-type clients that, e.g., ascertain the continued 
+relevant to curation-type clients that, e.g., ascertain the continued
 operation of services.
 
 Some detail values must be interpreted case-insensitively; this
 concerns, in particular, IVOID like the TAP data model type.  For other
 rows -- the test queries are immediate examples -- , changing the case
 will likely break the data.  In order to avoid having to give and
-implement case normalization rules by detail xpath, no case normalization 
+implement case normalization rules by detail xpath, no case normalization
 is done on detail values at all, and users and clients will have to use
 \verb|ivo_nocasematch| when locating
 case-insensitive values.  For the resource xpaths given in Appendix \ref{d_u_list}, this concerns all items with xpaths ending
@@ -2151,11 +2151,11 @@ in \texttt{@ivo-id}.
 Individual
 ingestors
 MAY choose to expose additional metadata using other xpaths, provided
-they are formed according to the rules in 
+they are formed according to the rules in
 section \ref{vorutypes} (this rule is intended
 to minimize the risk of later clashes).
 
-In addition to the metadata listed in this specification, 
+In addition to the metadata listed in this specification,
 metadata defined in future
 IVOA-approved VOResource extensions MUST or SHOULD be present in
 \rtent{res_detail} as the extensions require it.
@@ -2198,7 +2198,7 @@ The xpath of the data item.\\
 
 % /GENERATED
 
- 
+
 
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.  It is recommended to maintain indexes on
@@ -2224,7 +2224,7 @@ DOIs, ORCIDs, and bibcodes.
 Considering that that the typical query against the alternate
 identifiers can be expected to be of the type ``records having to do
 with \emph{identifier}'' and since the identifiers
-are stored in URI form and hence identifiers of different types 
+are stored in URI form and hence identifiers of different types
 cannot clash, RegTAP does not keep track
 where an alternate identifier was encountered.  Instead, the
 \rtent{alt_identifier} table just links IVOIDs and alternate
@@ -2362,7 +2362,7 @@ Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified interval
 of interest to \rtent{time_start} $\cdots$ \rtent{time_end}.
 
-The rows for \rtent{time_start} and \rtent{time_end} in  
+The rows for \rtent{time_start} and \rtent{time_end} in
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{d} in their
 \tapent{unit} column.
 
@@ -2413,7 +2413,7 @@ Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified intervals
 of interest to \rtent{spectral_start} $\cdots$ \rtent{spectral_end}.
 
-The rows for \rtent{spectral_start} and \rtent{spectral_end} in  
+The rows for \rtent{spectral_start} and \rtent{spectral_end} in
 \tapent{TAP\_SCHEMA.columns} MUST have \texttt{J} in their
 \tapent{unit} column.
 
@@ -2523,7 +2523,7 @@ User Defined Functions (UDFs).
 
 \subsection{ADQL Optional Features requried for RegTAP}
 
-TAP Servers implementing the 
+TAP Servers implementing the
 \texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
 following optional features defined in ADQL 2.1 \citep{NOT-A-REC-YET}:
 
@@ -2548,7 +2548,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \subsection{User Defined Functions required for RegTAP}
 \label{adqludf}
 
-TAP Servers implementing the 
+TAP Servers implementing the
 \texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST
 implement the following User Defined Functions in their ADQL language,
 given here
@@ -2578,8 +2578,8 @@ case-insensitively, the second argument is in the list of words encoded in
 the first argument, 0 otherwise.  The behavior for second
 arguments containing a hash sign is undefined.
 \term[\small\texttt{ivo\_string\_agg(expr VARCHAR(*), delim VARCHAR(*)) -> VARCHAR(*)}]An aggregate function returning all values of
-\texttt{expr} within a GROUP concatenated with 
-\texttt{delim}.  NULLs in the aggregate do not contribute, an empty 
+\texttt{expr} within a GROUP concatenated with
+\texttt{delim}.  NULLs in the aggregate do not contribute, an empty
 aggregate yields an empty string.
 
 \term[\small\texttt{ivo\_interval\_overlaps(l1 T, h1 T, l2 T, h2 T) -> INTEGER}]
@@ -2635,9 +2635,9 @@ shown here if their particular use cases require them.
 \subsection{TAP accessURLs}
 \textbf{Problem:} Find all TAP services; return their accessURLs
 
-As the capability type is in 
+As the capability type is in
 \rtent{rr.capability}, whereas the access URL can be
-found from 
+found from
 \rtent{rr.interface}, this requires
 a (natural) join.
 
@@ -2686,17 +2686,17 @@ galaxies
 This is somewhat tricky since it is probably hard to image a part
 of the sky guaranteed not to have some, possibly distant, spiral galaxy
 in it.  However, translating the intention into ``find all SIA services
-that mention spiral in either the subject (from 
+that mention spiral in either the subject (from
 \rtent{rr.res_subject}), the description, or the
-title (which are in 
-\rtent{rr.resource})'', 
+title (which are in
+\rtent{rr.resource})'',
 the query would become:
 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url
-FROM rr.capability 
+FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.res_subject
@@ -2714,20 +2714,20 @@ WHERE standard_id like 'ivo://ivoa.net/std/sia%'
 \textbf{Problem:} Find all SIA services that provide infrared
 images
 
-The waveband information in 
-\rtent{rr.resource} 
+The waveband information in
+\rtent{rr.resource}
 comes in hash-separated atoms (which can be
 radio, millimeter, infrared, optical, uv, euv, x-ray, or gamma-ray).
 For matching those, use the \rtent{ivo_hashlist_has} function as
-below.  The access URL and the service standard come from 
-\rtent{rr.interface} and 
+below.  The access URL and the service standard come from
+\rtent{rr.interface} and
 \rtent{rr.capability}, respectively.
 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url
-FROM rr.capability 
+FROM rr.capability
   NATURAL JOIN rr.resource
   NATURAL JOIN rr.interface
 WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
@@ -2739,27 +2739,27 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/sia%'
 \textbf{Problem:} Find all searchable catalogs (i.e., cone search
 services) that provide a column containing redshifts
 
-Metadata on columns exposed by a service are contained in 
+Metadata on columns exposed by a service are contained in
 \rtent{rr.table_column}.  Again, this table can be
-naturally joined with 
-\rtent{rr.capability} and 
+naturally joined with
+\rtent{rr.capability} and
 \rtent{rr.interface}.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT ivoid, access_url
-FROM rr.capability 
+FROM rr.capability
   NATURAL JOIN rr.table_column
-  NATURAL JOIN rr.interface 
+  NATURAL JOIN rr.interface
 WHERE standard_id LIKE 'ivo://ivoa.net/std/conesearch%'
   AND intf_role='std'
   AND ucd='src.redshift'
 \end{lstlisting}
 
 Sometimes you want to match a whole set of ucds.  Frequently the
-simple regular expressions of SQL will help, as in 
-\texttt{AND ucd LIKE 'pos.parallax\%'}.  When that is not enough, 
-use boolean OR expressions 
+simple regular expressions of SQL will help, as in
+\texttt{AND ucd LIKE 'pos.parallax\%'}.  When that is not enough,
+use boolean OR expressions
 
 \subsection{Names from an Authority}
 
@@ -2768,14 +2768,14 @@ authority
 
 An ``authority'' within the VO is something that hands out identifiers.
 You can tell what authority a record came from by looking at the ``host
-part'' of the IVO identifier, most naturally obtained from 
+part'' of the IVO identifier, most naturally obtained from
 \rtent{rr.resource}.  Since ADQL cannot actually parse
 URIs, we make do with simple string matching:
 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid 
+SELECT ivoid
 FROM rr.resource
 WHERE ivoid LIKE 'ivo://org.gavo.dc%'
 \end{lstlisting}
@@ -2785,7 +2785,7 @@ WHERE ivoid LIKE 'ivo://org.gavo.dc%'
 \textbf{Problem:} What registry records are there from a given
 publisher?
 
-This uses the 
+This uses the
 \rtent{rr.res_role}
  table both to
 match names (in this case, a publisher that has ``gavo'' in its name) and
@@ -2798,7 +2798,7 @@ services.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid 
+SELECT ivoid
 FROM rr.res_role
 WHERE 1=ivo_nocasematch(role_name, '%gavo%')
   AND base_role='publisher'
@@ -2810,7 +2810,7 @@ records,
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid 
+SELECT ivoid
 FROM rr.res_role
 WHERE role_ivoid='ivo://ned.ipac/ned'
   AND base_role='publisher'
@@ -2833,8 +2833,8 @@ SELECT ivoid FROM rr.resource
 RIGHT OUTER JOIN (
   SELECT 'ivo://' || detail_value || '%' AS pat
   FROM rr.res_detail
-  WHERE detail_xpath='/managedAuthority' 
-    AND ivoid='ivo://cds.vizier/registry') 
+  WHERE detail_xpath='/managedAuthority'
+    AND ivoid='ivo://cds.vizier/registry')
   AS authpatterns
 ON 1=ivo_nocasematch(resource.ivoid, authpatterns.pat)
 \end{lstlisting}
@@ -2846,10 +2846,10 @@ ON 1=ivo_nocasematch(resource.ivoid, authpatterns.pat)
 registry
 
 This is the discovery query for RegTAP services themselves;  note how
-this combines 
+this combines
 \rtent{rr.res_detail} pairs with
 \rtent{rr.capability}
-and 
+and
 \rtent{rr.interface} to locate the desired protocol
 endpoints.  As clients should not usally be concerned with minor
 versions of protocols unless  they rely on additions made in later
@@ -2866,7 +2866,7 @@ NATURAL JOIN rr.res_detail
 WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
   AND intf_role='std'
   AND detail_xpath='/capability/dataModel/@ivo-id'
-  AND 1=ivo_nocasematch(detail_value, 
+  AND 1=ivo_nocasematch(detail_value,
     'ivo://ivoa.net/std/regtap#1.%')
   AND authenticated_only=0
 \end{lstlisting}
@@ -2881,22 +2881,22 @@ exposing a table with certain features
 
 ``Certain features'' could be ``have some word in their description
 and having a column with a certain UCD''.  Either way, this kind of query
-fairly invariably combines the usual 
-\rtent{rr.capability} and 
+fairly invariably combines the usual
+\rtent{rr.capability} and
 \rtent{rr.interface}
  for service location with
 \rtent{rr.table_column}
  for the column metadata
-and 
+and
 \rtent{rr.res_table} for properties of tables.
 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT ivoid, 
+SELECT ivoid,
   name, ucd, column_description,
   access_url
-FROM rr.capability 
+FROM rr.capability
   NATURAL JOIN rr.interface
   NATURAL JOIN rr.table_column
   NATURAL JOIN rr.res_table
@@ -2912,17 +2912,17 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/tap%'
 provide theoretical spectra.
 
 The metadata required to solve this problem is found in the SSAP
-registry extension and is thus kept in 
+registry extension and is thus kept in
 \rtent{rr.res_detail}:
 
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
 SELECT access_url
-FROM rr.res_detail 
-  NATURAL JOIN rr.capability 
-  NATURAL JOIN rr.interface 
-WHERE detail_xpath='/capability/dataSource' 
+FROM rr.res_detail
+  NATURAL JOIN rr.capability
+  NATURAL JOIN rr.interface
+WHERE detail_xpath='/capability/dataSource'
   AND intf_role='std'
   AND standard_id LIKE 'ivo://ivoa.net/std/ssa%'
   AND detail_value='theory'
@@ -2943,9 +2943,9 @@ contact person by requiring \texttt{base\_role='contact'}.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT DISTINCT base_role, role_name, email 
-FROM rr.res_role 
-  NATURAL JOIN rr.interface 
+SELECT DISTINCT base_role, role_name, email
+FROM rr.res_role
+  NATURAL JOIN rr.interface
 WHERE access_url='http://dc.zah.uni-heidelberg.de/tap'
 \end{lstlisting}
 
@@ -2967,18 +2967,18 @@ While the access URLs can typically be established from the auxiliary
 capabilities themselves, several use cases require finding out more
 about the publishing service.  To locate its metadata, inspect
 \rtent{rr.relationship} and use it to select records
-from 
+from
 \rtent{rr.capability}; this requires an explicit join condition, as in
 this case the capabilities are for the \emph{related} record, not for
 the originally matched one.
 
 %CHECK_HERE
 \begin{lstlisting}[language=SQL,flexiblecolumns=true]
-SELECT * 
+SELECT *
 FROM rr.relationship AS a
-  JOIN rr.capability AS b 
-    ON (a.related_id=b.ivoid) 
-WHERE 
+  JOIN rr.capability AS b
+    ON (a.related_id=b.ivoid)
+WHERE
   relationship_type='isservedby'
   AND a.ivoid='ivo://cds.vizier/j/a+a/649/a25'
 \end{lstlisting}
@@ -3005,7 +3005,7 @@ SELECT ivoid
 FROM rr.stc_spatial
   NATURAL JOIN rr.stc_spectral
   NATURAL JOIN rr.stc_temporal
-WHERE 
+WHERE
   1=CONTAINS(MOC(8, CIRCLE(210.80, 54.35, 0.3)), coverage)
   AND 1=ivo_interval_overlaps(time_start, time_end, 55409, 55440)
   AND 3.97e-20 between spectral_start and spectral_end
@@ -3026,10 +3026,10 @@ SELECT ivoid
 FROM rr.stc_spatial
   NATURAL JOIN rr.stc_spectral
   NATURAL JOIN rr.stc_temporal
-WHERE 
+WHERE
   1=CONTAINS(MOC('8/182947 182950 182952-182953 182955-182956 8/'), coverage)
   AND 1=ivo_interval_overlaps(
-    time_start, time_end, 
+    time_start, time_end,
     gavo_to_mjd('2010-08-01'), gavo_to_mjd('2010-08-31'))
   AND gavo_specconv(5e-6, 'm', 'J') between spectral_start and spectral_end
 \end{lstlisting}
@@ -3048,12 +3048,12 @@ xpaths for which xpath/value pairs MUST (where marked with an
 exclamation mark) or SHOULD be given if the
 corresponding data is present in the resource records.  This list is
 normative for metadata defined in IVOA recommendations current as of the
-publication of this document (see section \ref{rolewithinivoa}).  
-As laid down in section \ref{table_res_detail}, 
+publication of this document (see section \ref{rolewithinivoa}).
+As laid down in section \ref{table_res_detail},
 new VOResource extensions or new
 versions of existing VOResource extensions may amend this list.
 
-In case there are conflicts between this list and xpaths derived 
+In case there are conflicts between this list and xpaths derived
 from schema files using the rules given in section \ref{vorutypes}, the conflict must be considered due to an
 editorial oversight in the preparation of this list, and the xpaths from the
 schema files are normative.  Errata to this list will be issued in such
@@ -3072,7 +3072,7 @@ the URL that can be used to download the data contained.  Do
 \item[/capability/executionDuration/hard]The hard run time limit, given in seconds (tr).
 \item[/capability/complianceLevel]The category indicating the level to which this instance complies with the SSA standard (ssap).
 \item[/capability/creationType (!)]The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).
-\item[/capability/dataModel (!)]The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).  
+\item[/capability/dataModel (!)]The short, human-readable name of a data model supported by a TAP service; for most applications, clients should rather constrain /capability/dataModel/@ivo-id (tr).
 \item[/capability/dataModel/@ivo-id (!)]The IVOID of the data model supported by a TAP service (tr).
 \item[/capability/dataSource (!)]The category specifying where the data originally came from; one of survey, pointed, custom, theory, artificial (ssap).
 \item[/capability/defaultMaxRecords (!)]The largest number of records that the service will return when the MAXREC parameter is not specified in the query input (ssap).
@@ -3147,7 +3147,7 @@ resource is made available under; clients should generally use the
 
 \end{description}
 
-Note that the representation of StandardsRegExt's 
+Note that the representation of StandardsRegExt's
 \vorent{status}  and \vorent{use}
 attributes as well as its \vorent{key} would require sequences of
 complex objects, which is impossible using \rtent{res_detail}.
@@ -3166,7 +3166,7 @@ PL/pgSQL}
 
 \label{appPGDefs}
 
-What follows are (non-normative) 
+What follows are (non-normative)
 implementations of four of the User Defined Functions
 specificed in section \ref{adqludf} in the SQL dialect
 of PostgreSQL (e.g., \citet{doc:Postgres92}).
@@ -3181,38 +3181,38 @@ expressions in the ADQL translation layer whenever possible.
 
 
 \begin{lstlisting}[language=SQL,basicstyle=\footnotesize]
-  CREATE OR REPLACE FUNCTION 
+  CREATE OR REPLACE FUNCTION
     ivo_hasword(haystack TEXT, needle TEXT)
   RETURNS INTEGER AS $func$
-    SELECT CASE WHEN to_tsvector($1) @@ plainto_tsquery($2) 
-      THEN 1 
-      ELSE 0 
+    SELECT CASE WHEN to_tsvector($1) @@ plainto_tsquery($2)
+      THEN 1
+      ELSE 0
     END
   $func$ LANGUAGE SQL;
 
-  CREATE OR REPLACE FUNCTION 
+  CREATE OR REPLACE FUNCTION
     ivo_hashlist_has(hashlist TEXT, item TEXT)
   RETURNS INTEGER AS $func$
     -- postgres can't RE-escape a user string; hence, we'll have
     -- to work on the hashlist (this assumes hashlist is already
     -- lowercased).
     SELECT CASE WHEN lower($2) = ANY(string_to_array($1, '#'))
-      THEN 1 
-      ELSE 0 
+      THEN 1
+      ELSE 0
     END
   $func$ LANGUAGE SQL;
 
-  CREATE OR REPLACE FUNCTION 
+  CREATE OR REPLACE FUNCTION
     ivo_nocasematch(value TEXT, pattern TEXT)
   RETURNS INTEGER AS $func$
     SELECT CASE WHEN $1 ILIKE $2
-      THEN 1 
-      ELSE 0 
+      THEN 1
+      ELSE 0
     END
   $func$ LANGUAGE SQL;
 
-  CREATE OR REPLACE FUNCTION 
-    ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC, 
+  CREATE OR REPLACE FUNCTION
+    ivo_interval_overlaps(l1 NUMERIC, h1 NUMERIC,
       l2 NUMERIC, h2 NUMERIC)
   RETURNS BOOLEAN AS $func$
     SELECT h1>=l2 AND h2>=l1 AND l1<=h1 AND l2<=h2
@@ -3230,7 +3230,7 @@ convenient on their platform, the result must behave as if it was a view
 defined by the following standard SQL query:
 
 \begin{lstlisting}[basicstyle=\footnotesize,language=SQL]
-WITH 
+WITH
   fromres AS (
     -- tables coming in through relationships; only those declaring
     -- an auxiliary capability *and* a relationship will be considered
@@ -3249,12 +3249,12 @@ WITH
 
   fromtap AS (
     -- tables directly attached to the TAP service
-    SELECT rt.ivoid as resid, ivoid as svcid, 
+    SELECT rt.ivoid as resid, ivoid as svcid,
       table_name, table_title,
       table_description, table_utype
     FROM rr.res_table AS rt
     NATURAL JOIN rr.capability
-    WHERE 
+    WHERE
       (table_type!='output' OR table_type IS NULL)
       AND standard_id='ivo://ivoa.net/std/tap'
       AND NOT EXISTS (SELECT 1 FROM fromres as fr
@@ -3262,7 +3262,7 @@ WITH
         AND rt.table_name=fr.table_name))
 
 -- using WITH here to allow for a lateral union
-SELECT * FROM fromtap UNION ALL 
+SELECT * FROM fromtap UNION ALL
 SELECT * FROM fromres) q)
 \end{lstlisting}
 
@@ -3341,7 +3341,7 @@ workaround from RegTAP 1.0 is no longer necessary.
 \item Now requiring that services map deprecated vocabulary terms to
 preferred ones.
 \item Now requiring the data model URI as the utype of the \rtent{rr} schema.
-\item No longer claiming that RegTAP services do not use the 
+\item No longer claiming that RegTAP services do not use the
 \xmlel{vg:registry} resource type any more, instead referring to RI 1.1.
 \item Dropping the appendix with recommended string sizes.
 \item Replaced inline XSLT utype maker with a link to an external
@@ -3401,7 +3401,7 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
   (rather than \rtent{intf_role}, as before) when locating standard
   interfaces.{}
 
-\item Redactional changes from RFC (e.g., in column descriptions, some 
+\item Redactional changes from RFC (e.g., in column descriptions, some
   clarifications, typo fixes).{}
 
 
@@ -3421,7 +3421,7 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 \item Fixed a typo in a column name: schema.schemaname is now schema.schema\_name
   as in the prose.{}
 
-\item Recovered 
+\item Recovered
   \texttt{/capability/uploadMethod/@ivo-id} res\_detail keys that was
   accidentally lost in a previous version.{}
 
@@ -3439,8 +3439,8 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 \item Updates for REC of SimpleDALRegExt, which contains versions 1.1 of
   both the sia and the ssap XML schemas; this means there are now additional
   namespace URIs to take into accound, as well as new res\_detail xpaths
-  \texttt{/capability/maxSearchRadius}, 
-  \texttt{/capability/maxImageSize}, and 
+  \texttt{/capability/maxSearchRadius},
+  \texttt{/capability/maxImageSize}, and
   \texttt{/capability/testQuery/pos/refframe}.{}
 
 \item Reinstated makeutypes.xslt script; it's useful even with the new
@@ -3456,8 +3456,8 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 \begin{itemize}
 
 \item The final utype reform: most of our ex-utype strings aren't called utypes
-  any more, they're fairly plain xpaths.  Consequently, 
-  \rtent{res_detail.detail_utype} has been renamed 
+  any more, they're fairly plain xpaths.  Consequently,
+  \rtent{res_detail.detail_utype} has been renamed
   \rtent{detail_xpath}.{}
 
 \item Renamed some columns and the subject table to relieve the need of quoting
