@@ -7,10 +7,10 @@ DOCNAME = RegTAP
 DOCVERSION = 1.2
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2022-05-19
+DOCDATE = 2024-01-10
 
 # What is it you're writing: NOTE, WD, PR, or REC
-DOCTYPE = WD
+DOCTYPE = PR
 
 # Source file for the TeX document (but the main file must always
 # be called $(DOCNAME).tex

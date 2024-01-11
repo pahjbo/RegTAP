@@ -40,6 +40,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[https://www.ivoa.net/documents/RegTAP/20220519]{WD-1.2-20220519}
 \previousversion[https://ivoa.net/documents/RegTAP/20191011]{REC-1.1}
 \previousversion[https://ivoa.net/documents/RegTAP/20190911]{PR-20190911}
 \previousversion[https://ivoa.net/documents/RegTAP/20190529]{PR-20190529}
@@ -3016,8 +3017,7 @@ want to pass in MOCs directly.  Conversely, RegTAP services may provide
 the additional user-defined functions that allow specifying temporal and
 spectral constraints in different, perhaps human-friendlier ways.  For
 instance, once support for the relevant UDFs is established using the
-TAP capabilities,\todo{I'll propose both UDFs for the catalogue, in
-which case that would become ivo\_whatever} the above query
+TAP capabilities, the above query
 could also be written as (the MOC given is the circle above at order 8):
 
 %CHECK_HERE
@@ -3295,6 +3295,15 @@ vocabularies, both accompanying VOResource 1.1.  These translations are:
 \end{inlinetable}
 
 \section{Changes from Previous Versions}
+
+\subsection{Changes from WD-1.2-20220519}
+
+\begin{itemize}
+\item Names in \verb|rr.res_table| are no longer lowercased (this
+picks up RegTAP 1.1 erratum 1)
+\item Several editorial changes like slightly improved column
+descriptions.
+\end{itemize}
 
 \subsection{Changes from REC-1.1}
 
