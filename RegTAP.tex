@@ -517,8 +517,8 @@ note, some schemas introduced namespace URIs that did change on minor
 versions.  For consistency, and because there should not really be
 discovery use cases based on minor versions of XML schemas, all
 namespace URIs for the same major version of a standard have the same
-canonical prefix -- e.g., both VODataService
-1.1 and VODataService 1.2 use \texttt{vs:}.
+canonical prefix -- e.g., the schema URIs from both VODataService
+1.0 and VODataService 1.1 are mapped to \texttt{vs:}.
 
 For reference, table~\ref{tab:prefixmap}
 lists the XML namespace URIs and their canonical prefixes
@@ -2305,9 +2305,9 @@ The reference frame coverage is written in. This is currently reserved and fixed
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
 
-The details of how the MOC-valued coverage are entered and retrieved are
-defined by DALI 1.2\todo{Properly cite when it's out}.
-Implementations MUST
+The details of how the MOC-valued coverage are entered and retrieved
+will be defined by version 1.2 of DALI \citep{2017ivoa.spec.0517D}.
+Meanwhile, implementations MUST
 evaluate the ADQL CONTAINS and INTERSECTS predicates with
 coverage as one argument and ADQL CIRCLEs and POLYGONs as the other, and
 they must support CONTAINS with an ADQL POINT in the first argument.
