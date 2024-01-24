@@ -97,7 +97,7 @@ developments in the VO.  It was then decided to have searchable
 registries specified outside of Registry Interfaces.
 
 This document provides one such specification, based in particular on TAP \citep{2010ivoa.spec.0327D}
-and ADQL \citep{2008ivoa.spec.1030O}.  It follows the model of ObsCore
+and ADQL \citep{2023ivoa.spec.1215M}.  It follows the model of ObsCore
 \citep{2017ivoa.spec.0509L} of defining a representation of a data model
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
@@ -225,7 +225,7 @@ This standard also relates to other IVOA standards:
 
 
 \begin{description}
-\item[ADQL \citep{2008ivoa.spec.1030O}] The rules for ingestion are designed to allow
+\item[ADQL \citep{2023ivoa.spec.1215M}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
 Language.  Also, we give some functions that extend ADQL using the
 language's built-in facility for user-defined functions.
@@ -2267,7 +2267,7 @@ the \rtent{alt_identifier} column.
 \label{table_stc_spatial}
 
 Since VODataService 1.2, registry records can represent their resource's
-spatial coverage using spatial MOCs \citep{2019ivoa.spec.1007F}.  The
+spatial coverage using spatial MOCs \citep{2022ivoa.spec.0727F}.  The
 \rtent{stc_spatial} table is a direct reflection of this metadata:
 
 % GENERATED: maketable.sh rr.stc_spatial
@@ -2526,7 +2526,7 @@ User Defined Functions (UDFs).
 
 TAP Servers implementing the
 \texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
-following optional features defined in ADQL 2.1 \citep{NOT-A-REC-YET}:
+following optional features defined in ADQL 2.1 \citep{2023ivoa.spec.1215M}:
 
 \begin{bigdescription}
 \item[COALESCE] Primarily in order to make the use of
@@ -2596,7 +2596,7 @@ this will mean that \verb|T| is \verb|NUMERIC|.
 Reference implementations of the functions for the PostgreSQL
 database system are given in Appendix \ref{appPGDefs}.  As required for
 UDFs with an \emph{ivo\_} prefix, these functions are also listed in the
-Catalogue of ADQL User Defined Functions \citep{2021ivoa.spec.0310C}.
+Catalogue of ADQL User Defined Functions \citep{2023ivoa.spec.1117C}.
 
 
 

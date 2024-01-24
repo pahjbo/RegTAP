@@ -7,7 +7,7 @@ DOCNAME = RegTAP
 DOCVERSION = 1.2
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2024-01-10
+DOCDATE = 2024-01-24
 
 # What is it you're writing: NOTE, WD, PR, or REC
 DOCTYPE = PR
@@ -16,9 +16,9 @@ DOCTYPE = PR
 # be called $(DOCNAME).tex
 SOURCES = $(DOCNAME).tex role_diagram.pdf gitmeta.tex
 
-# List of image files to be included in submitted package 
+# List of image files to be included in submitted package
 # (whitespace-separated)
-FIGURES = 
+FIGURES =
 
 VECTORFIGURES = schema.pdf
 
