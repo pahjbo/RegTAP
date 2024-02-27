@@ -40,6 +40,7 @@
 
 \editor{Markus Demleitner}
 
+\previousversion[https://www.ivoa.net/documents/RegTAP/20240124]{PR-1.2-20240124}
 \previousversion[https://www.ivoa.net/documents/RegTAP/20220519]{WD-1.2-20220519}
 \previousversion[https://ivoa.net/documents/RegTAP/20191011]{REC-1.1}
 \previousversion[https://ivoa.net/documents/RegTAP/20190911]{PR-20190911}
@@ -332,7 +333,7 @@ tables.
 
 
 
-\subsection{Whitespace normalization}
+\subsection{Whitespace Normalization}
 
 \label{whitenorm}
 
@@ -354,7 +355,7 @@ constraints will be used (e.g., LIKE-based regular expressions or the
 \rtent{ivo_hasword} user defined function defined below).
 
 
-\subsection{NULL/Empty string normalization}
+\subsection{NULL/Empty String Normalization}
 
 \label{nullnorm}
 
@@ -371,7 +372,7 @@ of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 (or \texttt{IS NULL}) operators.
 
 
-\subsection{Case normalization}
+\subsection{Case Normalization}
 
 \label{casenorm}
 
@@ -410,7 +411,7 @@ defined function.  ADQL 2.1 has an ILIKE operator,
 which may be used instead.
 
 
-\subsection{Non-ASCII characters}
+\subsection{Non-ASCII Characters}
 
 \label{utfreq}
 
@@ -457,34 +458,34 @@ these up.
 \label{sect:vocab-use}
 
 Since version 1.1, VOResource employs RDF vocabularies to control terms
-used in several places; in version 1.1, this concerns
+used in several places; in version 1.2, this concerns
 \vorent{content/con\-tentLevel}, \vorent{content/type},
-\vorent{date/role}, and \vorent{content/relationship/relationshipType}.
-At the time of writing, the rules for machine-readable representations
-of these vocabularies are only available as a Working Draft
-\citep{wd:voc2}; we therefore cannot require the use of these vocabulary
-representations at this point.
+\vorent{content/subject},
+\vorent{date/role}, \vorent{content/relationship/relationshipType}.
+These vocabularies are available from the IVOA vocabulary
+repository\footnote{\url{https://www.ivoa.net/rdf}} as specified by
+Vocabularies in the VO, Version 2 \citep{2023ivoa.spec.0206D}.  The
+relevant vocabulary URIs are given in the VOResource specification and its
+schema file.
 
-For RegTAP, these vocabulary resources are relevant because the
+For RegTAP, these vocabulary resources are important because the
 VOResource relationship types and date roles contain some deprecated
 terms kept for compatibility with VOResource 1.0, together with guidance
 what to use instead.  In order to simplify the usage of
-vocabulary-controlled columns, services MUST translate such deprecated
-terms when the vocabularies give replacements.  Until the
-machine-readable resources are properly standardised, the required
-translations are listed in appendix~\ref{app:voctrans}.
+vocabulary-controlled RegTAP columns, services MUST translate such deprecated
+terms when the vocabularies give replacements (i.e., appear as subjects
+of \emph{ivoasem:useInstead} triples).
 
 Since the vocabularies are expected to develop independently of their
 originating standards, RegTAP service operators furthermore SHOULD regularly
-revisit IVOA vocabularies to see if further translations should be done
-once the machine-readable format(s) for the vocabularies have become
-normative, overriding appendix~\ref{app:voctrans}.
+revisit IVOA vocabularies to see if further translations should be done.
 
-One non-IVOA vocabulary is mentioned by VOResource: The Unified
-Astronomy Thesaurus UAT.  At the time of writing, there is no machine
-readable definition of how deprecated terms should be treated.  We
-hence leave the treatment of deprecated UAT terms encountered in
-\vorent{content/subject} undefined in this version of RegTAP.
+In VO practice, many resource records still use subject identifiers that
+are not taken from the IVOA UAT\footnote{{http://www.ivoa.net/rdf/uat}}.
+Where only the lexical form of the identifier is wrong, RegTAP operators
+are free to correct the syntax; otherwise, subject identifiers should be
+ingested as given by the data providers even if they are not drawn from
+the UAT.
 
 
 \section{QNames in VOResource attributes}
@@ -1385,9 +1386,10 @@ The \rtent{res_table} table models VODataService's
 \vorent{table} element.  It has been renamed to avoid name clashes
 with the SQL reserved word \texttt{TABLE}.
 
-VODataService 1.0 had a similar element that was a direct child of
+VODataService 1.0 (an early prototype that never became REC)
+had a similar element that was a direct child of
 resource.  Ingestors should also accept such tables, as there are still
-numerous active VODataService 1.0 resources in the Registry at the time
+some active VODataService 1.0 resources in the Registry at the time
 of writing (this is the reason for the alternative in the table xpath).
 
 The table contains a column \rtent{table_index} to disambiguate
@@ -1462,7 +1464,7 @@ This table should have an explicit primary key made up of
 foreign key into \rtent{resource}.  It is recommended to
 maintain an index on at least the \rtent{table_description}
 column, ideally one suited for queries with \rtent{ivo_hasword}.  Since
-\rtent{table_utype} is used in data discovery, it should be indexed.
+\rtent{table_utype} is used in data discovery, it should also be indexed.
 
 The following columns MUST be lowercased during ingestion:
 \rtent{ivoid}, \rtent{table_type},
@@ -1498,7 +1500,10 @@ systems (VOTable, ADQL, Simple).  The
 \vorent{datatype} child, with the VODataService XML prefix fixed
 to vs; hence, this column will contain one of NULL,
 \texttt{vs:taptype},
-\texttt{vs:simpledatatype}, and \texttt{vs:votabletype}.
+\texttt{vs:simpledatatype}, and \texttt{vs:votabletype}.  Modern
+resource records should always use \texttt{vs:votabletype}, but
+column declarations using the other type systems are still present in
+the VO.
 
 
 % GENERATED: maketable.sh rr.table_column
@@ -2306,8 +2311,8 @@ The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
 
 The details of how the MOC-valued coverage are entered and retrieved
-will be defined by version 1.2 of DALI \citep{2017ivoa.spec.0517D}.
-Meanwhile, implementations MUST
+will be given in in version 1.2 of DALI \citep{2017ivoa.spec.0517D}.
+Implementations MUST
 evaluate the ADQL CONTAINS and INTERSECTS predicates with
 coverage as one argument and ADQL CIRCLEs and POLYGONs as the other, and
 they must support CONTAINS with an ADQL POINT in the first argument.
@@ -2426,8 +2431,9 @@ Several Registry clients need to easily obtain metadata on tables
 queriable through TAP.  Since the Registry data model gives services
 some freedom registering these -- they can occur in tablesets of TAP
 services, in tablesets of records having auxiliary TAP capabilities
-\citep{2019ivoa.spec.0520D}, or both --, it is hard to write ADQL
-producing such a relation.  Hence, starting with version 1.2, RegTAP
+\citep{2019ivoa.spec.0520D}, or both -- it is hard to write ADQL
+producing such a relation.  Hence, starting with version 1.2 of RegTAP,
+implementing
 services must provide a view encapsulating a query yielding all tables
 in \rtent{rr.res_table}
 
@@ -2522,7 +2528,7 @@ extensions, partly specified as ADQL optional features, partly in ADQL
 User Defined Functions (UDFs).
 
 
-\subsection{ADQL Optional Features requried for RegTAP}
+\subsection{ADQL Optional Features Required for RegTAP}
 
 TAP Servers implementing the
 \texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
@@ -2546,7 +2552,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \end{bigdescription}
 
 
-\subsection{User Defined Functions required for RegTAP}
+\subsection{User Defined Functions Required for RegTAP}
 \label{adqludf}
 
 TAP Servers implementing the
@@ -2621,7 +2627,7 @@ accordingly.
 In RegTAP 1.0, this filtering was effected by constraining the interface
 type to \vorent{vs:ParamHTTP}.  As discussed there, this adopted
 existing discovery patterns and worked around missing metadata in
-VOResource records.  In today's (2019) registry, this workaround is no
+VOResource records.   This workaround is no
 longer necessary, and future standards should be free to use other
 interface types rather than \vorent{vr:ParamHTTP}.
 
@@ -3066,9 +3072,10 @@ originate, which is where further information can be found.
 
 
 \begin{description}
-\item[/accessURL (!)]For legacy VODataService data collections, this is
+\item[/accessURL (!)]For legacy VODataService vs:DataCollection-typed
+records, this is
 the URL that can be used to download the data contained.  Do
-\emph{not} enter accessURLs from interfaces into res\_detail (vs).
+\emph{not} enter accessURLs from interface elements into res\_detail (vs).
 \item[/capability/executionDuration/hard]The hard run time limit, given in seconds (tr).
 \item[/capability/complianceLevel]The category indicating the level to which this instance complies with the SSA standard (ssap).
 \item[/capability/creationType (!)]The category that describes the process used to produce the dataset; one of archival, cutout, filtered, mosaic, projection, specialExtraction, catalogExtraction (ssap).
@@ -3263,38 +3270,23 @@ WITH
 
 -- using WITH here to allow for a lateral union
 SELECT * FROM fromtap UNION ALL
-SELECT * FROM fromres) q)
+SELECT * FROM fromres
 \end{lstlisting}
 
 
-\section{Mandatory translations of VOResource 1.0 to VOResource 1.1
-terms}
-\label{app:voctrans}
-
-As discussed in Sect.~\ref{sect:vocab-use}, RegTAP services must change
-deprecated terms from IVOA vocabularies to their new preferred forms on
-ingestion into the respective columns.
-
-When this document was written, the policy affected terms from two
-vocabularies, both accompanying VOResource 1.1.  These translations are:
-
-\begin{inlinetable}
-\begin{tabular}{lll}
-\sptablerule
-\textbf{RegTAP column}&\textbf{Old term}&\textbf{New term}\\
-\sptablerule
-\rtent{res_date.value_role}&representative&Collected\\
-\rtent{res_date.value_role}&creation&Created\\
-\rtent{res_date.value_role}&update&Update\\
-\rtent{relationship.relationship_type}&mirror-of&IsIdenticalTo\\
-\rtent{relationship.relationship_type}&service-for&IsServiceFor\\
-\rtent{relationship.relationship_type}&served-by&IsServedBy\\
-\rtent{relationship.relationship_type}&derived-from&IsDerivedFrom\\
-\sptablerule
-\end{tabular}
-\end{inlinetable}
-
 \section{Changes from Previous Versions}
+
+\subsection{Changes from PR-1.2-20240124}
+
+\begin{itemize}
+\item Removed hedging language from sect.~4.5, ``Vocabulary
+Considerations'', since Vocabularies in the VO 2 is now a REC.
+
+\item Consequantly, removed Appendix D (``Mandatory translations'').
+Ingestors should take these directly from the vocabulary (e.g., via
+desise).
+
+\end{itemize}
 
 \subsection{Changes from WD-1.2-20220519}
 

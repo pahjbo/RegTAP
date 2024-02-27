@@ -7,7 +7,7 @@ DOCNAME = RegTAP
 DOCVERSION = 1.2
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2024-01-24
+DOCDATE = 2024-02-27
 
 # What is it you're writing: NOTE, WD, PR, or REC
 DOCTYPE = PR
