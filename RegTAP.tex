@@ -2310,7 +2310,7 @@ The reference frame coverage is written in. This is currently reserved and fixed
 The \rtent{ivoid} column should be an explicit foreign key into
 \rtent{resource}.
 
-The details of how the MOC-valued coverage are entered and retrieved
+The details of how the MOC-valued coverage is entered and retrieved
 will be given in version 1.2 of DALI \citep{2017ivoa.spec.0517D}.
 Implementations MUST
 evaluate the ADQL CONTAINS and INTERSECTS predicates with
@@ -2368,8 +2368,11 @@ Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified interval
 of interest to \rtent{time_start} $\cdots$ \rtent{time_end}.
 
-The rows for \rtent{time_start} and \rtent{time_end} in
-\tapent{TAP\_SCHEMA.columns} MUST have \texttt{d} in their
+Since VODataService temporal coverage is given in MJD,
+the rows for \rtent{time_start} and \rtent{time_end} in
+\tapent{TAP\_SCHEMA.columns} MUST have the appropriate VOUnits
+\citep{2023ivoa.spec.1215G} string,
+\texttt{d}, in their
 \tapent{unit} column.
 
 
@@ -2419,8 +2422,10 @@ Clients are advised that the \verb|ivo_interval_overlaps| user defined
 function is available to conveniently compare a user-specified intervals
 of interest to \rtent{spectral_start} $\cdots$ \rtent{spectral_end}.
 
-The rows for \rtent{spectral_start} and \rtent{spectral_end} in
-\tapent{TAP\_SCHEMA.columns} MUST have \texttt{J} in their
+Since VODataService spectral coverage gives energies in Joules,
+the rows for \rtent{spectral_start} and \rtent{spectral_end} in
+\tapent{TAP\_SCHEMA.columns} MUST have the appropriate VOUnits
+string, \texttt{J}, in their
 \tapent{unit} column.
 
 
