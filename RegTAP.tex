@@ -3234,20 +3234,29 @@ expressions in the ADQL translation layer whenever possible.
   -- should be done in the ADQL translator.
 \end{lstlisting}
 
-\section{A View Definition for tap\_tables}
+\section{A View Definition for tap\_tables (non-normative)}
 \label{app:tap-table-viewdef}
 
 While RegTAP operators are free to implement \rtent{tap_tables} as
-convenient on their platform, the result must behave as if it was a view
-defined by the following standard SQL query:
+convenient on their platform, here is a standard SQL query that produces
+a result compliant to the constraints in Sect.~\ref{table_tap_table}
+assuming 2024 Registry conventions:
 
 \begin{lstlisting}[basicstyle=\footnotesize,language=SQL]
 WITH
   fromres AS (
     -- tables coming in through relationships; only those declaring
     -- an auxiliary capability *and* a relationship will be considered
-    SELECT tabcap.ivoid as resid, related_id as svcid, table_name,
-      table_title, table_description, table_utype
+    -- The GROUP BY and MIN hack is necessary since multiple of these
+    -- may declare the same table (e.g., ivoa.obscore for data collections
+    -- published through obscore).
+    SELECT
+    	MIN(tabcap.ivoid) as resid,
+    	related_id as svcid,
+    	table_name,
+      MIN(table_title) as table_title,
+      MIN(table_description) as table_description,
+      MIN(table_utype) as table_utype
     FROM rr.res_table as tab
     NATURAL JOIN rr.capability as tabcap
     NATURAL JOIN rr.relationship
@@ -3257,7 +3266,8 @@ WITH
       (table_type!='output' OR table_type IS NULL)
       AND svccap.standard_id='ivo://ivoa.net/std/tap'
       AND tabcap.standard_id='ivo://ivoa.net/std/tap#aux'
-      AND relationship_type='isservedby'),
+      AND relationship_type='isservedby'
+    GROUP BY related_id, table_name),
 
   fromtap AS (
     -- tables directly attached to the TAP service
@@ -3275,7 +3285,7 @@ WITH
 
 -- using WITH here to allow for a lateral union
 SELECT * FROM fromtap UNION ALL
-SELECT * FROM fromres
+SELECT * FROM fromres) q)
 \end{lstlisting}
 
 
