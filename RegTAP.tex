@@ -518,8 +518,8 @@ note, some schemas introduced namespace URIs that did change on minor
 versions.  For consistency, and because there should not really be
 discovery use cases based on minor versions of XML schemas, all
 namespace URIs for the same major version of a standard have the same
-canonical prefix -- e.g., the schema URIs from both VODataService
-1.0 and VODataService 1.1 are mapped to \texttt{vs:}.
+canonical prefix -- e.g., the schema URIs for both SSAP namespaces that
+SimpleDALRegExt has defined are mapped to \texttt{ssap:}.
 
 For reference, table~\ref{tab:prefixmap}
 lists the XML namespace URIs and their canonical prefixes
@@ -1385,12 +1385,6 @@ using the the \rtent{ivo_hasword} function.
 The \rtent{res_table} table models VODataService's
 \vorent{table} element.  It has been renamed to avoid name clashes
 with the SQL reserved word \texttt{TABLE}.
-
-VODataService 1.0 (an early prototype that never became REC)
-had a similar element that was a direct child of
-resource.  Ingestors should also accept such tables, as there are still
-some active VODataService 1.0 resources in the Registry at the time
-of writing (this is the reason for the alternative in the table xpath).
 
 The table contains a column \rtent{table_index} to disambiguate
 multiple tables on a single resource.  See section \ref{primarykeys} for details.  Note that if the sibling
