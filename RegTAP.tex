@@ -2449,7 +2449,7 @@ cannot be queried)
 \item exactly once for each actual table (i.e., there cannot be two rows
 in the view having the same (\rtent{svcid}, \rtent{table_name}))
 \item with references to both a full metadata record and the record of
-the TAP service publishing the resource.\label{cond:fullmeta}.
+the TAP service publishing the resource.\label{cond:fullmeta}
 \end{enumerate}
 
 Condition~\ref{cond:fullmeta} requires an explanation: A given table can
@@ -3234,10 +3234,10 @@ expressions in the ADQL translation layer whenever possible.
   -- should be done in the ADQL translator.
 \end{lstlisting}
 
-\section{A View Definition for tap\_tables (non-normative)}
+\section{A View Definition for tap\_table (non-normative)}
 \label{app:tap-table-viewdef}
 
-While RegTAP operators are free to implement \rtent{tap_tables} as
+While RegTAP operators are free to implement \rtent{tap_table} as
 convenient on their platform, here is a standard SQL query that produces
 a result compliant to the constraints in Sect.~\ref{table_tap_table}
 assuming 2024 Registry conventions:
