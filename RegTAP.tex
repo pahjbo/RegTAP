@@ -2520,7 +2520,7 @@ Since RegTAP 1.2, implementing services MUST implement at least version
 
 Since RegTAP deals with text much more intensively than is usual for the
 astrophysical data that TAP and ADQL were designed for and some query
-patterns uncommon in astrophysics significanly help writing RegTAP
+patterns uncommon in astrophysics significantly help writing RegTAP
 queries, TAP services implementing RegTAP MUST implement some ADQL
 extensions, partly specified as ADQL optional features, partly in ADQL
 User Defined Functions (UDFs).
@@ -2537,7 +2537,7 @@ following optional features defined in ADQL 2.1 \citep{2023ivoa.spec.1215M}:
 \verb|ivo_string_agg| predictable in the presence of NULL values in
 columns like \rtent{standard_id}, RegTAP services MUST provide the
 COALESCE feature in
-\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-type}.
+\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-conditional}.
 
 \item[ILIKE] As a standard alternative to \verb|ivo_nocasematch| as
 employed by RegTAP earlier than 1.2, RegTAP services MUST provide the
@@ -2646,7 +2646,7 @@ found from
 \rtent{rr.interface}, this requires
 a (natural) join.
 
-Clients communicating with a RegTAP 1.1 or later service should request the new
+Clients communicating with a RegTAP 1.1 or later service should request the
 \rtent{authenticated_only} column.  If this is 1, the service
 requires some sort of authentication and should only presented to users
 if a client has the necessary infrastructure for the authentication
@@ -3294,6 +3294,8 @@ Considerations'', since Vocabularies in the VO 2 is now a REC.
 Ingestors should take these directly from the vocabulary (e.g., via
 desise).
 
+\item Now explicitly requiring ADQL 2.1 or later on the underlying TAP
+service.
 \end{itemize}
 
 \subsection{Changes from WD-1.2-20220519}
