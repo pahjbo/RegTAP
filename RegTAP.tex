@@ -103,7 +103,7 @@ and ADQL \citep{2023ivoa.spec.1215M}.  It follows the model of ObsCore
 within a relational database.  In this case, the data model is a
 simplification of the VO's resource metadata interchange representation,
 the VOResource XML format \citep{2018ivoa.spec.0625P}.  The simplification
-yields a schema with 14 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
+yields a schema with 18 tables.  For each table, \tapent{TAP\_SCHEMA} metadata is given together
 with rules for how to fill these tables from VOResource-serialized
 metadata records as well as conditions on foreign keys and
 recommendations on indexes.
@@ -377,7 +377,7 @@ of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 \label{casenorm}
 
 ADQL 2.0 has no operators for case-insensitive matching of strings.
-Mainly for this reason, RegTAP 1.0 required that most columns
+Mainly for this reason, RegTAP 1.0 required most columns
 containing values not usually intended for display to be
 converted to lower case on ingestion.  This also somewhat reduces the
 likelihood that matches are missed because of different capitalisation,
@@ -405,10 +405,9 @@ the ASCII letters without regard for case.  They SHOULD compare according
 to D144 in the Unicode Standard.
 
 Columns intended for presentation are not case-normalised.  When
-matching against these, queries should use case-insensitive matching,
-for which this specification offers the \verb|ivo_nocasematch| user
-defined function.  ADQL 2.1 has an ILIKE operator,
-which may be used instead.
+matching against these, queries should use case-insensitive matching
+using ADQL 2.1's ILIKE or, equivalently, the \verb|ivo_nocasematch| user
+defined function required by RegTAP.
 
 
 \subsection{Non-ASCII Characters}
@@ -444,14 +443,11 @@ implementations SHOULD support full Unicode in at least the fields
 enumerated above.  Clients are advised to retrieve results in VOTable or
 other encoding-aware formats.
 
-Note that with VOTable 1.3, non-ASCII in char-typed fields, while
+Note that at least up to VOTable 1.5, non-ASCII in char-typed fields, while
 supported by most clients in TABLEDATA serialization, is technically
 illegal; it is essentially undefined in other serializations.  To
 produce standards-compliant VOTables, columns containing non-ASCII must
-be of type unicodeChar.  We expect that future versions of VOTable will
-change the definitions of char and unicodeChar to better match modern
-standards and requirements.  RegTAP implementors are encouraged to take
-these up.
+be of type unicodeChar.
 
 \subsection{Vocabulary considerations}
 
@@ -1263,7 +1259,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 An arbitrary identifier of this capability within the resource.\\
 
 \baselineskip=9pt\relax cap\_type\hfil\break
@@ -1333,7 +1329,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 An arbitrary identifier for the res\_schema rows belonging to a resource.\\
 
 \baselineskip=9pt\relax schema\_description\hfil\break
@@ -1410,7 +1406,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax schema\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 Index of the schema this table belongs to, if it belongs to a schema (otherwise NULL).\\
 
 \baselineskip=9pt\relax table\_description\hfil\break
@@ -1425,7 +1421,7 @@ The fully qualified name of the table. As per VODataService, this includes all c
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 An arbitrary identifier for the tables belonging to a resource.\\
 
 \baselineskip=9pt\relax table\_title\hfil\break
@@ -1517,7 +1513,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax table\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 Index of the table this column belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -1713,12 +1709,12 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 The index of the parent capability.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 An arbitrary identifier for the interfaces of a resource.\\
 
 \baselineskip=9pt\relax intf\_type\hfil\break
@@ -1824,7 +1820,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax intf\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 The index of the interface this parameter belongs to.\\
 
 \baselineskip=9pt\relax name\hfil\break
@@ -2028,7 +2024,7 @@ A numeric grade describing the quality of the resource description, when applica
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 If non-NULL, the validation only refers to the capability referenced here.\\
 
 \sptablerule
@@ -2178,7 +2174,7 @@ The parent resource.\\
 
 \baselineskip=9pt\relax cap\_index\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily }&
-\footnotesize integer&
+\footnotesize (key)&
 The index of the parent capability; if NULL the xpath-value pair describes a member of the entire resource.\\
 
 \baselineskip=9pt\relax detail\_xpath\hfil\break
@@ -2341,12 +2337,12 @@ The parent resource.\\
 \baselineskip=9pt\relax time\_start\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
 \footnotesize real&
-Lower limit of a time interval covered by the resource.\\
+Lower limit of a time interval covered by the resource in MJD.\\
 
 \baselineskip=9pt\relax time\_end\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
 \footnotesize real&
-Upper limit of a time interval covered by the resource.\\
+Upper limit of a time interval covered by the resource in MJD.\\
 
 \sptablerule
 \end{tabular}
@@ -2395,12 +2391,12 @@ The parent resource.\\
 \baselineskip=9pt\relax spectral\_start\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
 \footnotesize real&
-Lower limit of a messenger energy interval covered by the resource (for the solar system barycenter).\\
+Lower limit (in Joules) of messenger energy interval covered by the resource (for the solar system barycenter).\\
 
 \baselineskip=9pt\relax spectral\_end\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily xpath:.}&
 \footnotesize real&
-Upper limit of a messenger energy interval covered by the resource (for the solar system barycenter).\\
+Upper limit (in Joules) of messenger energy interval covered by the resource (for the solar system barycenter).\\
 
 \sptablerule
 \end{tabular}
@@ -2518,6 +2514,9 @@ will produce the view specified here from other RegTAP tables.
 
 
 \section{RegTAP Requirements on TAP services}
+
+Since RegTAP 1.2, implementing services MUST implement at least version
+2.1 of ADQL.
 
 Since RegTAP deals with text much more intensively than is usual for the
 astrophysical data that TAP and ADQL were designed for and some query

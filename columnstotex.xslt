@@ -33,7 +33,7 @@
       <value-of select="substring-before($string,$search)" />
       <value-of select="$replace" />
       <call-template name="string-replace">
-        <with-param name="string" 
+        <with-param name="string"
           select="substring-after($string,$search)" />
         <with-param name="search" select="$search" />
         <with-param name="replace" select="$replace" />
@@ -49,6 +49,7 @@
 \baselineskip=9pt\relax <value-of select="v:TD[1]"/>\hfil\break
 \makebox[0pt][l]{\scriptsize\ttfamily <value-of select="v:TD[2]"/>}&amp;
 \footnotesize <choose>
+<when test="substring-after(v:TD[1], '_')='index'">(key)</when>
 <when test="(v:TD[3]='char' or v:TD[3]='unicodeChar') and v:TD[4]='*'"
 	>string</when>
 <otherwise>
