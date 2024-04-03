@@ -74,9 +74,9 @@ towards allowing easy authoring of queries.
 In the Virtual Observatory (VO), registries provide a means for
 discovering useful resources, i.e., data and services.  Individual
 publishers offer the descriptions for their resources (``resource
-records'') in publishing registries.  At the time of writing, there are
-roughly 20000 such resource records active within the VO, originating
-from about 40 publishing registries.
+records'') in publishing registries.  As of March 2024, there are
+almost 29000 such resource records active within the VO, originating
+from about 50 publishing registries.
 
 The protocol spoken by these
 publishing registries, OAI-PMH \citep{std:OAIPMH}, only allows restricting queries by
@@ -187,8 +187,9 @@ following ways:
 \item[VOResource, v1.1 \citep{2018ivoa.spec.0625P}] This standard
 sets the foundation for a formal definition of the data
 model for resource records via its schema definition.  This document
-refers to concepts laid down there via xpaths \citep{std:XPATH}.  RegTAP
-1.1 incorporates the concepts from VOResource 1.1 but can represent
+refers to concepts laid down there via xpaths \citep{std:XPATH}.  Since
+its version 1.1, RegTAP
+incorporates the concepts from VOResource 1.1 but can represent
 VOResource 1.0 instances (within the limits laid out below) as well.
 \item[VODataService, v1.2 \citep{2021ivoa.spec.1102D}] VODataService
 de\-scribes several concepts and resource types extending
@@ -208,7 +209,8 @@ versions current as of this specification: SimpleDALRegExt 1.1
 StandardsRegExt 1.0 \citep{2012ivoa.spec.0508H}, TAPRegExt 1.0
 \citep{2012ivoa.spec.0827D}, Registry Interfaces 1.1
 \citep{2018ivoa.spec.0723D}
-\item[TAP, v1.0 \citep{2010ivoa.spec.0327D}]The queries against the schema defined in the present document, and the results of
+\item[TAP, v1.1 \citep{2019ivoa.spec.0927D}]
+The queries against the schema defined in the present document, and the results of
 these queries, will usually be transported using the Table Access
 Protocol TAP.  It also allows discovering
 local additions to the registry relations via TAP's metadata publishing
@@ -226,7 +228,7 @@ This standard also relates to other IVOA standards:
 
 
 \begin{description}
-\item[ADQL \citep{2023ivoa.spec.1215M}] The rules for ingestion are designed to allow
+\item[ADQL 2.1 \citep{2023ivoa.spec.1215M}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
 Language.  Also, we give some functions that extend ADQL using the
 language's built-in facility for user-defined functions.
@@ -339,7 +341,9 @@ tables.
 
 Most string-valued items in VOResource and extensions are of type
 \texttt{xs:to\-ken}, with the clear intent that whitespace in them is
-to be normalized in the sense of XML schema.  For the few exceptions
+to be normalized in the sense of that XML schema type (i.e., all
+whitespace is just a single blank, and there is no leading or trailing
+whitespace).  For the few exceptions
 that actually are directly derived from xs:string (e.g.,
 \vorent{vstd:EndorsedVersion}, \vorent{vs:Waveband}) it does not
 appear that the intent regarding whitespace is different.
@@ -461,8 +465,8 @@ used in several places; in version 1.2, this concerns
 These vocabularies are available from the IVOA vocabulary
 repository\footnote{\url{https://www.ivoa.net/rdf}} as specified by
 Vocabularies in the VO, Version 2 \citep{2023ivoa.spec.0206D}.  The
-relevant vocabulary URIs are given in the VOResource specification and its
-schema file.
+relevant vocabulary URIs are given in the VOResource specification and
+\xmlel{xs:documentation} elements in the schema file.
 
 For RegTAP, these vocabulary resources are important because the
 VOResource relationship types and date roles contain some deprecated
@@ -504,7 +508,7 @@ For various reasons, VOResource authors have always been encouraged
 to use a set of ``standard'' prefixes.  This allows an easy and, to users,
 unsurprising exit from the problem of the missing xmlns declarations:
 For the representation of QNames within the database, these recommended
-prefixes are now mandatory. Future VOResource extensions define their
+prefixes are mandatory in RegTAP. Future VOResource extensions define their
 mandatory prefixes themselves.
 
 As described in the IVOA endorsed Note ``XML schema versioning
@@ -811,7 +815,7 @@ Validation levels for resources and capabilities.\\
 
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.2}}
 \label{table:dm}
 \end{table}
 
@@ -832,7 +836,7 @@ members are 1:n but still appear
 here.  If there are multiple values, they are concatenated with hash
 characters (\#).  Use the \rtent{ivo_hashlist_has} ADQL extension
 function to check for the presence of a single value.  This convention
-saves on tables while not complicating common queries significantly.
+saves on the number of tables while not complicating common queries significantly.
 
 In VOResource documents, multiple \vorent{rights} elements are allowed
 on a single record.  This is mainly for compatiblity with DataCite, and
@@ -3162,7 +3166,7 @@ languages, user defined functions, and the like cannot be
 represented in this table.  Since these pieces of metadata do not seem
 relevant to resource discovery and are geared towards other uses of the
 respective VOResource extensions, a more complex model does not seem
-warranted just so they can be exposed.
+justifiable just so they can be exposed.
 
 
 
