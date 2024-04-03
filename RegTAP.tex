@@ -204,8 +204,8 @@ introduced by them are reflected in the \rtent{res_detail} table using
 xpaths into the registry documents.
 The present standard should not in general need updates
 for registry extension updates.  For completeness, we note the
-versions current as of this specification: SimpleDALRegExt 1.1
-\citep{2017ivoa.spec.0530P},
+versions current as of this specification: SimpleDALRegExt 1.2
+\citep{2022ivoa.spec.0222D},
 StandardsRegExt 1.0 \citep{2012ivoa.spec.0508H}, TAPRegExt 1.0
 \citep{2012ivoa.spec.0827D}, Registry Interfaces 1.1
 \citep{2018ivoa.spec.0723D}
@@ -2627,7 +2627,7 @@ Future standards might require more specific strings starting with
 accordingly.
 
 In RegTAP 1.0, this filtering was effected by constraining the interface
-type to \vorent{vs:ParamHTTP}.  As discussed there, this adopted
+type to \vorent{vs:ParamHTTP}.  As discussed in that specification, this adopted
 existing discovery patterns and worked around missing metadata in
 VOResource records.   This workaround is no
 longer necessary, and future standards should be free to use other
@@ -2768,7 +2768,7 @@ WHERE standard_id LIKE 'ivo://ivoa.net/std/conesearch%'
 Sometimes you want to match a whole set of ucds.  Frequently the
 simple regular expressions of SQL will help, as in
 \texttt{AND ucd LIKE 'pos.parallax\%'}.  When that is not enough,
-use boolean OR expressions
+use boolean OR expressions.
 
 \subsection{Names from an Authority}
 
