@@ -380,7 +380,9 @@ of some information must therefore do so using SQL's \texttt{IS NOT NULL}
 
 \label{casenorm}
 
-ADQL 2.0 has no operators for case-insensitive matching of strings.
+ADQL 2.0 has no operators for case-insensitive matching of strings
+(ILIKE, required by this version of RegTAP, was only defined in ADQL
+2.1).
 Mainly for this reason, RegTAP 1.0 required most columns
 containing values not usually intended for display to be
 converted to lower case on ingestion.  This also somewhat reduces the
