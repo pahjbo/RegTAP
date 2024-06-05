@@ -480,7 +480,7 @@ of \emph{ivoasem:useInstead} triples).
 
 Since the vocabularies are expected to develop independently of their
 originating standards, RegTAP service operators furthermore SHOULD regularly
-revisit IVOA vocabularies to see if further translations should be done.
+revisit IVOA vocabularies to see if further translations must be done.
 
 In VO practice, many resource records still use subject identifiers that
 are not taken from the IVOA UAT\footnote{{http://www.ivoa.net/rdf/uat}}.
@@ -2714,7 +2714,7 @@ FROM rr.capability
 WHERE standard_id like 'ivo://ivoa.net/std/sia%'
   AND intf_role='std'
   AND (
-    1=ivo_nocasematch(res_subject, '%spiral%')
+    res_subject ILIKE '%spiral%'
     OR 1=ivo_hasword(res_description, 'spiral')
     OR 1=ivo_hasword(res_title, 'spiral'))
 \end{lstlisting}
@@ -3043,6 +3043,44 @@ WHERE
     gavo_to_mjd('2010-08-01'), gavo_to_mjd('2010-08-31'))
   AND gavo_specconv(5e-6, 'm', 'J') between spectral_start and spectral_end
 \end{lstlisting}
+
+\subsection{Reliably Doing Arrays of Strings}
+
+In particular libraries and user interfaces often want to retrieve
+something like ``all access options'' for a set of resources; this would
+mean at least access URLs and their standard identifiers.  Since RegTAP
+does not require support for string arrays, this is not entirely
+trivial, since with the traditional workaround, \verb|ivo_string_agg|,
+NULLs do not appear at all; that way, re-relating, say, access URLs and
+standard ids (some of which may be NULL) becomes impossible for a
+client.
+
+The solution to this problem is to turn NULLs to empty strings using
+\verb|COALESCE|.  The following example also illustrates how to use CTEs
+to structure complex queries of this sort, in this case by pre-selecting
+ivoids of interest and then using that pre-selected list in a NATURAL
+JOIN to restrict the query to, in this case, resources matching a
+certain keyword.  This is sometimes simpler than putting the condition
+in a WHERE clause, in particular when a table may contribute more than
+one output row.
+
+%CHECK_HERE
+\begin{lstlisting}[language=SQL,basicstyle=\footnotesize]
+WITH candidates AS (
+SELECT ivoid
+FROM rr.res_subject
+WHERE res_subject='solar-system-planets')
+SELECT
+  ivoid,
+  ivo_string_agg(COALESCE(access_url, ''), '<sep>') AS access_urls,
+  ivo_string_agg(COALESCE(standard_id, ''), '<sep>') AS standard_ids
+FROM
+  rr.capability
+  NATURAL JOIN rr.interface
+  NATURAL JOIN candidates
+GROUP BY ivoid
+\end{lstlisting}
+
 
 
 \appendix
