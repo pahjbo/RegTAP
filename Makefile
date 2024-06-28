@@ -18,7 +18,7 @@ SOURCES = $(DOCNAME).tex role_diagram.pdf gitmeta.tex
 
 # List of image files to be included in submitted package
 # (whitespace-separated)
-FIGURES =
+FIGURES = role_diagram.svg
 
 VECTORFIGURES = schema.pdf
 

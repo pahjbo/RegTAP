@@ -644,13 +644,13 @@ the stylesheet would need to be amended.
 The relational registry can be part of any TAP service.  The presence
 of the tables discussed here is indicated by declaring support for the
 data model \texttt{Registry 1.2} with the IVOID
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}$$ in the service's
+$$\texttt{ivo://ivoa.net/std/regtap\#1.2}$$ in the service's
 capabilities as governed by TAPRegExt \citep{2012ivoa.spec.0827D}.  Technically, this
 entails adding
 
 
 \begin{verbatim}
-<dataModel ivo-id="ivo://ivoa.net/std/RegTAP#1.2"
+<dataModel ivo-id="ivo://ivoa.net/std/regtap#1.2"
   >Registry 1.2</dataModel>
 \end{verbatim}
 
@@ -692,7 +692,7 @@ In both \tapent{TAP\_SCHEMA} and the VODataService tableset, the
 \tapent{rr} schema
 MUST be associated with a \tapent{utype} matching the data model
 identifier given in sect.~\ref{registration}, i.e.,
-$$\texttt{ivo://ivoa.net/std/RegTAP\#1.2}.$$
+$$\texttt{ivo://ivoa.net/std/regtap\#1.2}.$$
 
 In the following table descriptions, the names of tables
 (cf.~Table \ref{table:dm}) and columns
@@ -2535,7 +2535,7 @@ User Defined Functions (UDFs).
 \subsection{ADQL Optional Features Required for RegTAP}
 
 TAP Servers implementing the
-\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST implement the
+\texttt{ivo://ivoa.net/std/regtap\#1.2} data model MUST implement the
 following optional features defined in ADQL 2.1 \citep{2023ivoa.spec.1215M}:
 
 \begin{bigdescription}
@@ -2543,16 +2543,16 @@ following optional features defined in ADQL 2.1 \citep{2023ivoa.spec.1215M}:
 \verb|ivo_string_agg| predictable in the presence of NULL values in
 columns like \rtent{standard_id}, RegTAP services MUST provide the
 COALESCE feature in
-\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-conditional}.
+\nolinkurl{ivo://ivoa.net/std/tapregext#features-adql-conditional}.
 
 \item[ILIKE] As a standard alternative to \verb|ivo_nocasematch| as
 employed by RegTAP earlier than 1.2, RegTAP services MUST provide the
 ILIKE feature in
-\nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-string}.
+\nolinkurl{ivo://ivoa.net/std/tapregext#features-adql-string}.
 
 \item[WITH] To let clients more clearly structure their queries, RegTAP
 services MUST implement common table expressions as per the WITH feature
-in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
+in \nolinkurl{ivo://ivoa.net/std/tapregext#features-adql-common-table}.
 \end{bigdescription}
 
 
@@ -2560,7 +2560,7 @@ in \nolinkurl{ivo://ivoa.net/std/TAPRegExt#features-adql-common-table}.
 \label{adqludf}
 
 TAP Servers implementing the
-\texttt{ivo://ivoa.net/std/RegTAP\#1.2} data model MUST
+\texttt{ivo://ivoa.net/std/regtap\#1.2} data model MUST
 implement the following User Defined Functions in their ADQL language,
 given here
 with signatures written as recommended in TAPRegExt \citep{2012ivoa.spec.0827D}:
@@ -2633,7 +2633,7 @@ type to \vorent{vs:ParamHTTP}.  As discussed in that specification, this adopted
 existing discovery patterns and worked around missing metadata in
 VOResource records.   This workaround is no
 longer necessary, and future standards should be free to use other
-interface types rather than \vorent{vr:ParamHTTP}.
+interface types rather than \vorent{vs:ParamHTTP}.
 
 Note that it still is possible that a single resource will return
 multiple access URLs with the query patterns given here.  Clients can
@@ -3471,7 +3471,7 @@ bad order of arguments in ivo\_hashlist\_has in query 10.3.
 
 \item To match our usage with what will later be in the standards
   record, changed the data model identifier to
-  \url{ivo://ivoa.net/std/RegTAP\#1.0}.
+  \url{ivo://ivoa.net/std/regtap\#1.0}.
 
 \item Fixed a typo in a column name: schema.schemaname is now schema.schema\_name
   as in the prose.{}
