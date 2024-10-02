@@ -20,7 +20,7 @@
 <apply-templates/>
 \sptablerule
 \end{tabular}\hss}
-\caption{The tables making up the TAP data model \texttt{Registry 1.1}}
+\caption{The tables making up the TAP data model \texttt{Registry 1.2}}
 \label{table:dm}
 \end{table}
 </template>

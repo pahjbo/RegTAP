@@ -227,12 +227,12 @@ be viewed as a realization of a set of authorities.
 This standard also relates to other IVOA standards:
 
 
-\begin{description}
+\begin{bigdescription}
 \item[ADQL 2.1 \citep{2023ivoa.spec.1215M}] The rules for ingestion are designed to allow
 easy queries given the constraints of the IVOA Astronomical Data Query
 Language.  Also, we give some functions that extend ADQL using the
 language's built-in facility for user-defined functions.
-\end{description}
+\end{bigdescription}
 
 
 \section{Design Considerations}
@@ -3037,7 +3037,9 @@ FROM rr.stc_spatial
   NATURAL JOIN rr.stc_spectral
   NATURAL JOIN rr.stc_temporal
 WHERE
-  1=CONTAINS(MOC('8/182947 182950 182952-182953 182955-182956 8/'), coverage)
+  1=CONTAINS(
+    MOC('8/182947 182950 182952-182953 182955-182956 8/'),
+    coverage)
   AND 1=ivo_interval_overlaps(
     time_start, time_end,
     gavo_to_mjd('2010-08-01'), gavo_to_mjd('2010-08-31'))
@@ -3349,6 +3351,10 @@ service.
 picks up RegTAP 1.1 erratum 1)
 \item Several editorial changes like slightly improved column
 descriptions.
+\item No longer mentioning VODataService 1.0 tablesets in the running
+text, but still mentioning its traditional namespace; the tablesets no
+longer exist in the registry (but perhaps some vs:ParamHTTP types), and
+so let's not reference apocryphic documents.
 \end{itemize}
 
 \subsection{Changes from REC-1.1}

@@ -1,11 +1,11 @@
-<ri:Resource 
-	xsi:type="vstd:Standard" 
-	created="2016-10-21T08:34:00Z" 
-	updated="2016-10-21T08:34:00Z" 
+<ri:Resource
+	xsi:type="vstd:Standard"
+	created="2016-10-21T08:34:00Z"
+	updated="2024-10-02T09:59:00Z"
 	status="active"
-	xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
-	xmlns:vstd="http://www.ivoa.net/xml/StandardsRegExt/v1.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0"
+	xmlns:vstd="http://www.ivoa.net/xml/StandardsRegExt/v1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0"
 	xsi:schemaLocation="http://www.ivoa.net/xml/VOResource/v1.0
 		http://www.ivoa.net/xml/VOResource/v1.0
@@ -15,7 +15,7 @@
 		http://www.ivoa.net/xml/VOResource/v1.0">
 
   <title>IVOA Registry Relational Schema</title>
-  <identifier>ivo://ivoa.net/std/RegTAP</identifier> 
+  <identifier>ivo://ivoa.net/std/RegTAP</identifier>
   <curation>
     <publisher>IVOA</publisher>
 
@@ -38,16 +38,16 @@
       <name>Perdikeas, M.</name>
     </creator>
 
-    <date role="update">2014-12-04</date>
-    <version>1.0</version>
+    <date role="update">2024-10-02</date>
+    <version>1.2</version>
     <contact>
       <name>IVOA Registry WG</name>
       <email>registry@ivoa.net</email>
     </contact>
   </curation>
   <content>
-    <subject>Virtual observatory</subject>
-    <subject>Database</subject>
+    <subject>virtual-observatories</subject>
+    <subject>astronomy-databases</subject>
 
     <description>
 Registries provide a mechanism with which VO applications can discover and
@@ -64,20 +64,28 @@ allowing easy authoring of queries.
   	<contentLevel>Research</contentLevel>
   </content>
 
-  <endorsedVersion status="rec">1.0</endorsedVersion>
+  <endorsedVersion status="rec">1.2</endorsedVersion>
 
 	<key>
 		<name>1.0</name>
-		<description>The data model for the tables making up the relational 
+		<description>The data model for the tables making up the relational
 		registriy in version 1.0.  This key is used to locate TAP services
 		implementing RR in TAPRegExt dataModel elements.
 		</description>
 	</key>
 	<key>
 		<name>1.1</name>
-		<description>The data model for the tables making up the relational 
+		<description>The data model for the tables making up the relational
 		registriy in version 1.1.  This key is used to locate TAP services
 		implementing RR in TAPRegExt dataModel or VODataService schema/@utype
+		elements.
+		</description>
+	</key>
+	<key>
+		<name>1.2</name>
+		<description>The data model for the tables making up the relational
+		registriy in version 1.2.  This key is used to locate TAP services
+		implementing the RR in TAPRegExt dataModel or VODataService schema/@utype
 		elements.
 		</description>
 	</key>
