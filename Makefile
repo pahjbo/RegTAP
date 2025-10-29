@@ -29,6 +29,8 @@ all: $(DOCNAME).pdf
 schema.pdf: schema.psfig
 	ps2pdf -dALLOWPSTRANSPARENCY -dEPSCrop $< $@
 
+# do not do this build unless absolutely necessary - pdf checked in
+.SECONDARY: schema.psfig
 %.psfig: %.texfig
 	etex $<
 	dvips $*
